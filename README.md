@@ -1,2 +1,11 @@
 # danaka
-project - online shopping site
+
+## project 
+  - online shopping site
+
+## contributor
+  - geuNoGeuNO
+  - kongSungSik
+  - gotSeung
+  - cymonKim
+
