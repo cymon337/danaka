@@ -6,6 +6,6 @@
 ## contributor
   - geuNoGeuNO
   - kongSungSik
-  - gotSeung
+  - gotSeungJae
   - cymonKim
 
