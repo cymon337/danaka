@@ -1,4 +1,4 @@
-package com.osaz.danaka;
+package com.osaz.danaka.productPackage.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
