@@ -5,10 +5,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/main")
+@RequestMapping("/")
 public class MainController {
 
-    @GetMapping("/login")
-    public String main() { return "main/login"; }
+    @GetMapping("/")
+    public String main() { return "id/id"; }
 
 }
