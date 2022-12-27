@@ -1,5 +1,7 @@
 spring:
   # DB 연결
+  mvc:
+    static-path-pattern: /static/**
   datasource:
     # 설치된 H2 DB와 연결 URL
     url: jdbc:log4jdbc:oracle:thin:@localhost:1521:xe

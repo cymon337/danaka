@@ -22,7 +22,7 @@ public class MemberDTO {
     public String userName;
     public Date birthday;
     public char gender;
-    public String adress;
+    public String address;
     public String phone;
     public Date regDate;
     public char status;
