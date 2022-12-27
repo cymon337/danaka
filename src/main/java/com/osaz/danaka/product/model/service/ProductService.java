@@ -1,6 +1,6 @@
 package com.osaz.danaka.product.model.service;
 
-import com.osaz.danaka.product.model.dao.ProductDAO;
+import com.osaz.danaka.product.model.dao.ProductMapper;
 import com.osaz.danaka.product.model.dto.ProductDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,27 +13,30 @@ import java.util.Map;
 @Transactional(rollbackFor = Exception.class)
 public class ProductService {
 
-    private final ProductDAO productDAO;
+    private final ProductMapper productMapper;
 
     @Autowired
-    public ProductService(ProductDAO productDAO) {
-        this.productDAO = productDAO;
+    public ProductService(ProductMapper productMapper) {
+        this.productMapper = productMapper;
     }
 
     public List<ProductDTO> selectByCategory(String categoryCode){
 
-        return productDAO.selectByCategory(categoryCode);
+        return productMapper.selectByCategory(categoryCode);
     };
 
     public ProductDTO selectOne(String productNo){
 
-        return productDAO.selectOne(productNo);
+        return productMapper.selectOne(productNo);
     }
 
-    public boolean registWishList(Map<String, String> parameter){
+    public boolean registWishList(Map<String, String> parameter) throws Exception{
 
-        int result = productDAO.registWishList(parameter);
+        int result = productMapper.registWishList(parameter);
 
+        if (result <= 0) {
+            throw new Exception("위시리스트 등록 실패");
+        }
         return (result > 0)? true:false;
     }
 }

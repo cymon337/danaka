@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 @Mapper
-public interface ProductDAO {
+public interface ProductMapper {
 
     List<ProductDTO> selectByCategory(String categoryCode);
 
