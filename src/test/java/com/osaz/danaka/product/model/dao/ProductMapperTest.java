@@ -14,15 +14,15 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
 @ContextConfiguration(classes = {DanakaApplication.class, MybatisConfig.class})
-class ProductDAOTest {
+class ProductMapperTest {
 
     @Autowired
-    private ProductDAO productDAO;
+    private ProductMapper productMapper;
 
     @Test
     public void 매퍼_인터페이스_의존성_주입_테스트() {
 
-        assertNotNull(productDAO);
+        assertNotNull(productMapper);
     }
 
     @Test
@@ -31,7 +31,7 @@ class ProductDAOTest {
         // given
         String categoryCode = "RD";
         // when
-        List<ProductDTO> productList = productDAO.selectByCategory(categoryCode);
+        List<ProductDTO> productList = productMapper.selectByCategory(categoryCode);
         // then
         assertNotNull(productList); // 파라미터에 넣은 값이 null 이 아니면 통과
     }
@@ -42,7 +42,7 @@ class ProductDAOTest {
         // given
         String productNo = "1";
         // when
-        ProductDTO product = productDAO.selectOne(productNo);
+        ProductDTO product = productMapper.selectOne(productNo);
         // then
         assertNotNull(product);
     }
