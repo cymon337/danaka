@@ -10,6 +10,8 @@ spring:
     #oracle.jdbc.driver.OracleDriver
     username: danaka
     password: danaka
+  mvc:
+    static-path-pattern: /static/**
 
 
 server:
