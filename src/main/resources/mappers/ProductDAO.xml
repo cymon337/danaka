@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.osaz.danaka.product.model.dao.ProductDAO">
+    <resultMap type="com.osaz.danaka.product.model.dto.ProductDTO" id="productResultMap">
+        <id property="productNo" column="PRODUCT_NO"/>
+        <result property="categoryCode" column="CATEGORY_CODE"/>
+        <result property="brandNo" column="BRAND_NO"/>
+        <result property="productName" column="PRODUCT_NAME"/>
+        <result property="productRegDate" column="PRODUCT_REG_DATE"/>
+        <result property="stock" column="STOCK"/>
+        <association property="rod" resultMap="rodResultMap"/>
+        <association property="reel" resultMap="reelResultMap"/>
+        <association property="line" resultMap="lineResultMap"/>
+    </resultMap>
+    <resultMap type="com.osaz.danaka.product.model.dto.RodDTO" id="rodResultMap">
+        <id property="productNo" column="PRODUCT_NO"/>
+        <result property="model" column="ROD_MODEL"/>
+        <result property="reelType" column="ROD_REEL_TYPE"/>
+        <result property="lineMin" column="LINE_MIN"/>
+        <result property="lineMax" column="LINE_MAX"/>
+        <result property="price" column="ROD_PRICE"/>
+    </resultMap>
+    <resultMap type="com.osaz.danaka.product.model.dto.ReelDTO" id="reelResultMap">
+        <id property="productNo" column="PRODUCT_NO"/>
+        <result property="model" column="REEL_MODEL"/>
+        <result property="reelType" column="REEL_TYPE"/>
+        <result property="price" column="REEL_PRICE"/>
+    </resultMap>
+    <resultMap type="com.osaz.danaka.product.model.dto.LineDTO" id="lineResultMap">
+        <id property="productNo" column="PRODUCT_NO"/>
+        <result property="lineSize" column="LINE_SIZE"/>
+        <result property="price" column="LINE_PRICE"/>
+    </resultMap>
+
+    <select id="selectByCategory" parameterType="String" resultMap="productResultMap">
+        SELECT
+            *
+          FROM VIEW_PRODUCT
+         WHERE CATEGORY_CODE = #{ categoryCode }
+    </select>
+    <select id="selectOne" parameterType="String" resultMap="productResultMap">
+        SELECT
+            *
+          FROM VIEW_PRODUCT
+         WHERE PRODUCT_NO = #{ productNo }
+    </select>
+    <insert id="registWishList" parameterType="Map">
+        INSERT INTO T_WISHLIST
+        VALUES
+            (
+             SEQ_WISH_NO.NEXTVAL,
+             #{ userNo },
+             #{ productNo }
+            )
+    </insert>
+</mapper>
