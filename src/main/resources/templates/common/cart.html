@@ -5,10 +5,25 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+            crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.3.slim.min.js"
+            integrity="sha256-ZwqZIVdD3iXNyGHbSYdsmWP//UBokj2FHAxKuSBKDSo="
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/static/css/cart.css">
     <title>DANAKA-장바구니</title>
+
 </head>
+
+
 <body>
 
+<!--/
     <h3>1. selectAllCart 장바구니페이지에서 회원번호별 카트에 담긴 모든 상품 select method</h3>
     <form action="/cart/selectAllCart" method="post">
         <label>회원번호 : </label><input type="text" name="userNo" placeholder="회원번호를 입력하세요.">
@@ -17,16 +32,82 @@
 
     <h3>2. registCart 회원번호별 다른페이지 요청에 의해 장바구니에 담는 insert method</h3>
     <form action="/cart/registCart" method="post">
-        <label>회원번호 : </label><input type="text" name="userNo" placeholder="회원번호를 입력하세요.">
-        <label>상품번호 : </label><input type="text" name="productNo" placeholder="회원번호를 입력하세요.">
-        <label>수량 : </label><input type="text" name="amount" placeholder="회원번호를 입력하세요.">
-        <label>패키지ID : </label><input type="text" name="packageId" placeholder="회원번호를 입력하세요.">
+        <label>회원번호 : </label><input type="text" name="userNo" placeholder="회원번호를 입력하세요."><br>
+        <label>상품번호 : </label><input type="text" name="productNo" placeholder="회원번호를 입력하세요."><br>
+        <label>수량 : </label><input type="text" name="amount" placeholder="회원번호를 입력하세요."><br>
+        <label>패키지ID : </label><input type="text" name="packageId" placeholder="회원번호를 입력하세요."><br>
         <input type="submit" value="장바구니 등록">
     </form>
     <h3>3. updateCart 장바구니페이지에서 선택된 장바구니 번호 별 수량을 수정하는 update method</h3>
 
     <h3>4. deleteCart 장바구니페이지에서 선택된 장바구니 번호 별 삭제 delete method</h3>
+*-->
+<div class="wrapper">
+    <div class="cart-wrapper">
+        <form>
+            <p>
+                <button id="btn-select-all-cart" type="button" class="btn btn-outline-primary btn-lg">
+                    <span class="material-symbols-outlined">check_circle</span>
+                    <span class="btn-text-1">전체선택</span>
+                </button>
+                <!--전체선택 버튼 활성 비활성 스크립트-->
+                <script type="text/javascript">
+                    $("#btn-select-all-cart").on("click", function () {
 
+                        if ($("#btn-select-all-cart").hasClass("active") === true) {
+                            $("#btn-select-all-cart").removeClass("active");
+                            $("li").removeClass("active")
+                        } else {
+                            $("#btn-select-all-cart").addClass("active");
+                            $("li").addClass("active");
+                        }
+                    });
+                </script>
+
+                <button id="btn-remove-cart" type="button" class="btn btn-outline-secondary btn-lg">
+                    <span class="material-symbols-outlined">remove_shopping_cart</span>
+                    <span class="btn-text-1">선택삭제</span>
+                </button>
+                <!--선택삭제 경고창-->
+                <script type="text/javascript">
+                    $("#btn-remove-cart").on("click", function () {
+                        alert("선택한 상품을 장바구니에서 삭제합니다.")
+                    });
+                </script>
+
+
+            </p>
+            <ul class="list-group">
+                <!--            class 에 선택되면 active 추가 선택취소 active 제거 -->
+                <li id="cart-item1" class="list-group-item">1번상품</li>
+                <li id="cart-item2" class="list-group-item">2번상품</li>
+                <li id="cart-item3" class="list-group-item">3번상품</li>
+                <li id="cart-item4" class="list-group-item">4번상품</li>
+                <li id="cart-item5" class="list-group-item">5번상품</li>
+                <li id="cart-item6" class="list-group-item">6번상품</li>
+                <li id="cart-item7" class="list-group-item">7번상품</li>
+                <li id="cart-item8" class="list-group-item">8번상품</li>
+                <li id="cart-item9" class="list-group-item">9번상품</li>
+                <li id="cart-item10" class="list-group-item">10번상품</li>
+                <!--li 버튼 클릭 활성 비활성-->
+                <script type="text/javascript">
+                    $("li").on("click", function (e) {
+                        if ($(e.target).hasClass("active") === true) {
+                            $(e.target).removeClass("active")
+                        } else {
+                            $(e.target).addClass("active");
+                        }
+                    });
+                </script>
+            </ul>
+        </form>
+    </div>
+    <div class="cart-order">
+
+
+
+    </div>
+</div>
 
 
 </body>

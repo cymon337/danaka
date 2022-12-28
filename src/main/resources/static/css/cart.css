@@ -1,0 +1,34 @@
+/* frame config */
+.wrapper{
+    width: 100%;
+    height: 100%;
+    background-color: magenta;
+}
+
+.cart-wrapper{
+    width: 100%;
+    height: 80%;
+    border: 1px solid black;
+    background-color: #F2F4FF;
+
+}
+
+/* item list */
+.list-group-item{
+    height: 100px;
+    margin-top: 1%;
+    margin-bottom: 1%;
+    margin-left: 5%;
+    margin-right: 5%;
+
+    box-shadow: 8px 5px 8px lightslategrey;
+}
+
+
+.material-symbols-outlined {
+    font-variation-settings:
+        'FILL' 1,
+        'wght' 700,
+        'GRAD' 200,
+        'opsz' 70
+}
