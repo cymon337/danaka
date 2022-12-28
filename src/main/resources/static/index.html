@@ -1,20 +1,280 @@
-<!doctype html>
+<!--<!doctype html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport"-->
+<!--          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">-->
+<!--    <meta http-equiv="X-UA-Compatible" content="ie=edge">-->
+<!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">-->
+<!--    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>-->
+<!--    <title>DANAKA</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--    <h1>다나까와 함께 즐거운 낚시 장비 쇼핑~</h1>-->
+<!--    <button type="button" class="btn btn-outline-info" onclick="location.href='/main/login'">로그인</button>-->
+<!--    <button onclick="location.href='/main/login'">회원가입</button>-->
+<!--    <button onclick="location.href='/main/login'">비밀번호찾기</button>-->
+<!--    <a href="https://www.naver.com">커밋확인용임둥이요를레이</a>-->
+
+<!--</body>-->
+<!--</html>-->
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
-    <title>DANAKA</title>
-</head>
-<body>
-    <h1>다나까와 함께 즐거운 낚시 장비 쇼핑~</h1>
-    <button type="button" class="btn btn-outline-info" onclick="location.href='/main/login'">로그인</button>
-    <button onclick="location.href='/main/login'">회원가입</button>
-    <button onclick="location.href='/main/login'">비밀번호찾기</button>
-    <a href="https://www.naver.com">커밋확인용임둥이요를레이</a>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>메인페이지</title>
 
+    <!-- index.html css -->
+    <link rel="stylesheet" href="/css/indexCss.css" />
+
+    <!-- 부트스트랩 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+
+    <!-- 아이콘 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+
+    <!-- 제이쿼리 -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <!-- 자바스크립트 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+
+    <style>
+        /*베이스*/
+        .bi {
+            vertical-align: -.125em;
+            fill: currentColor;
+        }
+
+        body {
+            min-height: 65rem;
+            min-width: 760px;
+            padding-top: 10rem;
+        }
+
+        /*상단바 기본*/
+        #firstNav {
+            background-color: rgb(255, 255, 255);
+            height: 100px;
+            margin-top: -12px;
+        }
+
+        #secondNav {
+            background-color: rgb(0, 0, 202);
+            flex-wrap: nowrap;
+        }
+
+        #firstNav>a {
+            margin-left: 30px;
+            color: black;
+        }
+
+        /*최상단 검색창*/
+        #search {
+            display: flex;
+            border: 2px solid rgb(0, 0, 202);
+            margin-top: 5px;
+            height: 50px;
+        }
+
+        #search>input {
+            width: 400px;
+            border-radius: 0;
+        }
+
+        #search>button {
+            background-color: rgb(0, 0, 202);
+            width: 3em;
+            margin-left: -10px;
+            border-radius: 0;
+            border: 0;
+        }
+
+        #search>button>i {
+            color: white;
+            font-size: 20px;
+        }
+
+        /*최상단 우측 기능*/
+        #topRight {
+            display: flex;
+            margin: 15px 30px 0 0;
+        }
+
+        #cart {
+            cursor: pointer;
+            position: relative;
+        }
+
+        #cart>i {
+            position: absolute;
+            left: 18px;
+            bottom: 24px;
+            font-size: 28px;
+        }
+
+        #loginMy {
+            cursor: pointer;
+            position: relative;
+            margin-left: 30px;
+        }
+
+        #loginMy>i {
+            position: absolute;
+            left: 8px;
+            bottom: 20px;
+            font-size: 30px;
+        }
+
+        #topRight span {
+            font-size: 15px;
+        }
+
+        /*상단 전체 카테고리*/
+        #totalCategory {
+            margin-left: 20px;
+            font-size: 20px;
+            color: white;
+            display: inline;
+            text-decoration: none;
+            min-width: 250px;
+            border: 1px solid rgb(0, 0, 202);
+        }
+
+        #totalCategory>i {
+            font-size: 25px;
+            margin-right: 5px;
+        }
+
+        /*중앙 카테고리*/
+        #centerCategory {
+            font-size: 1.3em;
+            margin-right: 120px;
+        }
+
+        #centerCategory>li>a {
+            color: white;
+            margin-left: 20px;
+            margin-right: 20px;
+        }
+
+        #notice {
+            margin-right: 30px;
+        }
+
+        /*전체 카테고리 드랍*/
+        #dropTotalCategory {
+            width: 160px;
+            font-size: 20px;
+            background-color: rgb(0, 0, 202);
+            margin-left: 45px;
+            color: white;
+        }
+
+        #dropTotalCategory>ul {
+            margin-left: 20px;
+        }
+
+        #secondCategory1, #secondCategory2 {
+            border-bottom: 1px solid rgb(255, 255, 255);
+        }
+
+    </style>
+</head>
+
+<body>
+
+<!-- 네비게이션바 전체-->
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top" style="flex-wrap: wrap;">
+
+        <!-- 상단바 (로고, 검색, 장바구니, 로그인) -->
+        <div class="container-fluid" id="firstNav">
+            <!-- 좌측 로고 -->
+            <a class="navbar-brand" href="#"><img alt="로고" src="/logo.png"></a>
+            <!-- 중간 검색 -->
+            <form class="d-flex" role="search">
+                <div id="search">
+                    <input class="form-control me-2" type="search" placeholder="검색어를 입력하세요." aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit"><i class="bi bi-search"></i></button>
+                </div>
+            </form>
+
+            <!-- 우측 기능 -->
+            <div id="topRight">
+                <div onclick="location.href='#'" id="cart">
+                    <i class="bi bi-cart"></i><br>
+                    <span>장바구니</span>
+                </div>
+                <div onclick="location.href='#'" id="loginMy">
+                    <i class="bi bi-person"></i><br>
+                    <span>로그인</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 카데고리(네비게이션)바 (전체 카테고리, 카테고리, 공지사항) -->
+        <div class="container-fluid" id="secondNav">
+
+            <!-- 전체 카테고리 -->
+            <a class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#dropTotalCategory" aria-controls="dropTotalCategory" aria-expanded="false" aria-label="Toggle navigation" id="totalCategory">
+                <i class="bi bi-list"></i>전체 카테고리
+            </a>
+
+            <!-- 중앙 메뉴 -->
+            <div class="container">
+                <header class="d-flex justify-content-center py-2">
+                    <ul class="nav nav-pills" id="centerCategory">
+                        <li class="nav-item"><a href="#" class="nav-link">로드</a></li>
+                        <li class="nav-item"><a href="#" class="nav-link">릴</a></li>
+                        <li class="nav-item"><a href="#" class="nav-link">라인</a></li>
+                        <li class="nav-item"><a href="#" class="nav-link">장비조합</a></li>
+                        <li class="nav-item"><a href="#" class="nav-link">견적보기</a></li>
+                    </ul>
+                </header>
+            </div>
+            <a class="navbar-brand" href="#" id="notice">공지사항</a>
+        </div>
+    </nav>
+
+    <!-- 드랍다운 (대분류 영역 - 추가표현) -->
+    <div class="collapse navbar-collapse" id="dropTotalCategory">
+        <ul class="navbar-nav me-auto mb-2">
+            <li class="nav-item dropend" id="secondCategory1">
+                <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">&nbsp;- 릴</a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">도요</a></li>
+                    <li><a class="dropdown-item" href="#">시마노</a></li>
+                    <li><a class="dropdown-item" href="#">NS</a></li>
+                </ul>
+            </li>
+            <li class="nav-item dropend" id="secondCategory2">
+                <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">&nbsp;- 로드</a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">도요</a></li>
+                    <li><a class="dropdown-item" href="#">시마노</a></li>
+                    <li><a class="dropdown-item" href="#">NS</a></li>
+                </ul>
+            </li>
+            <li class="nav-item dropend" >
+                <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">&nbsp;- 라인</a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">도요</a></li>
+                    <li><a class="dropdown-item" href="#">시마노</a></li>
+                    <li><a class="dropdown-item" href="#">NS</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <div>
+        <main class="container">
+            <div class="bg-light p-5 rounded">
+                <h1>배너 들어갈 자리</h1>
+            </div>
+        </main>
+    </div>
 </body>
 </html>
