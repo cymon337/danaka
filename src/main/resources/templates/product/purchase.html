@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/purchase.css">
+</head>
+<body>
+<div class="description">
+    <p>구매목록</p>
+</div>
+<div class="listContainer">
+    <div class="buyingProduct">
+        <div class="thumnail">
+            <img src="/static/image/thumnail.png" alt="섬네일">
+        </div>
+        <div class="product">
+            <div class="productName">
+                <span>상품명 </span>
+                <span>옵션명</span>
+            </div>
+            <div class="productDetail">
+                <p>상품상세</p>
+            </div>
+        </div>
+        <div class="options">
+            <div class="quantity">
+                <span>총 수량 : </span>
+                <input type="number" name="amount" min="1" value="1">
+                <button>x</button>
+            </div>
+            <div class="price">
+                <span>총 가격 : </span>
+                <span>510,500</span>
+            </div>
+        </div>
+    </div>
+    <hr>
+</div>
+<hr>
+<div class="description">
+    <p>배송지 정보</p>
+</div>
+<div class="payInfo">
+        <div class="addressContainer">
+            <div class="addressApi">
+                <div>
+                    주소 api
+                </div>
+            </div>
+        </div>
+    <div class="payDescription">
+        <div class="payP">
+            <p>결제수단</p>
+        </div>
+        <div class="paymentContainer">
+            <div class="payApi">
+                <p>결제 api</p>
+            </div>
+        </div>
+    </div>
+    <div class="userInfoContainer">
+        <div class="userInfoDescription">
+            <p>주문자 정보</p>
+            <hr>
+            <div class="userInfo">
+                <p>이름 : </p>
+                <p>연락처 : </p>
+                <p>주소 : </p>
+            </div>
+            <hr>
+            <div class="priceInfo">
+                <p>결제 상세</p>
+                <p>상품 금액 : </p>
+                <p>배송비 : </p>
+            </div>
+            <hr>
+            <div class="totPrice">
+                <p>총 결제금액 : </p>
+            </div>
+        </div>
+        <div class="payButton">
+            <button>
+                구매하기
+            </button>
+        </div>
+    </div>
+</div>
+</body>
+</html>

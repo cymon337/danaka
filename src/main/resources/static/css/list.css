@@ -7,20 +7,20 @@
 }
 .orderContainer {
     position: relative;
-    left: 6em;
+    left: 22%;
     margin-top: 1em;
+    width: 18em;
 }
 .orderContainer>button {
     margin: 0 -4px 0 -4px;
     padding: 0.5em;
     border: 1px #C4C2FF solid;
-    border-bottom: none;
     border-top-right-radius: 10px;
 }
 .outerProductsContainer {
     border: 1px #C4C2FF solid;
     border-radius: 1em;
-    width: 90%;
+    width: 60%;
     margin: 0 auto;
 }
 .productContainer {
@@ -88,4 +88,21 @@
 .regDate {
     font-size: 10px;
     color: gray;
+}
+
+@media screen and (max-width : 767px) {
+    .outerProductsContainer {
+        width: 100%;
+    }
+    .orderContainer {
+        left: 5%;
+    }
+}
+@media screen and (min-width : 768px) and (max-width : 1024px) {
+    .outerProductsContainer {
+        width: 80%;
+    }
+    .orderContainer {
+        left: 13%;
+    }
 }
