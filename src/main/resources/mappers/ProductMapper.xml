@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.osaz.danaka.product.model.dao.ProductDAO">
+<mapper namespace="com.osaz.danaka.product.model.dao.ProductMapper">
     <resultMap type="com.osaz.danaka.product.model.dto.ProductDTO" id="productResultMap">
         <id property="productNo" column="PRODUCT_NO"/>
         <result property="categoryCode" column="CATEGORY_CODE"/>
