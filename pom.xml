@@ -31,12 +31,12 @@
             <version>1.16</version>
         </dependency>
 
-<!-- 221223 초기 로그인 절차 제거를 위해 주석처리
+ <!--221223 초기 로그인 절차 제거를 위해 주석처리 근호 주석 품-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
--->
+
 
 <!-- 221226 log4j 가 드라이버 인식 못하길레 구글링해서 추가함 -->
         <dependency>
