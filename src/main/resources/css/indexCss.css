@@ -1,0 +1,138 @@
+/*베이스*/
+.bi {
+    vertical-align: -.125em;
+    fill: currentColor;
+}
+
+body {
+    min-height: 65rem;
+    min-width: 760px;
+    padding-top: 10rem;
+}
+
+/*상단바 기본*/
+#firstNav {
+    background-color: rgb(255, 255, 255);
+    height: 100px;
+    margin-top: -12px;
+}
+
+#secondNav {
+    background-color: rgb(0, 0, 202);
+    flex-wrap: nowrap;
+}
+
+#firstNav>a {
+    margin-left: 30px;
+    color: black;
+}
+
+/*최상단 검색창*/
+#search {
+    display: flex;
+    border: 2px solid rgb(0, 0, 202);
+    margin-top: 5px;
+    height: 50px;
+}
+
+#search>input {
+    width: 400px;
+    border-radius: 0;
+}
+
+#search>button {
+    background-color: rgb(0, 0, 202);
+    width: 3em;
+    margin-left: -10px;
+    border-radius: 0;
+    border: 0;
+}
+
+#search>button>i {
+    color: white;
+    font-size: 20px;
+}
+
+/*최상단 우측 기능*/
+#topRight {
+    display: flex;
+    margin: 15px 30px 0 0;
+}
+
+#cart {
+    cursor: pointer;
+    position: relative;
+}
+
+#cart>i {
+    position: absolute;
+    left: 18px;
+    bottom: 24px;
+    font-size: 28px;
+}
+
+#loginMy {
+    cursor: pointer;
+    position: relative;
+    margin-left: 30px;
+}
+
+#loginMy>i {
+    position: absolute;
+    left: 8px;
+    bottom: 20px;
+    font-size: 30px;
+}
+
+#topRight span {
+    font-size: 15px;
+}
+
+/*상단 전체 카테고리*/
+#totalCategory {
+    margin-left: 20px;
+    font-size: 20px;
+    color: white;
+    display: inline;
+    text-decoration: none;
+    min-width: 250px;
+    border: 1px solid rgb(0, 0, 202);
+}
+
+#totalCategory>i {
+    font-size: 25px;
+    margin-right: 5px;
+}
+
+/*중앙 카테고리*/
+#centerCategory {
+    font-size: 1.3em;
+    margin-right: 120px;
+}
+
+#centerCategory>li>a {
+    color: white;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+#notice {
+    margin-right: 30px;
+}
+
+/*전체 카테고리 드랍*/
+#dropTotalCategory {
+    width: 160px;
+    font-size: 20px;
+    background-color: rgb(0, 0, 202);
+    margin-left: 45px;
+    color: white;
+}
+
+#dropTotalCategory>ul {
+    margin-left: 20px;
+}
+
+#secondCategory1, #secondCategory2 {
+    border-bottom: 1px solid rgb(255, 255, 255);
+}
