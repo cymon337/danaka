@@ -78,7 +78,7 @@
 
             </p>
             <ul class="list-group">
-                <!--            class 에 선택되면 active 추가 선택취소 active 제거 -->
+                <!--  class 에 선택되면 active 추가 선택취소 active 제거 -->
                 <li id="cart-item1" class="list-group-item">1번상품</li>
                 <li id="cart-item2" class="list-group-item">2번상품</li>
                 <li id="cart-item3" class="list-group-item">3번상품</li>
@@ -89,9 +89,14 @@
                 <li id="cart-item8" class="list-group-item">8번상품</li>
                 <li id="cart-item9" class="list-group-item">9번상품</li>
                 <li id="cart-item10" class="list-group-item">10번상품</li>
+                <li id="cart-item-blank"></li> /* 위치보정용 */
                 <!--li 버튼 클릭 활성 비활성-->
                 <script type="text/javascript">
                     $("li").on("click", function (e) {
+                        if ($("#btn-select-all-cart").hasClass("active") === true) {
+                            $("#btn-select-all-cart").removeClass("active");
+                        }
+
                         if ($(e.target).hasClass("active") === true) {
                             $(e.target).removeClass("active")
                         } else {
@@ -103,9 +108,12 @@
         </form>
     </div>
     <div class="cart-order">
-
-
-
+        <span id="placeholder-price">총 주문금액 </span>
+        <span id="sum-order-price"> 658,000 원</span>
+        <button id="btn-order" type="button" class="btn btn-outline-primary btn-lg">
+            <span class="material-symbols-outlined">check_circle</span>
+            <span class="btn-text-1">주문하기</span>
+        </button>
     </div>
 </div>
 

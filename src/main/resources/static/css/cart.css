@@ -1,21 +1,53 @@
-/* frame config */
-.wrapper{
+/* ==================== frame ==================== */
+
+.wrapper {
     width: 100%;
-    height: 100%;
+    height: 90%;
     background-color: magenta;
 }
 
-.cart-wrapper{
+.cart-wrapper {
     width: 100%;
-    height: 80%;
-    border: 1px solid black;
+    height: auto;
+    /*border: 1px solid black;*/
     background-color: #F2F4FF;
 
 }
 
-/* item list */
-.list-group-item{
-    height: 100px;
+.cart-order {
+    width: 100%;
+    height: 10%;
+    /*border: 1px solid black;*/
+    background-color: #F7F7FE;
+    box-shadow: 0px -5px 10px lightslategray;
+    position: fixed;
+    bottom: 0;
+    display: flex;
+    z-index: 100;
+}
+
+/* ==================== item list ==================== */
+/* boot-strap-color / primary #0d6efd / secondary #adb5bd */
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 1,
+    'wght' 700,
+    'GRAD' 200,
+    'opsz' 48
+}
+
+#btn-select-all-cart {
+    margin: 20px 0px 0px 5%;
+    box-shadow: 5px 5px 5px #0d6efd;
+}
+
+#btn-remove-cart {
+    margin: 20px 5% 0px 5%;
+    box-shadow: 5px 5px 3px #adb5bd;
+    float: right;
+}
+
+.list-group-item {
+    height: 150px;
     margin-top: 1%;
     margin-bottom: 1%;
     margin-left: 5%;
@@ -24,11 +56,36 @@
     box-shadow: 8px 5px 8px lightslategrey;
 }
 
-
-.material-symbols-outlined {
-    font-variation-settings:
-        'FILL' 1,
-        'wght' 700,
-        'GRAD' 200,
-        'opsz' 70
+#cart-item-blank {
+    padding-top: 6%;
 }
+
+
+/* ==================== cart order ==================== */
+#placeholder-price{
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: auto;
+    margin-right: 2%;
+    font-size: 150%;
+    float: right;
+}
+
+#sum-order-price {
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: 0;
+    margin-right: 2%;
+    font-size: 150%;
+    float: right;
+}
+
+#btn-order {
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: 0;
+    margin-right: 5%;
+    float: right;
+}
+
+
