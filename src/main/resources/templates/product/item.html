@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/item.css">
+</head>
+<body>
+    <div class="productContainer">
+        <div class="imgContainer">
+            <div class="bigImg">
+                <img src="/static/image/thumnail.png">
+            </div>
+            <div class="otherImges">
+                <div class="otherImg"><img src="/static/image/thumnail.png"></div>
+                <div class="otherImg"><img src="/static/image/thumnail.png"></div>
+                <div class="otherImg"><img src="/static/image/thumnail.png"></div>
+                <div class="otherImg"><img src="/static/image/thumnail.png"></div>
+                <div class="otherImg"><img src="/static/image/thumnail.png"></div>
+            </div>
+        </div>
+        <div class="detailContainer">
+            <div class="productName">
+                <h2>상품명</h2>
+            </div>
+            <div class="productDetail">
+                <p>상품내용</p>
+            </div>
+            <hr>
+            <div class="quantity">
+                <span>수량 : </span>
+                <input type="number" name="quantity" id="quantity" min="1" value="1">
+            </div>
+            <div class="price">
+                <span>총 가격 : </span>
+                <span>50,000</span>
+            </div>
+            <div class="option">
+                <select name="option" id="option" >
+                    <option value="" selected="true">옵션선택</option>
+                    <option value="">옵션1</option>
+                    <option value="">옵션2</option>
+                    <option value="">옵션3</option>
+                </select>
+            </div>
+            <div class="buttons">
+                <button><img src="/static/image/heart.png"></button>
+                <button><img src="/static/image/share.png"></button>
+                <button id="buy">구매하기</button>
+            </div>
+        </div>
+
+    </div>
+    <hr>
+    <div class="refItemsContainer">
+        <div><p><</p></div>
+        <div><img src="/static/image/thumnail.png" alt=""></div>
+        <div><img src="/static/image/thumnail.png" alt=""></div>
+        <div><img src="/static/image/thumnail.png" alt=""></div>
+        <div><img src="/static/image/thumnail.png" alt=""></div>
+        <div><img src="/static/image/thumnail.png" alt=""></div>
+        <div><img src="/static/image/thumnail.png" alt=""></div>
+        <div><p>></p></div>
+    </div>
+    <hr>
+    <div class="contentContainer">
+        <div class="content">
+
+        </div>
+    </div>
+</body>
+</html>

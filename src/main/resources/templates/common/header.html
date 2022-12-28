@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<style>
+  .navbar-nav>li>a{
+    margin: auto;
+  }
+</style>
+</head>
+<body>
+<div th:fragment="header">
+   <div class="row" style="margin: 0; padding: 0;">
+        <div class="col-lg-2">
+             <img src="mainlogo.png" alt="메인로고.png" id="mainlogo" style="width: 100%; margin: 20px;">
+        </div>
+        <div class="col-lg-1"></div>
+        <div class="col-lg-6" style="margin: 25px;">
+          <form>
+            <div class="input-group">
+              <input id="search" type="text" class="form-control" name="search" placeholder="검색어를 입력하세요.">
+              <span class="input-group-addon btn"><i class="glyphicon glyphicon-search"></i></span>
+            </div>
+          </form>
+        </div> 
+        
+        <div class="col-lg-3">
+            
+        </div>
+   </div>
+   <nav class="navbar navbar-inverse" style="background-color: #0448AD; margin-bottom: 0;">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#" style="color: white;">DANAKA</a>
+      </div>
+      <ul class="nav navbar-nav">
+        <li><a href="#" style="color: white;">로드</a></li>
+        <li><a href="#" style="color: white;">릴</a></li>
+        <li><a href="#" style="color: white;">라인</a></li>
+        <li><a href="#" style="color: white;">장비 조합</a></li>
+        <li><a href="#" style="color: white;">공지사항</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#" style="color: white;"><span class="glyphicon glyphicon-user"></span>회원 가입</a></li>
+        <li><a href="#" style="color: white;"><span class="glyphicon glyphicon-log-in"></span> 로그인</a></li>
+      </ul>
+    </div>
+  </nav>
+</div>
+</body>
+</html>
