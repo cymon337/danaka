@@ -20,7 +20,7 @@ body>hr {
     border-radius: 1em;
     margin-right: 1%;
     width: 98%;
-
+    box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.25);
 }
 .imgContainer img {
     border: 1px #e5e5ff solid;
@@ -28,9 +28,11 @@ body>hr {
 .bigImg {
     width: 80%;
     margin: 3% auto 1% auto;
+
 }
 .bigImg>img {
     width: 100%;
+    box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.25);
 }
 .otherImges {
     display: flex;
@@ -53,6 +55,7 @@ body>hr {
     border-radius: 1em;
     margin-left: 0.5%;
     padding: 1% 2% 0 2%;
+    box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.25);
 }
 .productName {
 }
@@ -92,6 +95,8 @@ body>hr {
     margin: 0 auto;
     font-size: 0.7rem;
     background-color: white;
+    border: 1px #C4C2FF solid;
+    border-radius: 6px;
 }
 .buttons {
     display: flex;
@@ -125,6 +130,7 @@ body>hr {
     justify-content: center;
     padding: 0.5%;
     background-color: #f0f2fe;
+    box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.25);
 }
 .refItemsContainer>div {
     display: flex;
@@ -136,6 +142,7 @@ body>hr {
 .refItemsContainer>div>img {
     width: 100%;
     border: 1px #e5e5ff solid;
+    box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.25);
 }
 .refItemsContainer>div>p {
     text-align: center;
@@ -149,6 +156,7 @@ body>hr {
     margin: 0 auto;
     padding: 1%;
     background-color: #f0f2fe;
+    box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.25);
 }
 .content {
     border: 1px gray solid;
@@ -162,6 +170,21 @@ body>hr {
 @media screen and (max-width : 767px) {
     .productContainer {
         width: 100%;
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "top"
+            "bottom";
+        grid-gap: 0.5em;
+    }
+    .productContainer>div {
+        width: 100%;
+    }
+    .productContainer:nth-child(1) {
+        grid-area: top;
+    }
+    .productContainer:nth-child(2) {
+        grid-area: bottom;
     }
     .refItemsContainer {
         width: 100%;
@@ -172,6 +195,7 @@ body>hr {
     body>hr {
         width: 100%;
     }
+
 }
 @media screen and (min-width : 768px) and (max-width : 1024px) {
     .productContainer {
