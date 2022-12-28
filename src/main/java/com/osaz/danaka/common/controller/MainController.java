@@ -1,4 +1,4 @@
-package com.osaz.danaka.member.controller;
+package com.osaz.danaka.common.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class MainController {
 
     @GetMapping("/")
-    public String main() { return "id/id"; }
+    public String main() {return "main/index";}
 
 }
