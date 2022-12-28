@@ -11,6 +11,18 @@ body {
 }
 
 /*상단바 기본*/
+#logo {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    -webkit-transition: .3s ease-in-out;
+    transition: .3s ease-in-out;
+}
+
+#logo:hover {
+    -webkit-transform: scale(1.3);
+    transform: scale(1.3);
+}
+
 #firstNav {
     background-color: rgb(255, 255, 255);
     height: 100px;
@@ -99,6 +111,11 @@ body {
     border: 1px solid rgb(0, 0, 202);
 }
 
+#totalCategory:hover {
+    color: black;
+    font-weight: bold;
+}
+
 #totalCategory>i {
     font-size: 25px;
     margin-right: 5px;
@@ -116,15 +133,25 @@ body {
     margin-right: 20px;
 }
 
+#centerCategory>li>a:hover {
+    color: black;
+    font-weight: bold;
+}
+
 #notice {
     margin-right: 30px;
+}
+
+#notice:hover {
+    color: black;
+    font-weight: bold;
 }
 
 /*전체 카테고리 드랍*/
 #dropTotalCategory {
     width: 160px;
     font-size: 20px;
-    background-color: rgb(0, 0, 202);
+    background-color: rgba(0, 0, 196, 0.68);
     margin-left: 45px;
     color: white;
 }
@@ -133,6 +160,15 @@ body {
     margin-left: 20px;
 }
 
+#dropTotalCategory>ul>li:hover {
+    color: black;
+    font-weight: bold;
+}
+
 #secondCategory1, #secondCategory2 {
     border-bottom: 1px solid rgb(255, 255, 255);
+}
+
+.dropdown-menu>li>a:hover {
+    background-color: rgba(0, 0, 196, 0.26);
 }
