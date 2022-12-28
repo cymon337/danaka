@@ -1,0 +1,197 @@
+body>hr {
+    width: 80%;
+    margin-top: 1.5em;
+}
+.description{
+    position: relative;
+    left: 12%;
+    font-weight: bold;
+    width: 50%;
+}
+.description>p {
+    margin-bottom: 0;
+}
+.listContainer, .addressContainer, .paymentContainer, .userInfoContainer {
+    border: 1px #C4C2FF solid;
+    border-radius: 7px;
+    box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.25);
+}
+.info {
+    width: 80%;
+    margin: 0 auto;
+}
+.listContainer {
+    height: 20em;
+    margin: 0 auto;
+    width: 81%;
+    box-sizing: border-box;
+}
+.listContainer>hr {
+    width: 95%;
+    margin: 0 auto;
+}
+.buyingProduct {
+    display: flex;
+    align-items: center;
+}
+.thumnail {
+    width: 7%;
+    padding: 0.5em;
+
+}
+.thumnail>img {
+    width: 100%;
+}
+.product {
+    width: 70%;
+}
+.options {
+    width: 25%;
+}
+.options span {
+    font-weight: bold;
+}
+.quantity {
+}
+.quantity>input {
+    display: inline-block;
+    width: 40%;
+}
+.price {
+    display: flex;
+}
+.price>span:nth-child(2) {
+    margin-left: 4em;
+}
+.addressContainer {
+    grid-area: a;
+    padding: 1em;
+}
+.addressApi {
+    border: 1px #C4C2FF solid;
+    border-radius: 7px;
+    height: 100%;
+    margin: 0 auto;
+}
+.payP>p {
+    margin-bottom: 0;
+    font-weight: bold;
+    position: relative;
+    left: 1.5em;
+    width: 50%;
+}
+.payInfo {
+    display: grid;
+    grid-template-columns: 70% 30%;
+    grid-template-areas:
+        "a side"
+        "b side";
+    grid-gap: 1%;
+    width: 80%;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+.payDescription {
+    grid-area: b;
+}
+.paymentContainer {
+    border: 1px #C4C2FF solid;
+    border-radius: 7px;
+    margin: 0 auto;
+    padding: 1em;
+}
+.payApi {
+    border: 1px #C4C2FF solid;
+    border-radius: 7px;
+    margin: 0 auto;
+}
+.userInfoContainer {
+    grid-area: side;
+    border: 1px #C4C2FF solid;
+    border-radius: 7px;
+    padding: 1em;
+}
+.userInfoDescription {
+    border: 1px #C4C2FF solid;
+    border-radius: 7px;
+}
+.userInfoDescription>hr {
+    width: 90%;
+}
+.priceInfo {
+    display: flex;
+    flex-direction: column;
+}
+.payButton>button {
+    width: 100%;
+    height: 3.5em;
+    background-color: #0448AD;
+    color: white;
+    border-radius: 5px;
+    border: none;
+    margin-top: 1em;
+    font-weight: bold;
+}
+@media screen and (max-width : 767px) {
+    .listContainer {
+        width: 100%;
+    }
+    .thumnail {
+        width: 6em;
+    }
+    .payInfo {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+        "a"
+        "b"
+        "side";
+        grid-gap: 1em;
+        width: 100%;
+        margin: 0 auto;
+    }
+    .payP>p {
+        left: 3.5em;
+    }
+    body>hr {
+        width: 100%;
+        margin-top: 1.5em;
+    }
+    .listContainer * {
+        font-size: 0.7rem;
+    }
+    .product {
+        width: 50%
+    }
+    .options {
+        width: 40%;
+
+    }
+}
+@media screen and (min-width : 768px) and (max-width : 1024px) {
+    .listContainer {
+        width: 80%;
+    }
+    .thumnail {
+        width: 6em;
+    }
+    .payInfo {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+        "a"
+        "b"
+        "side";
+        grid-gap: 1em;
+        width: 80%;
+        margin: 0 auto;
+    }
+    body>hr {
+        width: 80%;
+        margin-top: 1.5em;
+    }
+    .product {
+        width: 50%
+    }
+    .options {
+        width: 40%;
+    }
+}

@@ -1,6 +1,5 @@
 package com.osaz.danaka.member.model.service;
 
-import com.osaz.danaka.MemberDTO;
 import com.osaz.danaka.member.model.dao.MemberMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
