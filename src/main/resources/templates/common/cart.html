@@ -16,7 +16,13 @@
     </form>
 
     <h3>2. registCart 회원번호별 다른페이지 요청에 의해 장바구니에 담는 insert method</h3>
-
+    <form action="/cart/registCart" method="post">
+        <label>회원번호 : </label><input type="text" name="userNo" placeholder="회원번호를 입력하세요.">
+        <label>상품번호 : </label><input type="text" name="productNo" placeholder="회원번호를 입력하세요.">
+        <label>수량 : </label><input type="text" name="amount" placeholder="회원번호를 입력하세요.">
+        <label>패키지ID : </label><input type="text" name="packageId" placeholder="회원번호를 입력하세요.">
+        <input type="submit" value="장바구니 등록">
+    </form>
     <h3>3. updateCart 장바구니페이지에서 선택된 장바구니 번호 별 수량을 수정하는 update method</h3>
 
     <h3>4. deleteCart 장바구니페이지에서 선택된 장바구니 번호 별 삭제 delete method</h3>
