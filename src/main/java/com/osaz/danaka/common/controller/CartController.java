@@ -36,9 +36,13 @@ public class CartController {
     public ModelAndView selectAllCart(String userNo, ModelAndView mv){
 
         System.out.println("=== selectAllCart 컨트롤러 === userNo : " + userNo);
+
         List<CartDTO> cartList = cartService.selectAllCart(userNo);
+
         System.out.println("=== cartList" + cartList);
+
         cartList.stream().forEach(cart -> System.out.println("cart = " + cart));
+
         mv.addObject("cartList", cartList);
         mv.setViewName("redirect:/common/cartList");
 
