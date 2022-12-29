@@ -33,7 +33,7 @@ public class CartController {
 // # author : 김찬영
 // # description :  post method로 userNo 보내면 회원번호에 해당하는 장바구니목록 조회
     @PostMapping("selectAllCart")
-    public ModelAndView selectAllCart(String userNo, ModelAndView mv) throws Exception{
+    public ModelAndView selectAllCart(String userNo, ModelAndView mv){
 
         System.out.println("=== selectAllCart 컨트롤러 === userNo : " + userNo);
         List<CartDTO> cartList = cartService.selectAllCart(userNo);
