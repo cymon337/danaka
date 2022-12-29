@@ -10,6 +10,8 @@ spring:
     #oracle.jdbc.driver.OracleDriver
     username: danaka
     password: danaka
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
 
 server:
   port: 8090
