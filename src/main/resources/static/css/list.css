@@ -1,14 +1,26 @@
 .categoryImg {
-    background-color: red;
-    height: 5%;
+    height: 9em;
 }
 .categoryImg>img {
     width: 100%;
+    height: 100%;
+}
+.orderContainer {
+    position: relative;
+    left: 22%;
+    margin-top: 1em;
+    width: 18em;
+}
+.orderContainer>button {
+    margin: 0 -4px 0 -4px;
+    padding: 0.5em;
+    border: 1px #C4C2FF solid;
+    border-top-right-radius: 10px;
 }
 .outerProductsContainer {
     border: 1px #C4C2FF solid;
     border-radius: 1em;
-    width: 90%;
+    width: 60%;
     margin: 0 auto;
 }
 .productContainer {
@@ -18,6 +30,7 @@
     padding: 10px;
     border-radius: 1em;
     align-items: center;
+    justify-content: space-between;
 }
 .productContainer>div {
     display: inline-block;
@@ -32,30 +45,37 @@
 }
 .thumnail>img {
     width: 100%;
+    border: 1px #e5e5ff solid;
+
+
 }
 .detail1 {
-    width: 80%;
+    width: 83%;
     align-self: flex-start;
 }
 .detail1 * {
     margin-top: 0;
     margin-bottom: 1px;
+    color: black;
+    text-decoration: none;
+}
+.detail1>a {
+
 }
 .productName>p{
     margin: 0;
 }
 .productDetail {
+
     font-size: 10px;
     color: gray;
     margin-top: 1px;
 }
 .detail2 {
-    width: 8%;
+    width: 6%;
     min-width: 4em;
     padding: 0;
     align-self: flex-end;
-
-    margin-right: 1px;
 }
 .detail2>div {
     display: block;
@@ -69,4 +89,21 @@
 .regDate {
     font-size: 10px;
     color: gray;
+}
+
+@media screen and (max-width : 767px) {
+    .outerProductsContainer {
+        width: 100%;
+    }
+    .orderContainer {
+        left: 5%;
+    }
+}
+@media screen and (min-width : 768px) and (max-width : 1024px) {
+    .outerProductsContainer {
+        width: 80%;
+    }
+    .orderContainer {
+        left: 13%;
+    }
 }

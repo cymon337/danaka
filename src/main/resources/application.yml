@@ -11,8 +11,6 @@ spring:
     username: danaka
     password: danaka
 
-
-
 server:
   port: 8090
 

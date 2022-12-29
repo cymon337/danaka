@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.osaz.danaka.member.model.dao.MemberMapper">
+
+
+    <resultMap id="memberResultMap" type="com.osaz.danaka.product.model.dto.MemberDTO">
+        <id  column="USER_NO" property="userNo"/>
+        <result column="USER_ID" property="userID"/>
+        <result column="USER_NICKNAME" property="userNickname"/>
+        <result column="USER_PWD" property="userPwd"/>
+        <result column="USER_NAME" property="userName"/>
+        <result column="BIRTHDAY" property="birthday"/>
+        <result column="GENDER" property="gender"/>
+        <result column="ADDRESS" property="address"/>
+        <result column="PHONE" property="phone"/>
+        <result column="REG_DATE" property="regDate"/>
+        <result column="STATUS" property="status"/>
+        <result column="USER_ROLE" property="userRole"/>
+
+    </resultMap>
+
+    <select id="findMemberByID" resultMap="memberResultMap">
+
+
+
+    </select>
+
+
+
+</mapper>

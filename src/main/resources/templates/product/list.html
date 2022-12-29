@@ -1,29 +1,29 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="/static/css/list.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/list.css}" href="/static/css/list.css">
 </head>
 <body>
 <div class="categoryImg">
-    <img src="/static/image/배너.png" alt="카테고리별 대표사진">
+    <img th:href="@{/image/배너.png}" src="/static/image/배너.png" alt="카테고리별 대표사진">
 </div>
 <div class="orderContainer">
-    <span class="col-sm-1">인기순</span>
-    <span  class="col-sm-1">판매량순</span>
-    <span class="col-sm-1">낮은가격순</span>
-    <span class="col-sm-1">높은가격순</span>
+    <button>인기순</button>
+    <button>판매량순</button>
+    <button>낮은가격순</button>
+    <button>높은가격순</button>
 </div>
 <div class="outerProductsContainer">
     <div class="productContainer">
         <div class="thumnail">
-            <img src="/static/image/thumnail.png" alt="상품썸네일">
+            <img src="/static/image/thumnail.png" alt="상품썸네일" onclick="href='/product/item'">
         </div>
         <div class="detail1">
             <div class="productName">
-                <h4>상품명</h4>
+                <a href=""><h4>상품명</h4></a>
             </div>
             <div class="productDetail">
                 <p>상품정보</p>
@@ -40,7 +40,7 @@
     </div>
     <div class="productContainer">
         <div class="thumnail">
-            <img src="/static/image/thumnail.png" alt="상품썸네일">
+            <img src="/image/thumnail.png" alt="상품썸네일">
         </div>
         <div class="detail1">
             <div class="productName">
