@@ -28,11 +28,19 @@ public class CartController {
     @GetMapping({""})
     public String cartMain (){ return "common/cart"; }
 
+// # update : 221229 작성중
+// # title : selectAllCart 장바구니조회
+// # author : 김찬영
+// # description :  post method로 userNo 보내면 회원번호에 해당하는 장바구니목록 조회
     @PostMapping("selectAllCart")
-    public ModelAndView selectAllCart(ModelAndView mv, int userNo, RedirectAttributes rttr, Locale locale) throws Exception{
-        cartService.selectAllCart(userNo);
-//        mv.setViewName("redirect:/common/cartList 화면구현 타임리프 만들기");
-//        rttr.addFlashAttribute("successMessage", MessageSource.getMessage("selectAllCart", null, locale));
+    public ModelAndView selectAllCart(String userNo, ModelAndView mv) throws Exception{
+
+        System.out.println("=== selectAllCart 컨트롤러 === userNo : " + userNo);
+        List<CartDTO> cartList = cartService.selectAllCart(userNo);
+        System.out.println("=== cartList" + cartList);
+        cartList.stream().forEach(cart -> System.out.println("cart = " + cart));
+        mv.addObject("cartList", cartList);
+        mv.setViewName("redirect:/common/cartList");
 
         return mv;
     }

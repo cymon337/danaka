@@ -21,6 +21,17 @@
     <select id="nextvalSeqPackageId" resultMap="cartResultMap">
         SELECT SEQ_PACKAGE_ID.NEXTVAL PACKAGE_ID FROM DUAL;
     </select>
+<!--  회원별 장바구니 조회  -->
+    <select id="selectAllCart" resultMap="cartResultMap">
+        SELECT
+            A.CART_NO,
+            A.USER_NO,
+            A.PRODUCT_NO,
+            A.AMOUNT,
+            A.PACKAGE_ID
+        FROM T_CART A
+        WHERE A.USER_NO = #{userNo}
+    </select>
 
 <!--  장바구니 등록  -->
     <insert id="registCart">

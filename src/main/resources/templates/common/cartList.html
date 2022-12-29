@@ -5,9 +5,27 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>cartList</title>
 </head>
 <body>
+<!--test-->
+
+<table align="center" border="1">
+    <tr>
+        <th>장바구니번호</th>
+        <th>회원번호</th>
+        <th>상품번호</th>
+        <th>수량</th>
+        <th>패키지ID</th>
+    </tr>
+    <tr th:each="cart : ${ cartList }">
+        <td th:text="${ cart.cartNo }"></td> <!--dto의 필드명호출, getter없으면 에러남 내부에서 getter호출 -->
+        <td th:text="${ cart.userNo }"></td>
+        <td th:text="${ cart.productNo }"></td>
+        <td th:text="${ cart.amount }"></td>
+        <td th:text="${ cart.packageId }"></td>
+    </tr>
+</table>
 
 </body>
 </html>
