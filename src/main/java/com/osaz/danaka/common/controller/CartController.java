@@ -44,7 +44,7 @@ public class CartController {
         cartList.stream().forEach(cart -> System.out.println("cart = " + cart));
 
         mv.addObject("cartList", cartList);
-        mv.setViewName("redirect:/common/cartList");
+        mv.setViewName("/common/cartList");
 
         return mv;
     }
