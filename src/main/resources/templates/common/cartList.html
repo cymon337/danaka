@@ -18,7 +18,7 @@
         <th>수량</th>
         <th>패키지ID</th>
     </tr>
-    <!--/*@thymesVar id="cartList" type=""*/-->
+    <!--/*@thymesVar id="cartList" type="com.osaz.danaka.common.model.dto.CartDTO"*/-->
     <tr th:each="cart : ${cartList}">
         <td th:text="${cart.cartNo}"></td> <!--dto의 필드명호출, getter없으면 에러남 내부에서 getter호출 -->
         <td th:text="${ cart.userNo }"></td>

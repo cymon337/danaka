@@ -39,12 +39,11 @@ public class CartController {
 
         List<CartDTO> cartList = cartService.selectAllCart(userNo);
 
-        System.out.println("=== cartList" + cartList);
-
+        System.out.println("=== cartList ===");
         cartList.stream().forEach(cart -> System.out.println("cart = " + cart));
 
         mv.addObject("cartList", cartList);
-        mv.setViewName("/common/cartList");
+        mv.setViewName("common/cart");
 
         return mv;
     }

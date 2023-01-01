@@ -77,19 +77,17 @@
 
 
             </p>
-            <ul class="list-group">
+            <!--/*@thymesVar id="cartList" type="com.osaz.danaka.common.model.dto.CartDTO"*/-->
+            <ul class="list-group" th:each="cart : ${cartList}">
                 <!--  class 에 선택되면 active 추가 선택취소 active 제거 -->
-                <li id="cart-item1" class="list-group-item">1번상품</li>
-                <li id="cart-item2" class="list-group-item">2번상품</li>
-                <li id="cart-item3" class="list-group-item">3번상품</li>
-                <li id="cart-item4" class="list-group-item">4번상품</li>
-                <li id="cart-item5" class="list-group-item">5번상품</li>
-                <li id="cart-item6" class="list-group-item">6번상품</li>
-                <li id="cart-item7" class="list-group-item">7번상품</li>
-                <li id="cart-item8" class="list-group-item">8번상품</li>
-                <li id="cart-item9" class="list-group-item">9번상품</li>
-                <li id="cart-item10" class="list-group-item">10번상품</li>
-                <li id="cart-item-blank"></li> /* 위치보정용 */
+                <li id="cart-item1" class="list-group-item">
+
+                    <span th:text="${ cart.productNo }"></span>
+                    <span th:text="${ cart.amount }"></span>
+                </li>
+
+                <!-- 위치보정용 spacer -->
+                <li id="cart-item-blank"></li>
                 <!--li 버튼 클릭 활성 비활성-->
                 <script type="text/javascript">
                     $("li").on("click", function (e) {
