@@ -78,31 +78,28 @@
 
             </p>
             <!--/*@thymesVar id="cartList" type="com.osaz.danaka.common.model.dto.CartDTO"*/-->
-            <ul class="list-group" th:each="cart : ${cartList}">
+            <ul id="cart-list" class="list-group">
                 <!--  class 에 선택되면 active 추가 선택취소 active 제거 -->
-                <li id="cart-item1" class="list-group-item">
-
+                <li class="list-group-item" th:each="cart : ${cartList}">
                     <span th:text="${ cart.productNo }"></span>
                     <span th:text="${ cart.amount }"></span>
                 </li>
-
-                <!-- 위치보정용 spacer -->
-                <li id="cart-item-blank"></li>
-                <!--li 버튼 클릭 활성 비활성-->
-                <script type="text/javascript">
-                    $("li").on("click", function (e) {
-                        if ($("#btn-select-all-cart").hasClass("active") === true) {
-                            $("#btn-select-all-cart").removeClass("active");
-                        }
-
-                        if ($(e.target).hasClass("active") === true) {
-                            $(e.target).removeClass("active")
-                        } else {
-                            $(e.target).addClass("active");
-                        }
-                    });
-                </script>
             </ul>
+            <!--li 버튼 클릭 활성 비활성-->
+            <script type="text/javascript">
+                $("li").on("click", function (e) {
+                    if ($("#btn-select-all-cart").hasClass("active") === true) {
+                        $("#btn-select-all-cart").removeClass("active");
+                    }
+
+                    if ($(e.target).hasClass("active") === true) {
+                        $(e.target).removeClass("active")
+                    } else {
+                        $(e.target).addClass("active");
+                    }
+                });
+            </script>
+
         </form>
     </div>
     <div class="cart-order">

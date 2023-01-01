@@ -50,14 +50,14 @@
     height: 150px;
     margin-top: 1%;
     margin-bottom: 1%;
-    margin-left: 5%;
-    margin-right: 5%;
+    margin-left: 10%;
+    margin-right: 10%;
 
     box-shadow: 8px 5px 8px lightslategrey;
 }
 
-#cart-item-blank {
-    padding-top: 6%;
+#cart-list{
+    padding-bottom: 10%;
 }
 
 
