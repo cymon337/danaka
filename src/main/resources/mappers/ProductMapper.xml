@@ -11,28 +11,24 @@
         <result property="productName" column="PRODUCT_NAME"/>
         <result property="productRegDate" column="PRODUCT_REG_DATE"/>
         <result property="stock" column="STOCK"/>
-        <association property="rod" resultMap="rodResultMap"/>
-        <association property="reel" resultMap="reelResultMap"/>
-        <association property="line" resultMap="lineResultMap"/>
-    </resultMap>
-    <resultMap type="com.osaz.danaka.product.model.dto.RodDTO" id="rodResultMap">
-        <id property="productNo" column="PRODUCT_NO"/>
-        <result property="model" column="ROD_MODEL"/>
-        <result property="reelType" column="ROD_REEL_TYPE"/>
-        <result property="lineMin" column="LINE_MIN"/>
-        <result property="lineMax" column="LINE_MAX"/>
-        <result property="price" column="ROD_PRICE"/>
-    </resultMap>
-    <resultMap type="com.osaz.danaka.product.model.dto.ReelDTO" id="reelResultMap">
-        <id property="productNo" column="PRODUCT_NO"/>
-        <result property="model" column="REEL_MODEL"/>
-        <result property="reelType" column="REEL_TYPE"/>
-        <result property="price" column="REEL_PRICE"/>
-    </resultMap>
-    <resultMap type="com.osaz.danaka.product.model.dto.LineDTO" id="lineResultMap">
-        <id property="productNo" column="PRODUCT_NO"/>
-        <result property="lineSize" column="LINE_SIZE"/>
-        <result property="price" column="LINE_PRICE"/>
+        <discriminator javaType="String" column="CATEGORY_CODE">
+            <case value="RD" resultType="com.osaz.danaka.product.model.dto.RodDTO">
+                <result property="model" column="ROD_MODEL"/>
+                <result property="reelType" column="ROD_REEL_TYPE"/>
+                <result property="lineMin" column="LINE_MIN"/>
+                <result property="lineMax" column="LINE_MAX"/>
+                <result property="price" column="ROD_PRICE"/>
+            </case>
+            <case value="RL" resultType="com.osaz.danaka.product.model.dto.ReelDTO">
+                <result property="model" column="REEL_MODEL"/>
+                <result property="reelType" column="REEL_TYPE"/>
+                <result property="price" column="REEL_PRICE"/>
+            </case>
+            <case value="LN" resultType="com.osaz.danaka.product.model.dto.LineDTO">
+                <result property="lineSize" column="LINE_SIZE"/>
+                <result property="price" column="LINE_PRICE"/>
+            </case>
+        </discriminator>
     </resultMap>
 
     <select id="selectByCategory" parameterType="String" resultMap="productResultMap">
