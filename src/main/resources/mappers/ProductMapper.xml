@@ -51,9 +51,9 @@
                     PRODUCT_NAME LIKE '%' || #{ searchValue } || '%'
                     </if>
                  ORDER BY B.PRODUCT_NO DESC)
-         WHERE ROWNUM BETWEEN #{ startRow } AND #{ endRow }
+         WHERE RNUM BETWEEN #{ startRow } AND #{ endRow }
     </select>
-    <select id="selectOne" parameterType="String" resultMap="productResultMap">
+    <select id="selectOneProduct" parameterType="String" resultMap="productResultMap">
         SELECT
             *
           FROM VIEW_PRODUCT

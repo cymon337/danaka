@@ -31,9 +31,9 @@ public class ProductService {
         return productMapper.selectListByCategory(selectCriteria);
     };
 
-    public ProductDTO selectOne(String productNo){
+    public ProductDTO selectOneProduct(String productNo){
 
-        return productMapper.selectOne(productNo);
+        return productMapper.selectOneProduct(productNo);
     }
 
     public boolean registWishList(Map<String, String> parameter) throws Exception{

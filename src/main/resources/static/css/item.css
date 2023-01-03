@@ -1,9 +1,11 @@
 body {
     background-color: #f0f2fe;
+    margin-top: 1%;
 }
 body>hr {
     width: 60%;
     color: #d2d1f6;
+    margin: 1% auto;
 }
 .productContainer {
     width: 60%;
@@ -198,7 +200,9 @@ body>hr {
     body>hr {
         width: 100%;
     }
-
+    #centerCategory, #notice {
+        display: none;
+    }
 }
 @media screen and (min-width : 768px) and (max-width : 1024px) {
     .productContainer {
@@ -212,5 +216,8 @@ body>hr {
     }
     body>hr {
         width: 80%;
+    }
+    #centerCategory, #notice {
+        display: none;
     }
 }

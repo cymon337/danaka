@@ -45,7 +45,7 @@ class ProductServiceTest {
         // given
         String productNo = "1";
         // when
-        ProductDTO product = productService.selectOne(productNo);
+        ProductDTO product = productService.selectOneProduct(productNo);
         // then
         assertNotNull(product);
     }

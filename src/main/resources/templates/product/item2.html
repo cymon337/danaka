@@ -39,8 +39,9 @@
         </div>
     </div>
     <div class="detailContainer">
+        <form action="/product/purchase" method="post">
         <div class="productName">
-            <h2>상품명</h2>
+            <h2 th:text="${ product.productName }">상품명</h2>
         </div>
         <div class="productDetail">
             <p>상품내용</p>
@@ -52,7 +53,7 @@
         </div>
         <div class="price">
             <span>총 가격 : </span>
-            <span>50,000</span>
+            <span id="totalPrice" th:text="${ #numbers.formatCurrency(product.price) }">50,000</span>
         </div>
         <div class="option">
             <select name="option" id="option">
@@ -65,8 +66,9 @@
         <div class="buttons">
             <button><img src="/static/image/heart.png"></button>
             <button><img src="/static/image/share.png"></button>
-            <button id="buy">구매하기</button>
+            <button type="submit" id="buy">구매하기</button>
         </div>
+        </form>
     </div>
 </div>
 <hr>

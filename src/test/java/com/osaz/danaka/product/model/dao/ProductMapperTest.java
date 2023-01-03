@@ -75,7 +75,7 @@ class ProductMapperTest {
         // given
         String productNo = "1";
         // when
-        ProductDTO product = productMapper.selectOne(productNo);
+        ProductDTO product = productMapper.selectOneProduct(productNo);
         // then
         assertNotNull(product);
     }

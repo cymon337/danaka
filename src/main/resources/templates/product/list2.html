@@ -30,7 +30,7 @@
     <th:block th:replace="~{common/header2 :: header}"/>
 </div>
 <div class="categoryImg">
-    <th:block th:switch="${ categoryCode }">
+    <th:block th:switch="${ selectCriteria.categoryCode }">
         <img th:case="RD" th:href="@{/image/배너.png}" src="/static/image/배너.png" alt="카테고리별 대표사진">
         <img th:case="RL" th:href="@{/image/배너1.png}" src="/static/image/배너1.png" alt="카테고리별 대표사진">
         <img th:case="LN" th:href="@{/image/배너2.png}" src="/static/image/배너2.png" alt="카테고리별 대표사진">
@@ -45,7 +45,7 @@
 <div class="outerProductsContainer">
     <div class="productContainer" th:each="product : ${ productList }">
         <div class="thumnail">
-            <img src="/static/image/thumnail.png" alt="상품썸네일" onclick="href='/product/item'">
+            <img src="/static/image/thumnail.png" alt="상품썸네일" th:onclick="|location.href='@{/product/item2(productNo=${ product.productNo })}'|">
         </div>
         <div class="detail1">
             <div class="productName">
@@ -66,7 +66,7 @@
         </div>
     </div>
     <div class="pagingButtons" align="center">
-        <th:block th:replace="~{common/paging :: paging}"/>
+        <th:block th:include="~{common/paging :: paging}"/>
     </div>
 </div>
 

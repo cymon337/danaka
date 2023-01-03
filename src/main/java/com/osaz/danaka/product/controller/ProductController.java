@@ -26,6 +26,7 @@ public class ProductController {
         this.productService = productService;
     }
 
+    // 카테고리 별 상품 목록 출력하기
     @GetMapping("/list2")
     public ModelAndView selectByCategory(HttpServletRequest request, ModelAndView mv){
 
@@ -80,23 +81,24 @@ public class ProductController {
         /* 조회해온다 */
         List<ProductDTO> productList = productService.selectListByCategory(selectCriteria);
 
-        mv.addObject("categoryCode", categoryCode);
         mv.addObject("productList", productList);
+        mv.addObject("selectCriteria", selectCriteria);
         mv.setViewName("product/list2");
 
         return mv;
     }
 
-        @GetMapping("/item2")
-        public ModelAndView selectOne(HttpServletRequest request, ModelAndView mv){
+    // 상품 상세페이지용 상품 정보 가져오기
+    @GetMapping("/item2")
+    public ModelAndView selectOneProduct(HttpServletRequest request, ModelAndView mv){
 
-            String productNo = request.getParameter("productNo");
-            System.out.println("productNo = " + productNo);
-            ProductDTO product = productService.selectOne(productNo);
+        String productNo = request.getParameter("productNo");
+        System.out.println("productNo = " + productNo);
+        ProductDTO product = productService.selectOneProduct(productNo);
 
-            mv.addObject(product);
-            mv.setViewName("product/item2");
+        mv.addObject("product", product);
+        mv.setViewName("product/item2");
 
-            return mv;
-        }
+        return mv;
     }
+}
