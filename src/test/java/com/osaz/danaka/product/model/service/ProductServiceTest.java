@@ -1,5 +1,6 @@
 package com.osaz.danaka.product.model.service;
 
+import com.osaz.danaka.common.SelectCriteria;
 import com.osaz.danaka.config.DanakaApplication;
 import com.osaz.danaka.config.MybatisConfig;
 import com.osaz.danaka.product.model.dto.ProductDTO;
@@ -29,9 +30,10 @@ class ProductServiceTest {
     public void 카테고리별_상품_조회용_서비스_테스트(){
 
         // given
-        String categoryCode = "RD";
+        SelectCriteria selectCriteria = new SelectCriteria();
+        selectCriteria.setCategoryCode("RD");
         // when
-        List<ProductDTO> productList = productService.selectByCategory(categoryCode);
+        List<ProductDTO> productList = productService.selectListByCategory(selectCriteria);
         // then
         assertNotNull(productList);
         productList.forEach(product -> System.out.println("product = " + product));

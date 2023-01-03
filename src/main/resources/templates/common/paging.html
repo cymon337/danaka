@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<div th:fragment="paging">
+    <div class="pagingArea" align="center">
+        <!-- 맨 앞으로 이동 버튼 -->
+        <button id="startPage"><<</button>
+
+        <!-- 이전 페이지 버튼 -->
+        <th:if test="${ requestScope.selectCriteria.pageNo <= 1 }">
+            <button disabled><</button>
+        </th:if>
+        <th:if test="${ requestScope.selectCriteria.pageNo > 1 }">
+            <button id="prevPage"><</button>
+        </th:if>
+
+        <!-- 숫자 버튼 -->
+        <th:forEach var="p" begin="${ requestScope.selectCriteria.startPage }"
+                    end="${ requestScope.selectCriteria.endPage }" step="1">
+            <th:if test="${ requestScope.selectCriteria.pageNo eq p }">
+                <button disabled>
+                    <th:out value="${ p }"/>
+                </button>
+            </th:if>
+            <th:if test="${ requestScope.selectCriteria.pageNo ne p }">
+                <button onclick="pageButtonAction(this.innerText);">
+                    <th:out value="${ p }"/>
+                </button>
+            </th:if>
+        </th:forEach>
+
+        <!-- 다음 페이지 버튼 -->
+        <th:if test="${ requestScope.selectCriteria.pageNo >= requestScope.selectCriteria.maxPage }">
+            <button disabled>></button>
+        </th:if>
+        <th:if test="${ requestScope.selectCriteria.pageNo < requestScope.selectCriteria.maxPage }">
+            <button id="nextPage">></button>
+        </th:if>
+
+        <!-- 마지막 페이지로 이동 버튼 -->
+        <button id="maxPage">>></button>
+    </div>
+</div>
+<script th:inline="javascript">
+
+    const link = "/product/list";
+    let searchText = "";
+
+    if ('[[${ !empty requestScope.selectCriteria.searchCondition? true: false }]]') {
+        searchText += "&searchCondition=${ requestScope.selectCriteria.searchCondition }";
+    }
+
+    if ('[[${ !empty requestScope.selectCriteria.searchValue? true: false }]]') {
+        searchText += "&searchValue=${ requestScope.selectCriteria.searchValue }";
+    }
+
+    if (document.getElementById("startPage")) {
+        const $startPage = document.getElementById("startPage");
+        $startPage.onclick = function () {
+            location.href = link + "?currentPage=1" + searchText;
+        }
+    }
+
+    if (document.getElementById("prevPage")) {
+        const $prevPage = document.getElementById("prevPage");
+        $prevPage.onclick = function () {
+            location.href = link + "?currentPage=${ requestScope.selectCriteria.pageNo - 1 }" + searchText;
+        }
+    }
+
+    if (document.getElementById("nextPage")) {
+        const $nextPage = document.getElementById("nextPage");
+        $nextPage.onclick = function () {
+            location.href = link + "?currentPage=${ requestScope.selectCriteria.pageNo + 1 }" + searchText;
+        }
+    }
+
+    if (document.getElementById("maxPage")) {
+        const $maxPage = document.getElementById("maxPage");
+        $maxPage.onclick = function () {
+            location.href = link + "?currentPage=${ requestScope.selectCriteria.maxPage }" + searchText;
+        }
+    }
+
+    function pageButtonAction(text) {
+        location.href = link + "?currentPage=" + text + searchText;
+    }
+</script>
+</body>
+</html>

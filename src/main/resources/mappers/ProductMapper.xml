@@ -31,11 +31,27 @@
         </discriminator>
     </resultMap>
 
-    <select id="selectByCategory" parameterType="String" resultMap="productResultMap">
+    <select id="selectTotalCount" resultType="_int" parameterType="hashmap">
         SELECT
-            *
+            COUNT(*)
           FROM VIEW_PRODUCT
          WHERE CATEGORY_CODE = #{ categoryCode }
+      <if test="searchCondition == 'productName'">
+          PRODUCT_NAME LIKE '%' || #{ searchValue } || '%'
+      </if>
+    </select>
+    <select id="selectListByCategory" parameterType="com.osaz.danaka.common.SelectCriteria" resultMap="productResultMap">
+        SELECT
+            *
+          FROM (SELECT
+                    *
+                  FROM VIEW_PRODUCT B
+                 WHERE CATEGORY_CODE = #{ categoryCode }
+                    <if test="searchCondition == 'productName'">
+                    PRODUCT_NAME LIKE '%' || #{ searchValue } || '%'
+                    </if>
+                 ORDER BY B.PRODUCT_NO DESC)
+         WHERE ROWNUM BETWEEN #{ startRow } AND #{ endRow }
     </select>
     <select id="selectOne" parameterType="String" resultMap="productResultMap">
         SELECT

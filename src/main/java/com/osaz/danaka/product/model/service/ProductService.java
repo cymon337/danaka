@@ -1,5 +1,6 @@
 package com.osaz.danaka.product.model.service;
 
+import com.osaz.danaka.common.SelectCriteria;
 import com.osaz.danaka.product.model.dao.ProductMapper;
 import com.osaz.danaka.product.model.dto.ProductDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +21,14 @@ public class ProductService {
         this.productMapper = productMapper;
     }
 
-    public List<ProductDTO> selectByCategory(String categoryCode){
+    public int selectTotalCount(Map<String, String> searchMap){
 
-        return productMapper.selectByCategory(categoryCode);
+        return productMapper.selectTotalCount(searchMap);
+    }
+
+    public List<ProductDTO> selectListByCategory(SelectCriteria selectCriteria){
+
+        return productMapper.selectListByCategory(selectCriteria);
     };
 
     public ProductDTO selectOne(String productNo){

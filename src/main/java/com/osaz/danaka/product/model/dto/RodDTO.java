@@ -8,18 +8,16 @@ public class RodDTO extends ProductDTO{
     private String reelType;
     private int lineMin;
     private int lineMax;
-    private int price;
 
     public RodDTO() {
     }
 
-    public RodDTO(int productNo, String categoryCode, int brandNo, String productName, Date productRegDate, int stock, String model, String reelType, int lineMin, int lineMax, int price) {
-        super(productNo, categoryCode, brandNo, productName, productRegDate, stock);
+    public RodDTO(int productNo, String categoryCode, int brandNo, String productName, Date productRegDate, int stock, int price, String imgPath, String model, String reelType, int lineMin, int lineMax) {
+        super(productNo, categoryCode, brandNo, productName, productRegDate, stock, price, imgPath);
         this.model = model;
         this.reelType = reelType;
         this.lineMin = lineMin;
         this.lineMax = lineMax;
-        this.price = price;
     }
 
     public String getModel() {
@@ -54,14 +52,6 @@ public class RodDTO extends ProductDTO{
         this.lineMax = lineMax;
     }
 
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
     @Override
     public String toString() {
         return "RodDTO{" +
@@ -69,7 +59,6 @@ public class RodDTO extends ProductDTO{
                 ", reelType='" + reelType + '\'' +
                 ", lineMin=" + lineMin +
                 ", lineMax=" + lineMax +
-                ", price=" + price +
                 '}';
     }
 }
