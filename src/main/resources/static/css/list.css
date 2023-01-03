@@ -1,3 +1,6 @@
+body {
+    background-color: #f0f2fe;
+}
 .categoryImg {
     height: 9em;
 }
@@ -16,12 +19,23 @@
     padding: 0.5em;
     border: 1px #C4C2FF solid;
     border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    background-color: white;
 }
+.orderContainer>button:hover {
+    background-color: #0448AD;
+    color: white;
+}
+/*.orderContainer>button:first-child {*/
+/*    background-color: #0448AD;*/
+/*    color: white;*/
+/*}*/
 .outerProductsContainer {
     border: 1px #C4C2FF solid;
     border-radius: 1em;
     width: 60%;
     margin: 0 auto;
+    background-color: white;
 }
 .productContainer {
     display: flex;
@@ -31,6 +45,9 @@
     border-radius: 1em;
     align-items: center;
     justify-content: space-between;
+}
+.productContainer:hover {
+    background-color: #d9f6f6;
 }
 .productContainer>div {
     display: inline-block;

@@ -1,3 +1,6 @@
+body {
+    background-color: #f0f2fe;
+}
 body>hr {
     width: 60%;
     color: #d2d1f6;
@@ -13,7 +16,7 @@ body>hr {
     width: 50%;
     display: inline-block;
     box-sizing: border-box;
-    background-color: #f0f2fe;
+    background-color: white;
 }
 .imgContainer {
     border: 1px #C4C2FF solid;
@@ -129,7 +132,7 @@ body>hr {
     display: flex;
     justify-content: center;
     padding: 0.5%;
-    background-color: #f0f2fe;
+    background-color: white;
     box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.25);
 }
 .refItemsContainer>div {
@@ -155,7 +158,7 @@ body>hr {
     height: 1000px;
     margin: 0 auto;
     padding: 1%;
-    background-color: #f0f2fe;
+    background-color: white;
     box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.25);
 }
 .content {
