@@ -8,23 +8,17 @@ public class ProductDTO {
     private String categoryCode;
     private int brandNo;
     private String productName;
-    private RodDTO rod;
-    private ReelDTO reel;
-    private LineDTO line;
     private Date productRegDate;
     private int stock;
 
     public ProductDTO() {
     }
 
-    public ProductDTO(int productNo, String categoryCode, int brandNo, String productName, RodDTO rod, ReelDTO reel, LineDTO line, Date productRegDate, int stock) {
+    public ProductDTO(int productNo, String categoryCode, int brandNo, String productName, Date productRegDate, int stock) {
         this.productNo = productNo;
         this.categoryCode = categoryCode;
         this.brandNo = brandNo;
         this.productName = productName;
-        this.rod = rod;
-        this.reel = reel;
-        this.line = line;
         this.productRegDate = productRegDate;
         this.stock = stock;
     }
@@ -61,30 +55,6 @@ public class ProductDTO {
         this.productName = productName;
     }
 
-    public RodDTO getRodDTO() {
-        return rod;
-    }
-
-    public void setRodDTO(RodDTO rodDTO) {
-        this.rod = rod;
-    }
-
-    public ReelDTO getReelDTO() {
-        return reel;
-    }
-
-    public void setReelDTO(ReelDTO reelDTO) {
-        this.reel = reel;
-    }
-
-    public LineDTO getLineDTO() {
-        return line;
-    }
-
-    public void setLineDTO(LineDTO line) {
-        this.line = line;
-    }
-
     public Date getProductRegDate() {
         return productRegDate;
     }
@@ -108,9 +78,6 @@ public class ProductDTO {
                 ", categoryCode='" + categoryCode + '\'' +
                 ", brandNo=" + brandNo +
                 ", productName='" + productName + '\'' +
-                ", rod=" + rod +
-                ", reelDTO=" + reel +
-                ", lineDTO=" + line +
                 ", productRegDate=" + productRegDate +
                 ", stock=" + stock +
                 '}';

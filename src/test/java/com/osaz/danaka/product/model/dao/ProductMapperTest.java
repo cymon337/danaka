@@ -34,6 +34,7 @@ class ProductMapperTest {
         List<ProductDTO> productList = productMapper.selectByCategory(categoryCode);
         // then
         assertNotNull(productList); // 파라미터에 넣은 값이 null 이 아니면 통과
+        System.out.println("productList = " + productList);
     }
 
     @Test

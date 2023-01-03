@@ -1,8 +1,9 @@
 package com.osaz.danaka.product.model.dto;
 
-public class RodDTO {
+import java.sql.Date;
 
-    private int productNo;
+public class RodDTO extends ProductDTO{
+
     private String model;
     private String reelType;
     private int lineMin;
@@ -12,21 +13,13 @@ public class RodDTO {
     public RodDTO() {
     }
 
-    public RodDTO(int productNo, String model, String reelType, int lineMin, int lineMax, int price) {
-        this.productNo = productNo;
+    public RodDTO(int productNo, String categoryCode, int brandNo, String productName, Date productRegDate, int stock, String model, String reelType, int lineMin, int lineMax, int price) {
+        super(productNo, categoryCode, brandNo, productName, productRegDate, stock);
         this.model = model;
         this.reelType = reelType;
         this.lineMin = lineMin;
         this.lineMax = lineMax;
         this.price = price;
-    }
-
-    public int getProductNo() {
-        return productNo;
-    }
-
-    public void setProductNo(int productNo) {
-        this.productNo = productNo;
     }
 
     public String getModel() {
@@ -72,8 +65,7 @@ public class RodDTO {
     @Override
     public String toString() {
         return "RodDTO{" +
-                "productNo=" + productNo +
-                ", model='" + model + '\'' +
+                "model='" + model + '\'' +
                 ", reelType='" + reelType + '\'' +
                 ", lineMin=" + lineMin +
                 ", lineMax=" + lineMax +

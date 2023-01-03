@@ -1,8 +1,9 @@
 package com.osaz.danaka.product.model.dto;
 
-public class ReelDTO {
+import java.sql.Date;
 
-    private int productNo;
+public class ReelDTO extends ProductDTO{
+
     private String model;
     private String reelType;
     private int price;
@@ -10,19 +11,11 @@ public class ReelDTO {
     public ReelDTO() {
     }
 
-    public ReelDTO(int productNo, String model, String reelType, int price) {
-        this.productNo = productNo;
+    public ReelDTO(int productNo, String categoryCode, int brandNo, String productName, Date productRegDate, int stock, String model, String reelType, int price) {
+        super(productNo, categoryCode, brandNo, productName, productRegDate, stock);
         this.model = model;
         this.reelType = reelType;
         this.price = price;
-    }
-
-    public int getProductNo() {
-        return productNo;
-    }
-
-    public void setProductNo(int productNo) {
-        this.productNo = productNo;
     }
 
     public String getModel() {
@@ -52,8 +45,7 @@ public class ReelDTO {
     @Override
     public String toString() {
         return "ReelDTO{" +
-                "productNo=" + productNo +
-                ", model='" + model + '\'' +
+                "model='" + model + '\'' +
                 ", reelType='" + reelType + '\'' +
                 ", price=" + price +
                 '}';

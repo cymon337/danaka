@@ -1,26 +1,19 @@
 package com.osaz.danaka.product.model.dto;
 
-public class LineDTO {
+import java.sql.Date;
 
-    private int productNo;
+public class LineDTO extends ProductDTO{
+
     private String lineSize;
     private int price;
 
     public LineDTO() {
     }
 
-    public LineDTO(int productNo, String lineSize, int price) {
-        this.productNo = productNo;
+    public LineDTO(int productNo, String categoryCode, int brandNo, String productName, Date productRegDate, int stock, String lineSize, int price) {
+        super(productNo, categoryCode, brandNo, productName, productRegDate, stock);
         this.lineSize = lineSize;
         this.price = price;
-    }
-
-    public int getProductNo() {
-        return productNo;
-    }
-
-    public void setProductNo(int productNo) {
-        this.productNo = productNo;
     }
 
     public String getLineSize() {
@@ -42,8 +35,7 @@ public class LineDTO {
     @Override
     public String toString() {
         return "LineDTO{" +
-                "productNo=" + productNo +
-                ", lineSize='" + lineSize + '\'' +
+                "lineSize='" + lineSize + '\'' +
                 ", price=" + price +
                 '}';
     }
