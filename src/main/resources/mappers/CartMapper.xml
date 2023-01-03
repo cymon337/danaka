@@ -14,7 +14,7 @@
     </resultMap>
 
     <resultMap type="com.osaz.danaka.common.model.dto.CartProductDTO" id="cartProductResultMap">
-        <id property="productNo" column="PRODUCT_NAME"/>
+        <id property="productNo" column="PRODUCT_NO"/>
         <result property="brandName" column="BRAND_NAME"/>
         <result property="productName" column="PRODUCT_NAME"/>
         <result property="categoryName" column="CATEGORY_NAME"/>
@@ -57,7 +57,7 @@
              ,CASE
                   WHEN A.CATEGORY_CODE = 'RD' THEN RD.ROD_MODEL
                   WHEN A.CATEGORY_CODE = 'RL' THEN RL.REEL_MODEL
-                  WHEN A.CATEGORY_CODE = 'LN' THEN TO_CHAR(LN.LINE_SIZE, 'FM90.0')
+                  WHEN A.CATEGORY_CODE = 'LN' THEN TO_CHAR(LN.LINE_SIZE, 'FM9990.0')
             END OPTION1
              ,CASE
                   WHEN A.CATEGORY_CODE = 'RD' THEN RD.REEL_TYPE
@@ -80,7 +80,13 @@
                  LEFT JOIN  T_ROD RD ON A.PRODUCT_NO = RD.PRODUCT_NO
                  LEFT JOIN  T_REEL RL ON A.PRODUCT_NO = RL.PRODUCT_NO
                  LEFT JOIN  T_LINE LN ON A.PRODUCT_NO = LN.PRODUCT_NO
-        WHERE A.PRODUCT_NO = #{ productNo };
+        WHERE A.PRODUCT_NO IN (
+            <foreach collection="list" item="item" separator=",">
+                #{item.productNo}
+            </foreach>
+            )
+        ORDER BY A.PRODUCT_NO ASC
+
     </select>
 
 <!--  장바구니 등록  -->
@@ -95,5 +101,19 @@
             #{ packageId }
             )
     </insert>
+<!--  장바구니 수량 수정 -->
+    <update id="updateCart">
+        UPDATE T_CART
+        SET
+            AMOUNT = #{ amount }
+        WHERE
+            CART_NO = #{ cartNo }
+    </update>
+<!--  장바구니 삭제  -->
+    <delete id="deleteCart">
+        DELETE FROM T_CART
+        WHERE
+            CART_NO = #{ cartNo }
+    </delete>
 
 </mapper>

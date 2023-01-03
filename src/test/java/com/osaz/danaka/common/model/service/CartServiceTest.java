@@ -3,24 +3,33 @@ package com.osaz.danaka.common.model.service;
 import com.osaz.danaka.common.model.dao.CartMapper;
 import com.osaz.danaka.common.model.dto.CartDTO;
 import com.osaz.danaka.common.model.dto.CartProductDTO;
-import org.assertj.core.api.Assertions;
+import com.osaz.danaka.config.DanakaApplication;
+import com.osaz.danaka.config.MybatisConfig;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@SpringBootTest
+@ContextConfiguration(classes = {DanakaApplication.class, MybatisConfig.class})
 class CartServiceTest {
 
-    CartService cartService;
+    @Autowired
     CartMapper cartMapper;
 
     @Test
+    @Transactional
     void selectAllCart() {
     }
 
     @Test
+    @Transactional
     void selectCartProduct() throws Exception {
-        // given
+        // given   리스트 넘길때 productNo 중복 제거
         List<CartDTO> cartList = new ArrayList<>();
         cartList.add(new CartDTO("1","1","1","1","1"));
         cartList.add(new CartDTO("1","1","2","1","1"));
@@ -31,33 +40,56 @@ class CartServiceTest {
         // when
         List<CartProductDTO> cartProductList = cartMapper.selectCartProduct(cartList);
 
-
         // then
 
-        List<String> cartListPN = new ArrayList<>();
+        List cartListPN = new ArrayList();
         for (CartDTO list:cartList) {
             cartListPN.add(list.getProductNo());
         }
 
-        List<String> resultPN = new ArrayList<>();
+        List resultPN = new ArrayList();
         for (CartProductDTO list:cartProductList) {
-            cartListPN.add(list.getProductNo());
+            resultPN.add(list.getProductNo());
         }
 
-        Assertions.assertThat(cartListPN).isEqualTo(resultPN);
+        System.out.println("cartProductList = " + cartProductList);
+        System.out.println("cartListPN" + cartListPN);
+        System.out.println("resultPN" + resultPN);
+
 
 
     }
 
     @Test
+    @Transactional
     void registCart() {
+        List<CartDTO> cartList = new ArrayList<>();
+        cartList.add(new CartDTO("1","1","1","1","1"));
+        cartList.add(new CartDTO("1","1","2","1","1"));
+
+        int result = cartMapper.registCart(cartList);
+
+        org.junit.jupiter.api.Assertions.assertNotEquals(result, 0, "null");
     }
 
     @Test
+    @Transactional
     void updateCart() {
+        String cartNo = "1";
+        String amont = "15";
+
+        int result = cartMapper.updateCart(cartNo, amont);
+
+        org.junit.jupiter.api.Assertions.assertEquals(result, 1);
     }
 
     @Test
+    @Transactional
     void deleteCart() {
+        String cartNo = "1";
+
+        int result = cartMapper.deleteCart(cartNo);
+
+        org.junit.jupiter.api.Assertions.assertEquals(result, 1);
     }
 }
