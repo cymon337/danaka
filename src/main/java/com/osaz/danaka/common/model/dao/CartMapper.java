@@ -1,6 +1,7 @@
 package com.osaz.danaka.common.model.dao;
 
 import com.osaz.danaka.common.model.dto.CartDTO;
+import com.osaz.danaka.common.model.dto.CartProductDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -21,4 +22,6 @@ public interface CartMapper {
 
     //4. deleteCart 장바구니페이지에서 선택된 장바구니 번호 별 삭제 delete method
     int deleteCart(String cartNo);
+
+    List<CartProductDTO> selectCartProduct(List<CartDTO> cartList);
 }

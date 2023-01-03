@@ -13,14 +13,28 @@
         <result property="packageId" column="PACKAGE_ID"/>
     </resultMap>
 
+    <resultMap type="com.osaz.danaka.common.model.dto.CartProductDTO" id="cartProductResultMap">
+        <id property="productNo" column="PRODUCT_NAME"/>
+        <result property="brandName" column="BRAND_NAME"/>
+        <result property="productName" column="PRODUCT_NAME"/>
+        <result property="categoryName" column="CATEGORY_NAME"/>
+        <result property="option1" column="OPTION1"/>
+        <result property="option2" column="OPTION2"/>
+        <result property="option3" column="OPTION3"/>
+        <result property="option4" column="OPTION4"/>
+        <result property="price" column="PRICE"/>
+    </resultMap>
+
 <!--  SEQ_PACKAGE_ID 조회  -->
     <select id="currvalSeqPackageId" resultMap="cartResultMap">
         SELECT SEQ_PACKAGE_ID.CURRVAL PACKAGE_ID FROM DUAL;
     </select>
+
 <!--  SEQ_PACKAGE_ID NEXTVAL 수행  -->
     <select id="nextvalSeqPackageId" resultMap="cartResultMap">
         SELECT SEQ_PACKAGE_ID.NEXTVAL PACKAGE_ID FROM DUAL;
     </select>
+
 <!--  회원별 장바구니 조회  -->
     <select id="selectAllCart" resultMap="cartResultMap">
         SELECT
@@ -31,6 +45,42 @@
             A.PACKAGE_ID
         FROM T_CART A
         WHERE A.USER_NO = #{userNo}
+    </select>
+
+<!--  회원별 장바구니 상품정보 조회 -->
+    <select id="selectCartProduct" resultMap="cartProductResultMap">
+        SELECT
+            A.PRODUCT_NO
+             ,B.BRAND_NAME
+             ,A.PRODUCT_NAME
+             ,C.CATEGORY_NAME
+             ,CASE
+                  WHEN A.CATEGORY_CODE = 'RD' THEN RD.ROD_MODEL
+                  WHEN A.CATEGORY_CODE = 'RL' THEN RL.REEL_MODEL
+                  WHEN A.CATEGORY_CODE = 'LN' THEN TO_CHAR(LN.LINE_SIZE, 'FM90.0')
+            END OPTION1
+             ,CASE
+                  WHEN A.CATEGORY_CODE = 'RD' THEN RD.REEL_TYPE
+                  WHEN A.CATEGORY_CODE = 'RL' THEN RL.REEL_TYPE
+            END OPTION2
+             ,CASE
+                  WHEN A.CATEGORY_CODE = 'RD' THEN RD.LINE_MIN
+            END OPTION3
+             ,CASE
+                  WHEN A.CATEGORY_CODE = 'RD' THEN RD.LINE_MAX
+            END OPTION4
+             ,CASE
+                  WHEN A.CATEGORY_CODE = 'RD' THEN RD.ROD_PRICE
+                  WHEN A.CATEGORY_CODE = 'RL' THEN RL.REEL_PRICE
+                  WHEN A.CATEGORY_CODE = 'LN' THEN LN.LINE_PRICE
+            END PRICE
+        FROM T_PRODUCT A
+                 JOIN T_BRAND B ON A.BRAND_NO = B.BRAND_NO
+                 JOIN T_CATEGORY C ON A.CATEGORY_CODE = C.CATEGORY_CODE
+                 LEFT JOIN  T_ROD RD ON A.PRODUCT_NO = RD.PRODUCT_NO
+                 LEFT JOIN  T_REEL RL ON A.PRODUCT_NO = RL.PRODUCT_NO
+                 LEFT JOIN  T_LINE LN ON A.PRODUCT_NO = LN.PRODUCT_NO
+        WHERE A.PRODUCT_NO = #{ productNo };
     </select>
 
 <!--  장바구니 등록  -->
