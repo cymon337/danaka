@@ -4,27 +4,30 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- index.html css -->
+    <!-- index.html css -->
     <link rel="stylesheet" href="/static/css/indexCss.css"/>
-<!--    -->
-<!--    &lt;!&ndash; 부트스트랩 &ndash;&gt;-->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <!--    -->
+    <!--    &lt;!&ndash; 부트스트랩 &ndash;&gt;-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 
-<!--    &lt;!&ndash; 아이콘 &ndash;&gt;-->
+    <!--    &lt;!&ndash; 아이콘 &ndash;&gt;-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
 
-<!--    &lt;!&ndash; 제이쿼리 &ndash;&gt;-->
+    <!--    &lt;!&ndash; 제이쿼리 &ndash;&gt;-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-<!--    &lt;!&ndash; 자바스크립트 &ndash;&gt;-->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+    <!--    &lt;!&ndash; 자바스크립트 &ndash;&gt;-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+            crossorigin="anonymous"></script>
 
     <!-- 승재 css -->
     <link rel="stylesheet" type="text/css" href="/static/css/list.css">
 </head>
 <body>
 <div class="header">
-    <th:block th:replace="~{common/header2 :: header}" />
+    <th:block th:replace="~{common/header2 :: header}"/>
 </div>
 <div class="categoryImg">
     <th:block th:switch="${ categoryCode }">
@@ -46,7 +49,8 @@
         </div>
         <div class="detail1">
             <div class="productName">
-                <a th:href="@{/product/item2(productNo=${ product.productNo })}"><h4 th:text="${ product.productName }">상품명</h4></a>
+                <a th:href="@{/product/item2(productNo=${ product.productNo })}"><h4 th:text="${ product.productName }">
+                    상품명</h4></a>
             </div>
             <div class="productDetail">
                 <p>상품정보</p>
@@ -61,10 +65,11 @@
             </div>
         </div>
     </div>
-    </div>
     <div class="pagingButtons" align="center">
-        <th:block th:replace="~{common/paging :: paging}" />
+        <th:block th:replace="~{common/paging :: paging}"/>
     </div>
+</div>
+
 </div>
 
 </body>
