@@ -99,9 +99,22 @@
           FROM VIEW_PRODUCT
          WHERE PRODUCT_NO = #{ productNo }
     </select>
-<!--    <select id="selectOptionList" parameterType="String" resultMap="productResultMap">-->
-
-<!--    </select>-->
+    <select id="selectOptionList" parameterType="String" resultMap="productResultMap">
+        SELECT
+            PRODUCT_NAME,
+            ROD_MODEL,
+            ROD_REEL_TYPE,
+            LINE_MIN,
+            LINE_MAX,
+            ROD_PRICE,
+            REEL_MODEL,
+            REEL_TYPE,
+            REEL_PRICE,
+            LINE_SIZE,
+            LINE_PRICE
+          FROM VIEW_PRODUCT
+         WHERE PRODUCT_NAME = #{ productName }
+    </select>
     <insert id="registWishList" parameterType="Map">
         INSERT INTO T_WISHLIST
         VALUES

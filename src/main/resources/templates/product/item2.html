@@ -58,9 +58,13 @@
         <div class="option">
             <select name="option" id="option">
                 <option value="" selected="true">옵션선택</option>
-                <option value="">옵션1</option>
-                <option value="">옵션2</option>
-                <option value="">옵션3</option>
+                <th:block th:each="option : ${ optionList }">
+                    <th:block th:switch="${ product.categoryCode }">
+                        <option th:case="RD" th:value="${ option.rod.model }">[[${ option.rod.model }]] : [[${ #numbers.formatCurrency(option.rod.price) }]]</option>
+                        <option th:case="RL" th:value="${ option.reel.model }">[[${ option.reel.model }]] : [[${ #numbers.formatCurrency(option.reel.price)]]</option>
+                        <option th:case="ln" th:value="${ option.line.lineSize }">[[${ option.line.lineSize }]] : [[${ #numbers.formatCurrency(option.line.price) }]]</option>
+                    </th:block>
+                </th:block>
             </select>
         </div>
         <div class="buttons">
@@ -89,53 +93,45 @@
 
     </div>
 </div>
-    <script th:inline="javascript">
-        /*<![CDATA[*/
-        $(document).ready(function(){
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    $(document).ready(function(){
 
-            let categoryCode = [[${ product.categoryCode }]];
-            let $totPrice;
-            console.log(categoryCode);
+        let categoryCode = [[${ product.categoryCode }]];
+        /* 총 가격 용 변수 */
+        let $totPrice;
+        console.log(categoryCode);
+
+        switch (categoryCode) {
+            case "RD":
+                $totPrice = [[${ product.rod?.price }]] * $("#quantity").val(); break;
+            case "RL":
+                $totPrice = [[${ product.reel?.price }]] * $("#quantity").val(); break;
+            case "LN":
+                $totPrice = [[${ product.line?.price }]] * $("#quantity").val(); break;
+        }
+        console.log($totPrice);
+
+        $totPrice = "₩" + $totPrice.toLocaleString();
+        $("#totalPrice").text($totPrice);
+
+        /* 총 가격 입력 용 함수 */
+        $("#quantity").on("change", function () {
 
             switch (categoryCode) {
                 case "RD":
-                    $totPrice = [[${ product.rod?.price }]] * $("#quantity").val();
-                    break;
+                    $totPrice = [[${ product.rod?.price }]] * $("#quantity").val(); break;
                 case "RL":
-                    $totPrice = [[${ product.reel?.price }]] * $("#quantity").val();
-                    break;
+                    $totPrice = [[${ product.reel?.price }]] * $("#quantity").val(); break;
                 case "LN":
-                    $totPrice = [[${ product.line?.price }]] * $("#quantity").val();
-                    break;
+                    $totPrice = [[${ product.line?.price }]] * $("#quantity").val(); break;
             }
-            console.log($totPrice);
-
-            /* 총 가격 용 변수 */
             $totPrice = "₩" + $totPrice.toLocaleString();
-
             $("#totalPrice").text($totPrice);
-
-            /* 총 가격 입력 용 함수 */
-            $("#quantity").on("change", function () {
-
-                switch (categoryCode) {
-                    case "RD":
-                        $totPrice = [[${ product.rod?.price }]] * $("#quantity").val();
-                        break;
-                    case "RL":
-                        $totPrice = [[${ product.reel?.price }]] * $("#quantity").val();
-                        break;
-                    case "LN":
-                        $totPrice = [[${ product.line?.price }]] * $("#quantity").val();
-                        break;
-                }
-                $totPrice = "₩" + $totPrice.toLocaleString();
-
-                $("#totalPrice").text($totPrice);
-            })
-        });
-    /*]]>*/
-    </script>
+        })
+    });
+/*]]>*/
+</script>
 
 </body>
 </html>
