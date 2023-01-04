@@ -11,45 +11,48 @@
 <div th:fragment="paging">
     <div class="pagingArea" align="center">
 
-        <!-- 숫자 버튼 -->
-        <th:block th:with="start = ${ selectCriteria.startPage }, last = ${ selectCriteria.endPage }">
-            <th:block th:if="${ selectCriteria.pageNo eq start}">
+        <th:block th:with="start = ${ selectCriteria.startPage }, last = ${ selectCriteria.endPage }, page = ${ selectCriteria.pageNo }, max = ${ selectCriteria.maxPage}, category = ${ selectCriteria.categoryCode}, order = ${ selectCriteria.orderCondition }">
+            <!-- 첫 페이지로 가기 버튼 -->
+            <th:block th:if="${ page eq start}">
                 <button disabled><<</button>
             </th:block>
-            <th:block th:if="${ selectCriteria.pageNo ne start}">
-                <button id="startPage" th:onclick="|location.href='@{/product/list2(currentPage=${ start }, categoryCode=${ selectCriteria.categoryCode })}'|"><<</button>
+            <th:block th:if="${ page ne start}">
+                <button id="startPage" th:onclick="|location.href='@{/product/list2(currentPage=${ start }, categoryCode=${ category })}'|"><<</button>
             </th:block>
-            <th:block th:if="${ selectCriteria.pageNo <= 1 }">
+
+            <!-- 이전 페이지로 가기 버튼 -->
+            <th:block th:if="${ page <= 1 }">
                 <button disabled><</button>
             </th:block>
-            <th:block th:if="${ selectCriteria.pageNo > 1 }">
-                <button id="prevPage" th:onclick="|location.href='@{/product/list2(currentPage=${selectCriteria.pageNo-1}, categoryCode=${ selectCriteria.categoryCode })}'|"><</button>
+            <th:block th:if="${ page > 1 }">
+                <button id="prevPage" th:onclick="|location.href='@{/product/list2(currentPage=${page-1}, categoryCode=${ category })}'|"><</button>
             </th:block>
+
+            <!-- 숫자 버튼 -->
             <th:block th:each="p : ${ #numbers.sequence(start, last) }">
-                <th:block th:if="${ selectCriteria.pageNo eq p }">
+                <th:block th:if="${ page eq p }">
                     <button th:text="${ p }" disabled></button>
                 </th:block>
-                <th:block th:if="${ selectCriteria.pageNo ne p }">
-                    <button th:text="${ p }" th:onclick="|location.href='@{/product/list2(currentPage=${ p }, categoryCode=${ selectCriteria.categoryCode })}'|"></button>
+                <th:block th:if="${ page ne p }">
+                    <button th:text="${ p }" th:onclick="|location.href='@{/product/list2(currentPage=${ p }, categoryCode=${ category })}'|"></button>
                 </th:block>
             </th:block>
-        </th:block>
 
+            <!-- 다음 페이지 버튼 -->
+            <th:block th:if="${ page >= selectCriteria.maxPage }">
+                <button disabled>></button>
+            </th:block>
+            <th:block th:if="${ page < selectCriteria.maxPage }">
+                <button id="nextPage" th:onclick="|location.href='@{/product/list2(currentPage=${page+1}, categoryCode=${ category })}'|">></button>
+            </th:block>
 
-        <!-- 다음 페이지 버튼 -->
-        <th:block th:if="${ selectCriteria.pageNo >= selectCriteria.maxPage }">
-            <button disabled>></button>
-        </th:block>
-        <th:block th:if="${ selectCriteria.pageNo < selectCriteria.maxPage }">
-            <button id="nextPage" th:onclick="|location.href='@{/product/list2(currentPage=${selectCriteria.pageNo+1}, categoryCode=${ selectCriteria.categoryCode })}'|">></button>
-        </th:block>
-
-        <!-- 마지막 페이지로 이동 버튼 -->
-        <th:block th:if="${ selectCriteria.pageNo eq selectCriteria.maxPage }">
-            <button disabled>>></button>
-        </th:block>
-        <th:block th:if="${ selectCriteria.pageNo ne selectCriteria.maxPage }">
-            <button id="maxPage" th:onclick="|location.href='@{/product/list2(currentPage=${selectCriteria.maxPage}, categoryCode=${ selectCriteria.categoryCode })}'|">>></button>
+            <!-- 마지막 페이지로 이동 버튼 -->
+            <th:block th:if="${ page eq selectCriteria.maxPage }">
+                <button disabled>>></button>
+            </th:block>
+            <th:block th:if="${ page ne selectCriteria.maxPage }">
+                <button id="maxPage" th:onclick="|location.href='@{/product/list2(currentPage=${max}, categoryCode=${ category })}'|">>></button>
+            </th:block>
         </th:block>
     </div>
 </div>

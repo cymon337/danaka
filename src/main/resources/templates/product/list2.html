@@ -37,10 +37,12 @@
     </th:block>
 </div>
 <div class="orderContainer">
-    <button style="font-size: 13px">인기순</button>
-    <button style="font-size: 13px">판매량순</button>
-    <button style="font-size: 13px">낮은가격순</button>
-    <button style="font-size: 13px">높은가격순</button>
+    <th:block th:with="category = ${ selectCriteria.categoryCode }">
+    <!--    <button th:onclick="|location.href='@{/product/list2(categoryCode=${ selectCriteria.categoryCode })}'|">인기순</button>-->
+        <button th:onclick="|location.href='@{/product/list2(categoryCode=${ category }, orderCondition=sale)}'|">판매량순</button>
+        <button th:onclick="|location.href='@{/product/list2(categoryCode=${ category }, orderCondition=lowPrice)}'|">낮은가격순</button>
+        <button th:onclick="|location.href='@{/product/list2(categoryCode=${ category }, orderCondition=highPrice)}'|">높은가격순</button>
+    </th:block>
 </div>
 <div class="outerProductsContainer">
     <div class="productContainer" th:each="product : ${ productList }">

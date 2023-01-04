@@ -48,11 +48,13 @@ public class ProductController {
         String searchCondition = request.getParameter("searchCondition");
         String searchValue = request.getParameter("searchValue");
         String categoryCode = request.getParameter("categoryCode");
+        String orderCondition = request.getParameter("orderCondition");
 
         Map<String, String> searchMap = new HashMap<>();
         searchMap.put("searchCondition", searchCondition);
         searchMap.put("searchValue", searchValue);
         searchMap.put("categoryCode", categoryCode);
+        searchMap.put("orderCondition", orderCondition);
 
         /* 전체 게시물 수가 필요하다.
          * 데이터베이스에서 먼저 전체 게시물 수를 조회해올 것이다.
@@ -71,9 +73,9 @@ public class ProductController {
         SelectCriteria selectCriteria = null;
 
         if(searchCondition != null && !"".equals(searchCondition)) {
-            selectCriteria = Pagenation.getSelectCriteria(pageNo, totalCount, limit, buttonAmount, searchCondition, searchValue, categoryCode);
+            selectCriteria = Pagenation.getSelectCriteria(pageNo, totalCount, limit, buttonAmount, searchCondition, searchValue, categoryCode, orderCondition);
         } else {
-            selectCriteria = Pagenation.getSelectCriteria(pageNo, totalCount, limit, buttonAmount, categoryCode);
+            selectCriteria = Pagenation.getSelectCriteria(pageNo, totalCount, limit, buttonAmount, categoryCode, orderCondition);
         }
 
         System.out.println(selectCriteria);

@@ -42,16 +42,42 @@
     </select>
     <select id="selectListByCategory" parameterType="com.osaz.danaka.common.SelectCriteria" resultMap="productResultMap">
         SELECT
-            *
+            A.*,
+            ROWNUM
+        <if test="orderCondition != null and orderCondition == 'sale'">
+            ,C.TOTSALE
+        </if>
           FROM (SELECT
-                    *
+                    B.*
                   FROM VIEW_PRODUCT B
-                 WHERE CATEGORY_CODE = #{ categoryCode }
-                    <if test="searchCondition == 'productName'">
-                    PRODUCT_NAME LIKE '%' || #{ searchValue } || '%'
-                    </if>
-                 ORDER BY B.PRODUCT_NO DESC)
-         WHERE RNUM BETWEEN #{ startRow } AND #{ endRow }
+                  <where>
+                      <if test="categoryCode  != null">
+                          B.CATEGORY_CODE = #{ categoryCode }
+                      </if>
+                  </where>
+                <choose>
+                    <when test="orderCondition == null">
+                        ORDER BY B.PRODUCT_NO DESC
+                    </when>
+                    <when test="orderCondition == 'lowPrice' and categoryCode == 'RD'">
+                        ORDER BY B.ROD_PRICE ASC
+                    </when>
+                    <when test="orderCondition == 'highPrice' and categoryCode == 'RD'">
+                        ORDER BY B.ROD_PRICE DESC
+                    </when>
+                </choose>
+                 ) A
+          <if test="orderCondition != null and orderCondition == 'sale'">
+          LEFT JOIN (SELECT
+                         D.PRODUCT_NO,
+                         SUM(AMOUNT) "TOTSALE"
+                       FROM T_ORDER D
+                      GROUP BY D.PRODUCT_NO) C
+            ON A.PRODUCT_NO = C.PRODUCT_NO
+          </if>
+         WHERE ROWNUM BETWEEN #{ startRow } AND #{ endRow }
+
+
     </select>
     <select id="selectOneProduct" parameterType="String" resultMap="productResultMap">
         SELECT
