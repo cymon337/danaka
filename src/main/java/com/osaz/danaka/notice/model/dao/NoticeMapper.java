@@ -10,5 +10,7 @@ public interface NoticeMapper {
 
     List<NoticeDTO> selectAllList();
 
+    NoticeDTO selectOneNotice(String noticeNo);
+
 
 }

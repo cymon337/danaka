@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title> NoticeList </title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- 부트스트랩 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+
+    <!-- 아이콘 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+
+    <!-- 제이쿼리 -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <!-- 자바스크립트 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+
+    <style>
+        #contentArea {width:60%}
+        #contentArea *{margin:5px}
+    </style>
+</head>
+<body>
+<div class="content">
+    <br><br>
+    <div class="innerOuter">
+        <h2 align="center">게시글 상세보기</h2>
+        <br>
+        <!--
+        th:action
+        <form>태그 사용시 해당 경로로 요청을 보낼때 사용한다.
+
+        th:object
+        <form>태그에서 submit을 할 때, 데이터가 th:object에 설정해둔 객체로 받아진다.
+        즉, 컨트롤러와 뷰(화면) 사이의 DTO클래스의 객체이다.
+
+        th:field
+        위의 th:object 속성을 이용하면, th:field를 이용해서 HTML 태그에 멤버 변수를 매핑 할 수 있다.
+        th:field을 이용한 사용자 입력 필드(input, textarea 등)는 id, name, value 속성 값이 자동으로 매핑된다.
+        따라서 각 속성을 따로 지정할 필요가 없다.
+
+        th:field는 ${}표현식이 아닌, *{}표현식을 사용한다.*{} 안에 공백넣지말자
+
+
+        th:object와 th:field는 컨트롤러에서 특정 클래스의 객체를 전달 받은 경우에만 사용
+        <input type="text" th:field="*{title}" class="form-control" placeholder="제목을 입력해 주세요." />
+
+        -->
+
+        <form  th:action="@{/notice/update}" th:object="${notice}" method="post">
+            <input type="hidden" name="id" th:value="*{notice.noticeNo}"/>
+            <table id="contentArea" align="center" class="table">
+                <tr>
+                    <th width="100">제목</th>
+                    <td colspan="3" ><input type="text" id="title" class="form-control"  th:field="*{notice.noticeName}" required></td>
+                </tr>
+                <tr>
+                    <th>작성자</th>
+                    <td ><input type="text" id="writer" class="form-control" th:field="*{notice.userName}" ></td>
+                    <th>작성일</th>
+                    <td th:text="*{#dates.format(notice.noticeDate, 'yyyy-MM-dd HH:mm')}"> </td>
+                </tr>
+
+
+                <tr>
+                    <th>내용</th>
+                    <td colspan="3"></td>
+                </tr>
+                <tr>
+                    <th colspan="4"><textarea class="form-control" required  id="content" rows="10" style="resize:none;" th:field="*{notice.noticeContent}"></textarea></th>
+
+                </tr>
+            </table>
+            <br>
+
+            <div align="center">
+                <button type="submit" class="btn btn-primary">수정하기</button>
+                <a th:href="@{/notice/delete/{id}(id=${notice.noticeNo})}" class="btn btn-primary">삭제하기</a>
+                <button type="button" class="btn btn-danger" onclick="javascript:history.go(-1);">이전으로</button>
+
+            </div>
+
+        </form>
+        <br><br>
+    </div>
+
+</div>
+</body>
+</html>

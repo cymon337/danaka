@@ -64,10 +64,10 @@
                 <tbody>
                      <tr th:each="notice : ${notices}">
                         <td th:text="${notice.noticeNo}"></td>
-                        <td><a th:href="@{/templates/notice/detail/{id}(id=${notice.noticeNo})}" th:text="${notice.noticeName}"></a></td>
+                        <td><a th:href="@{/notice/detail/{id}(id=${notice.noticeNo})}" th:text="${notice.noticeName}"></a></td>
                         <td th:text="${notice.userName}"></td>
                         <td th:text="${notice.noticeContent}"></td>
-                        <td th:text="${#dates.format(notice.noticeDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                        <td th:text="${#dates.format(notice.noticeDate, 'yyyy-MM-dd HH:mm')}"></td>
                         <td th:text="${notice.noticeCount}"></td>
                         <td><a href="/board" th:href="@{/templates/notice/delete/{id}(id=${notice.noticeNo})}" class="btn btn-danger">삭제</a></td>
                     </tr>

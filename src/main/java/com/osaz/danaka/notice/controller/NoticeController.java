@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -31,6 +32,19 @@ public class NoticeController {
 		mv.addObject("notices", noticeList);
 
 		mv.setViewName("notice/noticeListView");
+
+		return mv;
+	}
+
+	@GetMapping("noticeDetail")
+	public ModelAndView selectOneNotice(HttpServletRequest request, ModelAndView mv){
+
+		String noticeNo = request.getParameter("notice.noticeNo");
+		System.out.println("noticeNo = " + noticeNo);
+		NoticeDTO notice = noticeService.selectOneNotice(noticeNo);
+
+		mv.addObject("notice", notice);
+		mv.setViewName("notice/detail");
 
 		return mv;
 	}

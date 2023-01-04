@@ -26,7 +26,21 @@
          WHERE A.USER_NO = B.USER_NO
         ORDER BY NOTICE_NO
     </select>
-<!--    <select id="selectOne" parameterType="String" resultMap="productResultMap">-->
+
+    <select id="selectOneNotice" parameterType="String" resultType="com.osaz.danaka.notice.model.dto.NoticeDTO">
+        SELECT
+            A.NOTICE_NO,
+            B.USER_NAME,
+            A.NOTICE_NAME,
+            A.NOTICE_CONTENT,
+            A.NOTICE_DATE,
+            A.NOTICE_COUNT
+        FROM T_NOTICE A, T_MEMBER B
+        WHERE A.USER_NO = B.USER_NO
+          AND A.NOTICE_NO = #{ noticeNo }
+    </select>
+
+    <!--    <select id="selectOne" parameterType="String" resultMap="productResultMap">-->
 <!--        SELECT-->
 <!--            *-->
 <!--          FROM VIEW_PRODUCT-->

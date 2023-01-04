@@ -30,4 +30,8 @@ public class NoticeService {
 		return noticeMapper.selectAllList();
 	}
 
+	public NoticeDTO selectOneNotice(String noticeNo) {
+		return noticeMapper.selectOneNotice(noticeNo);
+	}
+
 }
