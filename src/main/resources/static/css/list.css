@@ -28,10 +28,6 @@ body {
     background-color: #0448AD;
     color: white;
 }
-/*.orderContainer>button:first-child {*/
-/*    background-color: #0448AD;*/
-/*    color: white;*/
-/*}*/
 .outerProductsContainer {
     border: 1px #C4C2FF solid;
     border-radius: 1em;
@@ -65,11 +61,9 @@ body {
 .thumnail>img {
     width: 100%;
     border: 1px #e5e5ff solid;
-
-
 }
 .detail1 {
-    width: 83%;
+    width: 80%;
     align-self: flex-start;
 }
 .detail1 * {
@@ -91,7 +85,7 @@ body {
     margin-top: 1px;
 }
 .detail2 {
-    width: 6%;
+    width: 10%;
     min-width: 4em;
     padding: 0;
     align-self: flex-end;

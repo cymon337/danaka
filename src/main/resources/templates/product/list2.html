@@ -39,9 +39,9 @@
 <div class="orderContainer">
     <th:block th:with="category = ${ selectCriteria.categoryCode }">
     <!--    <button th:onclick="|location.href='@{/product/list2(categoryCode=${ selectCriteria.categoryCode })}'|">인기순</button>-->
-        <button th:onclick="|location.href='@{/product/list2(categoryCode=${ category }, orderCondition=sale)}'|">판매량순</button>
-        <button th:onclick="|location.href='@{/product/list2(categoryCode=${ category }, orderCondition=lowPrice)}'|">낮은가격순</button>
-        <button th:onclick="|location.href='@{/product/list2(categoryCode=${ category }, orderCondition=highPrice)}'|">높은가격순</button>
+        <button id="sale" th:onclick="|location.href='@{/product/list2(categoryCode=${ category }, orderCondition=sale)}'|">판매량순</button>
+        <button id="lowPrice" th:onclick="|location.href='@{/product/list2(categoryCode=${ category }, orderCondition=lowPrice)}'|">낮은가격순</button>
+        <button id="highPrice" th:onclick="|location.href='@{/product/list2(categoryCode=${ category }, orderCondition=highPrice)}'|">높은가격순</button>
     </th:block>
 </div>
 <div class="outerProductsContainer">
@@ -60,7 +60,11 @@
         </div>
         <div class="detail2">
             <div class="price">
-                <h5 th:text="${ #numbers.formatCurrency(product.price) }">상품가격</h5>
+                <th:block th:switch="${ selectCriteria.categoryCode }">
+                    <h5 th:case="RD" th:text="${ #numbers.formatCurrency(product.rod.price) }">상품가격</h5>
+                    <h5 th:case="RL" th:text="${ #numbers.formatCurrency(product.reel.price) }">상품가격</h5>
+                    <h5 th:case="LN" th:text="${ #numbers.formatCurrency(product.line.price) }">상품가격</h5>
+                </th:block>
             </div>
             <div class="regDate">
                 <p th:text="${ product.productRegDate }">상품등록일</p>

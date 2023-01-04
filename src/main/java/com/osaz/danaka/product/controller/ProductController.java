@@ -97,8 +97,10 @@ public class ProductController {
         String productNo = request.getParameter("productNo");
         System.out.println("productNo = " + productNo);
         ProductDTO product = productService.selectOneProduct(productNo);
+//        List<ProductDTO> optionList = productService.selectOptionList(productNo);
 
         mv.addObject("product", product);
+//        mv.addObject("optionList", optionList);
         mv.setViewName("product/item2");
 
         return mv;

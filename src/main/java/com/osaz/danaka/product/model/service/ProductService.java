@@ -21,28 +21,35 @@ public class ProductService {
         this.productMapper = productMapper;
     }
 
-    public int selectTotalCount(Map<String, String> searchMap){
+    public int selectTotalCount(Map<String, String> searchMap) {
 
         return productMapper.selectTotalCount(searchMap);
     }
 
-    public List<ProductDTO> selectListByCategory(SelectCriteria selectCriteria){
+    public List<ProductDTO> selectListByCategory(SelectCriteria selectCriteria) {
 
         return productMapper.selectListByCategory(selectCriteria);
-    };
+    }
 
-    public ProductDTO selectOneProduct(String productNo){
+    ;
+
+    public ProductDTO selectOneProduct(String productNo) {
 
         return productMapper.selectOneProduct(productNo);
     }
 
-    public boolean registWishList(Map<String, String> parameter) throws Exception{
+    public List<ProductDTO> selectOptionList(String productNo) {
+
+        return productMapper.selectOptionList(productNo);
+    }
+
+    public boolean registWishList(Map<String, String> parameter) throws Exception {
 
         int result = productMapper.registWishList(parameter);
 
         if (result <= 0) {
             throw new Exception("위시리스트 등록 실패");
         }
-        return (result > 0)? true:false;
+        return (result > 0) ? true : false;
     }
 }

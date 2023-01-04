@@ -47,6 +47,7 @@ class ProductMapperTest {
 
         // given
         String categoryCode = "RD";
+        String orderCondition = "lowPrice";
         int pageNo = 1;
 
         HashMap<String, String> searchMap = new HashMap<>();
@@ -58,7 +59,7 @@ class ProductMapperTest {
         int buttonAmount = 5;
 
         SelectCriteria selectCriteria = null;
-        selectCriteria = Pagenation.getSelectCriteria(pageNo, totalCount, limit, buttonAmount, categoryCode);
+        selectCriteria = Pagenation.getSelectCriteria(pageNo, totalCount, limit, buttonAmount, categoryCode, orderCondition);
         // when
         List<ProductDTO> productList = productMapper.selectListByCategory(selectCriteria);
         System.out.println("productList = " + productList);

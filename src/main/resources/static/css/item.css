@@ -68,6 +68,7 @@ body>hr {
 .productDetail {
     color: gray;
     font-size: 0.5rem;
+    height: 10em;
 }
 .productName, .productDetail {
     display: block;

@@ -53,7 +53,7 @@
         </div>
         <div class="price">
             <span>총 가격 : </span>
-            <span id="totalPrice" th:text="${ #numbers.formatCurrency(product.price) }">50,000</span>
+            <span id="totalPrice">50,000</span>
         </div>
         <div class="option">
             <select name="option" id="option">
@@ -64,9 +64,9 @@
             </select>
         </div>
         <div class="buttons">
-            <button><img src="/static/image/heart.png"></button>
-            <button><img src="/static/image/share.png"></button>
-            <button><img src="/static/image/cart.png"></button>
+            <button type="button" th:onclick="|location.href='@{/member/wish(productNo=${ product.productNo })}'|"><img src="/static/image/heart.png"></button>
+            <button type="button" th:onclick="|location.href='@{/common/share(productNo=${ product.productNo })}'|"><img src="/static/image/share.png"></button>
+            <button type="button" th:onclick="|location.href='@{/common/cart2(productNo=${ product.productNo })}'|"><img src="/static/image/cart.png"></button>
             <button type="submit" id="buy">구매하기</button>
         </div>
         </form>
@@ -89,5 +89,26 @@
 
     </div>
 </div>
+<p th:text="${ product.categoryCode }"></p>
+    <script th:inline="javascript">
+        $(document).ready(function(){
+
+            /* 총 가격 용 변수 */
+                let $totPrice = '[[${ product.price }]]' * $("#quantity").val();
+                $totPrice = "₩" + $totPrice.toLocaleString();
+
+                $("#totalPrice").text($totPrice);
+
+                /* 총 가격 입력 용 함수 */
+                $("#quantity").on("change", function () {
+
+                    $totPrice = '[[${ product.price }]]' * $("#quantity").val();
+                    $totPrice = "₩" + $totPrice.toLocaleString();
+
+                    $("#totalPrice").text($totPrice);
+                })
+        });
+    </script>
+
 </body>
 </html>

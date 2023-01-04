@@ -11,24 +11,30 @@
         <result property="productName" column="PRODUCT_NAME"/>
         <result property="productRegDate" column="PRODUCT_REG_DATE"/>
         <result property="stock" column="STOCK"/>
-        <discriminator javaType="String" column="CATEGORY_CODE">
-            <case value="RD" resultType="com.osaz.danaka.product.model.dto.RodDTO">
-                <result property="model" column="ROD_MODEL"/>
-                <result property="reelType" column="ROD_REEL_TYPE"/>
-                <result property="lineMin" column="LINE_MIN"/>
-                <result property="lineMax" column="LINE_MAX"/>
-                <result property="price" column="ROD_PRICE"/>
-            </case>
-            <case value="RL" resultType="com.osaz.danaka.product.model.dto.ReelDTO">
-                <result property="model" column="REEL_MODEL"/>
-                <result property="reelType" column="REEL_TYPE"/>
-                <result property="price" column="REEL_PRICE"/>
-            </case>
-            <case value="LN" resultType="com.osaz.danaka.product.model.dto.LineDTO">
-                <result property="lineSize" column="LINE_SIZE"/>
-                <result property="price" column="LINE_PRICE"/>
+        <discriminator column="CATEGORY_CODE">
+            <case value="RD">
+                <result property="stock" column="STOCK"/>
             </case>
         </discriminator>
+        <association property="rod" resultMap="rodResultMap"></association>
+        <association property="reel" resultMap="reelResultMap"></association>
+        <association property="line" resultMap="lineResultMap"></association>
+    </resultMap>
+    <resultMap id="rodResultMap" type="com.osaz.danaka.product.model.dto.RodDTO">
+        <result property="model" column="ROD_MODEL"/>
+        <result property="reelType" column="ROD_REEL_TYPE"/>
+        <result property="lineMin" column="LINE_MIN"/>
+        <result property="lineMax" column="LINE_MAX"/>
+        <result property="price" column="ROD_PRICE"/>
+    </resultMap>
+    <resultMap id="reelResultMap" type="com.osaz.danaka.product.model.dto.ReelDTO">
+        <result property="model" column="REEL_MODEL"/>
+        <result property="reelType" column="REEL_TYPE"/>
+        <result property="price" column="REEL_PRICE"/>
+    </resultMap>
+    <resultMap id="lineResultMap" type="com.osaz.danaka.product.model.dto.LineDTO">
+        <result property="lineSize" column="LINE_SIZE"/>
+        <result property="price" column="LINE_PRICE"/>
     </resultMap>
 
     <select id="selectTotalCount" resultType="_int" parameterType="hashmap">
@@ -43,41 +49,54 @@
     <select id="selectListByCategory" parameterType="com.osaz.danaka.common.SelectCriteria" resultMap="productResultMap">
         SELECT
             A.*,
-            ROWNUM
+            A.RNUM
         <if test="orderCondition != null and orderCondition == 'sale'">
-            ,C.TOTSALE
+            ,E.TOTSALE
         </if>
           FROM (SELECT
-                    B.*
-                  FROM VIEW_PRODUCT B
-                  <where>
-                      <if test="categoryCode  != null">
-                          B.CATEGORY_CODE = #{ categoryCode }
-                      </if>
-                  </where>
-                <choose>
-                    <when test="orderCondition == null">
-                        ORDER BY B.PRODUCT_NO DESC
-                    </when>
-                    <when test="orderCondition == 'lowPrice' and categoryCode == 'RD'">
-                        ORDER BY B.ROD_PRICE ASC
-                    </when>
-                    <when test="orderCondition == 'highPrice' and categoryCode == 'RD'">
-                        ORDER BY B.ROD_PRICE DESC
-                    </when>
-                </choose>
+                    B.*,
+                    ROWNUM "RNUM"
+                  FROM (SELECT
+                            C.*
+                          FROM VIEW_PRODUCT C
+                        <where>
+                            <if test="categoryCode  != null">
+                                C.CATEGORY_CODE = #{ categoryCode }
+                            </if>
+                        </where>
+                        <choose>
+                            <when test="orderCondition == null">
+                                ORDER BY C.PRODUCT_NO DESC
+                            </when>
+                            <when test="orderCondition == 'lowPrice' and categoryCode == 'RD'">
+                                ORDER BY C.ROD_PRICE ASC
+                            </when>
+                            <when test="orderCondition == 'highPrice' and categoryCode == 'RD'">
+                                ORDER BY C.ROD_PRICE DESC
+                            </when>
+                            <when test="orderCondition == 'lowPrice' and categoryCode == 'RL'">
+                                ORDER BY C.REEL_PRICE ASC
+                            </when>
+                            <when test="orderCondition == 'highPrice' and categoryCode == 'RL'">
+                                ORDER BY C.REEL_PRICE DESC
+                            </when>
+                            <when test="orderCondition == 'lowPrice' and categoryCode == 'LN'">
+                                ORDER BY C.LINE_PRICE ASC
+                            </when>
+                            <when test="orderCondition == 'highPrice' and categoryCode == 'LN'">
+                                ORDER BY C.LINE_PRICE DESC
+                            </when>
+                        </choose>) B
                  ) A
           <if test="orderCondition != null and orderCondition == 'sale'">
           LEFT JOIN (SELECT
                          D.PRODUCT_NO,
                          SUM(AMOUNT) "TOTSALE"
                        FROM T_ORDER D
-                      GROUP BY D.PRODUCT_NO) C
-            ON A.PRODUCT_NO = C.PRODUCT_NO
+                      GROUP BY D.PRODUCT_NO) E
+            ON A.PRODUCT_NO = E.PRODUCT_NO
           </if>
-         WHERE ROWNUM BETWEEN #{ startRow } AND #{ endRow }
-
-
+         WHERE A.RNUM BETWEEN #{ startRow } AND #{ endRow }
     </select>
     <select id="selectOneProduct" parameterType="String" resultMap="productResultMap">
         SELECT
@@ -85,6 +104,9 @@
           FROM VIEW_PRODUCT
          WHERE PRODUCT_NO = #{ productNo }
     </select>
+<!--    <select id="selectOptionList" parameterType="String" resultMap="productResultMap">-->
+
+<!--    </select>-->
     <insert id="registWishList" parameterType="Map">
         INSERT INTO T_WISHLIST
         VALUES

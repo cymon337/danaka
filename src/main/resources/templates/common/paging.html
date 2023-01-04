@@ -17,7 +17,7 @@
                 <button disabled><<</button>
             </th:block>
             <th:block th:if="${ page ne start}">
-                <button id="startPage" th:onclick="|location.href='@{/product/list2(currentPage=${ start }, categoryCode=${ category })}'|"><<</button>
+                <button id="startPage" th:onclick="|location.href='@{/product/list2(currentPage=${ start }, categoryCode=${ category }, orderCondition=${ order })}'|"><<</button>
             </th:block>
 
             <!-- 이전 페이지로 가기 버튼 -->
@@ -25,7 +25,7 @@
                 <button disabled><</button>
             </th:block>
             <th:block th:if="${ page > 1 }">
-                <button id="prevPage" th:onclick="|location.href='@{/product/list2(currentPage=${page-1}, categoryCode=${ category })}'|"><</button>
+                <button id="prevPage" th:onclick="|location.href='@{/product/list2(currentPage=${page-1}, categoryCode=${ category }, orderCondition=${ order })}'|"><</button>
             </th:block>
 
             <!-- 숫자 버튼 -->
@@ -34,7 +34,7 @@
                     <button th:text="${ p }" disabled></button>
                 </th:block>
                 <th:block th:if="${ page ne p }">
-                    <button th:text="${ p }" th:onclick="|location.href='@{/product/list2(currentPage=${ p }, categoryCode=${ category })}'|"></button>
+                    <button th:text="${ p }" th:onclick="|location.href='@{/product/list2(currentPage=${ p }, categoryCode=${ category }, orderCondition=${ order })}'|"></button>
                 </th:block>
             </th:block>
 
@@ -43,7 +43,7 @@
                 <button disabled>></button>
             </th:block>
             <th:block th:if="${ page < selectCriteria.maxPage }">
-                <button id="nextPage" th:onclick="|location.href='@{/product/list2(currentPage=${page+1}, categoryCode=${ category })}'|">></button>
+                <button id="nextPage" th:onclick="|location.href='@{/product/list2(currentPage=${page+1}, categoryCode=${ category }, orderCondition=${ order })}'|">></button>
             </th:block>
 
             <!-- 마지막 페이지로 이동 버튼 -->
@@ -51,7 +51,7 @@
                 <button disabled>>></button>
             </th:block>
             <th:block th:if="${ page ne selectCriteria.maxPage }">
-                <button id="maxPage" th:onclick="|location.href='@{/product/list2(currentPage=${max}, categoryCode=${ category })}'|">>></button>
+                <button id="maxPage" th:onclick="|location.href='@{/product/list2(currentPage=${max}, categoryCode=${ category }, orderCondition=${ order })}'|">>></button>
             </th:block>
         </th:block>
     </div>
