@@ -89,12 +89,26 @@
 
     </div>
 </div>
-<p th:text="${ product.categoryCode }"></p>
     <script th:inline="javascript">
+        /*<![CDATA[*/
         $(document).ready(function(){
 
+            let categoryCode = '[[${ product.categoryCode }]]';
+            let $totPrice = 0;
+
+            switch (categoryCode) {
+                case "RD":
+                    $totPrice = '[[${ product.rod?.price }]]' * $("#quantity").val();
+                    break;
+                case "RL":
+                    $totPrice = '[[${ product.reel?.price }]]' * $("#quantity").val();
+                    break;
+                case "LN":
+                    $totPrice = '[[${ product.line?.price }]]' * $("#quantity").val();
+                    break;
+            }
+            console.log($totPrice);
             /* 총 가격 용 변수 */
-                let $totPrice = '[[${ product.price }]]' * $("#quantity").val();
                 $totPrice = "₩" + $totPrice.toLocaleString();
 
                 $("#totalPrice").text($totPrice);
@@ -102,12 +116,13 @@
                 /* 총 가격 입력 용 함수 */
                 $("#quantity").on("change", function () {
 
-                    $totPrice = '[[${ product.price }]]' * $("#quantity").val();
+                    $totPrice = '[[${ product.rod.price }]]' * $("#quantity").val();
                     $totPrice = "₩" + $totPrice.toLocaleString();
 
                     $("#totalPrice").text($totPrice);
                 })
         });
+        /*]]>*/
     </script>
 
 </body>

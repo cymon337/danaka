@@ -16,6 +16,5 @@ public class ProductDTO {
     private ReelDTO reel;
     private RodDTO rod;
     private int stock;
-    private int price;
     private String imgPath;
 }

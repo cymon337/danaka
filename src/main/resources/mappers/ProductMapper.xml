@@ -11,11 +11,6 @@
         <result property="productName" column="PRODUCT_NAME"/>
         <result property="productRegDate" column="PRODUCT_REG_DATE"/>
         <result property="stock" column="STOCK"/>
-        <discriminator column="CATEGORY_CODE">
-            <case value="RD">
-                <result property="stock" column="STOCK"/>
-            </case>
-        </discriminator>
         <association property="rod" resultMap="rodResultMap"></association>
         <association property="reel" resultMap="reelResultMap"></association>
         <association property="line" resultMap="lineResultMap"></association>
