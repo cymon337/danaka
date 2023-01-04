@@ -61,9 +61,9 @@
         <div class="detail2">
             <div class="price">
                 <th:block th:switch="${ selectCriteria.categoryCode }">
-                    <h5 th:case="RD" th:text="${ #numbers.formatCurrency(product.rod.price) }">상품가격</h5>
-                    <h5 th:case="RL" th:text="${ #numbers.formatCurrency(product.reel.price) }">상품가격</h5>
-                    <h5 th:case="LN" th:text="${ #numbers.formatCurrency(product.line.price) }">상품가격</h5>
+                    <p th:case="RD" th:text="${ #numbers.formatCurrency(product.rod.price) }">상품가격</p>
+                    <p th:case="RL" th:text="${ #numbers.formatCurrency(product.reel.price) }">상품가격</p>
+                    <p th:case="LN" th:text="${ #numbers.formatCurrency(product.line.price) }">상품가격</p>
                 </th:block>
             </div>
             <div class="regDate">
