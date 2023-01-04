@@ -39,12 +39,12 @@ public class NoticeController {
 	@GetMapping("noticeDetail")
 	public ModelAndView selectOneNotice(HttpServletRequest request, ModelAndView mv){
 
-		String noticeNo = request.getParameter("notice.noticeNo");
+		String noticeNo = request.getParameter("noticeNo");
 		System.out.println("noticeNo = " + noticeNo);
 		NoticeDTO notice = noticeService.selectOneNotice(noticeNo);
 
 		mv.addObject("notice", notice);
-		mv.setViewName("notice/detail");
+		mv.setViewName("notice/noticeDetail");
 
 		return mv;
 	}

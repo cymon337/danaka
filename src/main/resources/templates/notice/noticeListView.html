@@ -64,7 +64,7 @@
                 <tbody>
                      <tr th:each="notice : ${notices}">
                         <td th:text="${notice.noticeNo}"></td>
-                        <td><a th:href="@{/notice/detail/{id}(id=${notice.noticeNo})}" th:text="${notice.noticeName}"></a></td>
+                        <td><a th:href="@{/notice/noticeDetail(noticeNo=${ notice.noticeNo })}" th:text="${notice.noticeName}"></a></td>
                         <td th:text="${notice.userName}"></td>
                         <td th:text="${notice.noticeContent}"></td>
                         <td th:text="${#dates.format(notice.noticeDate, 'yyyy-MM-dd HH:mm')}"></td>

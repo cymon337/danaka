@@ -48,20 +48,21 @@
         th:object와 th:field는 컨트롤러에서 특정 클래스의 객체를 전달 받은 경우에만 사용
         <input type="text" th:field="*{title}" class="form-control" placeholder="제목을 입력해 주세요." />
 
+                    *{} 표현식쓰면 500에러 페이지 뜨고 templates 찾지 못 함
         -->
 
         <form  th:action="@{/notice/update}" th:object="${notice}" method="post">
-            <input type="hidden" name="id" th:value="*{notice.noticeNo}"/>
+            <input type="hidden" name="id" th:value="${notice.noticeNo}"/>
             <table id="contentArea" align="center" class="table">
                 <tr>
                     <th width="100">제목</th>
-                    <td colspan="3" ><input type="text" id="title" class="form-control"  th:field="*{notice.noticeName}" required></td>
+                    <td colspan="3" ><input type="text" id="title" class="form-control"  th:field="${notice.noticeName}" required></td>
                 </tr>
                 <tr>
                     <th>작성자</th>
-                    <td ><input type="text" id="writer" class="form-control" th:field="*{notice.userName}" ></td>
+                    <td ><input type="text" id="writer" class="form-control" th:field="${notice.userName}" ></td>
                     <th>작성일</th>
-                    <td th:text="*{#dates.format(notice.noticeDate, 'yyyy-MM-dd HH:mm')}"> </td>
+                    <td th:text="${#dates.format(notice.noticeDate, 'yyyy-MM-dd HH:mm')}"> </td>
                 </tr>
 
 
@@ -70,7 +71,7 @@
                     <td colspan="3"></td>
                 </tr>
                 <tr>
-                    <th colspan="4"><textarea class="form-control" required  id="content" rows="10" style="resize:none;" th:field="*{notice.noticeContent}"></textarea></th>
+                    <th colspan="4"><textarea class="form-control" required  id="content" rows="10" style="resize:none;" th:field="${notice.noticeContent}"></textarea></th>
 
                 </tr>
             </table>

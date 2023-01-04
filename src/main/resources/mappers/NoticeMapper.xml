@@ -27,7 +27,8 @@
         ORDER BY NOTICE_NO
     </select>
 
-    <select id="selectOneNotice" parameterType="String" resultType="com.osaz.danaka.notice.model.dto.NoticeDTO">
+<!--    파라미터 타입 인트형이든 스트링이든 쿼리 값 나옴-->
+    <select id="selectOneNotice" parameterType="String" resultMap="noticeResultMap">
         SELECT
             A.NOTICE_NO,
             B.USER_NAME,
