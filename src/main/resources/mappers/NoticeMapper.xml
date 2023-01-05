@@ -24,11 +24,11 @@
                 A.NOTICE_COUNT
           FROM T_NOTICE A, T_MEMBER B
          WHERE A.USER_NO = B.USER_NO
-        ORDER BY NOTICE_NO
+        ORDER BY NOTICE_NO DESC
     </select>
 
-<!--    파라미터 타입 인트형이든 스트링이든 쿼리 값 나옴-->
-    <select id="selectOneNotice" parameterType="String" resultMap="noticeResultMap">
+<!--    파라미터 타입 인트형이든 스트링이든 쿼리 값 나옴 / 없어도 나오는디 전달값 한개면 파라미터 이름, 타입을 자동으로 매핑했던거같음 -->
+    <select id="selectOneNotice" resultMap="noticeResultMap">
         SELECT
             A.NOTICE_NO,
             B.USER_NAME,
@@ -40,6 +40,30 @@
         WHERE A.USER_NO = B.USER_NO
           AND A.NOTICE_NO = #{ noticeNo }
     </select>
+
+
+    <insert id="insertNotice">
+        INSERT
+        INTO T_NOTICE A
+            (
+               A.NOTICE_NO
+             , A.USER_NO
+             , A.NOTICE_NAME
+             , A.NOTICE_CONTENT
+        )
+        VALUES
+            (
+            SEQ_NOTICE_NO.NEXTVAL
+                , 1
+                , #{ noticeName }
+                , #{ noticeContent }
+            )
+    </insert>
+
+    <delete id="deleteNotice">
+        DELETE FROM T_NOTICE A
+        WHERE A.NOTICE_NO = #{ noticeNo }
+    </delete>
 
     <!--    <select id="selectOne" parameterType="String" resultMap="productResultMap">-->
 <!--        SELECT-->

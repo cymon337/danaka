@@ -8,9 +8,15 @@ import java.util.List;
 @Mapper
 public interface NoticeMapper {
 
+    /*공지사항 전체 조회*/
     List<NoticeDTO> selectAllList();
 
+    /*공지사항 단일 조회*/
     NoticeDTO selectOneNotice(String noticeNo);
 
+    /*공지사항 추가*/
+    int insertNotice(NoticeDTO newNotice);
 
+    /*공지사항 삭제*/
+    int deleteNotice(String noticeNo);
 }

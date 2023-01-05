@@ -26,12 +26,36 @@ public class NoticeService {
 		this.noticeMapper = noticeMapper;
 	}
 
+	/*공지사항 전체 조회*/
 	public List<NoticeDTO> selectAllList() {
 		return noticeMapper.selectAllList();
 	}
 
+	/*공지사항 단일 조회*/
 	public NoticeDTO selectOneNotice(String noticeNo) {
 		return noticeMapper.selectOneNotice(noticeNo);
+	}
+
+	/*공지사항 추가*/
+	public boolean insertNotice(NoticeDTO newNotice) throws Exception {
+		int result = noticeMapper.insertNotice(newNotice);
+
+		if(result <= 0){
+			throw new Exception("공지사항 등록 실패");
+		}
+
+		return result > 0 ? true : false;
+	}
+
+	/*공지사항 삭제*/
+	public boolean deleteNotice(String noticeNo) throws Exception {
+		int result = noticeMapper.deleteNotice(noticeNo);
+
+		if(result <= 0){
+			throw new Exception("공지사항 삭제 실패");
+		}
+
+		return result > 0 ? true : false;
 	}
 
 }

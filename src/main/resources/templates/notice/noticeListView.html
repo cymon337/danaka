@@ -8,7 +8,7 @@
 <!--    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>-->
 
     <!-- 타임리프용 헤더 스타일 시트 적용-->
-    <link rel="stylesheet" href="/static/css/indexCss.css" />
+    <link rel="stylesheet" th:href="@{/css/indexCss.css}" />
 
 <!--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">-->
 <!--    -->
@@ -34,6 +34,14 @@
         #contentArea {width:60%}
         #contentArea *{margin:5px}
     </style>
+
+    <script>
+        const successMessage = "[[${ successMessage }]]";
+        console.log(successMessage);
+        if (successMessage){
+            alert(successMessage);
+        }
+    </script>
 </head>
 <body>
 
@@ -58,7 +66,7 @@
                     <th width="300px">내용</th>
                     <th>작성일</th>
                     <th>조회수</th>
-                    <th></th>
+<!--                    <th></th>-->
                 </tr>
                 </thead>
                 <tbody>
@@ -69,15 +77,22 @@
                         <td th:text="${notice.noticeContent}"></td>
                         <td th:text="${#dates.format(notice.noticeDate, 'yyyy-MM-dd HH:mm')}"></td>
                         <td th:text="${notice.noticeCount}"></td>
-                        <td><a href="/board" th:href="@{/templates/notice/delete/{id}(id=${notice.noticeNo})}" class="btn btn-danger">삭제</a></td>
+<!--                        <td><a href="/board" th:href="@{/templates/notice/delete/{id}(id=${notice.noticeNo})}" class="btn btn-danger">삭제</a></td>-->
                     </tr>
                 </tbody>
             </table>
             <br>
 
+<!--            TOP 버튼 예정
+            <div class="row align-items-end" id="backtotop"> - .align-items-start, .align-items-end, .align-items-center, .align-items-baseline및 .align-items-stretch (기본값)입니다 -
+                <button type="button" class="btn btn-info btn-lg" onclick="window.scrollTo(0,0);">
+                    ▲TOP
+                </button>
+            </div>-->
+
         </div>
         <div align="center">
-            <a th:href="@{'insertForm'}" class="btn btn-primary">게시글추가</a>
+            <a th:href="@{'noticeEnroll'}" class="btn btn-primary">게시글추가</a>
         </div>
         <br>
     </div>

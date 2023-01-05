@@ -1,7 +1,10 @@
 spring:
   # DB 연결
-  mvc:
-    static-path-pattern: /static/**
+
+# 기존에 링크 연결 시 생략하며 연결해주는 역할, but 이것땜에 타임리프 안 되는 상황, 주석처리하면 타임리프 링크 연결 가능
+#  mvc:
+#    static-path-pattern: /static/**
+
   datasource:
     # 설치된 DB와 연결 URL
     url: jdbc:log4jdbc:oracle:thin:@localhost:1521:xe
