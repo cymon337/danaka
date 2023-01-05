@@ -60,7 +60,7 @@
     <header style="height: 200px">
 
       <a href="#" style="margin-outside: 10px"><img src="/image/image2.png"></a>
-      <a style="color: black">user01 님</a>
+      <div th:text="${userName}" style="color: black">님</div>
       <a style="color: black">환영합니다!</a>
     </header>
 
@@ -93,19 +93,9 @@
     </ul>
   </div>
 
-  <!-- Content -->
+
   <div id="content" >
-  <!--  <nav class="navbar navbar-default">
-     <div class="container-fluid">
-        <ul class="nav navbar-nav navbar-right">
-          <li>
-            <a href="#"><i class="zmdi zmdi-notifications text-danger"></i>
-            </a>
-          </li>
-          <li><a href="#">Test User</a></li>
-        </ul>
-      </div>
-    </nav>-->
+
     <div class="container-fluid">
       <h1>주문 내역</h1>
       <div>

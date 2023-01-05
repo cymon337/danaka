@@ -7,25 +7,55 @@
 
     <resultMap id="memberResultMap" type="com.osaz.danaka.member.model.dto.MemberDTO">
         <id  column="USER_NO" property="userNo"/>
-        <result column="USER_ID" property="userID"/>
+        <result column="USER_ID" property="userId"/>
         <result column="USER_NICKNAME" property="userNickname"/>
         <result column="USER_PWD" property="userPwd"/>
         <result column="USER_NAME" property="userName"/>
         <result column="BIRTHDAY" property="birthday"/>
-        <result column="GENDER" property="gender"/>
         <result column="ADDRESS" property="address"/>
+        <result column="EMAIL" property="email"/>
         <result column="PHONE" property="phone"/>
+        <result column="GENDER" property="gender"/>
         <result column="REG_DATE" property="regDate"/>
         <result column="STATUS" property="status"/>
         <result column="USER_ROLE" property="userRole"/>
 
     </resultMap>
 
+<!--
     <select id="findMemberByID" resultMap="memberResultMap">
 
 
 
     </select>
+-->
+    <!--로그인-->
+    <select id="loginAction" resultType="com.osaz.danaka.member.model.dto.MemberDTO">
+        SELECT * FROM T_MEMBER
+        WHERE USER_ID = #{userId}
+    </select>
+    <!--아이디찾기    -->
+    <select id="findId" parameterType="com.osaz.danaka.member.model.dto.MemberDTO" resultMap="memberResultMap">
+        SELECT * FROM T_MEMBER WHERE USER_NAME = #{userName} and PHONE = #{phone}
+    </select>
+    <!--비밀번호 찾기 -->
+    <select id="findPassword" parameterType="com.osaz.danaka.member.model.dto.MemberDTO" resultMap="memberResultMap">
+        SELECT * FROM T_MEMBER WHERE USER_ID = #{userId} and USER_NAME = #{userName} and PHONE = #{phone}
+    </select>
+    <!--회원가입-->
+    <insert id="registerAction" parameterType="com.osaz.danaka.member.model.dto.MemberDTO" >
+        INSERT INTO T_MEMBER
+         (USER_NO, USER_ID, USER_NICKNAME, USER_PWD, USER_NAME, BIRTHDAY, GENDER, ADDRESS, EMAIL, PHONE, USER_ROLE)
+        values ( SEQ_USER_NO.NEXTVAL ,#{userId},#{userNickname},#{userPwd},#{userName},#{birthday},#{gender},#{address},#{email},#{phone},'ROLE_MEMBER')
+
+    </insert>
+
+    <update id ="updateMembers" parameterType="com.osaz.danaka.member.model.dto.MemberDTO" >
+        UPDATE T_MEMBER
+        SET USER_NICKNAME= #{userNickname} , USER_PWD= #{userPwd}, EMAIL= #{email}, PHONE= #{phone}
+        WHERE USER_ID = #{userId}
+
+    </update>
 
 
 

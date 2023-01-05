@@ -1,10 +1,21 @@
 package com.osaz.danaka.member.model.dto;
 
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import java.sql.Date;
+import java.util.Collection;
+import java.util.Collections;
 
 
-public class MemberDTO {
+@Data
+//@AllArgsConstructor// 매개변수가 있는 생성자를 해줘야지 unread가 안뜨고 데이터를 잘 가져옴
+public class MemberDTO implements UserDetails{
 
     public int userNo;
     public String userId;
@@ -12,142 +23,73 @@ public class MemberDTO {
     public String userPwd;
     public String userName;
     public Date birthday;
-    public char gender;
+    public String gender;
     public String address;
+    public String email;
     public String phone;
-    public Date regDate;
+    public String regDate;
     public char status;
-    public char userRole;
+    public String userRole;
 
-    public MemberDTO() {}
 
-    public int getUserNo() {
-        return userNo;
-    }
-
-    public void setUserNo(int userNo) {
-        this.userNo = userNo;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public String getUserNickname() {
-        return userNickname;
-    }
-
-    public void setUserNickname(String userNickname) {
-        this.userNickname = userNickname;
-    }
-
-    public String getUserPwd() {
-        return userPwd;
-    }
-
-    public void setUserPwd(String userPwd) {
-        this.userPwd = userPwd;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public Date getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(Date birthday) {
-        this.birthday = birthday;
-    }
-
-    public char getGender() {
-        return gender;
-    }
-
-    public void setGender(char gender) {
-        this.gender = gender;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public Date getRegDate() {
-        return regDate;
-    }
-
-    public void setRegDate(Date regDate) {
-        this.regDate = regDate;
-    }
-
-    public char getStatus() {
-        return status;
-    }
-
-    public void setStatus(char status) {
-        this.status = status;
-    }
-
-    public char getUserRole() {
-        return userRole;
-    }
-
-    public void setUserRole(char userRole) {
-        this.userRole = userRole;
-    }
-
-    public MemberDTO(int userNo, String userId, String userNickname, String userPwd, String userName, Date birthday, char gender, String address, String phone, Date regDate, char status, char userRole) {
-        this.userNo = userNo;
-        this.userId = userId;
-        this.userNickname = userNickname;
-        this.userPwd = userPwd;
-        this.userName = userName;
-        this.birthday = birthday;
-        this.gender = gender;
-        this.address = address;
-        this.phone = phone;
-        this.regDate = regDate;
-        this.status = status;
-        this.userRole = userRole;
-    }
+//    public MemberDTO(int userNo, String userId, String userNickname, String userPwd, String userName, Date birthday, String gender, String address, String email, String phone, String regDate, char status, String userRole) {
+//        this.userNo = userNo;
+//        this.userId = userId;
+//        this.userNickname = userNickname;
+//        this.userPwd = userPwd;
+//        this.userName = userName;
+//        this.birthday = birthday;
+//        this.gender = gender;
+//        this.address = address;
+//        this.email = email;
+//        this.phone = phone;
+//        this.regDate = regDate;
+//        this.status = status;
+//        this.userRole = userRole;
+//    }
 
     @Override
-    public String toString() {
-        return "MemberDTO{" +
-                "userNo=" + userNo +
-                ", userId='" + userId + '\'' +
-                ", userNickname='" + userNickname + '\'' +
-                ", userPwd='" + userPwd + '\'' +
-                ", userName='" + userName + '\'' +
-                ", birthday=" + birthday +
-                ", gender=" + gender +
-                ", address='" + address + '\'' +
-                ", phone='" + phone + '\'' +
-                ", regDate=" + regDate +
-                ", status=" + status +
-                ", userRole=" + userRole +
-                '}';
+    public String getPassword() {
+        return this.userPwd;
     }
-}
+    // 사용자의 Password를 반환한다.
+    @Override
+    public String getUsername() {
+        return this.userId; //Id를  반환해야함 name아닌거 주의
+    }
+    // 사용자의 ID를 반환한다. (Unique하기에 해당 프로젝트에서는 Id를 반환한다.)
+    // Security에서 인증처리를 하기 위해 userId를 지정해주는 것.
 
+
+    public String getUserName() {
+        return this.userName; //Id를  반환해야함 name아닌거 주의
+    }
+
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;// true:만료되지 않음, false:만료됨
+        // 계정의 만료 여부를 확인한다.
+    }
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.singletonList(new SimpleGrantedAuthority(this.userRole));
+        //사용자 권한을 Collection 형태로 반환
+    }
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;// true:잠기지 않음, false:잠김
+    }
+    // 계정의 잠금 여부를 확인한다.
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;// true:만료되지 않음, false:만료됨
+    }
+    // 비밀번호의 만료 여부를 확인한다.
+    @Override
+    public boolean isEnabled() {
+        return true;// true:사용 가능, false:사용 불가
+    }
+    // 계정이 사용 가능한지 확인한다.
+}

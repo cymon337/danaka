@@ -2,72 +2,74 @@ package com.osaz.danaka.config;
 
 import com.osaz.danaka.member.model.service.MemberService;
 
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import java.util.List;
-import java.util.Map;
-
-
-@EnableWebSecurity//spring security 를 적용한다는 Annotation
+@RequiredArgsConstructor //@Configuration 을쓰기전에 쓰면 에러남 찾아보기
 @Configuration
-public class SpringSecurityConfiguration {
+@EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
+public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final MemberService memberService;
 
-    @Autowired
-    public SpringSecurityConfiguration(MemberService memberService) {
-        this.memberService = memberService;
-    }
+    private final AuthenticationFailureHandler customFailureHandler;
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    public BCryptPasswordEncoder Encoder() {
         return new BCryptPasswordEncoder();
+
     }
 
-
-    @Bean
-    public WebSecurityCustomizer configure() {
-        return (web) -> web.ignoring().mvcMatchers("/css/**", "images/**");
+    /*   - public 접근 제한자: 단어 뜻 그대로 외부 클래스가 자유롭게 사용할 수 있도록 합니다.
+         - protected 접근 제한자: 같은 패키지 또는 자식 클래스에서 사용할 수 있도록 합니다.
+         - private 접근 제한자: 단어 뜻 그대로 개인적인 것이라 외부에서 사용될 수 없도록 합니다.*/
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(memberService).passwordEncoder(Encoder());
     }
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws  Exception{
-
-        Map<String, List<String>> permitListMap = memberService.getPermitListMap();
-        //getPermitListMap 만들어서 권한별로 접근가능한 url 목록을 받아오자 AuthenticationService, 와 Impl 에 가서 추가구현하자
-        List<String> adminPermitList = permitListMap.get("adminPermitList");
-        List<String> memberPermitList = permitListMap.get("memberPermitList");
-
-        adminPermitList.forEach(url -> System.out.println("admin permit list : " + url));
-        memberPermitList.forEach(url -> System.out.println("member permit list : " + url));
-
-        http.csrf().disable()
-                 .authorizeHttpRequests()
-                .antMatchers("/member/login", "/member/id","/member/password", "/member/signup").permitAll()
-                .antMatchers("/**").authenticated()
-                .and().formLogin()
-                .loginPage("/member/login")
-                .successForwardUrl("/") //로그인 성공시 이동할 경로 설정
-                //.failureForwardUrl("/error/login") //에러가 발생했을때 포워딩할 경로 기술
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web
+                .ignoring().antMatchers("/css/**", "/img/**");
+    }
+    @Override
+    protected void configure(HttpSecurity http) throws Exception{
+        http
+                .csrf().ignoringAntMatchers("/api/**") /* REST API 사용 예외처리 */
                 .and()
-                .logout()
-                .logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
-                .deleteCookies("JSESSIONID")
+                .authorizeRequests()
+                .antMatchers( "/member/login", "/member/id","/member/password", "/member/signUp").permitAll()
+                  /* .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/order/**").hasAnyRole("ADMIN","MEMBER")*/
+                .anyRequest().permitAll() //모든요청에 접급을 허용하겠다
+                .and()
+                .formLogin() //폼을 이용해서 로그인을 하겠다
+                .loginPage("/member/login") //내가 사용할 로그인 페이지 기술 없으면 시큐리티 페이지가 나옴
+                .successForwardUrl("/") //로그인 성공시 이동할 경로 설정
+                .failureHandler(customFailureHandler) // 로그인 실패 핸들러
+                .defaultSuccessUrl("/")
+                .and()
+                .logout()   //로그아웃 설정을 시작하겠다
+                .logoutRequestMatcher(new AntPathRequestMatcher("/member/logout")) //AntPathRequestMatcher
                 .invalidateHttpSession(true)
-                .logoutSuccessUrl("/");
+                .deleteCookies("JSESSIONID");
 
-
-
-        return http.build();
     }
-
 }

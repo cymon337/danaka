@@ -2,7 +2,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <title>modification</title>
+  <title>password</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
@@ -22,57 +22,25 @@
       <div class="col-md-6 col-lg-5">
         <div class="login-wrap p-4 p-md-5">
 
-          <h3 class="text-center mb-4">회원정보수정</h3>
+          <h3 class="text-center mb-4">비밀번호 찾기</h3>
           <b><hr></b>
-         <!-- <div th:if=${ signIn != null}" style="display:none;">  세션값이 있는 경우에만 회원정보 수정폼 보여주기 시간있으면 구현-->
-          <form action="updateMembers.do" class="login-form" method="post">
+          <form action="pw_set" class="login-form" method="post">
+            <input type="hidden" name ="num" th:value="${num }">
+            <div class="form-group">
+              <input type="text" class="form-control rounded-left"  name="email_injeung" placeholder="인증번호를 입력하세요" required>
+            </div>
+            <div class="error"> </div>
+
+            <br>
 
             <div class="form-group">
-              <input type="text" class="form-control rounded-left" placeholder="닉네임" required>
+              <button type="submit" id="check" class="btn btn-primary rounded submit p-3 px-5">확인</button>
             </div>
-            <div class="form-group d-flex">
-              <input type="password" class="form-control rounded-left" placeholder="비밀번호" required>
-            </div>
-            <div class="form-group d-flex">
-              <input type="password" class="form-control rounded-left" placeholder="비밀번호 확인" required>
-            </div>
-
-
-            <div class="form-group d-flex">
-              <input type="email" class="form-control rounded-left" id="email"
-                      size="30" placeholder="이메일" pattern="/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)?$/i" required>
-            </div>
-            <div class="form-group d-flex">
-              <input type="tel"  id="phone" name="phone" class="form-control rounded-left" placeholder="휴대전화"  pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required>
-            </div>
-            <div class="form-group">
-              <button type="submit" class="btn btn-primary rounded submit p-3 px-5">수정</button>
-            </div>
-
-
-              <div class="w-100 text-md-center">
-                <a href="/member/login">로그인</a>
-              </div>
 
 
 
           </form>
-<!--          &lt;!&ndash; </div>&ndash;&gt;
-&lt;!&ndash;          <div th:if=${ signIn == null}>&ndash;&gt;
-&lt;!&ndash;            <div>&ndash;&gt;
-&lt;!&ndash;              <h3 class ="text-dark text-center">회원 정보 수정 <br>페이지입니다.</h3>&ndash;&gt;
-&lt;!&ndash;              <p class="text-center">&ndash;&gt;
-&lt;!&ndash;                <span>로그인 후 회원정보 수정이 가능합니다.</span>&ndash;&gt;
-&lt;!&ndash;              </p>&ndash;&gt;
-&lt;!&ndash;-->
-             </div>
-
-
-
-
-
-          </div>
-          </div>
+        </div>
       </div>
     </div>
   </div>
