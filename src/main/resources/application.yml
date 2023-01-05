@@ -1,5 +1,5 @@
 spring:
-  # DB 연결
+#   DB 연결
   mvc:
     static-path-pattern: /static/**
 

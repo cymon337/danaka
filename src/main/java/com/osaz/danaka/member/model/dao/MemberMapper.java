@@ -7,7 +7,8 @@ import org.apache.ibatis.annotations.Mapper;
 public interface MemberMapper  {
 
 /*    MemberDTO findMemberById(String memberId);*/
-    int registerAction(MemberDTO memberDTO); //회원가입 처리
+//    int insertMember(MemberDTO memberDTO); //회원가입 처리
+        void insertMember(MemberDTO memberDTO); //회원가입 처리
 
       MemberDTO loginAction(String userId); //로그인
 
