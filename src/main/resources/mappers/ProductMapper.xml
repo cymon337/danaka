@@ -11,6 +11,7 @@
         <result property="productName" column="PRODUCT_NAME"/>
         <result property="productRegDate" column="PRODUCT_REG_DATE"/>
         <result property="stock" column="STOCK"/>
+        <result property="savePath" column="SAVE_PATH"/>
         <association property="rod" resultMap="rodResultMap"></association>
         <association property="reel" resultMap="reelResultMap"></association>
         <association property="line" resultMap="lineResultMap"></association>
@@ -32,7 +33,7 @@
         <result property="price" column="LINE_PRICE"/>
     </resultMap>
 
-    <!-- 페이징 처리를 위한 상품 총 개수 조회 쿼리 -->
+    <!-- 페이징 처리를 위한 대상품 총 개수 조회 쿼리 -->
     <select id="selectTotalCount" resultType="_int" parameterType="hashmap">
         SELECT
             COUNT(*)
@@ -93,7 +94,8 @@
                         </choose>) B
                  ) A
           LEFT JOIN (SELECT
-                         G.*
+                         G.PRODUCT_NO,
+                         G.SAVE_PATH
                        FROM T_IMG_PATH G
                       WHERE IMG_CATEGORY = 'T') H
             ON A.PRODUCT_NO = H.PRODUCT_NO
@@ -107,7 +109,7 @@
           </if>
          WHERE A.RNUM BETWEEN #{ startRow } AND #{ endRow }
     </select>
-    <!-- 상품 상세 페이지를 위한 한개의 상품 정보 조회 쿼리 -->
+    <!-- 상품 상세 페이지를 위한 한개의 대상품 정보 조회 쿼리 -->
     <select id="selectOneProduct" parameterType="String" resultMap="productResultMap">
         SELECT
             *

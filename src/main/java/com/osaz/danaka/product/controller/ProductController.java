@@ -84,6 +84,7 @@ public class ProductController {
 
         /* 조회해온다 */
         List<ProductDTO> productList = productService.selectListByCategory(selectCriteria);
+        log.info("상품 리스트 = {}" + productList);
 
         mv.addObject("productList", productList);
         mv.addObject("selectCriteria", selectCriteria);
