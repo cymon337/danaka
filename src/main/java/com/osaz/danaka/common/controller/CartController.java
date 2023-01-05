@@ -3,6 +3,7 @@ package com.osaz.danaka.common.controller;
 import com.osaz.danaka.common.model.dto.CartDTO;
 import com.osaz.danaka.common.model.dto.CartProductDTO;
 import com.osaz.danaka.common.model.service.CartService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
 import java.util.Locale;
 
+@Slf4j
 @Controller
 @RequestMapping("/cart")
 public class CartController {
@@ -37,14 +39,10 @@ public class CartController {
     public ModelAndView selectAllCart(String userNo, ModelAndView mv) throws Exception {
 
         // 회원별 T_CART 내역 조회
-        List<CartDTO> cartList = cartService.selectAllCart(userNo);
-        cartList.stream().forEach(cart -> System.out.println("cart = " + cart));
-
-        // 조회된 제품번호로 제품정보 조회
-        List<CartProductDTO> cartProductList = cartService.selectCartProduct(cartList);
+        List<CartProductDTO> cartList = cartService.selectAllCart(userNo);
+        cartList.stream().forEach(cart -> log.info("cart ={}", cart));
 
         mv.addObject("cartList", cartList);
-        mv.addObject("cartProductList", cartProductList);
         mv.setViewName("common/cart");
 
         return mv;

@@ -12,7 +12,7 @@ import java.util.List;
 public interface CartMapper {
 
     //1. selectAllCart 장바구니페이지에서 회원번호별 카트에 담긴 모든 상품 select method
-    List<CartDTO> selectAllCart(String userNo);
+    List<CartProductDTO> selectAllCart(String userNo);
 
     //2. registCart 회원번호별 다른페이지 요청에 의해 장바구니에 담는 insert method
     int registCart(List<CartDTO> cartList);

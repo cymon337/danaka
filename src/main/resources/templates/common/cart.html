@@ -29,19 +29,7 @@
         <label>회원번호 : </label><input type="number" name="userNo" placeholder="회원번호를 입력하세요.">
         <input type="submit" value="회원장바구니 조회">
     </form>
-    <!--/
-        <h3>2. registCart 회원번호별 다른페이지 요청에 의해 장바구니에 담는 insert method</h3>
-        <form action="/cart/registCart" method="post">
-            <label>회원번호 : </label><input type="text" name="userNo" placeholder="회원번호를 입력하세요."><br>
-            <label>상품번호 : </label><input type="text" name="productNo" placeholder="회원번호를 입력하세요."><br>
-            <label>수량 : </label><input type="text" name="amount" placeholder="회원번호를 입력하세요."><br>
-            <label>패키지ID : </label><input type="text" name="packageId" placeholder="회원번호를 입력하세요."><br>
-            <input type="submit" value="장바구니 등록">
-        </form>
-        <h3>3. updateCart 장바구니페이지에서 선택된 장바구니 번호 별 수량을 수정하는 update method</h3>
 
-        <h3>4. deleteCart 장바구니페이지에서 선택된 장바구니 번호 별 삭제 delete method</h3>
-    *-->
 <div class="wrapper">
     <div class="cart-wrapper">
         <form>
@@ -77,14 +65,31 @@
 
 
             </p>
-            <!--/*@thymesVar id="cartList" type="com.osaz.danaka.common.model.dto.CartDTO"*/-->
+
+            </script>
+
+
             <ul id="cart-list" class="list-group">
                 <!--  class 에 선택되면 active 추가 선택취소 active 제거 -->
-                <li class="list-group-item" th:each="cart : ${cartList}">
-                    <span th:text="${ cart.productNo }"></span>
-                    <span th:text="${ cart.amount }"></span>
+                <li class="list-group-item" th:each="cart : ${cartList}" name="cartNo" th:value="${cart.cartNo}">
+                    <span class="item-component item-thumnail">
+                        <img class="item-thumnail" src="/static/image/thumnail.png">
+                    </span>
+                    <span class="item-component item-info">
+                        <p id="item-info-title"
+                           th:text="|${cart.brandName}, ${cart.productName}|">브랜드명 + 제품명</p>
+                        <p id="item-info-options"
+                           th:text="|${cart.option1}, ${cart.option2}, ${cart.option3}, ${cart.option4}|">옵션1, 옵션2, 옵션3, 옵션4</p>
+                    </span>
+                    <span class="item-component item-amount">
+                        <input type="number" step="1" th:value="${cart.amount}" style="width: 100%; font-size: x-large;"/>
+                    </span>
+                    <span class="item-component item-price">
+                        <p th:text="${cart.price}">개별가격 * 수량</p>
+                    </span>
                 </li>
             </ul>
+
             <!--li 버튼 클릭 활성 비활성-->
             <script type="text/javascript">
                 $("li").on("click", function (e) {
@@ -104,6 +109,7 @@
     </div>
     <div class="cart-order">
         <span id="placeholder-price">총 주문금액 </span>
+<!--        // list에 active 클래스네임으로 필터링 해서 계산-->
         <span id="sum-order-price"> 658,000 원</span>
         <button id="btn-order" type="button" class="btn btn-outline-primary btn-lg">
             <span class="material-symbols-outlined">check_circle</span>

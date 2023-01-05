@@ -54,6 +54,35 @@
     margin-right: 10%;
 
     box-shadow: 8px 5px 8px lightslategrey;
+
+    display: flex;
+}
+
+.item-component {
+    border: 1px solid black;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.item-thumnail {
+    height: 100%;
+    width: auto;
+}
+.item-info {
+    width: 55%;
+}
+#item-info-title {
+    font-size: x-large;
+}
+#item-info-options {
+    font-size: medium;
+}
+
+.item-amount {
+    width: 10%;
+}
+.item-price {
+    width: 20%;
 }
 
 #cart-list{

@@ -9,7 +9,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CartProductDTO {
 
-    public String productNo;
+    public String cartNo;  //장바구니번호
+    public String userNo;  //회원번호
+    public String productNo;   //상품번호
+    public String amount;  //수량
+    public String packageId;   //패키지ID
     public String brandName;
     public String productName;
     public String categoryName;

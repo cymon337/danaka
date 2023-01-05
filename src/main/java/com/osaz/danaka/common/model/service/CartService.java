@@ -19,9 +19,9 @@ public class CartService {
     public CartService(CartMapper cartMapper) { this.cartMapper = cartMapper; }
 
 //1. selectAllCart 장바구니페이지에서 회원번호별 카트에 담긴 모든 상품 select method
-    public List<CartDTO> selectAllCart(String userNo) {
+    public List<CartProductDTO> selectAllCart(String userNo) {
 
-        List<CartDTO> result = cartMapper.selectAllCart(userNo);
+        List<CartProductDTO> result = cartMapper.selectAllCart(userNo);
 
         return result;
     }

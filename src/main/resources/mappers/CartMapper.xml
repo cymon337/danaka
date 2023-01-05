@@ -14,7 +14,11 @@
     </resultMap>
 
     <resultMap type="com.osaz.danaka.common.model.dto.CartProductDTO" id="cartProductResultMap">
-        <id property="productNo" column="PRODUCT_NO"/>
+        <id property="cartNo" column="CART_NO"/>
+        <result property="userNo" column="USER_NO"/>
+        <result property="productNo" column="PRODUCT_NO"/>
+        <result property="amount" column="AMOUNT"/>
+        <result property="packageId" column="PACKAGE_ID"/>
         <result property="brandName" column="BRAND_NAME"/>
         <result property="productName" column="PRODUCT_NAME"/>
         <result property="categoryName" column="CATEGORY_NAME"/>
@@ -36,18 +40,48 @@
     </select>
 
 <!--  회원별 장바구니 조회  -->
-    <select id="selectAllCart" resultMap="cartResultMap">
+    <select id="selectAllCart" resultMap="cartProductResultMap">
         SELECT
             A.CART_NO,
             A.USER_NO,
             A.PRODUCT_NO,
             A.AMOUNT,
             A.PACKAGE_ID
+                     ,C.BRAND_NAME
+                     ,B.PRODUCT_NAME
+                     ,D.CATEGORY_NAME
+                     ,CASE
+                          WHEN B.CATEGORY_CODE = 'RD' THEN RD.ROD_MODEL
+                          WHEN B.CATEGORY_CODE = 'RL' THEN RL.REEL_MODEL
+                          WHEN B.CATEGORY_CODE = 'LN' THEN TO_CHAR(LN.LINE_SIZE, 'FM9990.0')
+            END OPTION1
+                     ,CASE
+                          WHEN B.CATEGORY_CODE = 'RD' THEN RD.REEL_TYPE
+                          WHEN B.CATEGORY_CODE = 'RL' THEN RL.REEL_TYPE
+            END OPTION2
+                     ,CASE
+                          WHEN B.CATEGORY_CODE = 'RD' THEN RD.LINE_MIN
+            END OPTION3
+                     ,CASE
+                          WHEN B.CATEGORY_CODE = 'RD' THEN RD.LINE_MAX
+            END OPTION4
+                     ,CASE
+                          WHEN B.CATEGORY_CODE = 'RD' THEN RD.ROD_PRICE
+                          WHEN B.CATEGORY_CODE = 'RL' THEN RL.REEL_PRICE
+                          WHEN B.CATEGORY_CODE = 'LN' THEN LN.LINE_PRICE
+            END PRICE
+
         FROM T_CART A
+            JOIN T_PRODUCT B ON A.PRODUCT_NO = B.PRODUCT_NO
+            JOIN T_BRAND C ON B.BRAND_NO = C.BRAND_NO
+            JOIN T_CATEGORY D ON B.CATEGORY_CODE = D.CATEGORY_CODE
+            LEFT JOIN  T_ROD RD ON A.PRODUCT_NO = RD.PRODUCT_NO
+            LEFT JOIN  T_REEL RL ON A.PRODUCT_NO = RL.PRODUCT_NO
+            LEFT JOIN  T_LINE LN ON A.PRODUCT_NO = LN.PRODUCT_NO
         WHERE A.USER_NO = #{userNo}
     </select>
 
-<!--  회원별 장바구니 상품정보 조회 -->
+<!--  회원별 장바구니 상품정보 조회
     <select id="selectCartProduct" resultMap="cartProductResultMap">
         SELECT
             A.PRODUCT_NO
@@ -88,6 +122,8 @@
         ORDER BY A.PRODUCT_NO ASC
 
     </select>
+-->
+
 
 <!--  장바구니 등록  -->
     <insert id="registCart">
