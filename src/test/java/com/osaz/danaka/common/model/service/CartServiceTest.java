@@ -5,6 +5,7 @@ import com.osaz.danaka.common.model.dto.CartDTO;
 import com.osaz.danaka.common.model.dto.CartProductDTO;
 import com.osaz.danaka.config.DanakaApplication;
 import com.osaz.danaka.config.MybatisConfig;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @SpringBootTest
 @ContextConfiguration(classes = {DanakaApplication.class, MybatisConfig.class})
 class CartServiceTest {
@@ -52,9 +54,9 @@ class CartServiceTest {
             resultPN.add(list.getProductNo());
         }
 
-        System.out.println("cartProductList = " + cartProductList);
-        System.out.println("cartListPN" + cartListPN);
-        System.out.println("resultPN" + resultPN);
+        log.info("cartProductList log={}", cartProductList);
+        log.info("cartListPN log={}", cartListPN);
+        log.info("resultPN log={}", resultPN);
 
 
 

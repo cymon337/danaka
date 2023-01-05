@@ -1,14 +1,19 @@
 package com.osaz.danaka.productPackage.controller;
 
+import com.osaz.danaka.productPackage.model.service.PackageService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/package")
+@RequiredArgsConstructor
 public class PackageController {
 
-    @GetMapping("/package")
+    private final PackageService packageService;
+
+    @GetMapping
     public String packageMain(){ return "package/package"; }
 
 //    1 상품명 검색
