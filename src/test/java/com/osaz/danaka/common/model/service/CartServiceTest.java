@@ -32,30 +32,17 @@ class CartServiceTest {
     @Transactional
     void selectCartProduct() throws Exception {
         // given   리스트 넘길때 productNo 중복 제거
-        List<CartDTO> cartList = new ArrayList<>();
-        cartList.add(new CartDTO("1","1","1","1","1"));
-        cartList.add(new CartDTO("1","1","2","1","1"));
-        cartList.add(new CartDTO("1","1","3","1",""));
-        cartList.add(new CartDTO("1","1","4","1",""));
-        cartList.add(new CartDTO("1","1","5","1",""));
-        cartList.add(new CartDTO("1","1","6","1",""));
+        String userNo = "1";
         // when
-        List<CartProductDTO> cartProductList = cartMapper.selectCartProduct(cartList);
+        List<CartProductDTO> cartProductList = cartMapper.selectAllCart(userNo);
 
         // then
-
-        List cartListPN = new ArrayList();
-        for (CartDTO list:cartList) {
-            cartListPN.add(list.getProductNo());
-        }
-
         List resultPN = new ArrayList();
         for (CartProductDTO list:cartProductList) {
             resultPN.add(list.getProductNo());
         }
 
         log.info("cartProductList log={}", cartProductList);
-        log.info("cartListPN log={}", cartListPN);
         log.info("resultPN log={}", resultPN);
 
 
