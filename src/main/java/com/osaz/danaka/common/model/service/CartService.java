@@ -25,13 +25,7 @@ public class CartService {
 
         return result;
     }
-//1.1 selectAllCart 상품번호 정보 셀렉
-    public List<CartProductDTO> selectCartProduct(List<CartDTO> cartList) throws Exception{
 
-        List<CartProductDTO> result = cartMapper.selectCartProduct(cartList);
-
-        return result;
-    }
 
 //2. registCart 회원번호별 다른페이지 요청에 의해 장바구니에 담는 insert method
     public boolean registCart(List<CartDTO> cartList) throws Exception {

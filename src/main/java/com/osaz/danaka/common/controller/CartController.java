@@ -28,7 +28,7 @@ public class CartController {
     }
 
 
-    @GetMapping({""})   // 장바구니 페이지
+    @GetMapping  // 장바구니 페이지
     public String cartMain (){ return "common/cart"; }
 
 // # update : 221229 작성중

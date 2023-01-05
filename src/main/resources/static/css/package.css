@@ -1,0 +1,43 @@
+/*==================== 전체 wrapper ====================*/
+.wrapper {
+    display: flex;
+}
+
+/*==================== 검색파트 ====================*/
+
+.package-search-wrapper {
+    border: 1px solid black;
+    height: 100%;
+    width: 50%;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-right: 5%;
+    margin-left: 10%;
+
+
+}
+
+.package-search{
+    border: 1px solid black;
+    background-color: yellow;
+}
+
+#search-product {
+    width: 90%;
+}
+
+
+
+/*==================== 조합견적카트 ====================*/
+.package-cart-wrapper {
+    border: 1px solid black;
+    width: 20%;
+    height: 100%;
+
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-right: 10%;
+    margin-left: 5%;
+
+    background-color: cyan;
+}

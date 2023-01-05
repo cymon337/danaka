@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface CartMapper {
 
-    //1. selectAllCart 장바구니페이지에서 회원번호별 카트에 담긴 모든 상품 select method
+    //1. selectAllCart 장바구니페이지에서 회원번호별 카트에 담긴 모든 상품 + 상품정보 select method
     List<CartProductDTO> selectAllCart(String userNo);
 
     //2. registCart 회원번호별 다른페이지 요청에 의해 장바구니에 담는 insert method
@@ -23,6 +23,5 @@ public interface CartMapper {
     //4. deleteCart 장바구니페이지에서 선택된 장바구니 번호 별 삭제 delete method
     int deleteCart(String cartNo);
 
-    //5. selectCartProduct 조회된 장바구니 리스트에서 프로덕트넘버 넘겨서 프로덕트인포호출
-    List<CartProductDTO> selectCartProduct(List<CartDTO> cartList);
+
 }
