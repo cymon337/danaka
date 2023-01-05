@@ -65,6 +65,7 @@ body {
 .detail1 {
     width: 80%;
     align-self: flex-start;
+    margin-left: 1%;
 }
 .detail1 * {
     margin-top: 0;
