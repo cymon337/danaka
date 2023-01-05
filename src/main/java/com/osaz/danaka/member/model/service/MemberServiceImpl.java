@@ -1,7 +1,7 @@
 package com.osaz.danaka.member.model.service;
 
-import com.osaz.danaka.MemberDTO;
 import com.osaz.danaka.member.model.dao.MemberMapper;
+import com.osaz.danaka.member.model.dto.MemberDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -22,8 +22,11 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        System.out.println("호출확인");
+        System.out.println("username" + username); //들어오는 확인
 
-       /* MemberDTO member = MemberMapper.findMemberById(username);*/
+    MemberDTO member = memberMapper.findMemberById(username);
+        System.out.println(member);
 
         return null;
     }

@@ -1,18 +1,9 @@
 package com.osaz.danaka.member.model.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.sql.Date;
 
-@Data
-//Data 어노테이션은 총 5개, Getter, Setter, RequiredArgsConstructor, ToString, EqualsAndHashCode 어노테이션이 합쳐져 있습니다.
-//@RequiredArgsConstructor / final 변수, Notnull 표시가 된 변수처럼 필수적인 정보를 세팅하는 생성자를 만들어준다.
-@NoArgsConstructor
-//기본 생성자를 생성해준다. 초기값 세팅이 필요한 final 변수가 있을 경우 컴파일 에러가 발생, (force=true) 를 사용하면 null, 0 등 기본 값으로 초기화 된다.
-@AllArgsConstructor
-//전체 변수를 생성하는 생성자를 만들어준다.
+
 public class MemberDTO {
 
     public int userNo;
@@ -28,5 +19,135 @@ public class MemberDTO {
     public char status;
     public char userRole;
 
+    public MemberDTO() {}
 
+    public int getUserNo() {
+        return userNo;
+    }
+
+    public void setUserNo(int userNo) {
+        this.userNo = userNo;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getUserNickname() {
+        return userNickname;
+    }
+
+    public void setUserNickname(String userNickname) {
+        this.userNickname = userNickname;
+    }
+
+    public String getUserPwd() {
+        return userPwd;
+    }
+
+    public void setUserPwd(String userPwd) {
+        this.userPwd = userPwd;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
+
+    public char getGender() {
+        return gender;
+    }
+
+    public void setGender(char gender) {
+        this.gender = gender;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public Date getRegDate() {
+        return regDate;
+    }
+
+    public void setRegDate(Date regDate) {
+        this.regDate = regDate;
+    }
+
+    public char getStatus() {
+        return status;
+    }
+
+    public void setStatus(char status) {
+        this.status = status;
+    }
+
+    public char getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(char userRole) {
+        this.userRole = userRole;
+    }
+
+    public MemberDTO(int userNo, String userId, String userNickname, String userPwd, String userName, Date birthday, char gender, String address, String phone, Date regDate, char status, char userRole) {
+        this.userNo = userNo;
+        this.userId = userId;
+        this.userNickname = userNickname;
+        this.userPwd = userPwd;
+        this.userName = userName;
+        this.birthday = birthday;
+        this.gender = gender;
+        this.address = address;
+        this.phone = phone;
+        this.regDate = regDate;
+        this.status = status;
+        this.userRole = userRole;
+    }
+
+    @Override
+    public String toString() {
+        return "MemberDTO{" +
+                "userNo=" + userNo +
+                ", userId='" + userId + '\'' +
+                ", userNickname='" + userNickname + '\'' +
+                ", userPwd='" + userPwd + '\'' +
+                ", userName='" + userName + '\'' +
+                ", birthday=" + birthday +
+                ", gender=" + gender +
+                ", address='" + address + '\'' +
+                ", phone='" + phone + '\'' +
+                ", regDate=" + regDate +
+                ", status=" + status +
+                ", userRole=" + userRole +
+                '}';
+    }
 }
+
