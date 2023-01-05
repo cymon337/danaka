@@ -69,17 +69,19 @@ body {
 .detail1 * {
     margin-top: 0;
     margin-bottom: 1px;
-    color: black;
     text-decoration: none;
+
 }
 .detail1>a {
 
 }
-.productName>p{
+.productName p{
+    font-size: 1.25rem;
+    font-weight: bolder;
     margin: 0;
+    color: black;
 }
 .productDetail {
-
     font-size: 10px;
     color: gray;
     margin-top: 1px;

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <!-- index.html css -->
-    <link rel="stylesheet" href="/static/css/indexCss.css"/>
+    <link rel="stylesheet" th:href="@{ /css/indexCss.css }"/>
     <!--    &lt;!&ndash; 부트스트랩 &ndash;&gt;-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous"/>
@@ -17,7 +17,7 @@
             integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
             crossorigin="anonymous"></script>
     <!-- 승재 css -->
-    <link rel="stylesheet" type="text/css" href="/static/css/item.css"/>
+    <link rel="stylesheet" type="text/css" th:href="@{ /css/item.css }"/>
 </head>
 <body>
 
@@ -28,14 +28,14 @@
 <div class="productContainer">
     <div class="imgContainer">
         <div class="bigImg">
-            <img src="/static/image/thumnail.png">
+            <img th:src=" @{ /image/rodThumnail.png }">
         </div>
         <div class="otherImges">
-            <div class="otherImg"><img src="/static/image/thumnail.png"></div>
-            <div class="otherImg"><img src="/static/image/thumnail.png"></div>
-            <div class="otherImg"><img src="/static/image/thumnail.png"></div>
-            <div class="otherImg"><img src="/static/image/thumnail.png"></div>
-            <div class="otherImg"><img src="/static/image/thumnail.png"></div>
+            <div class="otherImg"><img th:src="@{ /image/rodThumnail.png }"></div>
+            <div class="otherImg"><img th:src="@{ /image/rodThumnail.png }"></div>
+            <div class="otherImg"><img th:src="@{ /image/rodThumnail.png }"></div>
+            <div class="otherImg"><img th:src="@{ /image/rodThumnail.png }"></div>
+            <div class="otherImg"><img th:src="@{ /image/rodThumnail.png }"></div>
         </div>
     </div>
     <div class="detailContainer">
@@ -44,33 +44,42 @@
             <h2 th:text="${ product.productName }">상품명</h2>
         </div>
         <div class="productDetail">
-            <p>상품내용</p>
+            <th:block th:switch="${ product.categoryCode }">
+                <p th:case="RD" th:text="${ product.rod }">상품내용</p>
+                <p th:case="RL" th:text="${ product.reel }">상품내용</p>
+                <p th:case="LN" th:text="${ product.line }">상품내용</p>
+            </th:block>
         </div>
         <hr>
         <div class="quantity">
             <span>수량 : </span>
-            <input type="number" name="quantity" id="quantity" min="1" value="1">
+            <input type="number" name="quantity" id="quantity" min="1" value="1" step="1">
         </div>
         <div class="price">
             <span>총 가격 : </span>
-            <span id="totalPrice">50,000</span>
+            <th:block th:switch="${ product.categoryCode }">
+                <span class="totalPrice" th:case="RD" th:text="${ #numbers.formatCurrency(product.rod?.price) }"></span>
+                <span class="totalPrice" th:case="RL" th:text="${ #numbers.formatCurrency(product.reel?.price) }"></span>
+                <span class="totalPrice" th:case="LN" th:text="${ #numbers.formatCurrency(product.line?.price) }"></span>
+            </th:block>
+
         </div>
         <div class="option">
             <select name="option" id="option">
                 <option value="" selected="true">옵션선택</option>
                 <th:block th:each="option : ${ optionList }">
                     <th:block th:switch="${ product.categoryCode }">
-                        <option th:case="RD" th:value="${ option.rod.model }">[[${ option.rod.model }]] : [[${ #numbers.formatCurrency(option.rod.price) }]]</option>
-                        <option th:case="RL" th:value="${ option.reel.model }">[[${ option.reel.model }]] : [[${ #numbers.formatCurrency(option.reel.price)]]</option>
-                        <option th:case="ln" th:value="${ option.line.lineSize }">[[${ option.line.lineSize }]] : [[${ #numbers.formatCurrency(option.line.price) }]]</option>
+                        <option th:case="RD" th:value="${ option.productNo }">[[${ option.rod.model }]] : [[${ #numbers.formatCurrency(option.rod.price) }]]</option>
+                        <option th:case="RL" th:value="${ option.productNo }">[[${ option.reel.model }]] : [[${ #numbers.formatCurrency(option.reel.price) }]]</option>
+                        <option th:case="LN" th:value="${ option.productNo }">[[${ option.line.lineSize }]] : [[${ #numbers.formatCurrency(option.line.price) }]]</option>
                     </th:block>
                 </th:block>
             </select>
         </div>
         <div class="buttons">
-            <button type="button" th:onclick="|location.href='@{/member/wish(productNo=${ product.productNo })}'|"><img src="/static/image/heart.png"></button>
-            <button type="button" th:onclick="|location.href='@{/common/share(productNo=${ product.productNo })}'|"><img src="/static/image/share.png"></button>
-            <button type="button" th:onclick="|location.href='@{/common/cart2(productNo=${ product.productNo })}'|"><img src="/static/image/cart.png"></button>
+            <button type="button" th:onclick="|location.href='@{/product/wish(productNo=${ product.productNo })}'|"><img th:src="@{ /image/heart.png }"></button>
+            <button type="button" th:onclick="|location.href='@{/product/share(productNo=${ product.productNo })}'|"><img th:src="@{ /image/share.png }"></button>
+            <button type="button" th:onclick="|location.href='@{/product/cart2(productNo=${ product.productNo })}'|"><img th:src="@{ /image/cart.png }"></button>
             <button type="submit" id="buy">구매하기</button>
         </div>
         </form>
@@ -79,12 +88,12 @@
 <hr>
 <div class="refItemsContainer">
     <div><p><</p></div>
-    <div><img src="/static/image/thumnail.png" alt=""></div>
-    <div><img src="/static/image/thumnail.png" alt=""></div>
-    <div><img src="/static/image/thumnail.png" alt=""></div>
-    <div><img src="/static/image/thumnail.png" alt=""></div>
-    <div><img src="/static/image/thumnail.png" alt=""></div>
-    <div><img src="/static/image/thumnail.png" alt=""></div>
+    <div><img src="/image/rodThumnail.png" alt=""></div>
+    <div><img src="/image/rodThumnail.png" alt=""></div>
+    <div><img src="/image/rodThumnail.png" alt=""></div>
+    <div><img src="/image/rodThumnail.png" alt=""></div>
+    <div><img src="/image/rodThumnail.png" alt=""></div>
+    <div><img src="/image/rodThumnail.png" alt=""></div>
     <div><p>></p></div>
 </div>
 <hr>
@@ -94,26 +103,12 @@
     </div>
 </div>
 <script th:inline="javascript">
-    /*<![CDATA[*/
     $(document).ready(function(){
 
         let categoryCode = [[${ product.categoryCode }]];
         /* 총 가격 용 변수 */
         let $totPrice;
         console.log(categoryCode);
-
-        switch (categoryCode) {
-            case "RD":
-                $totPrice = [[${ product.rod?.price }]] * $("#quantity").val(); break;
-            case "RL":
-                $totPrice = [[${ product.reel?.price }]] * $("#quantity").val(); break;
-            case "LN":
-                $totPrice = [[${ product.line?.price }]] * $("#quantity").val(); break;
-        }
-        console.log($totPrice);
-
-        $totPrice = "₩" + $totPrice.toLocaleString();
-        $("#totalPrice").text($totPrice);
 
         /* 총 가격 입력 용 함수 */
         $("#quantity").on("change", function () {
@@ -127,10 +122,9 @@
                     $totPrice = [[${ product.line?.price }]] * $("#quantity").val(); break;
             }
             $totPrice = "₩" + $totPrice.toLocaleString();
-            $("#totalPrice").text($totPrice);
+            $(".totalPrice").text($totPrice);
         })
     });
-/*]]>*/
 </script>
 
 </body>

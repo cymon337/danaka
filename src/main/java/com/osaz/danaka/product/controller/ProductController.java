@@ -4,6 +4,7 @@ import com.osaz.danaka.common.Pagenation;
 import com.osaz.danaka.common.SelectCriteria;
 import com.osaz.danaka.product.model.dto.ProductDTO;
 import com.osaz.danaka.product.model.service.ProductService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @Controller
 @RequestMapping("/product")
 public class ProductController {
@@ -26,7 +28,7 @@ public class ProductController {
         this.productService = productService;
     }
 
-    // 카테고리 별 상품 목록 출력하기
+    // 카테고리 별 상품 목록 출력하기, 페이징 처리
     @GetMapping("/list2")
     public ModelAndView selectByCategory(HttpServletRequest request, ModelAndView mv){
 
@@ -62,7 +64,7 @@ public class ProductController {
          * */
         int totalCount = productService.selectTotalCount(searchMap);
 
-        System.out.println("totalBoardCount : " + totalCount);
+        log.info("총 상품 수 = {}", totalCount);
 
         /* 한 페이지에 보여 줄 게시물 수 */
         int limit = 10;		//얘도 파라미터로 전달받아도 된다.
@@ -78,7 +80,7 @@ public class ProductController {
             selectCriteria = Pagenation.getSelectCriteria(pageNo, totalCount, limit, buttonAmount, categoryCode, orderCondition);
         }
 
-        System.out.println(selectCriteria);
+        log.info("검색 조건 = {}", selectCriteria);
 
         /* 조회해온다 */
         List<ProductDTO> productList = productService.selectListByCategory(selectCriteria);
@@ -98,6 +100,8 @@ public class ProductController {
 
         ProductDTO product = productService.selectOneProduct(productNo);
         List<ProductDTO> optionList = productService.selectOptionList(product.getProductName());
+
+        log.info("옵션 리스트 = {}", optionList);
 
         mv.addObject("product", product);
         mv.addObject("optionList", optionList);

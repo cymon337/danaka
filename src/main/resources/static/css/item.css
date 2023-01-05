@@ -68,7 +68,7 @@ body>hr {
 .productDetail {
     color: gray;
     font-size: 0.5rem;
-    height: 10em;
+    height: 11em;
 }
 .productName, .productDetail {
     display: block;
@@ -83,6 +83,7 @@ body>hr {
 }
 .quantity>input {
     width: 30%;
+    height: 3em;
     border: 1px #C4C2FF solid;
     border-radius: 6px;
 }
@@ -104,6 +105,9 @@ body>hr {
     background-color: white;
     border: 1px #C4C2FF solid;
     border-radius: 6px;
+}
+option {
+    font-size: 1rem;
 }
 .buttons {
     display: flex;

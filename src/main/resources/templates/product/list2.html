@@ -5,7 +5,7 @@
     <title>Title</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- index.html css -->
-    <link rel="stylesheet" href="/static/css/indexCss.css"/>
+    <link rel="stylesheet" th:href="@{ /css/indexCss.css }"/>
     <!--    -->
     <!--    &lt;!&ndash; 부트스트랩 &ndash;&gt;-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -23,7 +23,7 @@
             crossorigin="anonymous"></script>
 
     <!-- 승재 css -->
-    <link rel="stylesheet" type="text/css" href="/static/css/list.css">
+    <link rel="stylesheet" type="text/css" th:href="@{ /css/list.css }">
 </head>
 <body>
 <div class="header">
@@ -31,9 +31,9 @@
 </div>
 <div class="categoryImg">
     <th:block th:switch="${ selectCriteria.categoryCode }">
-        <img th:case="RD" th:href="@{/image/배너.png}" src="/static/image/배너.png" alt="카테고리별 대표사진">
-        <img th:case="RL" th:href="@{/image/배너1.png}" src="/static/image/배너1.png" alt="카테고리별 대표사진">
-        <img th:case="LN" th:href="@{/image/배너2.png}" src="/static/image/배너2.png" alt="카테고리별 대표사진">
+        <img th:case="RD" th:src="@{ /image/배너.png }" alt="카테고리별 대표사진">
+        <img th:case="RL" th:src="@{ /image/배너1.png }" alt="카테고리별 대표사진">
+        <img th:case="LN" th:src="@{ /image/배너2.png }" alt="카테고리별 대표사진">
     </th:block>
 </div>
 <div class="orderContainer">
@@ -47,15 +47,24 @@
 <div class="outerProductsContainer">
     <div class="productContainer" th:each="product : ${ productList }">
         <div class="thumnail">
-            <img src="/static/image/thumnail.png" alt="상품썸네일" th:onclick="|location.href='@{/product/item2(productNo=${ product.productNo })}'|">
+            <th:block th:switch="${ selectCriteria.categoryCode }">
+                <img th:case="RD" th:src="@{ /image/rodThumnail.png }" alt="상품썸네일" th:onclick="|location.href='@{/product/item2(productNo=${ product.productNo })}'|">
+                <img th:case="RL" th:src="@{ /image/reelThumnail.png }" alt="상품썸네일" th:onclick="|location.href='@{/product/item2(productNo=${ product.productNo })}'|">
+                <img th:case="LN" th:src="@{ /image/lineThumnail.png }" alt="상품썸네일" th:onclick="|location.href='@{/product/item2(productNo=${ product.productNo })}'|">
+            </th:block>
         </div>
         <div class="detail1">
             <div class="productName">
-                <a th:href="@{/product/item2(productNo=${ product.productNo })}"><h4 th:text="${ product.productName }">
-                    상품명</h4></a>
+                <a th:href="@{/product/item2(productNo=${ product.productNo })}"><p th:text="${ product.productName }">
+                    상품명</p></a>
             </div>
             <div class="productDetail">
-                <p>상품정보</p>
+                <th:block th:switch="${ product.categoryCode }">
+                    <p th:case="RD" th:text="${ product.rod }">상품정보</p>
+                    <p th:case="RL" th:text="${ product.reel }">상품정보</p>
+                    <p th:case="LN" th:text="${ product.line }">상품정보</p>
+                </th:block>
+
             </div>
         </div>
         <div class="detail2">
@@ -77,6 +86,20 @@
 </div>
 
 </div>
-
+<script th:inline="javascript">
+    if([[${ selectCriteria.orderCondition }]] != null) {
+        switch ([[${ selectCriteria.orderCondition }]]) {
+            case "sale":
+                $("#sale").css("backgroundColor", "#0448AD");
+                $("#sale").css("color", "white"); break;
+            case "lowPrice":
+                $("#lowPrice").css("backgroundColor", "#0448AD");
+                $("#lowPrice").css("color", "white"); break;
+            case "highPrice":
+                $("#highPrice").css("backgroundColor", "#0448AD");
+                $("#highPrice").css("color", "white"); break;
+        }
+    }
+</script>
 </body>
 </html>

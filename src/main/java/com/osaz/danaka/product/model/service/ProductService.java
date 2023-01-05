@@ -31,8 +31,6 @@ public class ProductService {
         return productMapper.selectListByCategory(selectCriteria);
     }
 
-    ;
-
     public ProductDTO selectOneProduct(String productNo) {
 
         return productMapper.selectOneProduct(productNo);
