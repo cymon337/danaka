@@ -8,9 +8,11 @@ import org.springframework.stereotype.Repository;
 public interface PackageMapper {
 
 
+    String[] selectBrandNameOption();
 
+    String[] selectReelTypeOption();
 
+    String[] selectLineMinOption();
 
-
-
+    String[] selectLineMaxOption();
 }

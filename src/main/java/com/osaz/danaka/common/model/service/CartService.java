@@ -3,7 +3,7 @@ package com.osaz.danaka.common.model.service;
 import com.osaz.danaka.common.model.dao.CartMapper;
 import com.osaz.danaka.common.model.dto.CartDTO;
 import com.osaz.danaka.common.model.dto.CartProductDTO;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,12 +11,13 @@ import java.util.List;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
+@RequiredArgsConstructor
 public class CartService {
 
     private final CartMapper cartMapper;
 
-    @Autowired
-    public CartService(CartMapper cartMapper) { this.cartMapper = cartMapper; }
+//    @Autowired
+//    public CartService(CartMapper cartMapper) { this.cartMapper = cartMapper; }
 
 //1. selectAllCart 장바구니페이지에서 회원번호별 카트에 담긴 모든 상품 select method
     public List<CartProductDTO> selectAllCart(String userNo) {

@@ -40,20 +40,16 @@
                     </tr>
                 </table>
 <!--            카테고리셀렉박스    -->
-                <script>
+                <script type="text/javascript">
                     function selectCategory() {
                         // selectBox 선택시 옵션 value 읽어옴 rod, reel, line
-                        let option = $("#category-select-box").val()
-                        console.log(option);
+                        let category = $("#category-select-box").val()
+                        console.log(category);
 
-                        // 조건문 카테고리 value 에 따라 카테고리옵션 다르게 불러옴 // fragment 작성하여 불러올것
-                        let rodOptionFragment ="<div th:replace='~{fragment/tr :: rod}'></div>";
-                        let reelOptionFragment ="릴릴릴릴";
-                        let lineOptionFragment ="라인라인";
-                        switch (option) {
-                            case 'rod': $(".category-option").text(rodOptionFragment); break;
-                            case 'reel': $(".category-option").text(reelOptionFragment); break;
-                            case 'line': $(".category-option").text(lineOptionFragment); break;
+                        switch (category) {
+                            case 'rod': $.ajax({type : 'GET',url : "?category=rod"}); break;
+                            case 'reel':  break;
+                            case 'line':  break;
                         }
 
                     }
@@ -126,7 +122,6 @@
             <div class="package-cart order">
                 11
             </div>
-
         </div>
     </div>
 </body>
