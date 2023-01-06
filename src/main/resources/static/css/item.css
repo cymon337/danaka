@@ -70,7 +70,7 @@ body>hr {
 }
 .productDetail {
     color: gray;
-    font-size: 0.5rem;
+    font-size: 0.8rem;
     height: 11em;
 }
 .productName, .productDetail {
@@ -97,7 +97,7 @@ body>hr {
 .option {
     width: 100%;
     height: 10%;
-    margin: 1% auto 1% auto;
+    margin: 2% auto 1% auto;
 }
 #option {
     width: 100%;
@@ -114,6 +114,7 @@ option {
 }
 .buttons {
     display: flex;
+    margin-top: 2%;
     margin-bottom: 1em;
     justify-content: space-between;
     box-sizing: border-box;

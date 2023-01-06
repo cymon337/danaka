@@ -137,7 +137,12 @@
           FROM VIEW_PRODUCT A
           LEFT JOIN T_IMG_PATH B
             ON A.PRODUCT_NO = B.PRODUCT_NO
-         WHERE PRODUCT_NAME = #{ productName }
+         WHERE A.PRODUCT_NAME = #{ productName }
+           AND A.PRODUCT_NO != (SELECT
+                                  MIN(PRODUCT_NO)
+                                FROM T_PRODUCT
+                               WHERE PRODUCT_NAME = #{ productName }
+                               GROUP BY PRODUCT_NAME)
     </select>
     <!-- 상품 상세페이지에서 해당 상품과 같은 카테고리 상품들 10개만 조회 쿼리 -->
     <select id="selectRefProducts" parameterType="String" resultMap="productResultMap">
@@ -162,13 +167,25 @@
            AND A.PRODUCT_NO != #{ productNo }
     </select>
     <!-- 상품 상세페이지에서 해당 상품을 위시리스트에 등록하는 쿼리 -->
-    <insert id="registWishList" parameterType="Map">
+    <insert id="insertWishProduct" parameterType="Map">
         INSERT INTO T_WISHLIST
         VALUES
             (
              SEQ_WISH_NO.NEXTVAL,
              #{ userNo },
              #{ productNo }
+            )
+    </insert>
+    <!-- 상품 상세페이지에서 해당 상품을 장바구니에 등록하는 쿼리 -->
+    <insert id="insertCartProduct" parameterType="Map">
+        INSERT INTO T_CART
+        VALUES
+            (
+             SEQ_CART_NO.NEXTVAL,
+             #{ userNo },
+             #{ productNo },
+             #{ amount },
+             ''
             )
     </insert>
 </mapper>

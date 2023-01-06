@@ -20,6 +20,7 @@ public interface ProductMapper {
 
     List<ProductDTO> selectRefProducts(String productNo);
 
-    int registWishList(Map<String, String> parameter);
+    int insertWishProduct(Map<String, String> wishMap);
 
+    int insertCartProduct(Map<String, String> cartMap);
 }

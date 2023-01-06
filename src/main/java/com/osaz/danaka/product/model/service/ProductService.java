@@ -46,13 +46,25 @@ public class ProductService {
         return productMapper.selectRefProducts(productNo);
     }
 
-    public boolean registWishList(Map<String, String> parameter) throws Exception {
+    public boolean insertWishProduct(Map<String, String> wishMap) throws Exception {
 
-        int result = productMapper.registWishList(parameter);
+        int result = productMapper.insertWishProduct(wishMap);
 
         if (result <= 0) {
             throw new Exception("위시리스트 등록 실패");
         }
         return (result > 0) ? true : false;
     }
+
+    public boolean insertCartProduct(Map<String, String> cartMap) throws Exception {
+
+        int result = productMapper.insertCartProduct(cartMap);
+
+        if (result <= 0) {
+            throw new Exception("위시리스트 등록 실패");
+        }
+        return (result > 0) ? true : false;
+    }
+
+
 }

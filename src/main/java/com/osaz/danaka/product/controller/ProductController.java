@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -110,8 +111,52 @@ public class ProductController {
 
         mv.addObject("product", product);
         mv.addObject("optionList", optionList);
+        mv.addObject("refProductList", refProductList);
         mv.setViewName("product/item2");
 
         return mv;
+    }
+
+    // 승재 - 해당하는 상품 위시리스트에 넣기
+    @GetMapping("/wish")
+    public ModelAndView insertWishProduct (/*HttpSession session, */HttpServletRequest request, ModelAndView mv, RedirectAttributes rttr) throws Exception {
+
+        HashMap<String, String> wishMap = new HashMap<>();
+        String productNo = request.getParameter("productNo");
+//        String userNo = (String) session.getAttribute("userNo");
+        String userNo = "1"; // 테스트용
+
+        wishMap.put("userNo", userNo);
+        wishMap.put("productNo", productNo);
+
+        boolean result = productService.insertWishProduct(wishMap);
+
+        mv.setViewName("redirect:/product/item2?productNo=" + productNo);
+        rttr.addFlashAttribute("successMessage", "찜하기 성공!");
+
+        return mv;
+    }
+
+    // 승재 - 해당하는 상품 장바구니에 넣기
+    @GetMapping("/cart")
+    public ModelAndView insertCartProduct (/*HttpSession session, */HttpServletRequest request, ModelAndView mv, RedirectAttributes rttr) throws Exception {
+
+        HashMap<String, String> cartMap = new HashMap<>();
+        String productNo = request.getParameter("productNo");
+//        String userNo = (String) session.getAttribute("userNo");
+        String userNo = "1";
+        String amount = request.getParameter("amount");
+
+        cartMap.put("productNo", productNo);
+        cartMap.put("userNo", userNo);
+        cartMap.put("amount", amount);
+
+        boolean result = productService.insertCartProduct(cartMap);
+
+        mv.setViewName("redirect:/product/item2?productNo=" + productNo);
+        rttr.addFlashAttribute("successMessage", "장바구니 담기 성공!");
+
+        return mv;
+
     }
 }
