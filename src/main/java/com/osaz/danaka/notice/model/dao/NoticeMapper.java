@@ -15,8 +15,12 @@ public interface NoticeMapper {
     NoticeDTO selectOneNotice(String noticeNo);
 
     /*공지사항 추가*/
-    int insertNotice(NoticeDTO newNotice);
+    void insertNotice(NoticeDTO newNotice);
 
     /*공지사항 삭제*/
-    int deleteNotice(String noticeNo);
+    void deleteNotice(String noticeNo);
+
+    void updateNotice(NoticeDTO modifyNotice);
+
+    void incrementNoticeCount(String noticeNo);
 }

@@ -53,6 +53,7 @@ public class NoticeController {
 
 //		String noticeNo = request.getParameter("noticeNo");
 		NoticeDTO notice = noticeService.selectOneNotice(noticeNo);
+		noticeService.incrementNoticeCount(noticeNo);
 
 		/*addObject : selectOneNotice을 통해 반환된 결과 값 notice를 mv객체에 "notice"라는 이름으로 보내줘서 뷰에서 사용 가능
 		* setViewName : 페이지 이동할 경로 설정*/
@@ -68,7 +69,7 @@ public class NoticeController {
 
 	/*공지사항 작성 처리 POST*/
 	@PostMapping("noticeEnroll")
-	public ModelAndView insertNotice(ModelAndView mv, NoticeDTO newNotice, RedirectAttributes rttr) throws Exception {
+	public ModelAndView insertNotice(ModelAndView mv, NoticeDTO newNotice, RedirectAttributes rttr) {
 		noticeService.insertNotice(newNotice);
 
 		/*redirect 해줘야 POST처리 된 후 다시 값 불러와서 정상적인 화면 출력*/
@@ -78,15 +79,36 @@ public class NoticeController {
 		return mv;
 	}
 
-	@GetMapping("deleteNotice")
-	public void deleteNotice() {}
-
+	/*공지사항 삭제*/
 	@PostMapping("deleteNotice")
-	public ModelAndView deleteNotice(@RequestParam(value = "noticeNo") String noticeNo, ModelAndView mv, RedirectAttributes rttr) throws Exception {
+	public ModelAndView deleteNotice(@RequestParam(value = "noticeNo") String noticeNo, ModelAndView mv, RedirectAttributes rttr) {
 		noticeService.deleteNotice(noticeNo);
 
 		mv.setViewName("redirect:/notice/noticeListView");
 		rttr.addFlashAttribute("successMessage","공지사항 삭제 성공 !" );
+
+		return mv;
+	}
+
+	/*공지사항 수정 페이지 연결 GET*/
+	@GetMapping("noticeModify")
+	public ModelAndView updateNotice(@RequestParam(value = "noticeNo") String noticeNo, ModelAndView mv) {
+
+		NoticeDTO notice = noticeService.selectOneNotice(noticeNo);
+
+		mv.addObject("notice", notice);
+		mv.setViewName("notice/noticeModify");
+
+		return mv;
+	}
+
+	/*공지사항 작성 처리 POST*/
+	@PostMapping("noticeModify")
+	public ModelAndView updateNotice(NoticeDTO modifyNotice, ModelAndView mv, RedirectAttributes rttr) {
+		noticeService.updateNotice(modifyNotice);
+
+		mv.setViewName("redirect:/notice/noticeListView");
+		rttr.addFlashAttribute("successMessage","공지사항 수정 성공 !" );
 
 		return mv;
 	}

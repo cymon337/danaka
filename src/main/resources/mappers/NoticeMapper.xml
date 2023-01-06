@@ -65,6 +65,24 @@
         WHERE A.NOTICE_NO = #{ noticeNo }
     </delete>
 
+<!--    공지사항 번호 전달 할때 타입 parameterType="com.study.domain.post.PostRequest" / 반환 타입(map도)은 필요없음, 수정 처리만 하고 리다이렉트로 리스트로 이동-->
+    <update id="updateNotice">
+        UPDATE T_NOTICE A
+        SET
+            A.NOTICE_NAME = #{ noticeName }
+          , A.NOTICE_CONTENT = #{ noticeContent }
+          , A.NOTICE_DATE = SYSDATE
+        WHERE
+            A.NOTICE_NO = #{ noticeNo }
+    </update>
+
+    <update id="incrementNoticeCount">
+        UPDATE /* com.greedy.jsp.board.model.dao.BoardDAO#incrementBoardCount() */
+            T_NOTICE A
+        SET A.NOTICE_COUNT = A.NOTICE_COUNT + 1
+        WHERE A.NOTICE_NO = #{ noticeNo }
+    </update>
+
     <!--    <select id="selectOne" parameterType="String" resultMap="productResultMap">-->
 <!--        SELECT-->
 <!--            *-->

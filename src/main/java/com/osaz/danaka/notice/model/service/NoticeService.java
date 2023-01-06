@@ -37,25 +37,27 @@ public class NoticeService {
 	}
 
 	/*공지사항 추가*/
-	public boolean insertNotice(NoticeDTO newNotice) throws Exception {
-		int result = noticeMapper.insertNotice(newNotice);
+	public void insertNotice(NoticeDTO newNotice) {
+		noticeMapper.insertNotice(newNotice);
+//		boolean int result = noticeMapper.insertNotice(newNotice);
 
-		if(result <= 0){
-			throw new Exception("공지사항 등록 실패");
-		}
-
-		return result > 0 ? true : false;
+//		if(result <= 0){
+//			throw new Exception("공지사항 등록 실패");
+//		}
+//
+//		return result > 0 ? true : false;
 	}
 
 	/*공지사항 삭제*/
-	public boolean deleteNotice(String noticeNo) throws Exception {
-		int result = noticeMapper.deleteNotice(noticeNo);
-
-		if(result <= 0){
-			throw new Exception("공지사항 삭제 실패");
-		}
-
-		return result > 0 ? true : false;
+	public void deleteNotice(String noticeNo) {
+		noticeMapper.deleteNotice(noticeNo);
 	}
 
+	public void updateNotice(NoticeDTO modifyNotice) {
+		noticeMapper.updateNotice(modifyNotice);
+	}
+
+	public void incrementNoticeCount(String noticeNo) {
+		noticeMapper.incrementNoticeCount(noticeNo);
+	}
 }

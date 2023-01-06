@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title> NoticeEnroll </title>
+    <title> NoticeModify </title>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -37,39 +37,55 @@
 
     <div class="content">
         <br><br>
-        <h2 align="center">공지사항 작성</h2>
+        <h2 align="center">공지사항 수정</h2>
 
         <br>
     
 
 
-        <form th:action="@{/notice/noticeEnroll}"  method="post">
+        <form th:action="@{/notice/noticeModify}"  method="post" onsubmit="updateNotice()">
             <table align="center" id="contentArea">
+                <input type="hidden" name="noticeNo" th:value="${notice.noticeNo}"/>
                 <tr>
                     <th><label for="title">제목</label></th>
-                    <td><input type="text" id="title" class="form-control" name = "noticeName"  required></td>
+                    <td><input type="text" id="title" class="form-control" name = "noticeName" th:field="${notice.noticeName}" required></td>
                 </tr>
 <!--                <tr>-->
 <!--                    <th><label for="writer">작성자</label></th>-->
-<!--                    <td>관리자&lt;!&ndash;<input type="text" id="writer" class="form-control"  name = "boardWriter">&ndash;&gt;</td>-->
+<!--                    <td id="writer" th:text="${notice.userName}"></td>-->
 <!--                </tr>-->
 
                 <tr>
                     <th colspan="2"><label for="content">내용</label></th>
                 </tr>
                 <tr>
-                    <th colspan="2"><textarea class="form-control" required name="noticeContent" id="content" rows="10" style="resize:none;"></textarea></th>
+                    <th colspan="2"><textarea class="form-control" th:text="${notice.noticeContent}" name="noticeContent" id="content" rows="10" style="resize:none;" required></textarea></th>
                 </tr>
             </table>
             <br>
 
             <div align="center">
 <!--                th:onclick="if(${noticeName}!=null && ${noticeContent}!=null) {alert('공지사항 등록 성공')}"-->
-                <button type="submit" class="btn btn-primary">등록하기</button>
+                <button type="submit" class="btn btn-primary">수정하기</button>
                 <button type="reset" class="btn btn-danger">초기화</button>
                 <button type="button" class="btn btn-secondary" onclick="history.go(-1);">이전으로</button>
             </div>
         </form>
+
+        <script th:inline="javascript">
+            /*<![CDATA[*/
+
+            // 게시글 삭제
+            function updateNotice() {
+                const no = [[ ${notice.noticeNo}]];
+
+                if (!confirm(no + '번 글을 수정합니다.')) {
+                    return false;
+                }
+            }
+
+            /*]]>*/
+        </script>
 
     </div>
 </body>
