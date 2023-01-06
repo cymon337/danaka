@@ -10,10 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
-import java.util.Locale;
 
 @Slf4j
 @Controller
@@ -49,10 +47,9 @@ public class CartController {
     }
 
     @PostMapping("registCart")
-    public ModelAndView registCart(ModelAndView mv, List<CartDTO> cartList, RedirectAttributes rttr, Locale locale) throws Exception{
+    public ModelAndView registCart(ModelAndView mv, List<CartDTO> cartList) throws Exception{
         cartService.registCart(cartList);
-//        mv.setViewName("redirect:/common/cartList 화면구현 타임리프 만들기");
-//        rttr.addFlashAttribute("successMessage", MessageSource.getMessage("selectAllCart", null, locale));
+
 
         return mv;
     }

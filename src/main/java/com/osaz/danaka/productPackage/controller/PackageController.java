@@ -20,7 +20,7 @@ public class PackageController {
 //    1 상품명 검색 (카테고리 조건에 따라 로드, 릴, 라인 으로 검색)
 
 //    2 옵션 필터 (카테고리 조건에 따라 로드, 릴, 라인 옵션 호출)
-    @GetMapping("?category=rod")
+    @GetMapping("?asd=asd")
     public ModelAndView categoryOption(ModelAndView mv) {
         String[] brandNameOption = packageService.selectBrandNameOption();
         String[] reelTypeOption = packageService.selectReelTypeOption();

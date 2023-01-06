@@ -36,24 +36,11 @@
                                 <option value="reel">릴</option>
                                 <option value="line">라인</option>
                             </select>
+
+                            // https://chobopark.tistory.com/226 참조해서 만들기
                         </td>
                     </tr>
                 </table>
-<!--            카테고리셀렉박스    -->
-                <script type="text/javascript">
-                    function selectCategory() {
-                        // selectBox 선택시 옵션 value 읽어옴 rod, reel, line
-                        let category = $("#category-select-box").val()
-                        console.log(category);
-
-                        switch (category) {
-                            case 'rod': $.ajax({type : 'GET',url : "?category=rod"}); break;
-                            case 'reel':  break;
-                            case 'line':  break;
-                        }
-
-                    }
-                </script>
 
                 <hr>
                 <table class="category-option">
