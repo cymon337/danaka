@@ -31,12 +31,13 @@ body>hr {
     border: 1px #e5e5ff solid;
 }
 .bigImg {
-    width: 65%;
-    margin: 3% auto 1% auto;
+    width: 62%;
+    margin: 3% auto 3% auto;
 
 }
 .bigImg>img {
     width: 100%;
+    min-height: 16em;
     box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.25);
 }
 .otherImges {

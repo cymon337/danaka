@@ -18,6 +18,8 @@ public interface ProductMapper {
 
     List<ProductDTO> selectOptionList(String productName);
 
+    List<ProductDTO> selectRefProducts(String productNo);
+
     int registWishList(Map<String, String> parameter);
 
 }

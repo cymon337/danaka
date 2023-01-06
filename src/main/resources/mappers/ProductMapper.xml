@@ -7,7 +7,7 @@
     <resultMap type="com.osaz.danaka.product.model.dto.ProductDTO" id="productResultMap">
         <id property="productNo" column="PRODUCT_NO"/>
         <result property="categoryCode" column="CATEGORY_CODE"/>
-        <result property="brandNo" column="BRAND_NO"/>
+        <result property="brandName" column="BRAND_NAME"/>
         <result property="productName" column="PRODUCT_NAME"/>
         <result property="productRegDate" column="PRODUCT_REG_DATE"/>
         <result property="stock" column="STOCK"/>
@@ -119,20 +119,47 @@
     <!-- 상품 상세 페이지를 위한 같은 대상품 내에 속한 옵션 상품들 조회 쿼리 -->
     <select id="selectOptionList" parameterType="String" resultMap="productResultMap">
         SELECT
-            PRODUCT_NO,
-            PRODUCT_NAME,
-            ROD_MODEL,
-            ROD_REEL_TYPE,
-            LINE_MIN,
-            LINE_MAX,
-            ROD_PRICE,
-            REEL_MODEL,
-            REEL_TYPE,
-            REEL_PRICE,
-            LINE_SIZE,
-            LINE_PRICE
-          FROM VIEW_PRODUCT
+            A.CATEGORY_CODE,
+            A.PRODUCT_NO,
+            A.PRODUCT_NAME,
+            A.BRAND_NAME,
+            A.ROD_MODEL,
+            A.ROD_REEL_TYPE,
+            A.LINE_MIN,
+            A.LINE_MAX,
+            A.ROD_PRICE,
+            A.REEL_MODEL,
+            A.REEL_TYPE,
+            A.REEL_PRICE,
+            A.LINE_SIZE,
+            A.LINE_PRICE,
+            B.SAVE_PATH
+          FROM VIEW_PRODUCT A
+          LEFT JOIN T_IMG_PATH B
+            ON A.PRODUCT_NO = B.PRODUCT_NO
          WHERE PRODUCT_NAME = #{ productName }
+    </select>
+    <!-- 상품 상세페이지에서 해당 상품과 같은 카테고리 상품들 10개만 조회 쿼리 -->
+    <select id="selectRefProducts" parameterType="String" resultMap="productResultMap">
+        SELECT
+            A.PRODUCT_NO,
+            B.SAVE_PATH
+          FROM (SELECT
+                    PRODUCT_NO,
+                    CATEGORY_CODE
+                  FROM T_PRODUCT
+                 WHERE PRODUCT_NO IN (SELECT
+                                          MIN(PRODUCT_NO) "PRODUCT_NO"
+                                      FROM T_PRODUCT
+                                      GROUP BY PRODUCT_NAME)) A
+          LEFT JOIN T_IMG_PATH B
+            ON A.PRODUCT_NO = B.PRODUCT_NO
+         WHERE A.CATEGORY_CODE = (SELECT
+                                    C.CATEGORY_CODE
+                                  FROM T_PRODUCT C
+                                 WHERE C.PRODUCT_NO = #{ productNo })
+           AND ROWNUM BETWEEN 1 AND 10
+           AND A.PRODUCT_NO != #{ productNo }
     </select>
     <!-- 상품 상세페이지에서 해당 상품을 위시리스트에 등록하는 쿼리 -->
     <insert id="registWishList" parameterType="Map">

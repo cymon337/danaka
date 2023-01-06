@@ -5,14 +5,14 @@
     <title>Title</title>
     <!-- index.html css -->
     <link rel="stylesheet" th:href="@{ /css/indexCss.css }"/>
-    <!--    &lt;!&ndash; 부트스트랩 &ndash;&gt;-->
+    <!-- 부트스트랩 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous"/>
-    <!--    &lt;!&ndash; 아이콘 &ndash;&gt;-->
+    <!-- 아이콘 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css"/>
-    <!--    &lt;!&ndash; 제이쿼리 &ndash;&gt;-->
+    <!-- 제이쿼리 -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <!--    &lt;!&ndash; 자바스크립트 &ndash;&gt;-->
+    <!-- 자바스크립트 -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
             crossorigin="anonymous"></script>
@@ -31,11 +31,13 @@
             <img th:src="${ product.savePath }">
         </div>
         <div class="otherImges">
-            <div class="otherImg"><img th:src="@{ /image/rod/rod5.png }"></div>
-            <div class="otherImg"><img th:src="@{ /image/rod/rod5.png }"></div>
-            <div class="otherImg"><img th:src="@{ /image/rod/rod5.png }"></div>
-            <div class="otherImg"><img th:src="@{ /image/rod/rod5.png }"></div>
-            <div class="otherImg"><img th:src="@{ /image/rod/rod5.png }"></div>
+            <th:block th:each="option : ${ optionList }">
+                <th:block th:switch="${ option.categoryCode }">
+                    <div class="otherImg" th:case="RD"><img th:src="${ option?.savePath }?:'/image/rod/rodDefault.png'"></div>
+                    <div class="otherImg" th:case="RL"><img th:src="${ option?.savePath }?:'/image/reel/reelDefault.png'"></div>
+                    <div class="otherImg" th:case="LN"><img th:src="${ option?.savePath }?:'/image/line/lineDefault.png'"></div>
+                </th:block>
+            </th:block>
         </div>
     </div>
     <div class="detailContainer">
@@ -45,9 +47,9 @@
         </div>
         <div class="productDetail">
             <th:block th:switch="${ product.categoryCode }">
-                <p th:case="RD" th:text="${ product.rod }">상품내용</p>
-                <p th:case="RL" th:text="${ product.reel }">상품내용</p>
-                <p th:case="LN" th:text="${ product.line }">상품내용</p>
+                <p th:case="RD" th:text="|브랜드 : ${ product.brandName }, ${ product.rod }|">상품내용</p>
+                <p th:case="RL" th:text="|브랜드 : ${ product.brandName }, ${ product.reel }|">상품내용</p>
+                <p th:case="LN" th:text="|브랜드 : ${ product.brandName }, ${ product.line }|">상품내용</p>
             </th:block>
         </div>
         <hr>
@@ -105,13 +107,13 @@
 <script th:inline="javascript">
     $(document).ready(function(){
 
-        let categoryCode = [[${ product.categoryCode }]];
-        /* 총 가격 용 변수 */
-        let $totPrice;
-        console.log(categoryCode);
-
-        /* 총 가격 입력 용 함수 */
+        /* 수량 변화에 따라 가격 바꾸는 함수 */
         $("#quantity").on("change", function () {
+
+            let categoryCode = [[${ product.categoryCode }]];
+            /* 총 가격 용 변수 */
+            let $totPrice;
+            console.log(categoryCode);
 
             switch (categoryCode) {
                 case "RD":
@@ -123,6 +125,14 @@
             }
             $totPrice = "₩" + $totPrice.toLocaleString();
             $(".totalPrice").text($totPrice);
+        })
+
+        $(".otherImg").on("click", function () {
+
+            const $otherImg = $(this).html();
+            console.log($otherImg);
+
+            $(".bigImg").html($otherImg);
         })
     });
 </script>

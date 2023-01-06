@@ -28,7 +28,7 @@ public class ProductController {
         this.productService = productService;
     }
 
-    // 카테고리 별 상품 목록 출력하기, 페이징 처리
+    // 승재 - 카테고리 별 상품 목록 출력하기, 페이징 처리
     @GetMapping("/list2")
     public ModelAndView selectByCategory(HttpServletRequest request, ModelAndView mv){
 
@@ -93,14 +93,18 @@ public class ProductController {
         return mv;
     }
 
-    // 상품 상세페이지용 상품 정보 가져오기
+    // 승재 - 상품 상세페이지용 상품 정보 가져오기
     @GetMapping("/item2")
     public ModelAndView selectOneProduct(HttpServletRequest request, ModelAndView mv){
 
         String productNo = request.getParameter("productNo");
 
+        // 해당하는 상품 DTO 조회
         ProductDTO product = productService.selectOneProduct(productNo);
+        // 해당하는 상품에 속한 옵션 조회
         List<ProductDTO> optionList = productService.selectOptionList(product.getProductName());
+        // 해당하는 상품과 같은 카테고리 상품들의 이미지와 상품번호 조회
+        List<ProductDTO> refProductList = productService.selectRefProducts(productNo);
 
         log.info("옵션 리스트 = {}", optionList);
 

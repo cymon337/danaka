@@ -41,6 +41,11 @@ public class ProductService {
         return productMapper.selectOptionList(productName);
     }
 
+    public List<ProductDTO> selectRefProducts(String productNo) {
+
+        return productMapper.selectRefProducts(productNo);
+    }
+
     public boolean registWishList(Map<String, String> parameter) throws Exception {
 
         int result = productMapper.registWishList(parameter);

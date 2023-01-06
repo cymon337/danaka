@@ -11,7 +11,6 @@ public class ReelDTO{
 
     @Override
     public String toString() {
-        return "모델명 : " + model + '\'' +
-                ", 릴타입 : " + reelType;
+        return "모델명 : " + model + ", 릴타입 : " + reelType;
     }
 }
