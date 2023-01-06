@@ -27,29 +27,50 @@
             </div>
 
             <div class="package-search category">
-                <table>
+                <table class="category-select">
                     <tr>
                         <th>카테고리</th>
-                        <td></td>
                         <td>
-                            <select>
-                                <option>로드</option>
-                                <option>릴</option>
-                                <option>라인</option>
+                            <select id="category-select-box" onchange="selectCategory()">
+                                <option value="rod">로드</option>
+                                <option value="reel">릴</option>
+                                <option value="line">라인</option>
                             </select>
                         </td>
                     </tr>
                 </table>
+<!--            카테고리셀렉박스    -->
+                <script>
+                    function selectCategory() {
+                        // selectBox 선택시 옵션 value 읽어옴 rod, reel, line
+                        let option = $("#category-select-box").val()
+                        console.log(option);
+
+                        // 조건문 카테고리 value 에 따라 카테고리옵션 다르게 불러옴 // fragment 작성하여 불러올것
+                        let rodOptionFragment ="<div th:replace='~{fragment/tr :: rod}'></div>";
+                        let reelOptionFragment ="릴릴릴릴";
+                        let lineOptionFragment ="라인라인";
+                        switch (option) {
+                            case 'rod': $(".category-option").text(rodOptionFragment); break;
+                            case 'reel': $(".category-option").text(reelOptionFragment); break;
+                            case 'line': $(".category-option").text(lineOptionFragment); break;
+                        }
+
+                    }
+                </script>
 
                 <hr>
                 <table class="category-option">
+
                     <tr>
                         <th>브랜드</th>
-                        <td>다이와</td>
-                        <td>시마노</td>
-                        <td>js</td>
-                        <td>ns</td>
-                        <td>도요</td>
+                        <td><button type="button" class="btn btn-outline-secondary">다이와</button></td>
+                        <td><button type="button" class="btn btn-outline-secondary">다이와</button></td>
+                        <td><button type="button" class="btn btn-outline-secondary">다이와</button></td>
+                        <td><button type="button" class="btn btn-outline-secondary">다이와</button></td>
+                        <td><button type="button" class="btn btn-outline-secondary">다이와</button></td>
+                        <td><button type="button" class="btn btn-outline-secondary">다이와</button></td>
+
                     </tr>
                     <tr>
                         <th>브랜드</th>
@@ -71,6 +92,20 @@
                 <hr>
                 <span>선택옵션 :</span>
             </div>
+<!--        카테고리옵션 선택 활성/비활성    -->
+            <script type="text/javascript">
+                $(".btn-outline-secondary").on("click", function (e) {
+                    // if ($("#btn-select-all-cart").hasClass("active") === true) {
+                    //     $("#btn-select-all-cart").removeClass("active");
+                    // }
+
+                    if ($(e.target).hasClass("active") === true) {
+                        $(e.target).removeClass("active")
+                    } else {
+                        $(e.target).addClass("active");
+                    }
+                });
+            </script>
 
             <div class="package-search item-list">
                 <ul>

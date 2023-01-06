@@ -1,14 +1,15 @@
-/*==================== 전체 wrapper ====================*/
+/*==================== wrapper ====================*/
 .wrapper {
     display: flex;
+    width: 100%;
 }
 
-/*==================== 검색파트 ====================*/
+/*==================== package search ====================*/
 
 .package-search-wrapper {
     border: 1px solid black;
     height: 100%;
-    width: 50%;
+    width: 55%;
     margin-top: auto;
     margin-bottom: auto;
     margin-right: 5%;
@@ -25,10 +26,18 @@
 #search-product {
     width: 90%;
 }
+.category-select, select{
+    margin-left: 20px;
+    margin-top: 5px;
+}
+
+.category-option button {
+    margin-left: 20px;
+    margin-right: auto;
+}
 
 
-
-/*==================== 조합견적카트 ====================*/
+/*==================== package cart ====================*/
 .package-cart-wrapper {
     border: 1px solid black;
     width: 20%;
@@ -37,7 +46,7 @@
     margin-top: auto;
     margin-bottom: auto;
     margin-right: 10%;
-    margin-left: 5%;
+    margin-left: 0%;
 
     background-color: cyan;
 }
