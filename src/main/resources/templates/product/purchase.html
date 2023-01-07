@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -34,31 +34,34 @@
 </div>
 <div class="listContainer">
     <div class="buyingProduct">
-        <div class="thumnail">
-            <img src="/image/rod/rod5.png" alt="섬네일">
-        </div>
-        <div class="product">
-            <div class="productName">
-                <span>상품명 </span>
-                <span>옵션명</span>
+        <th:block th:if="${ product }" th:switch="${ product.categoryCode }">
+            <div class="thumnail">
+                <img th:src="${ product?.savePath }?: '/image/line/lineDefault.png'" alt="상품섬네일">
             </div>
-            <div class="productDetail">
-                <p>상품상세</p>
+            <div class="product">
+                <div class="productName">
+                    <span th:text="${ product.productName }">상품명 </span>
+                </div>
+                <div class="productDetail">
+                    <span th:case="RD" th:text="${ product.rod }">상품 상세</span>
+                    <span th:case="RL" th:text="${ product.reel }">상품 상세</span>
+                    <span th:case="LN" th:text="${ product.line }">상품 상세</span>
+                </div>
             </div>
-        </div>
-        <div class="options">
-            <div class="quantity">
-                <span>총 수량 : </span>
-                <button>-</button>
-                <input type="text" name="amount" value="1" readonly>
-                <button>+</button>
-                <button>x</button>
+            <div class="options">
+                <div class="quantity">
+                    <span>총 수량 : </span>
+                    <button class="amountButtons" value="-"><div><img th:src="@{ /image/minus.png }"></div></button>
+                    <input type="text" name="amount" id="amount" th:value="${ amount }" readonly>
+                    <button class="amountButtons" value="+"><div><img th:src="@{ /image/plus.png }"></div></button>
+                    &nbsp;<button class="amountButtons" value="x"><div><img th:src="@{ /image/x.png }"></div></button>
+                </div>
+                <div class="price">
+                    <span>총 가격 : </span>
+                    <span>₩ <span th:class="totalPrice">510,500</span></span>
+                </div>
             </div>
-            <div class="price">
-                <span>총 가격 : </span>
-                <span>510,500</span>
-            </div>
-        </div>
+        </th:block>
     </div>
     <hr>
 </div>
@@ -99,7 +102,7 @@
                 <span>배송비 : </span>
             </div>
             <hr>
-            <p>총 결제금액 : <span id="totalPrice"></span></p>
+            <p>총 결제금액 : ₩ <span id="totalPayPrice">0</span></p>
         </div>
         <div class="payButton">
             <button>
@@ -108,5 +111,36 @@
         </div>
     </div>
 </div>
+<script th:inline="javascript">
+
+    /* 화면 로딩 시 넘겨온 수량에 따른 가격 출력 */
+    let categoryCode = [[${ product.categoryCode }]];
+    let $price = 0;
+    switch (categoryCode) {
+        case "RD": $price = [[${ product.rod?.price }]]; break;
+        case "RL": $price = [[${ product.reel?.price }]]; break;
+        case "LN": $price = [[${ product.line?.price }]]; break;
+    }
+    $price = $price * $("#amount").val();
+    $(".totalPrice").text($price.toLocaleString());
+
+    /* 수량 변경 버튼 함수 */
+    $(".amountButtons").on("click", function () {
+
+        $price = $price / $("#amount").val();
+        switch ($(this).val()) {
+            case "-": if($("#amount").val() > 1) $("#amount").val(new Number($("#amount").val()) - 1); break;
+            case "+": $("#amount").val(new Number($("#amount").val()) + 1); break;
+            case "x": $(this).parent().parent().parent().html("<p>삭제</p>"); break;
+        }
+        $price = $price * $("#amount").val();
+        $(".totalPrice").text($price.toLocaleString());
+    });
+
+
+
+
+
+</script>
 </body>
 </html>

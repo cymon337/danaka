@@ -44,8 +44,9 @@ body>hr {
     font-size: small;
 }
 .thumnail {
-    width: 7%;
+    width: 4%;
     padding: 0.5em;
+    max-width: 50px;
 
 }
 .thumnail>img {
@@ -56,20 +57,59 @@ body>hr {
 .product {
     width: 60%;
 }
+.productDetail>span {
+    font-size: smaller;
+    color: gray;
+}
 .options {
     width: 25%;
 }
-.quantity {
+.options span {
+    font-size: smaller;
 }
-.quantity>input {
-    display: inline-block;
-    width: 30%;
+.quantity {
+    display: flex;
+    align-items: center;
+}
+.quantity>span {
+    margin-right: 1em;
+}
+#amount {
+    width: 46px;
+    height: 25px;
+    border: 1px #C4C2FF solid;
+    margin-right: 0;
+    margin-left: 0;
+    text-align: center;
+}
+.amountButtons {
+    width: 25px;
+    height: 25px;
+    border: 1px #eef0fd solid;
+    font-size: 1rem;
+    background-color: #eef0fd;
+    margin-right: 0;
+    margin-left: 0;
+    text-align: center;
+    padding: 0;
+    box-sizing: border-box;
+}
+.amountButtons>div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.amountButtons img {
+    width: 11px;
+    height: 11px;
+    object-fit: contain;
+    vertical-align: middle;
 }
 .price {
     display: flex;
 }
 .price>span:nth-child(2) {
-    margin-left: 4em;
+    margin-left: 3.5em;
     margin-right: 0;
 }
 .addressContainer {
@@ -131,6 +171,7 @@ body>hr {
 }
 .userInfoDescription>p {
     font-weight: bold;
+    margin-bottom: 1%;
 }
 .userInfoDescription>div {
     padding-left: 2%;

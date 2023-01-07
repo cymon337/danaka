@@ -145,10 +145,10 @@ public class ProductController {
         HashMap<String, String> cartMap = new HashMap<>();
         String productNo = request.getParameter("productNo");
         String orgProductNo = request.getParameter("orgProductNo");
+        String amount = request.getParameter("amount");
         log.info("원래 상품번호 = {}", orgProductNo);
 //        String userNo = (String) session.getAttribute("userNo");
         String userNo = "1";
-        String amount = request.getParameter("amount");
 
         cartMap.put("productNo", productNo);
         cartMap.put("userNo", userNo);
@@ -166,8 +166,18 @@ public class ProductController {
     @GetMapping("/purchase")
     public ModelAndView purchasePage(HttpServletRequest request, ModelAndView mv) {
 
-        String productNo = request.getParameter("productNo");
+        String productNo = request.getParameter("option");
+        log.info("상품번호 = {}", productNo);
         String amount = request.getParameter("amount");
+        log.info("수량 = {}", amount);
+//        String packageId = request.getParameter("packageId");
+
+        if(productNo != null && !"".equals(productNo)) {
+
+            ProductDTO product = productService.selectOneProduct(productNo);
+            mv.addObject("product", product);
+            mv.addObject("amount", amount);
+        }
 
         mv.setViewName("/product/purchase");
         return mv;
