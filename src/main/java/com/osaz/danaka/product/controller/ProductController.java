@@ -123,6 +123,7 @@ public class ProductController {
 
         HashMap<String, String> wishMap = new HashMap<>();
         String productNo = request.getParameter("productNo");
+        String orgProductNo = request.getParameter("orgProductNo");
 //        String userNo = (String) session.getAttribute("userNo");
         String userNo = "1"; // 테스트용
 
@@ -131,7 +132,7 @@ public class ProductController {
 
         boolean result = productService.insertWishProduct(wishMap);
 
-        mv.setViewName("redirect:/product/item2?productNo=" + productNo);
+        mv.setViewName("redirect:/product/item2?productNo=" + orgProductNo);
         rttr.addFlashAttribute("successMessage", "찜하기 성공!");
 
         return mv;
@@ -143,6 +144,8 @@ public class ProductController {
 
         HashMap<String, String> cartMap = new HashMap<>();
         String productNo = request.getParameter("productNo");
+        String orgProductNo = request.getParameter("orgProductNo");
+        log.info("원래 상품번호 = {}", orgProductNo);
 //        String userNo = (String) session.getAttribute("userNo");
         String userNo = "1";
         String amount = request.getParameter("amount");
@@ -153,10 +156,20 @@ public class ProductController {
 
         boolean result = productService.insertCartProduct(cartMap);
 
-        mv.setViewName("redirect:/product/item2?productNo=" + productNo);
+        mv.setViewName("redirect:/product/item2?productNo=" + orgProductNo);
         rttr.addFlashAttribute("successMessage", "장바구니 담기 성공!");
 
         return mv;
+    }
 
+    // 승재 - 상품 구매페이지
+    @GetMapping("/purchase")
+    public ModelAndView purchasePage(HttpServletRequest request, ModelAndView mv) {
+
+        String productNo = request.getParameter("productNo");
+        String amount = request.getParameter("amount");
+
+        mv.setViewName("/product/purchase");
+        return mv;
     }
 }

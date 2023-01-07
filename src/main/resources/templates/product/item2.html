@@ -51,7 +51,7 @@
         </div>
     </div>
     <div class="detailContainer">
-        <form action="/product/purchase" method="post">
+        <form action="/product/purchase" method="get">
             <input type="hidden" id="productNo" name="productNo" value="">
         <div class="productName">
             <h2 th:text="${ product.productName }">상품명</h2>
@@ -77,16 +77,18 @@
         </div>
         <div class="price">
             <span>총 가격 : </span>
-            <th:block th:switch="${ product.categoryCode }">
-                <span th:class="totalPrice" th:case="RD" th:text="${ product.rod?.price }"></span>
-                <span th:class="totalPrice" th:case="RL" th:text="${ product.reel?.price }"></span>
-                <span th:class="totalPrice" th:case="LN" th:text="${ product.line?.price }"></span>
-            </th:block>
+            <span>₩
+                <th:block th:switch="${ product.categoryCode }">
+                    <span th:class="totalPrice" th:case="RD" th:text="${ product.rod?.price }"></span>
+                    <span th:class="totalPrice" th:case="RL" th:text="${ product.reel?.price }"></span>
+                    <span th:class="totalPrice" th:case="LN" th:text="${ product.line?.price }"></span>
+                </th:block>
+            </span>
             <th:block th:each="option : ${ optionList }">
                 <th:block th:switch="${ product.categoryCode }">
-                    <p hidden="true" class="totP + ${ option.productNo }" th:case="RD" th:text="${ option.rod?.price }"></p>
-                    <p hidden="true" class="totP + ${ option.productNo }" th:case="RL" th:text="${ option.reel?.price }"></p>
-                    <p hidden="true" class="totP + ${ option.productNo }" th:case="LN" th:text="${ option.line?.price }"></p>
+                    <p hidden="true" th:class="${ option.productNo } + totP" th:case="RD" th:text="${ option.rod?.price }"></p>
+                    <p hidden="true" th:class="${ option.productNo } + totP" th:case="RL" th:text="${ option.reel?.price }"></p>
+                    <p hidden="true" th:class="${ option.productNo } + totP" th:case="LN" th:text="${ option.line?.price }"></p>
                 </th:block>
             </th:block>
 
@@ -132,74 +134,82 @@
     </div>
 </div>
 <script th:inline="javascript">
-    $(document).ready(function(){
-        let categoryCode = [[${ product.categoryCode }]];
-        const $orgPrice = $(".totalPrice").text();
 
-        $(".totalPrice").text("₩" + orgPrice.toLocaleString());
+    /* 원래 상품 번호 */
+    const orgProductNo = [[${ product.productNo }]];
+    console.log(orgProductNo);
+    /* 화면 로딩 시 기본 수량에 따른 총 가격 출력 */
+    const $orgPrice = new Number($(".totalPrice").text());
+    $(".totalPrice").text($orgPrice.toLocaleString());
+    let $productNo;
 
-        /* 숨겨진 상품 번호 input 창에 선택한 상품의 상품번호 넣기 */
-        $("#productNo").val([[${ product.productNo }]]);
-        console.log($("#productNo").val());
+    /* 이미지 바꾸기 */
+    $(".otherImg").on("click", function () {
 
-        /* 이미지 바꾸기 */
-        $(".otherImg").on("click", function () {
+        const $otherImg = $(this).html();
 
-            const $otherImg = $(this).html();
+        $(".bigImg").html($otherImg);
+    });
 
-            $(".bigImg").html($otherImg);
-        });
+    /* 수량 변화에 따라 가격 바꾸기 */
+    $("#quantity").on("change", function () {
 
-        /* 수량 변화에 따라 가격 바꾸기 */
-        $("#quantity").on("change", function totalP () {
+        /* 총 가격 용 변수 */
+        let $totPrice;
 
-            /* 총 가격 용 변수 */
-            let $totPrice;
-            console.log($orgPrice);
+        if($("#option").val() == [[${ product.productNo }]]) {
 
             $totPrice = $orgPrice * $("#quantity").val();
-
-            $totPrice = "₩" + $totPrice.toLocaleString();
+            $totPrice = $totPrice.toLocaleString();
             $(".totalPrice").text($totPrice);
-        });
+        } else {
 
-        /* 해당 상품 위시리스트에 넣기 */
-        $("#insertWish").on("click", function () {
+            let $newPrice = $("." + $("#option").val() + "totP").text();
+            console.log($newPrice);
+            $totPrice = $newPrice * $("#quantity").val();
+            $totPrice = $totPrice.toLocaleString();
+            $(".totalPrice").text($totPrice);
+        }
+    });
 
-            const $productNo = $("#productNo").val();
+    /* 해당 상품 위시리스트에 넣기 */
+    $("#insertWish").on("click", function () {
 
-            location.href="/product/wish?productNo=" + $productNo;
-        });
+        $productNo = $("#option").val();
 
-        /* 해당 상품 장바구니에 넣기 */
-        $("#insertCart").on("click", function () {
+        location.href="/product/wish?productNo=" + $productNo + "&orgProductNo=" + orgProductNo;
+    });
 
-            const $productNo = $("#productNo").val();
-            const $amount = $("#quantity").val();
+    /* 해당 상품 장바구니에 넣기 */
+    $("#insertCart").on("click", function () {
 
-            location.href="/product/cart?productNo=" + $productNo + "&amount=" + $amount;
-        });
+        $productNo = $("#option").val();
+        const $amount = $("#quantity").val();
 
-        /* 옵션 변경시 상품 정보 및 가격 바꾸기 */
-        const $orgContent = $(".orgContent").text();
+        location.href="/product/cart?productNo=" + $productNo + "&amount=" + $amount + "&orgProductNo=" + orgProductNo;
+    });
 
-        $("#option").on("change", function () {
+    /* 옵션 변경시 상품 정보 및 가격 바꾸기 */
+    const $orgContent = $(".orgContent").text();
 
-            const $selectedOption = $("." + $(this).val()).text();
-            const $selectedPrice = $(".totP" + $(this).val()).text() * $("#quantity").val();
-            const orgProductNo = [[${ product.productNo }]];
+    $("#option").on("change", function () {
 
+        const $selectedOption = $("." + $(this).val()).text();
+        let $selectedPrice = new Number($("." + $(this).val() + "totP").text());
 
-            if($(this).val() == orgProductNo) {
+        if($(this).val() == orgProductNo) {
 
-                let $orgProductPrice = "₩" + $orgPrice.toLocaleString();
-                $(".orgContent").text($orgContent);
-                $(".totalPrice").text($orgProductPrice);
-                return;
-            }
-            $(".orgContent").text($selectedOption);
-            $(".totalPrice").text("₩" + $selectedPrice.toLocaleString());
-        })
+            let $orgProductPrice = $orgPrice.toLocaleString();
+            $(".orgContent").text($orgContent);
+            $(".totalPrice").text($orgProductPrice);
+            $("#quantity").val(1);
+            return;
+        }
+
+        $selectedPrice = $selectedPrice.toLocaleString();
+        $(".orgContent").text($selectedOption);
+        $(".totalPrice").text($selectedPrice);
+        $("#quantity").val(1);
     });
 </script>
 

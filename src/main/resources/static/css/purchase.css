@@ -3,11 +3,12 @@ body {
 }
 body>hr {
     width: 80%;
-    margin-top: 1.5em;
+    margin: 1% auto;
 }
 .description{
     position: relative;
     left: 12%;
+    margin-top: 1%;
     font-weight: bold;
     width: 50%;
 }
@@ -37,6 +38,10 @@ body>hr {
 .buyingProduct {
     display: flex;
     align-items: center;
+    justify-content: space-around;
+}
+.buyingProduct * {
+    font-size: small;
 }
 .thumnail {
     width: 7%;
@@ -49,25 +54,23 @@ body>hr {
     border-radius: 5px;
 }
 .product {
-    width: 70%;
+    width: 60%;
 }
 .options {
     width: 25%;
-}
-.options span {
-    font-weight: bold;
 }
 .quantity {
 }
 .quantity>input {
     display: inline-block;
-    width: 40%;
+    width: 30%;
 }
 .price {
     display: flex;
 }
 .price>span:nth-child(2) {
     margin-left: 4em;
+    margin-right: 0;
 }
 .addressContainer {
     grid-area: a;
@@ -85,6 +88,7 @@ body>hr {
     position: relative;
     left: 1.5em;
     width: 50%;
+    margin-top: 1%;
 }
 .payInfo {
     display: grid;
@@ -99,6 +103,9 @@ body>hr {
 }
 .payDescription {
     grid-area: b;
+}
+.userInfoDescription p {
+    margin: 0 auto;
 }
 .paymentContainer {
     border: 1px #C4C2FF solid;
@@ -120,13 +127,17 @@ body>hr {
 .userInfoDescription {
     border: 1px #C4C2FF solid;
     border-radius: 7px;
+    padding-left: 2%;
+}
+.userInfoDescription>p {
+    font-weight: bold;
+}
+.userInfoDescription>div {
+    padding-left: 2%;
 }
 .userInfoDescription>hr {
-    width: 90%;
-}
-.priceInfo {
-    display: flex;
-    flex-direction: column;
+    width: 95%;
+    margin: 1% auto;
 }
 .payButton>button {
     width: 100%;
@@ -170,7 +181,9 @@ body>hr {
     }
     .options {
         width: 40%;
-
+    }
+    #centerCategory, #notice {
+        display: none;
     }
 }
 @media screen and (min-width : 768px) and (max-width : 1024px) {
@@ -199,5 +212,8 @@ body>hr {
     }
     .options {
         width: 40%;
+    }
+    #centerCategory, #notice {
+        display: none;
     }
 }
