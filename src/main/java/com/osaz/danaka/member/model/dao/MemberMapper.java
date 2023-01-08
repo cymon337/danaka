@@ -16,7 +16,7 @@ public interface MemberMapper  {
 
     MemberDTO findPassword(MemberDTO memberDTO);//비밀번호 찾기
 
-      int updateMembers(MemberDTO memberDTO);//회원정보 수정
+      public void updateMembers(MemberDTO memberDTO);//회원정보 수정
     //  쿼리 수정 후 받아올 결과 값이 따로 없기 때문에 interface의 리턴 값은 void로 설정
 
 

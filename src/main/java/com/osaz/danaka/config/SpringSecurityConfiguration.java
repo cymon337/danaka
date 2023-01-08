@@ -64,9 +64,9 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .formLogin() //폼을 이용해서 로그인을 하겠다
                 .loginPage("/member/login") //내가 사용할 로그인 페이지 기술 없으면 시큐리티 페이지가 나옴
                 .loginProcessingUrl("/login_action") // 로그인이 진행 될 url 설정 (loginpage.html의 th:action="@{/login_action}"를 말함
-                .successForwardUrl("/") //로그인 성공시 이동할 경로 설정
+                //.successForwardUrl("/") //로그인 성공시 이동할 경로 설정
                 .failureHandler(customFailureHandler) // 로그인 실패 핸들러
-                .defaultSuccessUrl("/")
+                .defaultSuccessUrl("/member/modification")
                 .and()
                 .logout()   //로그아웃 설정을 시작하겠다
                 .logoutRequestMatcher(new AntPathRequestMatcher("/member/logout")) //AntPathRequestMatcher

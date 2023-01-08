@@ -34,7 +34,7 @@ public class MemberService implements UserDetailsService {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         memberDTO.setUserPwd(passwordEncoder.encode(memberDTO.getUserPwd()));
         memberDTO.setUserRole("MEMBER");
-        memberDTO.setStatus('Y');
+        memberDTO.setStatus("Y");
         memberDTO.setRegDate(format.format(time).toString());
         memberMapper.insertMember(memberDTO);
 
@@ -54,21 +54,21 @@ public class MemberService implements UserDetailsService {
 
     public MemberDTO findId(MemberDTO user) {
         System.out.println("user = " + user);
-        System.out.println("이름" + user.getUsername());
+        System.out.println("이름" + user.getUserName());
         return memberMapper.findId(user);
     }
 
     public MemberDTO findPassword(MemberDTO user) {
         System.out.println("user = " + user);
         //System.out.println();
+
         return memberMapper.findPassword(user);
     }
 
 
 
-//    public MemberDTO updateMembers(MemberDTO memberDTO) {
-//        return memberMapper.updateMembers(memberDTO);
-
-
-   // }
+//    @Transactional
+//    public void updateMembers(MemberDTO memberDTO){
+//        MemberDTO persistance = userRepository.findById(user.getId())
+//    }
 }

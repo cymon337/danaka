@@ -6,19 +6,19 @@
 
 
     <resultMap id="memberResultMap" type="com.osaz.danaka.member.model.dto.MemberDTO">
-        <id  column="USER_NO" property="userNo"/>
-        <result column="USER_ID" property="userId"/>
-        <result column="USER_NICKNAME" property="userNickname"/>
-        <result column="USER_PWD" property="userPwd"/>
-        <result column="USER_NAME" property="userName"/>
+        <id  column="USER_NO" property="userNo"  jdbcType="VARCHAR" javaType="java.lang.String" />
+        <result column="USER_ID" property="userId"  jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="USER_NICKNAME" property="userNickname"  jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="USER_PWD" property="userPwd"  jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="USER_NAME" property="userName"  jdbcType="VARCHAR" javaType="java.lang.String"/>
         <result column="BIRTHDAY" property="birthday"/>
         <result column="ADDRESS" property="address"/>
         <result column="EMAIL" property="email"/>
         <result column="PHONE" property="phone"/>
         <result column="GENDER" property="gender"/>
-        <result column="REG_DATE" property="regDate"/>
+        <result column="REG_DATE" property="regDate"  jdbcType="VARCHAR" javaType="java.lang.String"/>
         <result column="STATUS" property="status"/>
-        <result column="USER_ROLE" property="userRole"/>
+        <result column="USER_ROLE" property="userRole"  jdbcType="VARCHAR" javaType="java.lang.String"/>
 
     </resultMap>
 
@@ -31,8 +31,24 @@
 -->
     <!--로그인-->
     <select id="loginAction" resultType="com.osaz.danaka.member.model.dto.MemberDTO">
-        SELECT * FROM T_MEMBER
+        SELECT
+            USER_NO AS user_no,
+            USER_ID AS user_id,
+            USER_NICKNAME AS userNickname,
+            USER_PWD AS userPwd,
+            USER_NAME AS userName,
+            BIRTHDAY,
+            ADDRESS,
+            EMAIL,
+            PHONE,
+            GENDER,
+            REG_DATE AS regDate,
+            STATUS,
+            USER_ROLE AS userRole
+            FROM T_MEMBER
         WHERE USER_ID = #{userId}
+          AND USER_PWD = #{userPwd}
+          AND STATUS = 'Y'
     </select>
     <!--아이디찾기    -->
     <select id="findId" parameterType="com.osaz.danaka.member.model.dto.MemberDTO" resultMap="memberResultMap">

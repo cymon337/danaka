@@ -3,6 +3,7 @@ package com.osaz.danaka.member.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -14,10 +15,12 @@ import java.util.Collections;
 
 
 @Data
+@Setter
+@Getter
 //@AllArgsConstructor// 매개변수가 있는 생성자를 해줘야지 unread가 안뜨고 데이터를 잘 가져옴
 public class MemberDTO implements UserDetails{
 
-    public int userNo;
+    public String userNo;
     public String userId;
     public String userNickname;
     public String userPwd;
@@ -28,25 +31,31 @@ public class MemberDTO implements UserDetails{
     public String email;
     public String phone;
     public String regDate;
-    public char status;
+    public String status;
     public String userRole;
 
+    public MemberDTO() {}
 
-//    public MemberDTO(int userNo, String userId, String userNickname, String userPwd, String userName, Date birthday, String gender, String address, String email, String phone, String regDate, char status, String userRole) {
-//        this.userNo = userNo;
-//        this.userId = userId;
-//        this.userNickname = userNickname;
-//        this.userPwd = userPwd;
-//        this.userName = userName;
-//        this.birthday = birthday;
-//        this.gender = gender;
-//        this.address = address;
-//        this.email = email;
-//        this.phone = phone;
-//        this.regDate = regDate;
-//        this.status = status;
-//        this.userRole = userRole;
-//    }
+
+
+    public MemberDTO(String userNo, String userId, String userNickname, String userPwd, String userName, Date birthday, String gender, String address, String email, String phone, String regDate, String status, String userRole) {
+        this.userNo = userNo;
+        this.userId = userId;
+        this.userNickname = userNickname;
+        this.userPwd = userPwd;
+        this.userName = userName;
+        this.birthday = birthday;
+        this.gender = gender;
+        this.address = address;
+        this.email = email;
+        this.phone = phone;
+        this.regDate = regDate;
+        this.status = status;
+        this.userRole = userRole;
+    }
+
+
+
 
     @Override
     public String getPassword() {
