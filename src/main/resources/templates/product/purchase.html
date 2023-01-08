@@ -28,13 +28,14 @@
 <div class="header">
     <th:block th:replace="~{common/header2 :: header}"/>
 </div>
-
+<form action="">
 <div class="description">
     <p>구매목록</p>
 </div>
 <div class="listContainer">
     <div class="buyingProduct">
         <th:block th:if="${ product }" th:switch="${ product.categoryCode }">
+            <input type="text" hidden="true" th:name="productNo" th:value="${ product.productNo }">
             <div class="thumnail">
                 <img th:src="${ product?.savePath }?: '/image/line/lineDefault.png'" alt="상품섬네일">
             </div>
@@ -51,10 +52,10 @@
             <div class="options">
                 <div class="quantity">
                     <span>총 수량 : </span>
-                    <button class="amountButtons" value="-"><div><img th:src="@{ /image/minus.png }"></div></button>
+                    <button type="button" class="amountButtons" value="-"><div><img th:src="@{ /image/minus.png }"></div></button>
                     <input type="text" name="amount" id="amount" th:value="${ amount }" readonly>
-                    <button class="amountButtons" value="+"><div><img th:src="@{ /image/plus.png }"></div></button>
-                    &nbsp;<button class="amountButtons" value="x"><div><img th:src="@{ /image/x.png }"></div></button>
+                    <button type="button" class="amountButtons" value="+"><div><img th:src="@{ /image/plus.png }"></div></button>
+                    &nbsp;<button type="button" class="amountButtons" value="x"><div><img th:src="@{ /image/x.png }"></div></button>
                 </div>
                 <div class="price">
                     <span>총 가격 : </span>
@@ -103,6 +104,7 @@
             </div>
             <hr>
             <p>총 결제금액 : ₩ <span id="totalPayPrice">0</span></p>
+            <input type="text" hidden="true" id="hiddenTotP" name="totalPayPrice">
         </div>
         <div class="payButton">
             <button>
@@ -111,6 +113,7 @@
         </div>
     </div>
 </div>
+</form>
 <script th:inline="javascript">
 
     /* 화면 로딩 시 넘겨온 수량에 따른 가격 출력 */
@@ -123,6 +126,8 @@
     }
     $price = $price * $("#amount").val();
     $(".totalPrice").text($price.toLocaleString());
+    $("#totalPayPrice").text($price.toLocaleString());
+    $("#hiddenTotP").text($("#totalPayPrice").text());
 
     /* 수량 변경 버튼 함수 */
     $(".amountButtons").on("click", function () {
@@ -131,11 +136,14 @@
         switch ($(this).val()) {
             case "-": if($("#amount").val() > 1) $("#amount").val(new Number($("#amount").val()) - 1); break;
             case "+": $("#amount").val(new Number($("#amount").val()) + 1); break;
-            case "x": $(this).parent().parent().parent().html("<p>삭제</p>"); break;
+            case "x": $(this).parent().parent().parent().html("<div></div>"); $("#totalPayPrice").text(0); return;
         }
         $price = $price * $("#amount").val();
         $(".totalPrice").text($price.toLocaleString());
+        $("#totalPayPrice").text($price.toLocaleString());
+        $("#hiddenTotP").text($("#totalPayPrice").text());
     });
+
 
 
 

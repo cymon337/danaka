@@ -1,7 +1,7 @@
 body {
     background-color: #f0f2fe;
 }
-body>hr {
+form>hr {
     width: 80%;
     margin: 1% auto;
 }
@@ -55,14 +55,17 @@ body>hr {
     border-radius: 5px;
 }
 .product {
-    width: 60%;
+    width: 80%;
+}
+.productName>span {
+    font-weight: bolder;
 }
 .productDetail>span {
     font-size: smaller;
     color: gray;
 }
 .options {
-    width: 25%;
+    width: 22%;
 }
 .options span {
     font-size: smaller;
@@ -76,15 +79,15 @@ body>hr {
 }
 #amount {
     width: 46px;
-    height: 25px;
+    height: 1.2rem;
     border: 1px #C4C2FF solid;
     margin-right: 0;
     margin-left: 0;
     text-align: center;
 }
 .amountButtons {
-    width: 25px;
-    height: 25px;
+    width: 1.2rem;
+    height: 1.2rem;
     border: 1px #eef0fd solid;
     font-size: 1rem;
     background-color: #eef0fd;
@@ -100,8 +103,8 @@ body>hr {
     justify-content: center;
 }
 .amountButtons img {
-    width: 11px;
-    height: 11px;
+    width: 8px;
+    height: 8px;
     object-fit: contain;
     vertical-align: middle;
 }
@@ -221,7 +224,7 @@ body>hr {
         width: 50%
     }
     .options {
-        width: 40%;
+        width: 30%;
     }
     #centerCategory, #notice {
         display: none;
@@ -249,10 +252,10 @@ body>hr {
         margin-top: 1.5em;
     }
     .product {
-        width: 50%
+        width: 60%
     }
     .options {
-        width: 40%;
+        width: 35%;
     }
     #centerCategory, #notice {
         display: none;
