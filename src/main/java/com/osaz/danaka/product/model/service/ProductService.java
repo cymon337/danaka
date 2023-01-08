@@ -21,31 +21,37 @@ public class ProductService {
         this.productMapper = productMapper;
     }
 
+    // 페이징 처리용 총 상품 개수 조회
     public int selectTotalCount(Map<String, String> searchMap) {
 
         return productMapper.selectTotalCount(searchMap);
     }
 
+    // 카테고리별 상품들 조회
     public List<ProductDTO> selectListByCategory(SelectCriteria selectCriteria) {
 
         return productMapper.selectListByCategory(selectCriteria);
     }
 
+    // 상품 상세페이지용 상품 조회
     public ProductDTO selectOneProduct(String productNo) {
 
         return productMapper.selectOneProduct(productNo);
     }
 
+    // 상품 상세페이지용 해당하는 상품의 옵션 상품들 조회
     public List<ProductDTO> selectOptionList(String productName) {
 
         return productMapper.selectOptionList(productName);
     }
 
+    // 상품 상세페이지용 관련상품들 조회
     public List<ProductDTO> selectRefProducts(String productNo) {
 
         return productMapper.selectRefProducts(productNo);
     }
 
+    // 위시리스트 테이블에 추가
     public boolean insertWishProduct(Map<String, String> wishMap) throws Exception {
 
         int result = productMapper.insertWishProduct(wishMap);
@@ -56,6 +62,7 @@ public class ProductService {
         return (result > 0) ? true : false;
     }
 
+    // 장바구니 테이블에 추가
     public boolean insertCartProduct(Map<String, String> cartMap) throws Exception {
 
         int result = productMapper.insertCartProduct(cartMap);

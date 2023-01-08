@@ -123,8 +123,15 @@ form>hr {
     margin: 1.5% auto;
 }
 .addressApi {
-    height: 5.5em;
+    height: 5em;
     margin: 0 auto 1% auto;
+}
+#postcode, #address, #detailAddress {
+    border-radius: 5px;
+    border: 1px #c2c0fe solid;
+    margin-top: 0.5px;
+    margin-bottom: 0.5px;
+    font-size: smaller;
 }
 #address, #detailAddress {
     width: 400px;
@@ -144,12 +151,18 @@ form>hr {
     border-radius: 5px;
     border: 1px #edeffc solid;
     background-color: #eef0fd;
+    font-size: small;
 }
 .deliveryRequest {
     height: 5.5em;
 }
 #deliveryRequest {
     resize: none;
+    border-radius: 5px;
+    border: 1px #c2c0fe solid;
+    margin-top: 0.5px;
+    margin-bottom: 0.5px;
+    font-size: smaller;
 }
 .payP>p {
     margin-bottom: 0;

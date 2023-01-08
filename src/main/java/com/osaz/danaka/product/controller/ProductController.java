@@ -29,7 +29,7 @@ public class ProductController {
         this.productService = productService;
     }
 
-    // 승재 - 카테고리 별 상품 목록 출력하기, 페이징 처리
+    // 승재 - 카테고리 별 상품 조회, 페이징 처리, 정렬
     @GetMapping("/list2")
     public ModelAndView selectByCategory(HttpServletRequest request, ModelAndView mv){
 
