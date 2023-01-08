@@ -119,11 +119,37 @@ form>hr {
     grid-area: a;
     padding: 1em;
 }
+.addressContainer hr {
+    margin: 1.5% auto;
+}
 .addressApi {
-    border: 1px #C4C2FF solid;
-    border-radius: 7px;
-    height: 100%;
-    margin: 0 auto;
+    height: 5.5em;
+    margin: 0 auto 1% auto;
+}
+#address, #detailAddress {
+    width: 400px;
+}
+.addrSpan {
+    display: inline-block;
+    text-align: center;
+    line-height: 5.5em;
+    vertical-align: middle;
+    margin-right: 2%;
+}
+.addressApi, .deliveryRequest {
+    display: grid;
+    grid-template-columns: 15% 83%;
+}
+#addrButton {
+    border-radius: 5px;
+    border: 1px #edeffc solid;
+    background-color: #eef0fd;
+}
+.deliveryRequest {
+    height: 5.5em;
+}
+#deliveryRequest {
+    resize: none;
 }
 .payP>p {
     margin-bottom: 0;
@@ -171,6 +197,7 @@ form>hr {
     border: 1px #C4C2FF solid;
     border-radius: 7px;
     padding-left: 2%;
+    height: 80%;
 }
 .userInfoDescription>p {
     font-weight: bold;
@@ -229,8 +256,11 @@ form>hr {
     #centerCategory, #notice {
         display: none;
     }
+    .addressApi, .deliveryRequest {
+        grid-template-columns: 15% 85%;
+    }
 }
-@media screen and (min-width : 768px) and (max-width : 1024px) {
+@media screen and (min-width : 767px) and (max-width : 1080px) {
     .listContainer {
         width: 80%;
     }
@@ -259,5 +289,8 @@ form>hr {
     }
     #centerCategory, #notice {
         display: none;
+    }
+    .addressApi, .deliveryRequest {
+        grid-template-columns: 15% 85%;
     }
 }

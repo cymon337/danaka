@@ -21,6 +21,36 @@
             integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
             crossorigin="anonymous"></script>
 
+    <!-- 카카오 주소 api -->
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script>
+        function findPostcode() {
+            new daum.Postcode({
+                oncomplete: function(data) {
+                    // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                    // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+                    // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                    var addr = ''; // 주소 변수
+                    var extraAddr = ''; // 참고항목 변수
+
+                    //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                    if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                        addr = data.roadAddress;
+                    } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                        addr = data.jibunAddress;
+                    }
+
+                    // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                    document.getElementById('postcode').value = data.zonecode;
+                    document.getElementById("address").value = addr;
+                    // 커서를 상세주소 필드로 이동한다.
+                    document.getElementById("detailAddress").focus();
+                }
+            }).open();
+        }
+    </script>
+
     <!-- 승재 css -->
     <link rel="stylesheet" type="text/css" th:href="@{ /css/purchase.css }">
 </head>
@@ -28,7 +58,7 @@
 <div class="header">
     <th:block th:replace="~{common/header2 :: header}"/>
 </div>
-<form action="">
+<form action="/product/purchase" method="post">
 <div class="description">
     <p>구매목록</p>
 </div>
@@ -73,9 +103,20 @@
 <div class="payInfo">
         <div class="addressContainer">
             <div class="addressApi">
+                <span class="addrSpan">주소</span>
                 <div>
-                    주소 api
+                    <input type="text" id="postcode" placeholder="우편번호" value="" required>
+                    <input type="button" id="addrButton" onclick="findPostcode()" value="우편번호 찾기"><br>
+                    <input type="text" id="address" placeholder="주소" value="" readonly required><br>
+                    <input type="text" id="detailAddress" placeholder="상세주소" value="" required>
+                    <input type="text" id="extraAddress" hidden="true" value="" placeholder="참고항목">
+                    <input type="text" id="addressParam" hidden="true" value="" name="address">
                 </div>
+            </div>
+            <hr>
+            <div class="deliveryRequest">
+                <span class="addrSpan"><label for="deliveryRequest">주문 메세지</label></span>
+                <textarea name="deliveryRequest" id="deliveryRequest" cols="40" rows="3" maxlength="60" placeholder="배송 전 연락바랍니다."></textarea>
             </div>
         </div>
     <div class="payDescription">
@@ -92,18 +133,18 @@
         <div class="userInfoDescription">
             <p>주문자 정보</p>
             <div class="userInfo">
-                <span>이름 : </span><br>
-                <span>연락처 : </span><br>
-                <span>주소 : </span>
+                <span>이름 : <span class="userName"></span></span><br>
+                <span>연락처 : <span class="phone"></span></span><br>
+                <span>주소 : <span id="userAddr"></span></span>
             </div>
             <hr>
             <p>결제 상세</p>
             <div class="priceInfo">
-                <span>상품 금액 : </span><br>
-                <span>배송비 : </span>
+                <span>상품 금액 : ₩ <span id="totalPayPrice">0</span></span><br>
+                <span>배송비 : ₩ 3,000</span>
             </div>
             <hr>
-            <p>총 결제금액 : ₩ <span id="totalPayPrice">0</span></p>
+            <p>총 결제금액 : ₩ <span id="totalPlusFee">0</span></p>
             <input type="text" hidden="true" id="hiddenTotP" name="totalPayPrice">
         </div>
         <div class="payButton">
@@ -127,6 +168,7 @@
     $price = $price * $("#amount").val();
     $(".totalPrice").text($price.toLocaleString());
     $("#totalPayPrice").text($price.toLocaleString());
+    $("#totalPlusFee").text(($price + 3000).toLocaleString());
     $("#hiddenTotP").text($("#totalPayPrice").text());
 
     /* 수량 변경 버튼 함수 */
@@ -136,13 +178,33 @@
         switch ($(this).val()) {
             case "-": if($("#amount").val() > 1) $("#amount").val(new Number($("#amount").val()) - 1); break;
             case "+": $("#amount").val(new Number($("#amount").val()) + 1); break;
-            case "x": $(this).parent().parent().parent().html("<div></div>"); $("#totalPayPrice").text(0); return;
+            case "x": $(this).parent().parent().parent().html("<div></div>");
+                      $("#totalPayPrice").text(0); $("#totalPlusFee").text(0); return;
         }
         $price = $price * $("#amount").val();
         $(".totalPrice").text($price.toLocaleString());
         $("#totalPayPrice").text($price.toLocaleString());
+        $("#totalPlusFee").text(($price + 3000).toLocaleString());
         $("#hiddenTotP").text($("#totalPayPrice").text());
     });
+
+    /* 주소 api */
+    $("#postcode").on("click", function() {
+
+        findPostcode();
+    });
+
+    /* 주소 합치기 */
+    $("#detailAddress").on("focusout", function() {
+
+        let $postcode = $("#postcode").val();
+        let $address = $("#address").val();
+        let $detailAddress = $("#detailAddress").val();
+
+        $("#addressParam").val($postcode + "," + $address + "," + $detailAddress);
+        $("#userAddr").text($address + " " + $detailAddress);
+    })
+
 
 
 

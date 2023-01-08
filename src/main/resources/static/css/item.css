@@ -84,11 +84,42 @@ body>hr {
 .quantity>span {
     align-self: center;
 }
-.quantity>input {
-    width: 30%;
-    height: 3em;
+/*.quantity>input {*/
+/*    width: 30%;*/
+/*    height: 3em;*/
+/*    border: 1px #C4C2FF solid;*/
+/*    border-radius: 6px;*/
+/*}*/
+.quantity>div>input {
+    width: 46px;
+    height: 1.2rem;
     border: 1px #C4C2FF solid;
-    border-radius: 6px;
+    margin-right: 0;
+    margin-left: 0;
+    text-align: center;
+}
+.quantity>div>button {
+    width: 1.2rem;
+    height: 1.2rem;
+    border: 1px #eef0fd solid;
+    font-size: 1rem;
+    background-color: #eef0fd;
+    margin-right: 0;
+    margin-left: 0;
+    text-align: center;
+    padding: 0;
+    box-sizing: border-box;
+}
+.quantity>div>button>div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.quantity>div>button>div>img {
+    width: 8px;
+    height: 8px;
+    object-fit: contain;
+    vertical-align: middle;
 }
 .price {
     display: flex;

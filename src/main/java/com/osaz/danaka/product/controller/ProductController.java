@@ -130,9 +130,11 @@ public class ProductController {
         wishMap.put("userNo", userNo);
         wishMap.put("productNo", productNo);
 
+        // 성공했을 시, 실패했을 시 각각 추가하기
         boolean result = productService.insertWishProduct(wishMap);
 
-        mv.setViewName("redirect:/product/item2?productNo=" + orgProductNo);
+        mv.addObject("productNo", orgProductNo);
+        mv.setViewName("redirect:/product/item2");
         rttr.addFlashAttribute("successMessage", "찜하기 성공!");
 
         return mv;
@@ -154,9 +156,11 @@ public class ProductController {
         cartMap.put("userNo", userNo);
         cartMap.put("amount", amount);
 
+        // 성공했을 시, 실패했을 시 각각 추가하기
         boolean result = productService.insertCartProduct(cartMap);
 
-        mv.setViewName("redirect:/product/item2?productNo=" + orgProductNo);
+        mv.addObject("productNo", orgProductNo);
+        mv.setViewName("redirect:/product/item2");
         rttr.addFlashAttribute("successMessage", "장바구니 담기 성공!");
 
         return mv;

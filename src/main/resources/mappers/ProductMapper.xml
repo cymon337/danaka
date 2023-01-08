@@ -143,6 +143,7 @@
                                 FROM T_PRODUCT
                                WHERE PRODUCT_NAME = #{ productName }
                                GROUP BY PRODUCT_NAME)
+         ORDER BY A.PRODUCT_NO ASC
     </select>
     <!-- 상품 상세페이지에서 해당 상품과 같은 카테고리 상품들 10개만 조회 쿼리 -->
     <select id="selectRefProducts" parameterType="String" resultMap="productResultMap">
