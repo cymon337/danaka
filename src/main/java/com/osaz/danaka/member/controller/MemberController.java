@@ -4,18 +4,24 @@ import com.osaz.danaka.member.model.dao.MemberMapper;
 import com.osaz.danaka.member.model.dto.MemberDTO;
 import com.osaz.danaka.member.model.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.security.Principal;
 import java.sql.Date;
 
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 public class MemberController {
@@ -35,19 +41,24 @@ public class MemberController {
     @GetMapping("/member/login")
     public String loginPage(@RequestParam(value = "error", required = false)String error,
                             @RequestParam(value = "exception",required = false)String exception,
-                            Model model){
+                            Model model ){
+
+
         model.addAttribute("error", error);
         model.addAttribute("exception", exception);
 
         return "member/login";
     }
-//    @PostMapping("/login_action")
-//    public String loginAction(){
-//
-//
-//
-//        return "redirect:member/login";
-//    }
+
+    @GetMapping("/username")
+    @ResponseBody
+    public String currentUserName(Authentication authentication)
+    {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        return userDetails.getUsername();
+    }
+
+
 
 
     @GetMapping("/member/signUp")
@@ -58,14 +69,15 @@ public class MemberController {
     @PostMapping("/signUp_action")
     public String insertMember(MemberDTO memberDTO){
         memberService.saveUserData(memberDTO);
+
         return "redirect:member/login";
 
     }
 
-    @GetMapping("/member/modification")
-    public String userModification(){
-        return "member/modification";
-    }
+//    @GetMapping("/member/modification")
+//    public String userModification(){
+//        return "member/modification";
+//    }
 
     @GetMapping("/member/id")
     public String findIdView(){
@@ -93,11 +105,41 @@ public class MemberController {
         return "member/id";
     }
 
-//    @PostMapping("/updateMembers_action")
-//    public String updateMembers(MemberDTO memberDTO){
-//        memberMapper.updateMembers(memberDTO);
-//        return "redirect:member/login";
-//    }
+    @GetMapping("/member/modification")
+    public String userUpdateView(@AuthenticationPrincipal MemberDTO memberDTO, Model model){
+
+
+
+        model.addAttribute("member", memberDTO);
+        log.info(String.valueOf(memberDTO));
+        return "member/modification";
+
+    }
+//    , @RequestParam(value = "userId") String userId)
+
+    @PostMapping("/updateMembers")
+    public String userUpdate(@RequestParam(value = "nickname") String nickname,
+                             @RequestParam(value = "email") String email, @RequestParam(value = "phone") String phone,
+                           String userId ) {
+
+        MemberDTO memberDTO = new MemberDTO();
+        memberDTO.setUserNickname(nickname);
+        memberDTO.setEmail(email);
+        memberDTO.setPhone(phone);
+        memberDTO.setUserId(userId);
+
+
+
+            memberService.updateUser(memberDTO);
+
+
+        log.info(String.valueOf(memberDTO));
+
+
+        return "redirect:member/login";
+    }
+
+
 
 
 

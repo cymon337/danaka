@@ -25,6 +25,7 @@ public class MemberService implements UserDetailsService {
 
 
 
+
     @Autowired
     MemberMapper memberMapper;
 
@@ -66,9 +67,14 @@ public class MemberService implements UserDetailsService {
     }
 
 
+    public MemberDTO updateUser(MemberDTO memberDTO){
+        memberMapper.userUpdate(memberDTO);
+        return memberDTO;
+    }
 
-//    @Transactional
-//    public void updateMembers(MemberDTO memberDTO){
-//        MemberDTO persistance = userRepository.findById(user.getId())
+
+
+//    public int userUpdate(MemberDTO memberDTO){
+//        return memberMapper.userUpdate(memberDTO);
 //    }
 }

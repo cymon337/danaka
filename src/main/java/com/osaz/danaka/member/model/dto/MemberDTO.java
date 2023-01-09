@@ -17,8 +17,9 @@ import java.util.Collections;
 @Data
 @Setter
 @Getter
-//@AllArgsConstructor// 매개변수가 있는 생성자를 해줘야지 unread가 안뜨고 데이터를 잘 가져옴
+
 public class MemberDTO implements UserDetails{
+
 
     public String userNo;
     public String userId;
@@ -100,5 +101,7 @@ public class MemberDTO implements UserDetails{
     public boolean isEnabled() {
         return true;// true:사용 가능, false:사용 불가
     }
+
+
     // 계정이 사용 가능한지 확인한다.
 }

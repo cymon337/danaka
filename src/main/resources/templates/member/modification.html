@@ -27,30 +27,35 @@
 
           <h3 class="text-center mb-4">회원정보수정</h3>
           <b><hr></b>
-         <!-- <div th:if=${ signIn != null}" style="display:none;">  세션값이 있는 경우에만 회원정보 수정폼 보여주기 시간있으면 구현-->
 
-          <form action="/updateMembers_action" class="login-form" method="post">
+         <!-- <div th:if=${ signIn != null}" style="display:none;">  세션값이 있는 경우에만 회원정보 수정폼 보여주기 시간있으면 구현-->
+       <!--   action="/updateMembers_action" class="login-form" method="post"-->
+
+          <form  class="login-form" th:action="@{/updateMembers}" method="post" >
+              <input type="hidden" id="id" th:value="${member.username}">
            <!-- <th:block sec:authorize="isAuthenticated()">-->
+              <div class="form-group">
+
+                  <input type="text" th:name="userId" class="form-control rounded-left" id="userId" placeholder="아이디" name="userId" th:value="${member.userId}"  required readonly>
+
+              </div>
             <div class="form-group">
 
-              <input type="text" class="form-control rounded-left" placeholder="닉네임" name="nickName"  required>
+              <input type="text" th:name="nickname" class="form-control rounded-left" id="userNickname" placeholder="닉네임" name="nickname" th:value="${member.userNickname}"  required>
 
-            </div>
-            <div class="form-group d-flex">
-              <input type="password" class="form-control rounded-left" placeholder="비밀번호" name="password"  required>
-            </div>
+<!--            </div>-->
 <!--            <div class="form-group d-flex">-->
-<!--              <input type="password" class="form-control rounded-left" placeholder="비밀번호 확인" required>-->
+<!--              <input type="password" th:name="password" id="password" class="form-control rounded-left" placeholder="비밀번호" name="password"  required>-->
 <!--            </div>-->
 
-             <!-- th:value="${session?.userPwd}"-->
             <div class="form-group d-flex">
-              <input type="email" class="form-control rounded-left" id="email" name="email"
-                      size="30" placeholder="이메일" pattern="[a-zA-Z0-9]+[@][a-zA-Z0-9]+[.]+[a-zA-Z]+[.]*[a-zA-Z]*"  required>
+              <input type="email" th:name="email" class="form-control rounded-left" id="email" name="email"
+                      size="30" placeholder="이메일" pattern="[a-zA-Z0-9]+[@][a-zA-Z0-9]+[.]+[a-zA-Z]+[.]*[a-zA-Z]*" th:value="${member.email}" required>
+
             </div>
             <div class="form-group d-flex">
                <!-- th:value="${session?.phone}"-->
-              <input type="tel"  id="phone" name="phone" class="form-control rounded-left" placeholder="휴대전화"  pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"  required>
+              <input type="tel"  id="phone" th:name="phone" name="phone" class="form-control rounded-left" placeholder="휴대전화"  pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"  th:value="${member.phone}" required>
             </div>
             <div class="form-group">
               <button type="submit" id="btn-update" class="btn btn-primary rounded submit p-3 px-5">수정</button>
@@ -59,8 +64,8 @@
   <!--          </th:block>
 -->
 
-
-          </form>
+            </div>
+           </form>
 <!--          &lt;!&ndash; </div>&ndash;&gt;
 &lt;!&ndash;          <div th:if=${ signIn == null}>&ndash;&gt;
 &lt;!&ndash;            <div>&ndash;&gt;
