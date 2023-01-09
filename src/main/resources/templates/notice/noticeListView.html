@@ -91,10 +91,17 @@
             </div>-->
 
         </div>
+
         <div align="center">
             <a th:href="@{'noticeEnroll'}" class="btn btn-primary">게시글추가</a>
         </div>
         <br>
     </div>
+
+<!-- 페이징 처리-->
+<div class="paging">
+    <th:block th:replace="~{common/paging :: paging}" />
+</div>
+
 </body>
 </html>
