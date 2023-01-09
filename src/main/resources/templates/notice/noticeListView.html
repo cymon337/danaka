@@ -92,6 +92,15 @@
 
         </div>
 
+        <div class="search-area" align="center">
+            <select id="searchCondition" name="searchCondition">
+                <option value="title">제목</option>
+                <option value="content">내용</option>
+            </select>
+            <input type="search">
+            <button type="submit">검색하기</button>
+        </div>
+
         <div align="center">
             <a th:href="@{'noticeEnroll'}" class="btn btn-primary">게시글추가</a>
         </div>

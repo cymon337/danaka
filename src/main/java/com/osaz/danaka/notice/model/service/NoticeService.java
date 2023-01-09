@@ -1,12 +1,13 @@
 package com.osaz.danaka.notice.model.service;
 
-import com.osaz.danaka.notice.model.dto.NoticeDTO;
 import com.osaz.danaka.notice.model.dao.NoticeMapper;
+import com.osaz.danaka.notice.model.dto.NoticeDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * packageName    : com.osaz.danaka.board.model.service
@@ -24,6 +25,12 @@ public class NoticeService {
 	@Autowired
 	public NoticeService(NoticeMapper noticeMapper) {
 		this.noticeMapper = noticeMapper;
+	}
+
+	// 페이징 처리용 총 상품 개수 조회
+	public int selectTotalCount(Map<String, String> searchMap) {
+
+		return noticeMapper.selectTotalCount(searchMap);
 	}
 
 	/*공지사항 전체 조회*/

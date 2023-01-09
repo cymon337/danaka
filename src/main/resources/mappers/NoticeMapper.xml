@@ -14,6 +14,22 @@
         <result property="noticeCount" column="NOTICE_COUNT"/>
     </resultMap>
 
+    <!-- 페이징 처리를 위한 대상품 총 개수 조회 쿼리 -->
+    <select id="selectTotalCount" resultType="_int" parameterType="hashmap">
+        SELECT
+        COUNT(*)
+        FROM T_NOTICE A
+        <where>
+            <if test="searchCondition == 'title'">
+                A.NOTICE_NAME LIKE '%' || #{ searchValue } || '%'
+            </if>
+            <if test="searchCondition == 'content'">
+                A.NOTICE_CONTENT LIKE '%' || #{ searchValue } || '%'
+            </if>
+        </where>
+    </select>
+
+    <!--공지사항 전체조회-->
     <select id="selectAllList" resultMap="noticeResultMap">
         SELECT
                 A.NOTICE_NO,
@@ -83,19 +99,4 @@
         WHERE A.NOTICE_NO = #{ noticeNo }
     </update>
 
-    <!--    <select id="selectOne" parameterType="String" resultMap="productResultMap">-->
-<!--        SELECT-->
-<!--            *-->
-<!--          FROM VIEW_PRODUCT-->
-<!--         WHERE PRODUCT_NO = #{ productNo }-->
-<!--    </select>-->
-<!--    <insert id="registWishList" parameterType="Map">-->
-<!--        INSERT INTO T_WISHLIST-->
-<!--        VALUES-->
-<!--            (-->
-<!--             SEQ_WISH_NO.NEXTVAL,-->
-<!--             #{ userNo },-->
-<!--             #{ productNo }-->
-<!--            )-->
-<!--    </insert>-->
 </mapper>
