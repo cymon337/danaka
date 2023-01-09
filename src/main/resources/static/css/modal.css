@@ -1,0 +1,122 @@
+.modal {
+    display: none;
+    position:absolute;
+    width:100%;
+    height:100%;
+    z-index:1;
+}
+.modal>div {
+    margin:0 auto;
+}
+.modal p {
+    font-size: large;
+    font-weight: bold;
+    text-align: center;
+}
+.modalCloseButton {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    display: block;
+    width: 1.2rem;
+    height: 1.2rem;
+    border: none;
+    background-color: white;
+    color: gray;
+    font-weight: bold;
+    font-size: large;
+}
+.modal .modalContent {
+    position: relative;
+    width:300px;
+    margin:20% auto;
+    padding:10px 10px 20px 10px;
+    background:#fff;
+    border: 1px #C4C2FF solid;
+    border-radius: 1em;
+}
+.modalButtonsContainer {
+    display: flex;
+    margin: 20px auto 0 auto;
+    justify-content: space-evenly;
+}
+.modalButtons {
+    border-radius: 5px;
+    font-size: smaller;
+    width: 120px;
+    height: 40px;
+    color: white;
+    background-color: #0448AD;
+    box-sizing: border-box;
+    padding: 0;
+    border: none;
+}
+#modalImgContainer {
+    width: 150px;
+    height: 150px;
+    margin: 1% auto;
+}
+#modalImg {
+    width: 150px;
+    height: 150px;
+    object-fit: fill;
+}
+.modal .modalLayer {
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0, 0, 0, 0.5);
+    z-index:-1;
+}
+#shareButtonsContainer {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 30px;
+}
+.urlShare {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.urlShare>span {
+    display: inline-block;
+    width: 25%;
+    height: 30px;
+    margin-right: 0;
+    border: 0;
+    background-color: #e5e5fa;
+    text-align: center;
+    line-height: 30px;
+    font-size: small;
+    padding: 0 2px 0 2px;
+}
+.urlShare>input {
+    display: inline-block;
+    width: 75%;
+    height: 30px;
+    margin-left: 0;
+    border-color: #e5e5fa;
+    border-style: solid;
+    font-size: small;
+}
+.shareButtons {
+    border: 0;
+    box-sizing: border-box;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    background-color: white;
+}
+.shareButtons>img {
+    margin: 0 auto;
+    width: 30px;
+    height: 30px;
+    object-fit: fill;
+}
+@media screen and (max-width : 767px) {
+    .modal .modalContent {
+        margin: 100% auto;
+    }
+}

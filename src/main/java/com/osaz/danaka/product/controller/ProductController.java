@@ -29,7 +29,10 @@ public class ProductController {
         this.productService = productService;
     }
 
-    // 승재 - 카테고리 별 상품 조회, 페이징 처리, 정렬
+    // # update : 2023-01-03(최종수정)
+    // # title : 상품 목록
+    // # author : 오승재
+    // # description : 카테고리 별 상품 조회, 페이징 처리, 정렬
     @GetMapping("/list2")
     public ModelAndView selectByCategory(HttpServletRequest request, ModelAndView mv){
 
@@ -94,7 +97,10 @@ public class ProductController {
         return mv;
     }
 
-    // 승재 - 상품 상세페이지용 상품 정보 가져오기
+    // # update : 2023-01-08(최종수정)
+    // # title : 상품 상세페이지
+    // # author : 오승재
+    // # description : 상품 상세페이지용 상품 정보 가져오기
     @GetMapping("/item2")
     public ModelAndView selectOneProduct(HttpServletRequest request, ModelAndView mv){
 
@@ -117,7 +123,10 @@ public class ProductController {
         return mv;
     }
 
-    // 승재 - 해당하는 상품 위시리스트에 넣기
+    // # update : 2023-01-08(최종수정)
+    // # title : 상품 상세페이지
+    // # author : 오승재
+    // # description : 해당하는 상품 위시리스트에 넣기
     @GetMapping("/wish")
     public ModelAndView insertWishProduct (/*HttpSession session, */HttpServletRequest request, ModelAndView mv, RedirectAttributes rttr) throws Exception {
 
@@ -140,7 +149,10 @@ public class ProductController {
         return mv;
     }
 
-    // 승재 - 해당하는 상품 장바구니에 넣기
+    // # update : 2023-01-08(최종수정)
+    // # title : 상품 상세페이지
+    // # author : 오승재
+    // # description : 해당하는 상품 장바구니에 넣기
     @GetMapping("/cart")
     public ModelAndView insertCartProduct (/*HttpSession session, */HttpServletRequest request, ModelAndView mv, RedirectAttributes rttr) throws Exception {
 
@@ -166,7 +178,10 @@ public class ProductController {
         return mv;
     }
 
-    // 승재 - 상품 구매페이지
+    // # update : 2023-01-08(최종수정)
+    // # title : 상품 구매페이지
+    // # author : 오승재
+    // # description : 상세페이지에서 받아온 데이터로 구매페이지 렌더링
     @GetMapping("/purchase")
     public ModelAndView purchasePage(HttpServletRequest request, ModelAndView mv) {
 

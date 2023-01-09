@@ -16,24 +16,29 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
             crossorigin="anonymous"></script>
+
+    <!-- 카카오톡 공유하기 -->
+    <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.1.0/kakao.min.js"
+            integrity="sha384-dpu02ieKC6NUeKFoGMOKz6102CLEWi9+5RQjWSV0ikYSFFd8M3Wp2reIcquJOemx" crossorigin="anonymous"></script>
+    <script>
+        Kakao.init('179529a4be026dbb9680f16bff85f4f6');
+    </script>
+
     <!-- 승재 css -->
     <link rel="stylesheet" type="text/css" th:href="@{ /css/item.css }"/>
-    <script>
-
-        /* 찜하기 메시지 출력 */
-        const successMessage = "[[${ successMessage }]]";
-        console.log(successMessage);
-        if (successMessage){
-            alert(successMessage);
-        }
-    </script>
+    <link rel="stylesheet" type="text/css" th:href="@{ /css/modal.css }"/>
 </head>
 <body>
 
 <div class="header">
     <th:block th:replace="~{common/header2 :: header}"/>
 </div>
-
+<div>
+    <th:block th:replace="~{common/modal :: successM}"/>
+</div>
+<div>
+    <th:block th:replace="~{common/modal :: shareM}"/>
+</div>
 <div class="productContainer">
     <div class="imgContainer">
         <div class="bigImg">
@@ -116,7 +121,7 @@
         </div>
         <div class="buttons">
             <button type="button" id="insertWish"><img th:src="@{ /image/heart.png }"></button>
-            <button type="button" th:onclick="|location.href='@{/product/share(productNo=${ product.productNo })}'|"><img th:src="@{ /image/share.png }"></button>
+            <button type="button" onclick="modalSwitch(2)"><img th:src="@{ /image/share.png }"></button>
             <button type="button" id="insertCart"><img th:src="@{ /image/cart.png }"></button>
             <button type="submit" id="buy">구매하기</button>
         </div>
@@ -220,6 +225,64 @@
         $(".totalPrice").text($selectedPrice);
         $("#quantity").val(1);
     });
+
+
+
+    $(document).ready(function (){
+        /* 모달 창 띄우기 */
+        if ([[${ successMessage }]] != null) {
+            modalSwitch(1);
+            // $("#successM").show();
+        }
+    })
+
+    /* 모달 창 닫기 버튼 */
+    $(".modalCloseButton, .modalLayer").on("click", function() {
+
+        modalSwitch(3);
+    });
+
+    /* 모달창 스위치 함수 */
+    function modalSwitch(key) {
+
+        switch (key) {
+            case 1: $("#successM").show(); break;
+            case 2: $("#shareM").show(); break;
+            case 3: $(".modal").hide(); break;
+        }
+    }
+
+    /* 공유하기 url 복사 */
+    $("#currentUrl").on("click", function () {
+
+        $("#currentUrl").select();
+        let copy = document.execCommand("copy");
+
+        if(copy) {
+            alert("URL 복사되었습니다.");
+        }
+    })
+
+    /* sns 공유하기 */
+    function snsShare(sns) {
+
+        let thisUrl = document.URL;
+        let snsTitle = "DANAKA";
+        if (sns == 'fb') {
+            let url = "https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(thisUrl);
+            window.open(url, "", "width=486, height=286");
+        } else if (sns == 'tw') {
+            let url = "https://www.twitter.com/share?url=" + encodeURIComponent(thisUrl) + "&text=" + encodeURIComponent(snsTitle);
+            window.open(url, "tweetPop", "width=486, height=286,scrollbars=yes");
+        } else if (sns == 'nv') {
+            let url = "https://share.naver.com/web/shareView?url=" + encodeURIComponent(thisUrl) + "&text=" + encodeURIComponent(snsTitle);
+            window.open(url, "네이버 공유하기", "width=486, height=286,scrollbars=yes");
+        } else if (sns == 'kt') {
+            Kakao.Share.sendScrap({
+                requestUrl: thisUrl,
+            });
+        }
+    }
 </script>
 
 </body>
