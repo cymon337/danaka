@@ -33,6 +33,63 @@
     <style>
         #contentArea {width:60%}
         #contentArea *{margin:5px}
+
+        /* adds some margin below the link sets  */
+        .navbar .dropdown-menu div[class*="col"] {
+            margin-bottom:1rem;
+        }
+
+        .navbar .dropdown-menu {
+            border:none;
+            background-color:#0060c8!important;
+        }
+
+        /* breakpoint and up - mega dropdown styles */
+        @media screen and (min-width: 992px) {
+
+            /* remove the padding from the navbar so the dropdown hover state is not broken */
+            .navbar {
+                padding-top:0px;
+                padding-bottom:0px;
+            }
+
+            /* remove the padding from the nav-item and add some margin to give some breathing room on hovers */
+            .navbar .nav-item {
+                padding:.5rem .5rem;
+                margin:0 .25rem;
+            }
+
+            /* makes the dropdown full width  */
+            .navbar .dropdown {position:static;}
+
+            .navbar .dropdown-menu {
+                width:100%;
+                left:0;
+                right:0;
+                /*  height of nav-item  */
+                top:165px;
+
+                display:block;
+                visibility: hidden;
+                opacity: 0;
+                transition: visibility 0s, opacity 0.3s linear;
+
+            }
+
+            /* shows the dropdown menu on hover */
+            .navbar .dropdown:hover .dropdown-menu, .navbar .dropdown .dropdown-menu:hover {
+                display:block;
+                visibility: visible;
+                opacity: 1;
+                transition: visibility 0s, opacity 0.3s linear;
+            }
+
+            .navbar .dropdown-menu {
+                border: 1px solid rgba(0,0,0,.15);
+                background-color: #fff;
+            }
+
+        }
     </style>
 
     <script>
@@ -55,8 +112,10 @@
         <br><br>
         <h2 align="center">공지사항</h2>
         <br>
+        <div th:if="${#lists.isEmpty(notices)}">
+            <h2 align="center">검색된 내용이 없습니다.</h2><br>
+        </div>
         <div th:if="${not #lists.isEmpty(notices)}">
-
             <table id="contentArea" class="table table-hover" align="center">
                 <thead>
                 <tr>
@@ -83,22 +142,12 @@
             </table>
             <br>
 
-<!--            TOP 버튼 예정
             <div class="row align-items-end" id="backtotop"> - .align-items-start, .align-items-end, .align-items-center, .align-items-baseline및 .align-items-stretch (기본값)입니다 -
                 <button type="button" class="btn btn-info btn-lg" onclick="window.scrollTo(0,0);">
                     ▲TOP
                 </button>
-            </div>-->
+            </div>
 
-        </div>
-
-        <div class="search-area" align="center">
-            <select id="searchCondition" name="searchCondition">
-                <option value="title">제목</option>
-                <option value="content">내용</option>
-            </select>
-            <input type="search">
-            <button type="submit">검색하기</button>
         </div>
 
         <div align="center">
@@ -109,8 +158,35 @@
 
 <!-- 페이징 처리-->
 <div class="paging">
-    <th:block th:replace="~{common/paging :: paging}" />
+    <th:block th:include="~{common/paging :: paging}" />
 </div>
+<br>
+<!-- 검색 폼 -->
+<div class="search-area" align="center">
+    <form id="loginForm" th:action="@{/notice/noticeListView}" method="get" style="display:inline-block">
+        <input type="hidden" name="currentPage" value="1">
+        <select id="searchCondition" name="searchCondition"> <!-- 선택 유지? selected -->
+            <option value="title">제목</option>
+            <option value="content">내용</option>
+        </select>
+        <input type="search" id="searchValue" name="searchValue"/>
+        <button type="submit">검색하기</button>
+    </form>
+</div>
+
+<!--<div class="search-area" align="center">
+    <select id="searchCondition" name="searchCondition">
+        <option value="title">제목</option>
+        <option value="content">내용</option>
+    </select>
+    <input type="search">
+    <button type="submit">검색하기</button>
+
+
+    <c:if test="${ !empty sessionScope.loginMember }">
+        <button id="writeBoard">작성하기</button>
+    </c:if>
+</div>-->
 
 </body>
 </html>

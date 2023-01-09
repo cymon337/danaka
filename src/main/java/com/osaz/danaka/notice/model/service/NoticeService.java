@@ -1,5 +1,6 @@
 package com.osaz.danaka.notice.model.service;
 
+import com.osaz.danaka.common.paging.SelectCriteria;
 import com.osaz.danaka.notice.model.dao.NoticeMapper;
 import com.osaz.danaka.notice.model.dto.NoticeDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +35,8 @@ public class NoticeService {
 	}
 
 	/*공지사항 전체 조회*/
-	public List<NoticeDTO> selectAllList() {
-		return noticeMapper.selectAllList();
+	public List<NoticeDTO> selectAllList(SelectCriteria selectCriteria) {
+		return noticeMapper.selectAllList(selectCriteria);
 	}
 
 	/*공지사항 단일 조회*/

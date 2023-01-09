@@ -1,5 +1,6 @@
 package com.osaz.danaka.notice.model.dao;
 
+import com.osaz.danaka.common.paging.SelectCriteria;
 import com.osaz.danaka.notice.model.dto.NoticeDTO;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -13,7 +14,7 @@ public interface NoticeMapper {
     int selectTotalCount(Map<String, String> searchMap);
 
     /*공지사항 전체 조회*/
-    List<NoticeDTO> selectAllList();
+    List<NoticeDTO> selectAllList(SelectCriteria selectCriteria);
 
     /*공지사항 단일 조회*/
     NoticeDTO selectOneNotice(String noticeNo);

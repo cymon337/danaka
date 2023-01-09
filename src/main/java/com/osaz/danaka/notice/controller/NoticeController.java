@@ -39,12 +39,11 @@ public class NoticeController {
 			 ModelAndView -> 데이터와 이동하고자 하는 View Page를 같이 저장 (addObject, setViewName)*/
 
 
+	/*공지사항 전체보기 / 페이징 처리를 위한 총 갯수 조회와 공지사항 리스트 조회, 출력*/
 	@GetMapping("noticeListView")
 	public ModelAndView noticeListView(HttpServletRequest request, ModelAndView mv){
 
-		/* 목록보기를 눌렀을 시 가장 처음에 보여지는 페이지는 1페이지이다.
-		 * 파라미터로 전달되는 페이지가 있는 경우 currentPage는 파라미터로 전달받은 페이지 수 이다.
-		 * */
+		/* 목록보기를 눌렀을 시 가장 처음에 보여지는 페이지는 1페이지이다. 파라미터로 전달되는 페이지가 있는 경우 currentPage는 파라미터로 전달받은 페이지 수 이다. */
 		String currentPage = request.getParameter("currentPage");
 		int pageNo = 1;
 
@@ -57,6 +56,7 @@ public class NoticeController {
 			pageNo = 1;
 		}
 
+		/*검색기준과 검색어를 가져와 Map으로 담아줌*/
 		String searchCondition = request.getParameter("searchCondition");
 		String searchValue = request.getParameter("searchValue");
 
@@ -74,6 +74,7 @@ public class NoticeController {
 
 		/* 한 페이지에 보여 줄 게시물 수 */
 		int limit = 10;		//얘도 파라미터로 전달받아도 된다.
+
 		/* 한 번에 보여질 페이징 버튼의 갯수 */
 		int buttonAmount = 5;
 
@@ -88,9 +89,9 @@ public class NoticeController {
 
 		log.info("검색 조건 = {}", selectCriteria);
 
-		/* 조회해온다 */
+		/* DB 전체조회, 검색어 있을 경우 포함하여 조회 */
 //		List<ProductDTO> productList = noticeService.selectListByCategory(selectCriteria);
-		List<NoticeDTO> noticeList = noticeService.selectAllList();
+		List<NoticeDTO> noticeList = noticeService.selectAllList(selectCriteria);
 		log.info("상품 리스트 = {}" + noticeList);
 
 		mv.addObject("notices", noticeList);
@@ -122,12 +123,17 @@ public class NoticeController {
 	public ModelAndView selectOneNotice(@RequestParam(value = "noticeNo") String noticeNo, ModelAndView mv){
 
 //		String noticeNo = request.getParameter("noticeNo");
+
 		NoticeDTO notice = noticeService.selectOneNotice(noticeNo);
-		noticeService.incrementNoticeCount(noticeNo);
+
+		if(noticeNo != null){
+			noticeService.incrementNoticeCount(noticeNo);
+			mv.addObject("notice", notice);
+		}
 
 		/*addObject : selectOneNotice을 통해 반환된 결과 값 notice를 mv객체에 "notice"라는 이름으로 보내줘서 뷰에서 사용 가능
 		* setViewName : 페이지 이동할 경로 설정*/
-		mv.addObject("notice", notice);
+		//mv.addObject("notice", notice);
 		mv.setViewName("notice/noticeDetail");
 
 		return mv;
@@ -140,6 +146,7 @@ public class NoticeController {
 	/*공지사항 작성 처리 POST*/
 	@PostMapping("noticeEnroll")
 	public ModelAndView insertNotice(ModelAndView mv, NoticeDTO newNotice, RedirectAttributes rttr) {
+
 		noticeService.insertNotice(newNotice);
 
 		/*redirect 해줘야 POST처리 된 후 다시 값 불러와서 정상적인 화면 출력*/

@@ -14,11 +14,11 @@
         <result property="noticeCount" column="NOTICE_COUNT"/>
     </resultMap>
 
-    <!-- 페이징 처리를 위한 대상품 총 개수 조회 쿼리 -->
+    <!-- 페이징 처리를 위한 총 개수 조회 (where에 따라 검색 조건 및 결과 변경)-->
     <select id="selectTotalCount" resultType="_int" parameterType="hashmap">
         SELECT
-        COUNT(*)
-        FROM T_NOTICE A
+               COUNT(*)
+          FROM T_NOTICE A
         <where>
             <if test="searchCondition == 'title'">
                 A.NOTICE_NAME LIKE '%' || #{ searchValue } || '%'
@@ -29,9 +29,51 @@
         </where>
     </select>
 
-    <!--공지사항 전체조회-->
+    <!--공지사항 전체조회 / <where> 해당되지 않을 경우 무시되서 기본 리스트 출력(C, D), 출력될 내용들을 ROWNUM으로 카운팅 해주고(B) 번호를 이용하여 출력할 범위를 지정(A)-->
     <select id="selectAllList" resultMap="noticeResultMap">
         SELECT
+              A.RNUM
+            , A.NOTICE_NO
+            , A.USER_NAME
+            , A.NOTICE_NAME
+            , A.NOTICE_CONTENT
+            , A.NOTICE_DATE
+            , A.NOTICE_COUNT
+        FROM (
+                SELECT
+                      ROWNUM RNUM
+                    , B.NOTICE_NO
+                    , B.USER_NAME
+                    , B.NOTICE_NAME
+                    , B.NOTICE_CONTENT
+                    , B.NOTICE_DATE
+                    , B.NOTICE_COUNT
+                    FROM (
+                            SELECT
+                                  C.NOTICE_NO
+                                , D.USER_NAME
+                                , C.NOTICE_NAME
+                                , C.NOTICE_CONTENT
+                                , C.NOTICE_DATE
+                                , C.NOTICE_COUNT
+                                FROM T_NOTICE C, T_MEMBER D
+                                WHERE C.USER_NO = D.USER_NO
+                                <choose>
+                                    <when test="searchCondition == 'title'">
+                                        AND C.NOTICE_NAME LIKE '%' || #{ searchValue } || '%'
+                                    </when>
+                                    <when test="searchCondition == 'content'">
+                                        AND C.NOTICE_CONTENT LIKE '%' || #{ searchValue } || '%'
+                                    </when>
+                                </choose>
+                                ORDER BY C.NOTICE_NO DESC
+                    ) B
+                <![CDATA[
+                  WHERE ROWNUM <= #{ endRow }
+                  ]]>
+            ) A
+        WHERE A.RNUM >= #{ startRow }
+        /*SELECT
                 A.NOTICE_NO,
                 B.USER_NAME,
                 A.NOTICE_NAME,
@@ -40,7 +82,7 @@
                 A.NOTICE_COUNT
           FROM T_NOTICE A, T_MEMBER B
          WHERE A.USER_NO = B.USER_NO
-        ORDER BY NOTICE_NO DESC
+        ORDER BY NOTICE_NO DESC*/
     </select>
 
 <!--    파라미터 타입 인트형이든 스트링이든 쿼리 값 나옴 / 없어도 나오는디 전달값 한개면 파라미터 이름, 타입을 자동으로 매핑했던거같음 -->

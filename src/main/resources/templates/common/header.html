@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>메인페이지</title>
+    <title>Header</title>
 
     <!-- index.html css (타임리프로 할 경우 적용 안 됨) -->
 <!--    <link rel="stylesheet" href="/static/css/indexCss.css" />-->
@@ -27,9 +27,35 @@
 
 <body>
 
+<script>
+    $(document).ready(function() {
+        // executes when HTML-Document is loaded and DOM is ready
+
+// breakpoint and up
+        $(window).resize(function(){
+            if ($(window).width() >= 980){
+
+                // when you hover a toggle show its dropdown menu
+                $(".navbar .dropdown-toggle").hover(function () {
+                    $(this).parent().toggleClass("show");
+                    $(this).parent().find(".dropdown-menu").toggleClass("show");
+                });
+
+                // hide the menu when the mouse leaves the dropdown
+                $( ".navbar .dropdown-menu" ).mouseleave(function() {
+                    $(this).removeClass("show");
+                });
+
+                // do something here
+            }
+        });
+// document ready
+    });
+</script>
+
 <!-- 네비게이션바 전체-->
 
-<div th:fragment="header">
+<div th:fragment="header"><!--navbar navbar-expand-lg navbar-dark bg-primary-->
 <nav class="navbar navbar-expand-md navbar-dark fixed-top" style="flex-wrap: wrap;">
 
     <!-- 상단바 (로고, 검색, 장바구니, 로그인) -->
@@ -61,9 +87,62 @@
     <div class="container-fluid" id="secondNav">
 
         <!-- 전체 카테고리 -->
-        <a class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#dropTotalCategory" aria-controls="dropTotalCategory" aria-expanded="false" aria-label="Toggle navigation" id="totalCategory">
-            <i class="bi bi-list"></i>전체 카테고리
-        </a>
+<!--        <a class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#dropTotalCategory" aria-controls="dropTotalCategory" aria-expanded="false" aria-label="Toggle navigation" id="totalCategory">-->
+<!--            <i class="bi bi-list"></i>전체 카테고리-->
+<!--        </a>-->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="bi bi-list"></i>전체 카테고리
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <span class="text-uppercase text-white">Category 2</span>
+                                    <ul class="nav flex-column">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" href="#">Active</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#">Link item</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#">Link item</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <!-- /.col-md-4  -->
+                                <div class="col-md-4">
+                                    <ul class="nav flex-column">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" href="#">Active</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#">Link item</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#">Link item</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <!-- /.col-md-4  -->
+                                <div class="col-md-4">
+                                    <a target="_blank" href="https://bootstrapcreative.com/shop/jake-portfolio-hubspot-theme/">
+                                        <img src="https://i0.wp.com/bootstrapcreative.com/wp-bc/wp-content/uploads/2022/01/jake-portfolio-cover.jpg?w=200&ssl=1" alt="Portfolio Website Templates" class="img-fluid">
+                                    </a>
+                                    <p class="text-white">Create a Portfolio Website Fast</p>
+
+                                </div>
+                                <!-- /.col-md-4  -->
+                            </div>
+                        </div>
+                        <!--  /.container  -->
+                    </div>
+                </li>
+            </ul>
+        </div>
 
         <!-- 중앙 메뉴 -->
         <div class="container">
@@ -82,34 +161,34 @@
 </nav>
 
 <!-- 드랍다운 (대분류 영역 - 추가표현) -->
-<div class="collapse navbar-collapse" id="dropTotalCategory">
-    <ul class="navbar-nav me-auto mb-2">
-        <li class="nav-item dropend" id="secondCategory1">
-            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">&nbsp;- 릴</a>
-            <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">도요</a></li>
-                <li><a class="dropdown-item" href="#">시마노</a></li>
-                <li><a class="dropdown-item" href="#">NS</a></li>
-            </ul>
-        </li>
-        <li class="nav-item dropend" id="secondCategory2">
-            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">&nbsp;- 로드</a>
-            <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">도요</a></li>
-                <li><a class="dropdown-item" href="#">시마노</a></li>
-                <li><a class="dropdown-item" href="#">NS</a></li>
-            </ul>
-        </li>
-        <li class="nav-item dropend" >
-            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">&nbsp;- 라인</a>
-            <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">도요</a></li>
-                <li><a class="dropdown-item" href="#">시마노</a></li>
-                <li><a class="dropdown-item" href="#">NS</a></li>
-            </ul>
-        </li>
-    </ul>
-</div>
+<!--<div class="collapse navbar-collapse" id="dropTotalCategory">-->
+<!--    <ul class="navbar-nav me-auto mb-2">-->
+<!--        <li class="nav-item dropend" id="secondCategory1">-->
+<!--            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">&nbsp;- 릴</a>-->
+<!--            <ul class="dropdown-menu">-->
+<!--                <li><a class="dropdown-item" href="#">도요</a></li>-->
+<!--                <li><a class="dropdown-item" href="#">시마노</a></li>-->
+<!--                <li><a class="dropdown-item" href="#">NS</a></li>-->
+<!--            </ul>-->
+<!--        </li>-->
+<!--        <li class="nav-item dropend" id="secondCategory2">-->
+<!--            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">&nbsp;- 로드</a>-->
+<!--            <ul class="dropdown-menu">-->
+<!--                <li><a class="dropdown-item" href="#">도요</a></li>-->
+<!--                <li><a class="dropdown-item" href="#">시마노</a></li>-->
+<!--                <li><a class="dropdown-item" href="#">NS</a></li>-->
+<!--            </ul>-->
+<!--        </li>-->
+<!--        <li class="nav-item dropend" >-->
+<!--            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">&nbsp;- 라인</a>-->
+<!--            <ul class="dropdown-menu">-->
+<!--                <li><a class="dropdown-item" href="#">도요</a></li>-->
+<!--                <li><a class="dropdown-item" href="#">시마노</a></li>-->
+<!--                <li><a class="dropdown-item" href="#">NS</a></li>-->
+<!--            </ul>-->
+<!--        </li>-->
+<!--    </ul>-->
+<!--</div>-->
 </div>
 
 </body>
