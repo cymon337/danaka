@@ -1,13 +1,16 @@
 
 <!doctype html>
 <html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
 <head>
   <title>modification</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
   <script nonce="88f298e2-7919-4c1e-85cc-a31b83f46cf6">(function(w,d){!function(eK,eL,eM,eN){eK.zarazData=eK.zarazData||{};eK.zarazData.executed=[];eK.zaraz={deferred:[],listeners:[]};eK.zaraz.q=[];eK.zaraz._f=function(eO){return function(){var eP=Array.prototype.slice.call(arguments);eK.zaraz.q.push({m:eO,a:eP})}};for(const eQ of["track","set","debug"])eK.zaraz[eQ]=eK.zaraz._f(eQ);eK.zaraz.init=()=>{var eR=eL.getElementsByTagName(eN)[0],eS=eL.createElement(eN),eT=eL.getElementsByTagName("title")[0];eT&&(eK.zarazData.t=eL.getElementsByTagName("title")[0].text);eK.zarazData.x=Math.random();eK.zarazData.w=eK.screen.width;eK.zarazData.h=eK.screen.height;eK.zarazData.j=eK.innerHeight;eK.zarazData.e=eK.innerWidth;eK.zarazData.l=eK.location.href;eK.zarazData.r=eL.referrer;eK.zarazData.k=eK.screen.colorDepth;eK.zarazData.n=eL.characterSet;eK.zarazData.o=(new Date).getTimezoneOffset();if(eK.dataLayer)for(const eX of Object.entries(Object.entries(dataLayer).reduce(((eY,eZ)=>({...eY[1],...eZ[1]})))))zaraz.set(eX[0],eX[1],{scope:"page"});eK.zarazData.q=[];for(;eK.zaraz.q.length;){const e_=eK.zaraz.q.shift();eK.zarazData.q.push(e_)}eS.defer=!0;for(const fa of[localStorage,sessionStorage])Object.keys(fa||{}).filter((fc=>fc.startsWith("_zaraz_"))).forEach((fb=>{try{eK.zarazData["z_"+fb.slice(7)]=JSON.parse(fa.getItem(fb))}catch{eK.zarazData["z_"+fb.slice(7)]=fa.getItem(fb)}}));eS.referrerPolicy="origin";eS.src="/cdn-cgi/zaraz/s.js?z="+btoa(encodeURIComponent(JSON.stringify(eK.zarazData)));eR.parentNode.insertBefore(eS,eR)};["complete","interactive"].includes(eL.readyState)?zaraz.init():eK.addEventListener("DOMContentLoaded",zaraz.init)}(w,d,0,"script");})(window,document);</script></head>
 <body>
 <section class="ftco-section">
@@ -15,57 +18,82 @@
     <div class="row justify-content-center">
       <div class="col-md-6 text-center mb-5">
 
-        <img src="/image/DANAKA.png">
+          <img th:src="@{/image/DANAKA.png}">
       </div>
     </div>
     <div class="row justify-content-center">
       <div class="col-md-6 col-lg-5">
         <div class="login-wrap p-4 p-md-5">
-          <!--                    <div class="icon d-flex align-items-center justify-content-center">-->
-          <!--                        <span class="fa fa-user-o"></span>-->
-          <!--                    </div>-->
+
           <h3 class="text-center mb-4">회원정보수정</h3>
           <b><hr></b>
-          <form action="#" class="login-form">
 
-            <div class="form-group">
-              <input type="text" class="form-control rounded-left" placeholder="닉네임" required>
-            </div>
-            <div class="form-group d-flex">
-              <input type="password" class="form-control rounded-left" placeholder="비밀번호" required>
-            </div>
-            <div class="form-group d-flex">
-              <input type="password" class="form-control rounded-left" placeholder="비밀번호 확인" required>
-            </div>
+         <!-- <div th:if=${ signIn != null}" style="display:none;">  세션값이 있는 경우에만 회원정보 수정폼 보여주기 시간있으면 구현-->
+       <!--   action="/updateMembers_action" class="login-form" method="post"-->
 
+          <form  class="login-form" th:action="@{/updateMembers}" method="post" >
+              <input type="hidden" id="id" th:value="${member.username}">
+           <!-- <th:block sec:authorize="isAuthenticated()">-->
+              <div class="form-group">
 
-            <div class="form-group d-flex">
-              <input type="email" class="form-control rounded-left" id="email"
-                     pattern=".+@globex\.com" size="30" placeholder="이메일" required>
-            </div>
-            <div class="form-group d-flex">
-              <input type="tel"  id="phone" name="phone" class="form-control rounded-left" placeholder="휴대전화"  pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required>
-            </div>
-            <div class="form-group">
-              <button type="submit" class="btn btn-primary rounded submit p-3 px-5">수정</button>
-            </div>
+                  <input type="text" th:name="userId" class="form-control rounded-left" id="userId" placeholder="아이디" name="userId" th:value="${member.userId}"  required readonly>
 
-
-              <div class="w-100 text-md-center">
-                <a href="#">로그인</a>
               </div>
+            <div class="form-group">
+
+              <input type="text" th:name="nickname" class="form-control rounded-left" id="userNickname" placeholder="닉네임" name="nickname" th:value="${member.userNickname}"  required>
+
+<!--            </div>-->
+<!--            <div class="form-group d-flex">-->
+<!--              <input type="password" th:name="password" id="password" class="form-control rounded-left" placeholder="비밀번호" name="password"  required>-->
+<!--            </div>-->
+
+            <div class="form-group d-flex">
+              <input type="email" th:name="email" class="form-control rounded-left" id="email" name="email"
+                      size="30" placeholder="이메일" pattern="[a-zA-Z0-9]+[@][a-zA-Z0-9]+[.]+[a-zA-Z]+[.]*[a-zA-Z]*" th:value="${member.email}" required>
+
+            </div>
+            <div class="form-group d-flex">
+               <!-- th:value="${session?.phone}"-->
+              <input type="tel"  id="phone" th:name="phone" name="phone" class="form-control rounded-left" placeholder="휴대전화"  pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"  th:value="${member.phone}" required>
+            </div>
+            <div class="form-group">
+              <button type="submit" id="btn-update" class="btn btn-primary rounded submit p-3 px-5">수정</button>
+            </div>
+
+  <!--          </th:block>
+-->
+
+            </div>
+           </form>
+<!--          &lt;!&ndash; </div>&ndash;&gt;
+&lt;!&ndash;          <div th:if=${ signIn == null}>&ndash;&gt;
+&lt;!&ndash;            <div>&ndash;&gt;
+&lt;!&ndash;              <h3 class ="text-dark text-center">회원 정보 수정 <br>페이지입니다.</h3>&ndash;&gt;
+&lt;!&ndash;              <p class="text-center">&ndash;&gt;
+&lt;!&ndash;                <span>로그인 후 회원정보 수정이 가능합니다.</span>&ndash;&gt;
+&lt;!&ndash;              </p>&ndash;&gt;
+&lt;!&ndash;-->
+          <div class="w-100 text-md-center">
+            <a th:href="@{/member/login}">로그인</a>
+          </div>
 
 
-          </form>
         </div>
+
+
+
+
+          </div>
+          </div>
       </div>
     </div>
   </div>
 </section>
-<script src="js/jquery.min.js"></script>
-<script src="js/popper.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/main.js"></script>
+<!--<script src="js/jquery.min.js"></script>-->
+<!--<script src="js/popper.js"></script>-->
+<!--<script src="js/bootstrap.min.js"></script>-->
+<!--<script src="js/main.js"></script>-->
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js/vaafb692b2aea4879b33c060e79fe94621666317369993" integrity="sha512-0ahDYl866UMhKuYcW078ScMalXqtFJggm7TmlUtp0UlD4eQk0Ixfnm5ykXKvGJNFjLMoortdseTfsRT8oCfgGA==" data-cf-beacon='{"rayId":"77f014c9f8501a32","token":"cd0b4b3a733644fc843ef0b185f98241","version":"2022.11.3","si":100}' crossorigin="anonymous"></script>
 </body>
 </html>

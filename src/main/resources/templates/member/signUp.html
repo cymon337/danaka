@@ -1,13 +1,16 @@
 
 <!doctype html>
 <html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
 <head>
   <title>signup</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/static/css/style.css">
+
   <script nonce="88f298e2-7919-4c1e-85cc-a31b83f46cf6">(function(w,d){!function(eK,eL,eM,eN){eK.zarazData=eK.zarazData||{};eK.zarazData.executed=[];eK.zaraz={deferred:[],listeners:[]};eK.zaraz.q=[];eK.zaraz._f=function(eO){return function(){var eP=Array.prototype.slice.call(arguments);eK.zaraz.q.push({m:eO,a:eP})}};for(const eQ of["track","set","debug"])eK.zaraz[eQ]=eK.zaraz._f(eQ);eK.zaraz.init=()=>{var eR=eL.getElementsByTagName(eN)[0],eS=eL.createElement(eN),eT=eL.getElementsByTagName("title")[0];eT&&(eK.zarazData.t=eL.getElementsByTagName("title")[0].text);eK.zarazData.x=Math.random();eK.zarazData.w=eK.screen.width;eK.zarazData.h=eK.screen.height;eK.zarazData.j=eK.innerHeight;eK.zarazData.e=eK.innerWidth;eK.zarazData.l=eK.location.href;eK.zarazData.r=eL.referrer;eK.zarazData.k=eK.screen.colorDepth;eK.zarazData.n=eL.characterSet;eK.zarazData.o=(new Date).getTimezoneOffset();if(eK.dataLayer)for(const eX of Object.entries(Object.entries(dataLayer).reduce(((eY,eZ)=>({...eY[1],...eZ[1]})))))zaraz.set(eX[0],eX[1],{scope:"page"});eK.zarazData.q=[];for(;eK.zaraz.q.length;){const e_=eK.zaraz.q.shift();eK.zarazData.q.push(e_)}eS.defer=!0;for(const fa of[localStorage,sessionStorage])Object.keys(fa||{}).filter((fc=>fc.startsWith("_zaraz_"))).forEach((fb=>{try{eK.zarazData["z_"+fb.slice(7)]=JSON.parse(fa.getItem(fb))}catch{eK.zarazData["z_"+fb.slice(7)]=fa.getItem(fb)}}));eS.referrerPolicy="origin";eS.src="/cdn-cgi/zaraz/s.js?z="+btoa(encodeURIComponent(JSON.stringify(eK.zarazData)));eR.parentNode.insertBefore(eS,eR)};["complete","interactive"].includes(eL.readyState)?zaraz.init():eK.addEventListener("DOMContentLoaded",zaraz.init)}(w,d,0,"script");})(window,document);</script>
   <style>
     #gender {
@@ -29,7 +32,7 @@
     <div class="row justify-content-center">
       <div class="col-md-6 text-center mb-5">
 
-        <img src="/image/DANAKA.png">
+        <img src="/static/image/DANAKA.png">
       </div>
     </div>
     <div class="row justify-content-center">
@@ -40,55 +43,57 @@
           <!--                    </div>-->
           <h3 class="text-center mb-4">회원가입</h3>
           <b><hr></b>
-          <form action="#" class="login-form">
+          <form action="/signUp_action" class="login-form" method="post">
+
+
             <div class="form-group">
 
-              <input type="text" id="input_id" class="form-control rounded-left" placeholder="아이디" required >
+              <input type="text" id="input_id" name="userId" class="form-control rounded-left" placeholder="아이디" required >
 
             </div>
             <div class="form-group">
-              <input type="text" class="form-control rounded-left" placeholder="닉네임" required>
+              <input type="text" name="userNickname" class="form-control rounded-left" placeholder="닉네임" required>
             </div>
             <div class="form-group d-flex">
-              <input type="password" class="form-control rounded-left" placeholder="비밀번호" required>
+              <input type="password" name="userPwd" class="form-control rounded-left" placeholder="비밀번호" required>
             </div>
-            <div class="form-group d-flex">
+           <!-- <div class="form-group d-flex">
               <input type="password" class="form-control rounded-left" placeholder="비밀번호 확인" required>
-            </div>
+            </div>-->
             <div class="form-group d-flex">
-              <input type="text" class="form-control rounded-left" placeholder="이름" required>
+              <input type="text" name="userName"class="form-control rounded-left" placeholder="이름" required>
             </div>
             <a>생년월일</a>
             <div class="form-group d-flex">
-              <input type="date" class="form-control rounded-left" placeholder="생년월일" required>
+              <input type="date"name="birthday" class="form-control rounded-left" placeholder="생년월일" required>
             </div>
             <a>주소</a>
             <div class="form-group d-flex">
-            <input type="text" id="sample6_postcode" placeholder="우편번호">
+            <input type="text" name="address" id="sample6_postcode" placeholder="우편번호">
             <input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
 
             </div>
 
             <div class="form-group d-flex">
-            <input type="text" id="sample6_address" placeholder="주소" width="100px"><br>
-            <input type="text" id="sample6_detailAddress" placeholder="상세주소"><br>
+            <input type="text" name="address" id="sample6_address" placeholder="주소" width="100px"><br>
+            <input type="text" name="address" id="sample6_detailAddress" placeholder="상세주소"><br>
             </div>
 
             <div class="form-group d-flex">
-              <input type="email" class="form-control rounded-left" id="email"
-                     pattern=".+@globex\.com" size="30" placeholder="이메일" required>
+              <input type="email" name="email" class="form-control rounded-left" id="email"
+                      size="30" placeholder="이메일" pattern="[a-zA-Z0-9]+[@][a-zA-Z0-9]+[.]+[a-zA-Z]+[.]*[a-zA-Z]*" required>
             </div>
             <div class="form-group d-flex">
-              <input type="tel"  id="phone" name="phone" class="form-control rounded-left" placeholder="휴대전화"  pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required>
+              <input type="tel"  id="phone" name="phone" class="form-control rounded-left" placeholder="휴대전화"  pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" required>
             </div>
             <span>성별</span>
             <div class="form-group d-flex">
 
             <select name="gender" id="gender" >
 
-              <option value="" disabled>성별을 선택해주세요.</option>
-              <option value="">남자</option>
-              <option value="">여자</option>
+              <option value="gender" disabled>성별을 선택해주세요.</option>
+              <option value="남">남</option>
+              <option value="여">여</option>
               </optgroup>
             </select>
             </div>
@@ -166,7 +171,7 @@
 
 
               <div class="w-100 text-md-center">
-                <a href="#">로그인</a>
+                <a href="/login">로그인</a>
               </div>
             </div>
 

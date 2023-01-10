@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.osaz.danaka.member.model.dao.MemberMapper">
+
+
+    <resultMap id="memberResultMap" type="com.osaz.danaka.member.model.dto.MemberDTO">
+        <id  column="USER_NO" property="userNo"  jdbcType="VARCHAR" javaType="java.lang.String" />
+        <result column="USER_ID" property="userId"  jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="USER_NICKNAME" property="userNickname"  jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="USER_PWD" property="userPwd"  jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="USER_NAME" property="userName"  jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="BIRTHDAY" property="birthday"/>
+        <result column="ADDRESS" property="address"/>
+        <result column="EMAIL" property="email"/>
+        <result column="PHONE" property="phone"/>
+        <result column="GENDER" property="gender"/>
+        <result column="REG_DATE" property="regDate"  jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="STATUS" property="status"/>
+        <result column="USER_ROLE" property="userRole"  jdbcType="VARCHAR" javaType="java.lang.String"/>
+
+    </resultMap>
+
+<!--
+    <select id="findMemberByID" resultMap="memberResultMap">
+
+
+
+    </select>
+-->
+    <!--로그인-->
+    <select id="loginAction" resultType="com.osaz.danaka.member.model.dto.MemberDTO">
+        SELECT
+            USER_NO AS userNo,
+            USER_ID AS userId,
+            USER_NICKNAME AS userNickname,
+            USER_PWD AS userPwd,
+            USER_NAME AS userName,
+            BIRTHDAY,
+            ADDRESS,
+            EMAIL,
+            PHONE,
+            GENDER,
+            REG_DATE AS regDate,
+            STATUS,
+            USER_ROLE AS userRole
+            FROM T_MEMBER
+        WHERE USER_ID = #{userId}
+          AND STATUS = 'Y'
+    </select>
+    <!--아이디찾기    -->
+    <select id="findId" parameterType="com.osaz.danaka.member.model.dto.MemberDTO" resultMap="memberResultMap">
+        SELECT * FROM T_MEMBER WHERE USER_NAME = #{userName} and PHONE = #{phone}
+    </select>
+    <!--비밀번호 찾기 -->
+    <select id="findPassword" parameterType="com.osaz.danaka.member.model.dto.MemberDTO" resultMap="memberResultMap">
+        SELECT * FROM T_MEMBER WHERE USER_ID = #{userId} and USER_NAME = #{userName} and PHONE = #{phone}
+    </select>
+    <!--회원가입-->
+    <insert id="insertMember" parameterType="com.osaz.danaka.member.model.dto.MemberDTO" >
+        INSERT INTO T_MEMBER
+         (USER_NO, USER_ID, USER_NICKNAME, USER_PWD, USER_NAME, BIRTHDAY, GENDER, ADDRESS, EMAIL, PHONE, USER_ROLE)
+        values ( SEQ_USER_NO.NEXTVAL ,#{userId},#{userNickname},#{userPwd},#{userName},#{birthday},#{gender},#{address},#{email},#{phone},'ROLE_MEMBER')
+
+    </insert>
+
+    <update id ="userUpdate" parameterType="com.osaz.danaka.member.model.dto.MemberDTO" >
+        UPDATE T_MEMBER
+        SET USER_NICKNAME= #{userNickname} , EMAIL= #{email}, PHONE= #{phone}
+        WHERE USER_ID = #{userId}
+
+    </update>
+
+
+
+</mapper>

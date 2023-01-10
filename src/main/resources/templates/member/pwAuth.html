@@ -21,25 +21,22 @@
     <div class="row justify-content-center">
       <div class="col-md-6 col-lg-5">
         <div class="login-wrap p-4 p-md-5">
-          <!--                    <div class="icon d-flex align-items-center justify-content-center">-->
-          <!--                        <span class="fa fa-user-o"></span>-->
-          <!--                    </div>-->
+
           <h3 class="text-center mb-4">비밀번호 찾기</h3>
           <b><hr></b>
-          <form action="pw_auth" class="login-form" method="post">
+          <form action="pw_set" class="login-form" method="post">
+            <input type="hidden" name ="num" th:value="${num }">
             <div class="form-group">
-              <input type="text" class="form-control rounded-left" placeholder="아이디" required>
+              <input type="text" class="form-control rounded-left"  name="email_injeung" placeholder="인증번호를 입력하세요" required>
             </div>
+            <div class="error"> </div>
+
+            <br>
+
             <div class="form-group">
-              <input type="text" class="form-control rounded-left" placeholder="이름" required>
+              <button type="submit" id="check" class="btn btn-primary rounded submit p-3 px-5">확인</button>
             </div>
-            <div class="form-group d-flex">
-              <input type="email" class="form-control rounded-left" id="email"
-                     pattern=".+@globex\.com" size="30" placeholder="이메일" pattern="/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)?$/i" required>
-            </div>
-            <div class="form-group">
-              <button type="submit" class="btn btn-primary rounded submit p-3 px-5">비밀번호 찾기</button>
-            </div>
+
 
 
           </form>

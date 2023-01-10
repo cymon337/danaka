@@ -26,23 +26,47 @@
           <!--                    </div>-->
           <h3 class="text-center mb-4">비밀번호 찾기</h3>
           <b><hr></b>
-          <form action="pw_auth" class="login-form" method="post">
-            <div class="form-group">
-              <input type="text" class="form-control rounded-left" placeholder="아이디" required>
-            </div>
-            <div class="form-group">
-              <input type="text" class="form-control rounded-left" placeholder="이름" required>
-            </div>
+          <form action="pw_new" class="login-form" method="post">
+
+
             <div class="form-group d-flex">
-              <input type="email" class="form-control rounded-left" id="email"
-                     pattern=".+@globex\.com" size="30" placeholder="이메일" pattern="/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)?$/i" required>
+              <input id="pw" type="password" class="form-control rounded-left" name="password" placeholder="새비밀번호" required>
+              <div class="error">
+                Invalid password
             </div>
-            <div class="form-group">
-              <button type="submit" class="btn btn-primary rounded submit p-3 px-5">비밀번호 찾기</button>
             </div>
+            <div class="form-group ">
+              <input id="pw2" type="password" class="form-control rounded-left" name="password" onchange="isSame();" placeholder="새비밀번호 확인" required>
+              <div class="error">
+                <span id=same></span>
+
+                <br>
+
+                <div class="form-group">
+                  <button type="submit" class="btn btn-primary rounded submit p-3 px-5">비밀번호 변경</button>
+
+                </div>
+
+                <div class="form-group">
+
+                <input type="hidden" name="email" th:value="${email}"/>
+              </div>
+
+<!--
+        <span th:if="${check == 1}">
+
+            <label>일치하는 정보가 존재하지 않습니다.</label>
+
+          </script>
 
 
-          </form>
+              </span>
+        <span th:if="${check == 0}">
+            <label>찾으시는 비밀번호' *[[${userPwd}]]* ' 입니다.</label>
+                </span>-->
+              </div>
+            </div>
+            </form>
         </div>
       </div>
     </div>
