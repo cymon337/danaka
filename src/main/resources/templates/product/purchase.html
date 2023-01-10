@@ -203,7 +203,7 @@
     $(".totalPrice").text($price.toLocaleString());
     $("#totalPayPrice").text($price.toLocaleString());
     $("#totalPlusFee").text(($price + 3000).toLocaleString());
-    $("#hiddenTotP").text($("#totalPlusFee").text().replace(",", ""));
+    $("#hiddenTotP").val($("#totalPlusFee").text().replace(",", ""));
 
     /* 수량 변경 버튼 함수 */
     $(".amountButtons").on("click", function () {

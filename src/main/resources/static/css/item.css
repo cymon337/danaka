@@ -64,6 +64,8 @@ body>hr {
     margin-left: 0.5%;
     padding: 1% 2% 0 2%;
     box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.25);
+    position: relative;
+    min-height: 250px;
 }
 .productName {
     height: 10%;
@@ -75,6 +77,11 @@ body>hr {
 }
 .productName, .productDetail {
     display: block;
+}
+#toBottom {
+    position: absolute;
+    bottom: 1px;
+    width: 92%;
 }
 .quantity {
     display: flex;
@@ -126,7 +133,6 @@ body>hr {
     justify-content: space-between;
 }
 .option {
-    width: 100%;
     height: 10%;
     margin: 2% auto 1% auto;
 }
