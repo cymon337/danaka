@@ -58,7 +58,7 @@
 <div class="header">
     <th:block th:replace="~{common/header2 :: header}"/>
 </div>
-<form action="/product/pay" method="post">
+<form action="/product/pay" method="POST">
 <div class="description">
     <p>구매목록</p>
 </div>
@@ -116,7 +116,7 @@
             <hr>
             <div class="deliveryRequest">
                 <span class="addrSpan"><label for="deliveryRequest">요청사항</label></span>
-                <textarea name="deliveryRequest" id="deliveryRequest" cols="40" rows="3" maxlength="60" placeholder="배송 전 연락바랍니다."></textarea>
+                <textarea name="orderRequest" id="deliveryRequest" cols="40" rows="3" maxlength="60" placeholder="배송 전 연락바랍니다."></textarea>
             </div>
         </div>
     <div class="payDescription">
@@ -180,7 +180,7 @@
             </div>
             <hr>
             <p>총 결제금액 : ₩ <span id="totalPlusFee">0</span></p>
-            <input type="text" hidden="true" id="hiddenTotP" name="totalPayPrice">
+            <input type="text" hidden="true" id="hiddenTotP" name="totPrice" value="">
         </div>
         <div class="payButton">
             <button>
@@ -191,7 +191,6 @@
 </div>
 </form>
 <script th:inline="javascript">
-
     /* 화면 로딩 시 넘겨온 수량에 따른 가격 출력 */
     let categoryCode = [[${ product.categoryCode }]];
     let $price = 0;
@@ -204,7 +203,7 @@
     $(".totalPrice").text($price.toLocaleString());
     $("#totalPayPrice").text($price.toLocaleString());
     $("#totalPlusFee").text(($price + 3000).toLocaleString());
-    $("#hiddenTotP").text($("#totalPayPrice").text());
+    $("#hiddenTotP").text($("#totalPlusFee").text().replace(",", ""));
 
     /* 수량 변경 버튼 함수 */
     $(".amountButtons").on("click", function () {
@@ -220,7 +219,7 @@
         $(".totalPrice").text($price.toLocaleString());
         $("#totalPayPrice").text($price.toLocaleString());
         $("#totalPlusFee").text(($price + 3000).toLocaleString());
-        $("#hiddenTotP").text($("#totalPayPrice").text());
+        $("#hiddenTotP").val($("#totalPlusFee").text().replace(",", ""));
     });
 
     /* 주소 api */

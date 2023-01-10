@@ -189,4 +189,22 @@
              ''
             )
     </insert>
+    <!-- 상품 구매시 구매내역 테이블에 데이터 추가하는 쿼리 -->
+    <insert id="insertOrder" parameterType="com.osaz.danaka.product.model.dto.OrderDTO">
+        INSERT INTO T_ORDER
+        VALUES
+            (
+             SEQ_ORDER_NO.NEXTVAL,
+             #{ userNo },
+             #{ productNo },
+             #{ orderId },
+             #{ packageId },
+             #{ address },
+             #{ amount },
+             #{ totPrice },
+             #{ orderRequest },
+             #{ payType },
+             DEFAULT
+            )
+    </insert>
 </mapper>
