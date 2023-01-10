@@ -18,6 +18,64 @@
     <link rel="stylesheet" href="/static/css/cart.css">
     <title>DANAKA-장바구니</title>
 
+    <script type="text/javascript">
+        let cart = {
+            totalCount: 0,
+            totalPrice: 0,
+            // 재계산 메서드
+            reCalc: function() {
+                this.totalCount = 0;
+                this.totalPrice = 0;
+
+                document.querySelectorAll(".pNum").forEach(function (item) {
+
+                    if($(item.parentElement.parentElement).hasClass("active") === true){
+
+                        var count = parseInt(item.getAttribute('value'));
+                        this.totalCount += count;
+                        var price = item.parentElement.querySelector("input[type=hidden]").getAttribute('value');
+                        this.totalPrice += count * price;
+
+
+                    }
+                }, this);
+
+                this.updateUI();
+            },
+            updateUI: function () {
+                document.querySelector('#sum_p_num').textContent = '상품 ' + this.totalCount.formatNumber() + '개';
+                document.querySelector('#sum-order-price').textContent = '합계금액: ' + this.totalPrice.formatNumber() + '원';
+            },
+            changePNum: function (e) {
+                var pNum = $(e).val();
+                $(e).attr('value', pNum);
+
+                var price = e.parentElement.querySelector("input[type=hidden]").getAttribute('value');
+                var calcPrice = pNum * price;
+                $(e).parent().parent().find('.calc-price').html(`${calcPrice.formatNumber()} 원`);
+
+                this.reCalc();
+            },
+            loadPrice: function (e) {
+                console.log(`${e} loadPrice`)
+                var pNum = $(e).parent().parent().find('.pNum').val();
+                var pPrice = $(e).parent().parent().find('.pPrice').val();
+                var calcPrice = pNum * pPrice;
+                $(e).parent().find('.calc-price').html(`${calcPrice.formatNumber()} 원`);
+            }
+
+
+        }
+
+        // 숫자 포매터 3자리 , 찍기
+        Number.prototype.formatNumber = function(){
+            if(this==0) return 0;
+            let regex = /(^[+-]?\d+)(\d{3})/;
+            let nstr = (this + '');
+            while (regex.test(nstr)) nstr = nstr.replace(regex, '$1' + ',' + '$2');
+            return nstr;
+        };
+    </script>
 </head>
 
 
@@ -91,11 +149,11 @@
                            th:text="|${cart.option1}, ${cart.option2}, ${cart.option3}, ${cart.option4}|">옵션1, 옵션2, 옵션3, 옵션4</p>
                     </span>
                     <span class="item-component item-amount">
-                        <input class="pNum" type="number" step="1" th:value="${cart.amount}" style="width: 100%; font-size: x-large;"/>
+                        <input class="pNum" type="number" step="1" min="1" max="999" th:value="${cart.amount}" oninput="javascript:cart.changePNum(this);" style="width: 100%; font-size: x-large;"/>
                         <input class="pPrice" type="hidden" th:value="${cart.price}" />
                     </span>
                     <span class="item-component item-price">
-                        <p th:text="|${cart.price} 원|">개별가격 * 수량</p>
+                        <p class="calc-price" th:text="${cart.price} * ${cart.amount}"></p>
                     </span>
                 </li>
             </ul>
@@ -118,9 +176,9 @@
         </form>
     </div>
     <div class="cart-order">
-        <span id="placeholder-price">총 주문금액 </span>
+        <span id="placeholder-price"></span>
 <!--        // list에 active 클래스네임으로 필터링 해서 계산-->
-        <span id="sum-order-price"> 658,000 원</span>
+        <span id="sum-order-price"> 0 원</span>
         <button id="btn-order" type="button" class="btn btn-outline-primary btn-lg">
             <span class="material-symbols-outlined">check_circle</span>
             <span id="sum_p_num" class="btn-text-1">개</span>
@@ -131,50 +189,5 @@
 
 
 </body>
-    <script type="text/javascript">
-        let cart = {
-            totalCount: 0,
-            totalPrice: 0,
-            // 재계산 메서드
-            reCalc: function() {
-                this.totalCount = 0;
-                this.totalPrice = 0;
 
-                document.querySelectorAll(".pNum").forEach(function (item) {
-                    console.log("check active");
-                    if($(item.parentElement.parentElement).hasClass("active") === true){
-                        console.log("active list calc");
-                        var count = parseInt(item.getAttribute('value'));
-                        this.totalCount += count;
-                        var price = item.parentElement.querySelector("input[type=hidden]").getAttribute('value');
-                        this.totalPrice += count * price;
-
-
-                    }
-                }, this);
-
-                this.updateUI();
-            },
-            updateUI: function () {
-                document.querySelector('#sum_p_num').textContent = '상품: ' + this.totalCount.formatNumber() + '개';
-                document.querySelector('#sum-order-price').textContent = '합계금액: ' + this.totalPrice.formatNumber() + '원';
-            }
-
-
-        }
-
-        // 숫자 포매터 3자리 , 찍기
-        Number.prototype.formatNumber = function(){
-            if(this==0) return 0;
-            let regex = /(^[+-]?\d+)(\d{3})/;
-            let nstr = (this + '');
-            while (regex.test(nstr)) nstr = nstr.replace(regex, '$1' + ',' + '$2');
-            return nstr;
-        };
-
-
-
-
-
-    </script>
 </html>

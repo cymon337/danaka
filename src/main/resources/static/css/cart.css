@@ -59,7 +59,7 @@
 }
 
 .item-component {
-    border: 1px solid black;
+    /*border: 1px solid black;*/
     margin-top: auto;
     margin-bottom: auto;
 }
@@ -70,6 +70,7 @@
 }
 .item-info {
     width: 55%;
+    padding-left: 5%;
 }
 #item-info-title {
     font-size: x-large;
@@ -83,6 +84,12 @@
 }
 .item-price {
     width: 20%;
+}
+.calc-price {
+    font-size: x-large;
+    margin-top: auto;
+    margin-bottom: auto;
+    float: right;
 }
 
 #cart-list{
