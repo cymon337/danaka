@@ -15,7 +15,7 @@
     <script src="https://code.jquery.com/jquery-3.6.3.slim.min.js"
             integrity="sha256-ZwqZIVdD3iXNyGHbSYdsmWP//UBokj2FHAxKuSBKDSo="
             crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="/static/css/cart.css">
+    <link rel="stylesheet" th:href="@{ /css/cart.css }">
     <title>DANAKA-장바구니</title>
 
     <script type="text/javascript">
@@ -140,7 +140,7 @@
                 <!--  class 에 선택되면 active 추가 선택취소 active 제거 -->
                 <li class="list-group-item" th:each="cart : ${cartList}" name="cartNo" th:value="${cart.cartNo}">
                     <span class="item-component item-thumnail">
-                        <img class="item-thumnail" src="/static/image/thumnail.png">
+                        <img class="item-thumnail" th:src="@{ /image/lineThumnail.png }">
                     </span>
                     <span class="item-component item-info">
                         <p id="item-info-title"

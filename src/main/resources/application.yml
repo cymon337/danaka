@@ -11,8 +11,8 @@ spring:
     username: danaka
     password: danaka
   # SecurityAutoConfiguration 제외 221230찬영
-  autoconfigure:
-    exclude: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
+#  autoconfigure:
+#    exclude: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
 
 # 포트설정
 server:
