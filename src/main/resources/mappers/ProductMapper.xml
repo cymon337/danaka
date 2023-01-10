@@ -145,7 +145,7 @@
                                GROUP BY PRODUCT_NAME)
          ORDER BY A.PRODUCT_NO ASC
     </select>
-    <!-- 상품 상세페이지에서 해당 상품과 같은 카테고리 상품들 10개만 조회 쿼리 -->
+    <!-- 상품 상세페이지에서 해당 상품과 같은 카테고리 상품들 20개만 조회 쿼리 -->
     <select id="selectRefProducts" parameterType="String" resultMap="productResultMap">
         SELECT
             A.PRODUCT_NO,
@@ -164,7 +164,7 @@
                                     C.CATEGORY_CODE
                                   FROM T_PRODUCT C
                                  WHERE C.PRODUCT_NO = #{ productNo })
-           AND ROWNUM BETWEEN 1 AND 10
+           AND ROWNUM BETWEEN 1 AND 20
            AND A.PRODUCT_NO != #{ productNo }
     </select>
     <!-- 상품 상세페이지에서 해당 상품을 위시리스트에 등록하는 쿼리 -->

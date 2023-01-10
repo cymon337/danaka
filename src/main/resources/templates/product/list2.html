@@ -38,14 +38,14 @@
 </div>
 <div class="orderContainer">
     <th:block th:with="category = ${ selectCriteria.categoryCode }">
-    <!--    <button th:onclick="|location.href='@{/product/list2(categoryCode=${ selectCriteria.categoryCode })}'|">인기순</button>-->
+<!--        <button th:onclick="|location.href='@{/product/list2(categoryCode=${ selectCriteria.categoryCode })}'|">인기순</button>-->
         <button id="sale" th:onclick="|location.href='@{/product/list2(categoryCode=${ category }, orderCondition=sale)}'|">판매량순</button>
         <button id="lowPrice" th:onclick="|location.href='@{/product/list2(categoryCode=${ category }, orderCondition=lowPrice)}'|">낮은가격순</button>
         <button id="highPrice" th:onclick="|location.href='@{/product/list2(categoryCode=${ category }, orderCondition=highPrice)}'|">높은가격순</button>
     </th:block>
 </div>
 <div class="outerProductsContainer">
-    <div class="productContainer" th:each="product : ${ productList }">
+    <div class="productContainer" id="productContainer" th:each="product : ${ productList }">
         <div class="thumnail">
             <th:block th:switch="${ selectCriteria.categoryCode }">
                 <img th:case="RD" th:src="${ product.savePath }" alt="상품썸네일" th:onclick="|location.href='@{/product/item2(productNo=${ product.productNo })}'|">

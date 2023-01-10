@@ -55,7 +55,7 @@ form>hr {
     border-radius: 5px;
 }
 .product {
-    width: 80%;
+    width: 600px;
 }
 .productName>span {
     font-weight: bolder;
@@ -65,7 +65,7 @@ form>hr {
     color: gray;
 }
 .options {
-    width: 22%;
+    width: 205px;
 }
 .options span {
     font-size: smaller;
@@ -88,9 +88,9 @@ form>hr {
 .amountButtons {
     width: 1.2rem;
     height: 1.2rem;
-    border: 1px #eef0fd solid;
+    border: 1px #e3e6fa solid;
     font-size: 1rem;
-    background-color: #eef0fd;
+    background-color: #e3e6fa;
     margin-right: 0;
     margin-left: 0;
     text-align: center;
@@ -149,8 +149,8 @@ form>hr {
 }
 #addrButton {
     border-radius: 5px;
-    border: 1px #edeffc solid;
-    background-color: #eef0fd;
+    border: 1px #e3e6fa solid;
+    background-color: #e3e6fa;
     font-size: small;
 }
 .deliveryRequest {
@@ -180,11 +180,53 @@ form>hr {
         "b side";
     grid-gap: 1%;
     width: 80%;
-    margin: 0 auto;
+    margin: 0 auto 2% auto;
     box-sizing: border-box;
 }
 .payDescription {
     grid-area: b;
+}
+.payApi {
+    padding: 2%;
+}
+#card p {
+    font-weight: bold;
+    margin-bottom: 1%;
+}
+.cardDetail input {
+    border-radius: 5px;
+    border: 1px #c2c0fe solid;
+    font-size: smaller;
+    width: 300px;
+}
+.infoSwitch {
+    border: 1px #C4C2FF solid;
+    border-radius: 7px;
+    padding: 2.5%;
+    display: none;
+}
+#account>hr {
+    margin: 0 auto 2% auto;
+}
+#account p {
+    font-weight: bold;
+    margin-bottom: 0;
+}
+#easyPay button {
+    border: none;
+    background-color: white;
+    width: 100px;
+}
+#easyPay img {
+    width: 100%;
+    object-fit: fill;
+}
+.payType {
+    margin-left: 2%;
+    margin-bottom: 1%;
+}
+.cardInfo hr {
+    margin: 1% auto;
 }
 .userInfoDescription p {
     margin: 0 auto;
@@ -201,6 +243,7 @@ form>hr {
     margin: 0 auto;
 }
 .userInfoContainer {
+    height: 361px;
     grid-area: side;
     border: 1px #C4C2FF solid;
     border-radius: 7px;
@@ -264,8 +307,11 @@ form>hr {
     .listContainer * {
         font-size: 0.7rem;
     }
+    .buyingProduct {
+        justify-content: space-around;
+    }
     .product {
-        width: 50%
+        width: 40%
     }
     .options {
         width: 30%;
@@ -274,7 +320,7 @@ form>hr {
         display: none;
     }
     .addressApi, .deliveryRequest {
-        grid-template-columns: 15% 85%;
+        grid-template-columns: 17% 85%;
     }
 }
 @media screen and (min-width : 767px) and (max-width : 1080px) {
@@ -298,11 +344,14 @@ form>hr {
         width: 80%;
         margin-top: 1.5em;
     }
+    .buyingProduct {
+        justify-content: space-around;
+    }
     .product {
-        width: 60%
+        width: 50%
     }
     .options {
-        width: 35%;
+        width: 30%;
     }
     #centerCategory, #notice {
         display: none;

@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -110,15 +111,32 @@ public class ProductController {
         ProductDTO product = productService.selectOneProduct(productNo);
         // 해당하는 상품에 속한 옵션 조회
         List<ProductDTO> optionList = productService.selectOptionList(product.getProductName());
-        // 해당하는 상품과 같은 카테고리 상품들의 이미지와 상품번호 조회
-        List<ProductDTO> refProductList = productService.selectRefProducts(productNo);
-
         log.info("옵션 리스트 = {}", optionList);
 
         mv.addObject("product", product);
         mv.addObject("optionList", optionList);
-        mv.addObject("refProductList", refProductList);
+//        mv.addObject("refProductList", refProductList);
         mv.setViewName("product/item2");
+
+        return mv;
+    }
+
+    // # update : 2023-01-10
+    // # title : 상품 상세페이지
+    // # author : 오승재
+    // # description : 관련상품 이미지 + 경로 조회
+    @GetMapping("/refItems")
+    public ModelAndView selectRefItems(HttpServletRequest request, ModelAndView mv) {
+
+        String productNo = request.getParameter("productNo");
+
+        // 해당하는 상품과 같은 카테고리 상품들의 이미지와 상품번호 조회
+        List<ProductDTO> refProductList = productService.selectRefProducts(productNo);
+
+        log.info("에이잭스 테스트 = {}", refProductList);
+
+        mv.addObject("refProductList", refProductList);
+        mv.setViewName("/product/refItems" + "::#refItems");
 
         return mv;
     }
@@ -128,13 +146,14 @@ public class ProductController {
     // # author : 오승재
     // # description : 해당하는 상품 위시리스트에 넣기
     @GetMapping("/wish")
-    public ModelAndView insertWishProduct (/*HttpSession session, */HttpServletRequest request, ModelAndView mv, RedirectAttributes rttr) throws Exception {
+    public ModelAndView insertWishProduct (HttpSession session, HttpServletRequest request, ModelAndView mv, RedirectAttributes rttr) throws Exception {
 
         HashMap<String, String> wishMap = new HashMap<>();
         String productNo = request.getParameter("productNo");
         String orgProductNo = request.getParameter("orgProductNo");
-//        String userNo = (String) session.getAttribute("userNo");
-        String userNo = "1"; // 테스트용
+        String userNo = (String) session.getAttribute("userNo");
+        // 테스트용
+//        String userNo = "1";
 
         wishMap.put("userNo", userNo);
         wishMap.put("productNo", productNo);
@@ -154,15 +173,16 @@ public class ProductController {
     // # author : 오승재
     // # description : 해당하는 상품 장바구니에 넣기
     @GetMapping("/cart")
-    public ModelAndView insertCartProduct (/*HttpSession session, */HttpServletRequest request, ModelAndView mv, RedirectAttributes rttr) throws Exception {
+    public ModelAndView insertCartProduct (HttpSession session, HttpServletRequest request, ModelAndView mv, RedirectAttributes rttr) throws Exception {
 
         HashMap<String, String> cartMap = new HashMap<>();
         String productNo = request.getParameter("productNo");
         String orgProductNo = request.getParameter("orgProductNo");
         String amount = request.getParameter("amount");
         log.info("원래 상품번호 = {}", orgProductNo);
-//        String userNo = (String) session.getAttribute("userNo");
-        String userNo = "1";
+        String userNo = (String) session.getAttribute("userNo");
+        // 테스트용
+//        String userNo = "1";
 
         cartMap.put("productNo", productNo);
         cartMap.put("userNo", userNo);
@@ -201,4 +221,8 @@ public class ProductController {
         mv.setViewName("/product/purchase");
         return mv;
     }
+
+//    @PostMapping("/pay"){
+//
+//    }
 }

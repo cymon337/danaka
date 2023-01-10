@@ -69,9 +69,9 @@
             </th:block>
             <th:block th:each="option : ${ optionList }">
                 <th:block th:switch="${ product.categoryCode }">
-                    <p hidden="true" th:case="RD" th:class="${ option.productNo }">브랜드 : [[${ option.brandName }]], [[${ option.rod }]]</p>
-                    <p hidden="true" th:case="RL" th:class="${ option.productNo }">브랜드 : [[${ option.brandName }]], [[${ option.reel }]]</p>
-                    <p hidden="true" th:case="LN" th:class="${ option.productNo }">브랜드 : [[${ option.brandName }]], [[${ option.line }]]</p>
+                    <p hidden="true" th:case="RD" th:class="${ option.productNo }">브랜드 : [[${ product.brandName }]], [[${ option.rod }]]</p>
+                    <p hidden="true" th:case="RL" th:class="${ option.productNo }">브랜드 : [[${ product.brandName }]], [[${ option.reel }]]</p>
+                    <p hidden="true" th:case="LN" th:class="${ option.productNo }">브랜드 : [[${ product.brandName }]], [[${ option.line }]]</p>
                 </th:block>
             </th:block>
         </div>
@@ -89,16 +89,16 @@
             <span>총 가격 : </span>
             <span>₩
                 <th:block th:switch="${ product.categoryCode }">
-                    <span th:class="totalPrice" th:case="RD" th:text="${ product.rod?.price }"></span>
-                    <span th:class="totalPrice" th:case="RL" th:text="${ product.reel?.price }"></span>
-                    <span th:class="totalPrice" th:case="LN" th:text="${ product.line?.price }"></span>
+                    <span th:class="totalPrice" th:case="RD" th:text="${ product.rod.price }"></span>
+                    <span th:class="totalPrice" th:case="RL" th:text="${ product.reel.price }"></span>
+                    <span th:class="totalPrice" th:case="LN" th:text="${ product.line.price }"></span>
                 </th:block>
             </span>
             <th:block th:each="option : ${ optionList }">
                 <th:block th:switch="${ product.categoryCode }">
-                    <p hidden="true" th:class="${ option.productNo } + totP" th:case="RD" th:text="${ option.rod?.price }"></p>
-                    <p hidden="true" th:class="${ option.productNo } + totP" th:case="RL" th:text="${ option.reel?.price }"></p>
-                    <p hidden="true" th:class="${ option.productNo } + totP" th:case="LN" th:text="${ option.line?.price }"></p>
+                    <p hidden="true" th:class="${ option.productNo } + totP" th:case="RD" th:text="${ option.rod.price }"></p>
+                    <p hidden="true" th:class="${ option.productNo } + totP" th:case="RL" th:text="${ option.reel.price }"></p>
+                    <p hidden="true" th:class="${ option.productNo } + totP" th:case="LN" th:text="${ option.line.price }"></p>
                 </th:block>
             </th:block>
 
@@ -130,17 +130,16 @@
 </div>
 <hr>
 <div class="refItemsContainer">
-    <div><p><</p></div>
-    <th:block th:each="refProduct : ${ refProductList }">
-        <div><img th:src="${ refProduct.savePath }" alt="관련 상품" th:onclick="|location.href='@{/product/item2(productNo=${ refProduct.productNo })}'|"></div>
-    </th:block>
-
-    <div><p>></p></div>
+    <div class="refMove" id="refLeft"><button type="button" value="-"><</button></div>
+    <div class="refItems" id="refItems">
+<!--        <th:block th:replace="~{product/refProducts :: #refItems}"/>-->
+    </div>
+    <div class="refMove" id="refRight"><button type="button" value="+">></button></div>
 </div>
 <hr>
 <div class="contentContainer">
     <div class="content">
-
+        <h2>본문 내용</h2>
     </div>
 </div>
 <script th:inline="javascript">
@@ -226,13 +225,28 @@
         $("#quantity").val(1);
     });
 
-
-
     $(document).ready(function (){
         /* 모달 창 띄우기 */
         if ([[${ successMessage }]] != null) {
             modalSwitch(1);
-            // $("#successM").show();
+        }
+        /* 관련 상품 이미지 갖고오기 */
+        const param = { productNo : orgProductNo };
+        $.ajax({
+            type: "GET",
+            url: "/product/refItems",
+            data: param,
+        }).done(function (data) {
+            console.log(data);
+            $("#refItems").replaceWith(data);
+        });
+    })
+
+    /* 관련 상품 버튼 */
+    $(".refMove").on("click", function () {
+
+        if($(this).val() == "+") {
+
         }
     })
 
