@@ -1,0 +1,127 @@
+/* ==================== frame ==================== */
+
+.wrapper {
+    width: 100%;
+    height: 90%;
+    background-color: magenta;
+}
+
+.cart-wrapper {
+    width: 100%;
+    height: auto;
+    /*border: 1px solid black;*/
+    background-color: #F2F4FF;
+
+}
+
+.cart-order {
+    width: 100%;
+    height: 10%;
+    /*border: 1px solid black;*/
+    background-color: #F7F7FE;
+    box-shadow: 0px -5px 10px lightslategray;
+    position: fixed;
+    bottom: 0;
+    display: flex;
+    z-index: 100;
+}
+
+/* ==================== item list ==================== */
+/* boot-strap-color / primary #0d6efd / secondary #adb5bd */
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 1,
+    'wght' 700,
+    'GRAD' 200,
+    'opsz' 48
+}
+
+#btn-select-all-cart {
+    margin: 20px 0px 0px 5%;
+    box-shadow: 5px 5px 5px #0d6efd;
+}
+
+#btn-remove-cart {
+    margin: 20px 5% 0px 5%;
+    box-shadow: 5px 5px 3px #adb5bd;
+    float: right;
+}
+
+.list-group-item {
+    height: 150px;
+    margin-top: 1%;
+    margin-bottom: 1%;
+    margin-left: 10%;
+    margin-right: 10%;
+
+    box-shadow: 8px 5px 8px lightslategrey;
+
+    display: flex;
+}
+
+.item-component {
+    /*border: 1px solid black;*/
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.item-thumnail {
+    height: 100%;
+    width: auto;
+}
+.item-info {
+    width: 55%;
+    padding-left: 5%;
+}
+#item-info-title {
+    font-size: x-large;
+}
+#item-info-options {
+    font-size: medium;
+}
+
+.item-amount {
+    width: 10%;
+}
+.item-price {
+    width: 20%;
+}
+.calc-price {
+    font-size: x-large;
+    margin-top: auto;
+    margin-bottom: auto;
+    float: right;
+}
+
+#cart-list{
+    padding-bottom: 10%;
+}
+
+
+/* ==================== cart order ==================== */
+#placeholder-price{
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: auto;
+    margin-right: 2%;
+    font-size: 150%;
+    float: right;
+}
+
+#sum-order-price {
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: 0;
+    margin-right: 2%;
+    font-size: 150%;
+    float: right;
+}
+
+#btn-order {
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: 0;
+    margin-right: 5%;
+    float: right;
+}
+
+

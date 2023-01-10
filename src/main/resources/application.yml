@@ -10,9 +10,17 @@ spring:
     #oracle.jdbc.driver.OracleDriver
     username: danaka
     password: danaka
+  # SecurityAutoConfiguration 제외 221230찬영
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
 
+# 포트설정
 server:
   port: 8090
 
+# 로그레벨설정 TRACE > DEBUG > INFO > WARN > ERROR  (개발서버는 debug  / 운영서버는 info)
+logging:
+  level:
+    com.osaz.danaka: debug
 
 

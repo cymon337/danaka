@@ -5,9 +5,189 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+            crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.3.slim.min.js"
+            integrity="sha256-ZwqZIVdD3iXNyGHbSYdsmWP//UBokj2FHAxKuSBKDSo="
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/static/css/cart.css">
     <title>DANAKA-장바구니</title>
+
+    <script type="text/javascript">
+        let cart = {
+            totalCount: 0,
+            totalPrice: 0,
+            // 재계산 메서드
+            reCalc: function() {
+                this.totalCount = 0;
+                this.totalPrice = 0;
+
+                document.querySelectorAll(".pNum").forEach(function (item) {
+
+                    if($(item.parentElement.parentElement).hasClass("active") === true){
+
+                        var count = parseInt(item.getAttribute('value'));
+                        this.totalCount += count;
+                        var price = item.parentElement.querySelector("input[type=hidden]").getAttribute('value');
+                        this.totalPrice += count * price;
+
+
+                    }
+                }, this);
+
+                this.updateUI();
+            },
+            updateUI: function () {
+                document.querySelector('#sum_p_num').textContent = '상품 ' + this.totalCount.formatNumber() + '개';
+                document.querySelector('#sum-order-price').textContent = '합계금액: ' + this.totalPrice.formatNumber() + '원';
+            },
+            changePNum: function (e) {
+                var pNum = $(e).val();
+                $(e).attr('value', pNum);
+
+                var price = e.parentElement.querySelector("input[type=hidden]").getAttribute('value');
+                var calcPrice = pNum * price;
+                $(e).parent().parent().find('.calc-price').html(`${calcPrice.formatNumber()} 원`);
+
+                this.reCalc();
+            },
+            loadPrice: function (e) {
+                console.log(`${e} loadPrice`)
+                var pNum = $(e).parent().parent().find('.pNum').val();
+                var pPrice = $(e).parent().parent().find('.pPrice').val();
+                var calcPrice = pNum * pPrice;
+                $(e).parent().find('.calc-price').html(`${calcPrice.formatNumber()} 원`);
+            }
+
+
+        }
+
+        // 숫자 포매터 3자리 , 찍기
+        Number.prototype.formatNumber = function(){
+            if(this==0) return 0;
+            let regex = /(^[+-]?\d+)(\d{3})/;
+            let nstr = (this + '');
+            while (regex.test(nstr)) nstr = nstr.replace(regex, '$1' + ',' + '$2');
+            return nstr;
+        };
+    </script>
 </head>
-<body>
+
+
+<body onclick="javascript:cart.reCalc();">
+
+
+    <h3>1. selectAllCart 장바구니페이지에서 회원번호별 카트에 담긴 모든 상품 select method</h3>
+    <form action="/cart/selectAllCart" method="post">
+        <label>회원번호 : </label><input type="number" name="userNo" placeholder="회원번호를 입력하세요.">
+        <input type="submit" value="회원장바구니 조회">
+    </form>
+
+<div class="wrapper">
+    <div class="cart-wrapper">
+        <form>
+            <p>
+                <button id="btn-select-all-cart" type="button" class="btn btn-outline-primary btn-lg">
+                    <span class="material-symbols-outlined">check_circle</span>
+                    <span class="btn-text-1">전체선택</span>
+                </button>
+
+                <!--전체선택 버튼 활성 비활성 스크립트-->
+                <script type="text/javascript">
+                    $("#btn-select-all-cart").on("click", function () {
+
+                        if ($("#btn-select-all-cart").hasClass("active") === true) {
+                            $("#btn-select-all-cart").removeClass("active");
+                            $("li").removeClass("active")
+                        } else {
+                            $("#btn-select-all-cart").addClass("active");
+                            $("li").addClass("active");
+                        }
+                    });
+                </script>
+
+                <button id="btn-remove-cart" type="button" class="btn btn-outline-secondary btn-lg">
+                    <span class="material-symbols-outlined">remove_shopping_cart</span>
+                    <span class="btn-text-1">선택삭제</span>
+                </button>
+
+                <!--         선택삭제 메서드 스크립트     -->
+                <script type="text/javascript">
+                    $("#btn-remove-cart").on("click", function () {
+                        alert("선택한 상품을 장바구니에서 삭제합니다.")
+
+                        document.querySelectorAll("li.active").forEach(function (activeItem){
+                            activeItem.remove();
+                        });
+
+                        // todo: 삭제내역 서버 업데이트
+
+                    });
+                </script>
+
+
+            </p>
+
+            </script>
+
+
+            <ul id="cart-list" class="list-group">
+                <!--  class 에 선택되면 active 추가 선택취소 active 제거 -->
+                <li class="list-group-item" th:each="cart : ${cartList}" name="cartNo" th:value="${cart.cartNo}">
+                    <span class="item-component item-thumnail">
+                        <img class="item-thumnail" src="/static/image/thumnail.png">
+                    </span>
+                    <span class="item-component item-info">
+                        <p id="item-info-title"
+                           th:text="|${cart.brandName} ${cart.productName}|">브랜드명 + 제품명</p>
+                        <p id="item-info-options"
+                           th:text="|${cart.option1}, ${cart.option2}, ${cart.option3}, ${cart.option4}|">옵션1, 옵션2, 옵션3, 옵션4</p>
+                    </span>
+                    <span class="item-component item-amount">
+                        <input class="pNum" type="number" step="1" min="1" max="999" th:value="${cart.amount}" oninput="javascript:cart.changePNum(this);" style="width: 100%; font-size: x-large;"/>
+                        <input class="pPrice" type="hidden" th:value="${cart.price}" />
+                    </span>
+                    <span class="item-component item-price">
+                        <p class="calc-price" th:text="${cart.price} * ${cart.amount}"></p>
+                    </span>
+                </li>
+            </ul>
+
+            <!--li 버튼 클릭 활성 비활성-->
+            <script type="text/javascript">
+                $("li").on("click", function (e) {
+                    if ($("#btn-select-all-cart").hasClass("active") === true) {
+                        $("#btn-select-all-cart").removeClass("active");
+                    }
+
+                    if ($(e.target).hasClass("active") === true) {
+                        $(e.target).removeClass("active")
+                    } else {
+                        $(e.target).addClass("active");
+                    }
+                });
+            </script>
+
+        </form>
+    </div>
+    <div class="cart-order">
+        <span id="placeholder-price"></span>
+<!--        // list에 active 클래스네임으로 필터링 해서 계산-->
+        <span id="sum-order-price"> 0 원</span>
+        <button id="btn-order" type="button" class="btn btn-outline-primary btn-lg">
+            <span class="material-symbols-outlined">check_circle</span>
+            <span id="sum_p_num" class="btn-text-1">개</span>
+            <span class="btn-text-1">주문하기</span>
+        </button>
+    </div>
+</div>
+
 
 </body>
+
 </html>
