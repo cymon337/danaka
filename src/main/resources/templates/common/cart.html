@@ -21,7 +21,7 @@
 </head>
 
 
-<body>
+<body onclick="javascript:cart.reCalc();">
 
 
     <h3>1. selectAllCart 장바구니페이지에서 회원번호별 카트에 담긴 모든 상품 select method</h3>
@@ -38,6 +38,7 @@
                     <span class="material-symbols-outlined">check_circle</span>
                     <span class="btn-text-1">전체선택</span>
                 </button>
+
                 <!--전체선택 버튼 활성 비활성 스크립트-->
                 <script type="text/javascript">
                     $("#btn-select-all-cart").on("click", function () {
@@ -56,10 +57,18 @@
                     <span class="material-symbols-outlined">remove_shopping_cart</span>
                     <span class="btn-text-1">선택삭제</span>
                 </button>
-                <!--선택삭제 경고창-->
+
+                <!--         선택삭제 메서드 스크립트     -->
                 <script type="text/javascript">
                     $("#btn-remove-cart").on("click", function () {
                         alert("선택한 상품을 장바구니에서 삭제합니다.")
+
+                        document.querySelectorAll("li.active").forEach(function (activeItem){
+                            activeItem.remove();
+                        });
+
+                        // todo: 삭제내역 서버 업데이트
+
                     });
                 </script>
 
@@ -82,10 +91,11 @@
                            th:text="|${cart.option1}, ${cart.option2}, ${cart.option3}, ${cart.option4}|">옵션1, 옵션2, 옵션3, 옵션4</p>
                     </span>
                     <span class="item-component item-amount">
-                        <input type="number" step="1" th:value="${cart.amount}" style="width: 100%; font-size: x-large;"/>
+                        <input class="pNum" type="number" step="1" th:value="${cart.amount}" style="width: 100%; font-size: x-large;"/>
+                        <input class="pPrice" type="hidden" th:value="${cart.price}" />
                     </span>
                     <span class="item-component item-price">
-                        <p th:text="${cart.price}">개별가격 * 수량</p>
+                        <p th:text="|${cart.price} 원|">개별가격 * 수량</p>
                     </span>
                 </li>
             </ul>
@@ -113,6 +123,7 @@
         <span id="sum-order-price"> 658,000 원</span>
         <button id="btn-order" type="button" class="btn btn-outline-primary btn-lg">
             <span class="material-symbols-outlined">check_circle</span>
+            <span id="sum_p_num" class="btn-text-1">개</span>
             <span class="btn-text-1">주문하기</span>
         </button>
     </div>
@@ -120,4 +131,50 @@
 
 
 </body>
+    <script type="text/javascript">
+        let cart = {
+            totalCount: 0,
+            totalPrice: 0,
+            // 재계산 메서드
+            reCalc: function() {
+                this.totalCount = 0;
+                this.totalPrice = 0;
+
+                document.querySelectorAll(".pNum").forEach(function (item) {
+                    console.log("check active");
+                    if($(item.parentElement.parentElement).hasClass("active") === true){
+                        console.log("active list calc");
+                        var count = parseInt(item.getAttribute('value'));
+                        this.totalCount += count;
+                        var price = item.parentElement.querySelector("input[type=hidden]").getAttribute('value');
+                        this.totalPrice += count * price;
+
+
+                    }
+                }, this);
+
+                this.updateUI();
+            },
+            updateUI: function () {
+                document.querySelector('#sum_p_num').textContent = '상품: ' + this.totalCount.formatNumber() + '개';
+                document.querySelector('#sum-order-price').textContent = '합계금액: ' + this.totalPrice.formatNumber() + '원';
+            }
+
+
+        }
+
+        // 숫자 포매터 3자리 , 찍기
+        Number.prototype.formatNumber = function(){
+            if(this==0) return 0;
+            let regex = /(^[+-]?\d+)(\d{3})/;
+            let nstr = (this + '');
+            while (regex.test(nstr)) nstr = nstr.replace(regex, '$1' + ',' + '$2');
+            return nstr;
+        };
+
+
+
+
+
+    </script>
 </html>
