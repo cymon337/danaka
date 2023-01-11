@@ -10,7 +10,7 @@
         <result column="USER_ID" property="userId"  jdbcType="VARCHAR" javaType="java.lang.String"/>
         <result column="USER_NICKNAME" property="userNickname"  jdbcType="VARCHAR" javaType="java.lang.String"/>
         <result column="USER_PWD" property="userPwd"  jdbcType="VARCHAR" javaType="java.lang.String"/>
-        <result column="USER_NAME" property="userName"  jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="USER_NAME" property="memberName"  jdbcType="VARCHAR" javaType="java.lang.String"/>
         <result column="BIRTHDAY" property="birthday"/>
         <result column="ADDRESS" property="address"/>
         <result column="EMAIL" property="email"/>
@@ -36,7 +36,7 @@
             USER_ID AS userId,
             USER_NICKNAME AS userNickname,
             USER_PWD AS userPwd,
-            USER_NAME AS userName,
+            USER_NAME AS memberName,
             BIRTHDAY,
             ADDRESS,
             EMAIL,
@@ -51,17 +51,17 @@
     </select>
     <!--아이디찾기    -->
     <select id="findId" parameterType="com.osaz.danaka.member.model.dto.MemberDTO" resultMap="memberResultMap">
-        SELECT * FROM T_MEMBER WHERE USER_NAME = #{userName} and PHONE = #{phone}
+        SELECT * FROM T_MEMBER WHERE USER_NAME = #{memberName} and PHONE = #{phone}
     </select>
     <!--비밀번호 찾기 -->
     <select id="findPassword" parameterType="com.osaz.danaka.member.model.dto.MemberDTO" resultMap="memberResultMap">
-        SELECT * FROM T_MEMBER WHERE USER_ID = #{userId} and USER_NAME = #{userName} and PHONE = #{phone}
+        SELECT * FROM T_MEMBER WHERE USER_ID = #{userId} and USER_NAME = #{memberName} and PHONE = #{phone}
     </select>
     <!--회원가입-->
     <insert id="insertMember" parameterType="com.osaz.danaka.member.model.dto.MemberDTO" >
         INSERT INTO T_MEMBER
          (USER_NO, USER_ID, USER_NICKNAME, USER_PWD, USER_NAME, BIRTHDAY, GENDER, ADDRESS, EMAIL, PHONE, USER_ROLE)
-        values ( SEQ_USER_NO.NEXTVAL ,#{userId},#{userNickname},#{userPwd},#{userName},#{birthday},#{gender},#{address},#{email},#{phone},'ROLE_MEMBER')
+        values ( SEQ_USER_NO.NEXTVAL ,#{userId},#{userNickname},#{userPwd},#{memberName},#{birthday},#{gender},#{address},#{email},#{phone},'ROLE_MEMBER')
 
     </insert>
 

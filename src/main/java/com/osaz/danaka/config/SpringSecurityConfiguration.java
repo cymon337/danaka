@@ -1,10 +1,7 @@
 package com.osaz.danaka.config;
 
 import com.osaz.danaka.member.model.service.MemberService;
-
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -14,10 +11,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -71,9 +65,9 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .formLogin() //폼을 이용해서 로그인을 하겠다
                 .loginPage("/member/login") //내가 사용할 로그인 페이지 기술 없으면 시큐리티 페이지가 나옴
                 .loginProcessingUrl("/login_action") // 로그인이 진행 될 url 설정 (loginpage.html의 th:action="@{/login_action}"를 말함
-                //.successForwardUrl("/") //로그인 성공시 이동할 경로 설정
+//                .successForwardUrl("/") //로그인 성공시 이동할 경로 설정
                 .failureHandler(customFailureHandler) // 로그인 실패 핸들러
-                .defaultSuccessUrl("/member/modification")
+                .defaultSuccessUrl("/")
                 .and()
                 .logout()   //로그아웃 설정을 시작하겠다
                 .logoutRequestMatcher(new AntPathRequestMatcher("/member/logout")) //AntPathRequestMatcher

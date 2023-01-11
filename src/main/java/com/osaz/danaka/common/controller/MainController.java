@@ -17,6 +17,6 @@ public class MainController {
 //        session.setAttribute("userNo", "1");
 //        session.setAttribute("userName", "정그노");
 //        session.setAttribute("phone", "010-1111-2222");
-        return "main/index2";
+        return "main/index";
     }
 }
