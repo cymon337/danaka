@@ -2,12 +2,14 @@ package com.osaz.danaka.product.controller;
 
 import com.osaz.danaka.common.Pagenation;
 import com.osaz.danaka.common.SelectCriteria;
+import com.osaz.danaka.product.model.dto.OrderDTO;
 import com.osaz.danaka.product.model.dto.ProductDTO;
 import com.osaz.danaka.product.model.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -17,6 +19,7 @@ import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Slf4j
 @Controller
@@ -222,7 +225,37 @@ public class ProductController {
         return mv;
     }
 
-//    @PostMapping("/pay"){
-//
-//    }
+    // # update : 2023-01-10
+    // # title : 상품 구매페이지
+    // # author : 오승재
+    // # description : 상품 결제 일단은 db에 넣기만
+    @PostMapping("/pay")
+    public ModelAndView insertOrder(HttpSession session, OrderDTO order, ModelAndView mv, RedirectAttributes rttr) throws Exception {
+
+
+        String userNo = (String) session.getAttribute("userNo");
+        String orderId = UUID.randomUUID().toString();
+
+        order.setUserNo(userNo);
+        order.setOrderId(orderId);
+        if(order.getPackageId() == null){
+            order.setPackageId("");
+        }
+        log.info("주문 정보 = {}", order);
+
+        // 성공했을 시, 실패했을 시 각각 추가하기
+        boolean result = productService.insertOrder(order);
+
+        mv.addObject("productNo", order.getProductNo());
+
+        if(result) {
+            mv.setViewName("redirect:/product/item2");
+            rttr.addFlashAttribute("successMessage", "구매 성공!");
+        } else {
+            mv.setViewName("redirect:/product/item2");
+            rttr.addFlashAttribute("successMessage", "구매 실패..");
+        }
+
+        return mv;
+    }
 }

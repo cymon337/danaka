@@ -2,6 +2,7 @@ package com.osaz.danaka.product.model.service;
 
 import com.osaz.danaka.common.SelectCriteria;
 import com.osaz.danaka.product.model.dao.ProductMapper;
+import com.osaz.danaka.product.model.dto.OrderDTO;
 import com.osaz.danaka.product.model.dto.ProductDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -73,5 +74,14 @@ public class ProductService {
         return (result > 0) ? true : false;
     }
 
+    // 구매내역 테이블에 추가
+    public boolean insertOrder(OrderDTO order) throws Exception {
 
+        int result = productMapper.insertOrder(order);
+
+        if (result <= 0) {
+            throw new Exception("구매 실패");
+        }
+        return (result > 0) ? true : false;
+    }
 }

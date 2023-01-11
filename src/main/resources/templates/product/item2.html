@@ -75,55 +75,57 @@
                 </th:block>
             </th:block>
         </div>
-        <hr>
-        <div class="quantity">
-            <span>수량 : </span>
-            <div>
-<!--            <input type="number" name="amount" id="quantity" min="1" value="1" step="1">-->
-                <button type="button" class="amountButtons" value="-"><div><img th:src="@{ /image/minus.png }"></div></button>
-                <input type="text" name="amount" id="quantity" value="1" readonly>
-                <button type="button" class="amountButtons" value="+"><div><img th:src="@{ /image/plus.png }"></div></button>
+        <div id="toBottom">
+            <hr>
+            <div class="quantity">
+                <span>수량 : </span>
+                <div>
+    <!--            <input type="number" name="amount" id="quantity" min="1" value="1" step="1">-->
+                    <button type="button" class="amountButtons" value="-"><div><img th:src="@{ /image/minus.png }"></div></button>
+                    <input type="text" name="amount" id="quantity" value="1" readonly>
+                    <button type="button" class="amountButtons" value="+"><div><img th:src="@{ /image/plus.png }"></div></button>
+                </div>
             </div>
-        </div>
-        <div class="price">
-            <span>총 가격 : </span>
-            <span>₩
-                <th:block th:switch="${ product.categoryCode }">
-                    <span th:class="totalPrice" th:case="RD" th:text="${ product.rod.price }"></span>
-                    <span th:class="totalPrice" th:case="RL" th:text="${ product.reel.price }"></span>
-                    <span th:class="totalPrice" th:case="LN" th:text="${ product.line.price }"></span>
-                </th:block>
-            </span>
-            <th:block th:each="option : ${ optionList }">
-                <th:block th:switch="${ product.categoryCode }">
-                    <p hidden="true" th:class="${ option.productNo } + totP" th:case="RD" th:text="${ option.rod.price }"></p>
-                    <p hidden="true" th:class="${ option.productNo } + totP" th:case="RL" th:text="${ option.reel.price }"></p>
-                    <p hidden="true" th:class="${ option.productNo } + totP" th:case="LN" th:text="${ option.line.price }"></p>
-                </th:block>
-            </th:block>
-
-        </div>
-        <div class="option">
-            <select name="option" id="option">
-                <th:block th:switch="${ product.categoryCode }">
-                    <option th:case="RD" th:value="${ product.productNo }" selected="true">[[${ product.rod.model }]] : [[${ #numbers.formatCurrency(product.rod.price) }]]</option>
-                    <option th:case="RL" th:value="${ product.productNo }" selected="true">[[${ product.reel.model }]] : [[${ #numbers.formatCurrency(product.reel.price) }]]</option>
-                    <option th:case="LN" th:value="${ product.productNo }" selected="true">[[${ product.line.lineSize }]] : [[${ #numbers.formatCurrency(product.line.price) }]]</option>
-                </th:block>
+            <div class="price">
+                <span>총 가격 : </span>
+                <span>₩
+                    <th:block th:switch="${ product.categoryCode }">
+                        <span th:class="totalPrice" th:case="RD" th:text="${ product.rod.price }"></span>
+                        <span th:class="totalPrice" th:case="RL" th:text="${ product.reel.price }"></span>
+                        <span th:class="totalPrice" th:case="LN" th:text="${ product.line.price }"></span>
+                    </th:block>
+                </span>
                 <th:block th:each="option : ${ optionList }">
                     <th:block th:switch="${ product.categoryCode }">
-                        <option th:case="RD" th:value="${ option.productNo }">[[${ option.rod.model }]] : [[${ #numbers.formatCurrency(option.rod.price) }]]</option>
-                        <option th:case="RL" th:value="${ option.productNo }">[[${ option.reel.model }]] : [[${ #numbers.formatCurrency(option.reel.price) }]]</option>
-                        <option th:case="LN" th:value="${ option.productNo }">[[${ option.line.lineSize }]] : [[${ #numbers.formatCurrency(option.line.price) }]]</option>
+                        <p hidden="true" th:class="${ option.productNo } + totP" th:case="RD" th:text="${ option.rod.price }"></p>
+                        <p hidden="true" th:class="${ option.productNo } + totP" th:case="RL" th:text="${ option.reel.price }"></p>
+                        <p hidden="true" th:class="${ option.productNo } + totP" th:case="LN" th:text="${ option.line.price }"></p>
                     </th:block>
                 </th:block>
-            </select>
-        </div>
-        <div class="buttons">
-            <button type="button" id="insertWish"><img th:src="@{ /image/heart.png }"></button>
-            <button type="button" onclick="modalSwitch(2)"><img th:src="@{ /image/share.png }"></button>
-            <button type="button" id="insertCart"><img th:src="@{ /image/cart.png }"></button>
-            <button type="submit" id="buy">구매하기</button>
+
+            </div>
+            <div class="option">
+                <select name="option" id="option">
+                    <th:block th:switch="${ product.categoryCode }">
+                        <option th:case="RD" th:value="${ product.productNo }" selected="true">[[${ product.rod.model }]] : [[${ #numbers.formatCurrency(product.rod.price) }]]</option>
+                        <option th:case="RL" th:value="${ product.productNo }" selected="true">[[${ product.reel.model }]] : [[${ #numbers.formatCurrency(product.reel.price) }]]</option>
+                        <option th:case="LN" th:value="${ product.productNo }" selected="true">[[${ product.line.lineSize }]] : [[${ #numbers.formatCurrency(product.line.price) }]]</option>
+                    </th:block>
+                    <th:block th:each="option : ${ optionList }">
+                        <th:block th:switch="${ product.categoryCode }">
+                            <option th:case="RD" th:value="${ option.productNo }">[[${ option.rod.model }]] : [[${ #numbers.formatCurrency(option.rod.price) }]]</option>
+                            <option th:case="RL" th:value="${ option.productNo }">[[${ option.reel.model }]] : [[${ #numbers.formatCurrency(option.reel.price) }]]</option>
+                            <option th:case="LN" th:value="${ option.productNo }">[[${ option.line.lineSize }]] : [[${ #numbers.formatCurrency(option.line.price) }]]</option>
+                        </th:block>
+                    </th:block>
+                </select>
+            </div>
+            <div class="buttons">
+                <button type="button" id="insertWish"><img th:src="@{ /image/heart.png }"></button>
+                <button type="button" onclick="modalSwitch(2)"><img th:src="@{ /image/share.png }"></button>
+                <button type="button" id="insertCart"><img th:src="@{ /image/cart.png }"></button>
+                <button type="submit" id="buy">구매하기</button>
+            </div>
         </div>
         </form>
     </div>
