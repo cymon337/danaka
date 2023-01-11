@@ -39,6 +39,9 @@
 <div>
     <th:block th:replace="~{common/modal :: shareM}"/>
 </div>
+<div>
+    <th:block th:replace="~{common/modal :: backtotop}"/>
+</div>
 <div class="productContainer">
     <div class="imgContainer">
         <div class="bigImg">
@@ -232,6 +235,7 @@
         if ([[${ successMessage }]] != null) {
             modalSwitch(1);
         }
+
         /* 관련 상품 이미지 갖고오기 */
         const param = { productNo : orgProductNo };
         $.ajax({

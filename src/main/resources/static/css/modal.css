@@ -115,6 +115,17 @@
     height: 30px;
     object-fit: fill;
 }
+#backtotop {
+    box-sizing: border-box;
+    position: fixed;
+    right: 0.7em;
+    bottom: 2em;
+}
+#toTopBtn {
+    background-color: #0a53be;
+    color: white;
+    border: none;
+}
 @media screen and (max-width : 767px) {
     .modal .modalContent {
         margin: 100% auto;
