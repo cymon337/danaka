@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"><!--xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/basic"-->
+<head>
+    <title> MemberDetail </title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- 타임리프용 헤더 스타일 시트 적용-->
+    <link rel="stylesheet" th:href="@{/css/indexCss.css}"/>
+
+    <!-- 부트스트랩 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+
+    <!-- 아이콘 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+
+    <!-- 제이쿼리 -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <!-- 자바스크립트 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+            crossorigin="anonymous"></script>
+
+    <style>
+        #contentArea {
+            width: 60%
+        }
+
+        #contentArea * {
+            margin: 5px
+        }
+    </style>
+</head>
+<body>
+
+<!--타임리프용 헤더-->
+<div class="header">
+    <th:block th:replace="~{common/header :: header}"/>
+</div>
+
+<!--<th:block layout:fragment="content">-->
+    <div class="content">
+        <br><br>
+        <div class="innerOuter">
+            <h2 align="center">회원정보 상세보기</h2>
+            <br>
+
+            <form th:action="@{'deleteMember'}" method="post">
+                <input type="hidden" name="userNo" th:value="${member.userNo}"/>
+                <table id="contentArea" align="center" class="table">
+                    <tr>
+                        <th width="100">회원번호</th>
+                        <td colspan="3" th:text="${member.userNo}"></td>
+                    </tr>
+                    <tr>
+                        <th>아이디</th>
+                        <td th:text="${member.userId}"></td>
+                    </tr>
+                    <tr>
+                        <th>닉네임</th>
+                        <td th:text="${member.userNickname}"></td>
+                    </tr>
+                    <tr>
+                        <th>비밀번호</th>
+                        <td th:text="${member.userPwd}"></td>
+                    </tr>
+                    <tr>
+                        <th>이름</th>
+                        <td th:text="${member.userName}"></td>
+                    </tr>
+                    <tr>
+                        <th>생년월일</th>
+                        <td th:text="${#dates.format(member.birthday, 'yyyy-MM-dd')}"></td>
+                    </tr>
+                    <tr>
+                        <th>성별</th>
+                        <td th:text="${member.gender}"></td>
+                    </tr>
+                    <tr>
+                        <th>주소</th>
+                        <td th:text="${member.address}"></td>
+                    </tr>
+                    <tr>
+                        <th>이메일</th>
+                        <td th:text="${member.email}"></td>
+                    </tr>
+                    <tr>
+                        <th>휴대전화</th>
+                        <td th:text="${member.phone}"></td>
+                    </tr>
+                    <tr>
+                        <th>가입일</th>
+                        <td th:text="${#dates.format(member.regDate, 'yyyy-MM-dd HH:mm')}"></td>
+                    </tr>
+                    <tr>
+                        <th>회원상태</th>
+                        <td th:text="${member.status}"></td>
+                    </tr>
+                    <tr>
+                        <th>권한</th>
+                        <td th:text="${member.userRole}"></td>
+                    </tr>
+                </table>
+                <br>
+
+                <div align="center">
+                    <a th:href="@{/admin/adminMemberModify(userNo=${ member.userNo })}" class="btn btn-primary">수정하기</a>
+                    <button type="submit" class="btn btn-danger" onclick="deleteMember()">삭제하기</button>
+                    <button type="button" class="btn btn-outline-secondary" onclick="history.go(-1);">이전으로
+                    </button>
+
+                </div>
+
+            </form>
+            <br><br>
+        </div>
+    </div>
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+
+        // 게시글 삭제
+        function deleteMember() {
+            const no = [[ ${member.userNo}]];
+
+            if (!confirm(no + '번 회원정보를 삭제합니다.')) {
+                return false;
+            }
+        }
+        /*]]>*/
+    </script>
+
+</body>
+</html>

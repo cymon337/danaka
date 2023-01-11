@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.osaz.danaka.admin.model.dao.AdminMapper">
+
+    <resultMap type="com.osaz.danaka.admin.model.dto.AdminDTO" id="memberResultMap">
+        <id property="userNo" column="USER_NO"/>
+        <result property="userId" column="USER_ID"/>
+        <result property="userNickname" column="USER_NICKNAME"/>
+        <result property="userPwd" column="USER_PWD"/>
+        <result property="userName" column="USER_NAME"/>
+        <result property="birthday" column="BIRTHDAY"/>
+        <result property="gender" column="GENDER"/>
+        <result property="address" column="ADDRESS"/>
+        <result property="email" column="EMAIL"/>
+        <result property="phone" column="PHONE"/>
+        <result property="regDate" column="REG_DATE"/>
+        <result property="status" column="STATUS"/>
+        <result property="userRole" column="USER_ROLE"/>
+    </resultMap>
+
+    <!-- 페이징 처리를 위한 총 개수 조회 (where에 따라 검색 조건 및 결과 변경)-->
+    <select id="selectTotalCount" resultType="_int" parameterType="hashmap">
+        SELECT
+               COUNT(*)
+          FROM T_MEMBER A
+          WHERE A.STATUS = 'Y'
+        <choose>
+            <when test="searchCondition == 'userId'">
+                A.USER_ID LIKE '%' || #{ searchValue } || '%'
+            </when>
+            <when test="searchCondition == 'userNickName'">
+                A.USER_NICKNAME LIKE '%' || #{ searchValue } || '%'
+            </when>
+            <when test="searchCondition == 'userName'">
+                A.USER_NAME LIKE '%' || #{ searchValue } || '%'
+            </when>
+        </choose>
+    </select>
+
+    <!--공지사항 전체조회 / <where> 해당되지 않을 경우 무시되서 기본 리스트 출력(C, D), 출력될 내용들을 ROWNUM으로 카운팅 해주고(B) 번호를 이용하여 출력할 범위를 지정(A)-->
+    <select id="selectAllList" resultMap="memberResultMap">
+        SELECT
+              A.RNUM
+            , A.USER_NO
+            , A.USER_ID
+            , A.USER_NICKNAME
+            , A.USER_NAME
+            , A.PHONE
+        FROM (
+                SELECT
+                      ROWNUM RNUM
+                    , B.USER_NO
+                    , B.USER_ID
+                    , B.USER_NICKNAME
+                    , B.USER_NAME
+                    , B.PHONE
+                    FROM (
+                            SELECT
+                                  C.USER_NO
+                                , C.USER_ID
+                                , C.USER_NICKNAME
+                                , C.USER_NAME
+                                , C.PHONE
+                                FROM T_MEMBER C
+                                WHERE C.STATUS = 'Y'
+                                <choose>
+                                    <when test="searchCondition == 'userId'">
+                                        C.USER_ID LIKE '%' || #{ searchValue } || '%'
+                                    </when>
+                                    <when test="searchCondition == 'userNickName'">
+                                        C.USER_NICKNAME LIKE '%' || #{ searchValue } || '%'
+                                    </when>
+                                    <when test="searchCondition == 'userName'">
+                                        C.USER_NAME LIKE '%' || #{ searchValue } || '%'
+                                    </when>
+                                </choose>
+                                ORDER BY C.USER_NO DESC
+                    ) B
+                <![CDATA[
+                  WHERE ROWNUM <= #{ endRow }
+                  ]]>
+            ) A
+        WHERE A.RNUM >= #{ startRow }
+    </select>
+
+<!--    파라미터 타입 인트형이든 스트링이든 쿼리 값 나옴 / 없어도 나오는디 전달값 한개면 파라미터 이름, 타입을 자동으로 매핑했던거같음 -->
+    <select id="selectOneMember" resultMap="memberResultMap">
+        SELECT
+            *
+        FROM T_MEMBER A
+        WHERE A.USER_NO = #{ userNo }
+    </select>
+
+<!--회원 삭제-->
+    <update id="deleteMember">
+        UPDATE T_MEMBER A
+        SET
+            A.STATUS = 'N'
+        WHERE
+            A.USER_NO = #{ userNo }
+    </update>
+
+<!--    공지사항 번호 전달 할때 타입 parameterType="com.study.domain.post.PostRequest" / 반환 타입(map도)은 필요없음, 수정 처리만 하고 리다이렉트로 리스트로 이동-->
+    <update id="updateMember">
+        UPDATE T_MEMBER A
+        SET
+            A.USER_NICKNAME = #{ noticeName }
+          , A.USER_PWD = #{ noticeContent }
+          , A.NOTICE_DATE = SYSDATE
+        WHERE
+            A.NOTICE_NO = #{ noticeNo }
+    </update>
+
+</mapper>

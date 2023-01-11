@@ -29,27 +29,19 @@
 
 <script>
     $(document).ready(function() {
-        // executes when HTML-Document is loaded and DOM is ready
-
-// breakpoint and up
         $(window).resize(function(){
             if ($(window).width() >= 980){
 
-                // when you hover a toggle show its dropdown menu
                 $(".navbar .dropdown-toggle").hover(function () {
                     $(this).parent().toggleClass("show");
                     $(this).parent().find(".dropdown-menu").toggleClass("show");
                 });
 
-                // hide the menu when the mouse leaves the dropdown
                 $( ".navbar .dropdown-menu" ).mouseleave(function() {
                     $(this).removeClass("show");
                 });
-
-                // do something here
             }
         });
-// document ready
     });
 </script>
 
@@ -72,11 +64,11 @@
 
         <!-- 우측 기능 -->
         <div id="topRight">
-            <div onclick="location.href='/cart'" id="cart">
+            <div onclick="location.href='#'" id="cart">
                 <i class="bi bi-cart"></i><br>
                 <span>장바구니</span>
             </div>
-            <div onclick="location.href='/member/login'" id="loginMy">
+            <div onclick="location.href='../member/login.html'" id="loginMy">
                 <i class="bi bi-person"></i><br>
                 <span>로그인</span>
             </div>
@@ -99,40 +91,54 @@
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <div class="container">
                             <div class="row">
-                                <div class="col-md-4">
-                                    <span class="text-uppercase text-white">Category 2</span>
+                                <div class="col-md-3">
+<!--                                    <span class="text-uppercase text-white">Category 2</span>-->
                                     <ul class="nav flex-column">
                                         <li class="nav-item">
-                                            <a class="nav-link active" href="#">Active</a>
+                                            <a class="nav-link active" href="#">로드</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="#">Link item</a>
+                                            <a class="nav-link" href="#">- NS</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="#">Link item</a>
+                                            <a class="nav-link" href="#">- 다이와</a>
                                         </li>
                                     </ul>
                                 </div>
                                 <!-- /.col-md-4  -->
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <ul class="nav flex-column">
                                         <li class="nav-item">
-                                            <a class="nav-link active" href="#">Active</a>
+                                            <a class="nav-link active" href="#">릴</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="#">Link item</a>
+                                            <a class="nav-link" href="#">- 시마노</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="#">Link item</a>
+                                            <a class="nav-link" href="#">- 도요</a>
                                         </li>
                                     </ul>
                                 </div>
                                 <!-- /.col-md-4  -->
-                                <div class="col-md-4">
+                                <div class="col-md-3">
+                                    <ul class="nav flex-column">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" href="#">라인</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#">- 도요</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#">- BMS</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <!-- /.col-md-4  -->
+                                <div class="col-md-3">
                                     <a target="_blank" href="https://bootstrapcreative.com/shop/jake-portfolio-hubspot-theme/">
                                         <img src="https://i0.wp.com/bootstrapcreative.com/wp-bc/wp-content/uploads/2022/01/jake-portfolio-cover.jpg?w=200&ssl=1" alt="Portfolio Website Templates" class="img-fluid">
                                     </a>
-                                    <p class="text-white">Create a Portfolio Website Fast</p>
+                                    <p class="text-white">이 달의 인기 상품</p>
 
                                 </div>
                                 <!-- /.col-md-4  -->
@@ -147,12 +153,12 @@
         <!-- 중앙 메뉴 -->
         <div class="container">
             <header class="d-flex justify-content-center py-2">
-                <ul class="nav nav-pills" id="centerCategory">
-                    <li class="nav-item"><a href="/product/list2?categoryCode=RD" class="nav-link">로드</a></li>
-                    <li class="nav-item"><a href="/product/list2?categoryCode=RL" class="nav-link">릴</a></li>
-                    <li class="nav-item"><a href="/product/list2?categoryCode=LN" class="nav-link">라인</a></li>
+                <ul class="nav nav-pills" id="centerCategory" style="margin-left: -130px">
+                    <li class="nav-item"><a href="#" class="nav-link">로드</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link">릴</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link">라인</a></li>
                     <li class="nav-item"><a href="#" class="nav-link">장비조합</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link">견적보기</a></li>
+                    <li class="nav-item"><a th:href="@{/admin/adminMemberListView}" class="nav-link">견적보기</a></li>
                 </ul>
             </header>
         </div>
