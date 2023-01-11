@@ -181,7 +181,7 @@ option {
     border: 1px #C4C2FF solid;
     border-radius: 1em;
     width: 60%;
-    height: 6em;
+    height: 96px;
     margin: 0 auto;
     display: flex;
     padding: 0.5em;
@@ -195,7 +195,7 @@ option {
 .refMove>button {
     height: 100%;
     border: 1px #c3c1fe solid;
-    background-color: white;
+    background-color: transparent;
 }
 #refLeft {
     position: absolute;
@@ -215,26 +215,26 @@ option {
 }
 #slideShow {
     position: absolute;
-    left: 30px;
-    width: 95%;
+    width: 97%;
     height: 100px;
     overflow: hidden;
 }
 .refItems {/* slideshow*/
     position: absolute;
     left: 0;
-    width: 190%;
+    width: 1600px;
     height: 100px;
+    transition: left 0.5s ease-out;
 }
-.refItems>div {
+.refItems>div:not(last-child) {
     display: inline-block;
-    width: 5em;
-    padding: 0.5%;
+    width: 75px;
+    margin-right: 27px;
 }
 .refItems>div>img {
     width: 100%;
     border: 1px #e5e5ff solid;
-    box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.25);
+    box-shadow: 2px 3px 3px rgba(0, 0, 0, 0.25);
 }
 .contentContainer {
     box-sizing: border-box;
@@ -277,6 +277,7 @@ option {
     }
     .refItemsContainer {
         width: 100%;
+        height: 96px;
     }
     .contentContainer {
         width: 100%;
@@ -297,6 +298,7 @@ option {
     }
     .refItemsContainer {
         width: 80%;
+        height: 96px;
     }
     .contentContainer {
         width: 80%;
