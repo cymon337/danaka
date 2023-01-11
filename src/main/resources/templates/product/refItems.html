@@ -7,7 +7,9 @@
 <body>
 <div class="refItems" id="refItems">
     <th:block th:each="refProduct : ${ refProductList }">
-        <div><img th:src="${ refProduct.savePath }" alt="관련 상품" th:onclick="|location.href='@{/product/item2(productNo=${ refProduct.productNo })}'|"></div>
+        <ul class="slides">
+            <li><div><img th:src="${ refProduct.savePath }" alt="관련 상품" th:onclick="|location.href='@{/product/item2(productNo=${ refProduct.productNo })}'|"></div></li>
+        </ul>
     </th:block>
 </div>
 </body>

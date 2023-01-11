@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -144,11 +144,10 @@
         <h2>본문 내용</h2>
     </div>
 </div>
+<div hidden="true"><p id="userNo" sec:authentication="principal.userNo"></p></div>
 <script th:inline="javascript">
-
     /* 원래 상품 번호 */
     const orgProductNo = [[${ product.productNo }]];
-    console.log(orgProductNo);
     /* 화면 로딩 시 기본 수량에 따른 총 가격 출력 */
     const $orgPrice = new Number($(".totalPrice").text());
     $(".totalPrice").text($orgPrice.toLocaleString());
@@ -180,7 +179,6 @@
         } else {
 
             let $newPrice = $("." + $("#option").val() + "totP").text();
-            console.log($newPrice);
             $totPrice = $newPrice * $("#quantity").val();
             $totPrice = $totPrice.toLocaleString();
             $(".totalPrice").text($totPrice);
@@ -192,7 +190,7 @@
 
         $productNo = $("#option").val();
 
-        location.href="/product/wish?productNo=" + $productNo + "&orgProductNo=" + orgProductNo;
+        location.href="/product/wish?productNo=" + $productNo + "&orgProductNo=" + orgProductNo + "&userNo=" + $("#userNo").text();
     });
 
     /* 해당 상품 장바구니에 넣기 */
@@ -201,7 +199,7 @@
         $productNo = $("#option").val();
         const $amount = $("#quantity").val();
 
-        location.href="/product/cart?productNo=" + $productNo + "&amount=" + $amount + "&orgProductNo=" + orgProductNo;
+        location.href="/product/cart?productNo=" + $productNo + "&amount=" + $amount + "&orgProductNo=" + orgProductNo + "&userNo=" + $("#userNo").text();
     });
 
     /* 옵션 변경시 상품 정보 및 가격 바꾸기 */
@@ -239,7 +237,6 @@
             url: "/product/refItems",
             data: param,
         }).done(function (data) {
-            console.log(data);
             $("#refItems").replaceWith(data);
         });
     })

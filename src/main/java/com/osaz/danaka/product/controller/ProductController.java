@@ -15,7 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -149,14 +149,12 @@ public class ProductController {
     // # author : 오승재
     // # description : 해당하는 상품 위시리스트에 넣기
     @GetMapping("/wish")
-    public ModelAndView insertWishProduct (HttpSession session, HttpServletRequest request, ModelAndView mv, RedirectAttributes rttr) throws Exception {
+    public ModelAndView insertWishProduct (Principal principal, HttpServletRequest request, ModelAndView mv, RedirectAttributes rttr) throws Exception {
 
         HashMap<String, String> wishMap = new HashMap<>();
         String productNo = request.getParameter("productNo");
         String orgProductNo = request.getParameter("orgProductNo");
-        String userNo = (String) session.getAttribute("userNo");
-        // 테스트용
-//        String userNo = "1";
+        String userNo = request.getParameter("userNo");
 
         wishMap.put("userNo", userNo);
         wishMap.put("productNo", productNo);
@@ -176,16 +174,14 @@ public class ProductController {
     // # author : 오승재
     // # description : 해당하는 상품 장바구니에 넣기
     @GetMapping("/cart")
-    public ModelAndView insertCartProduct (HttpSession session, HttpServletRequest request, ModelAndView mv, RedirectAttributes rttr) throws Exception {
+    public ModelAndView insertCartProduct (Principal principal, HttpServletRequest request, ModelAndView mv, RedirectAttributes rttr) throws Exception {
 
         HashMap<String, String> cartMap = new HashMap<>();
         String productNo = request.getParameter("productNo");
         String orgProductNo = request.getParameter("orgProductNo");
         String amount = request.getParameter("amount");
         log.info("원래 상품번호 = {}", orgProductNo);
-        String userNo = (String) session.getAttribute("userNo");
-        // 테스트용
-//        String userNo = "1";
+        String userNo = request.getParameter("userNo");
 
         cartMap.put("productNo", productNo);
         cartMap.put("userNo", userNo);
@@ -230,13 +226,10 @@ public class ProductController {
     // # author : 오승재
     // # description : 상품 결제 일단은 db에 넣기만
     @PostMapping("/pay")
-    public ModelAndView insertOrder(HttpSession session, OrderDTO order, ModelAndView mv, RedirectAttributes rttr) throws Exception {
+    public ModelAndView insertOrder(HttpServletRequest request, OrderDTO order, ModelAndView mv, RedirectAttributes rttr) throws Exception {
 
-
-        String userNo = (String) session.getAttribute("userNo");
         String orderId = UUID.randomUUID().toString();
 
-        order.setUserNo(userNo);
         order.setOrderId(orderId);
         if(order.getPackageId() == null){
             order.setPackageId("");

@@ -110,7 +110,7 @@
                     <input type="text" id="address" placeholder="주소" value="" readonly required><br>
                     <input type="text" id="detailAddress" placeholder="상세주소" value="" maxlength="22" required>
                     <input type="text" id="extraAddress" hidden="true" value="" placeholder="참고항목">
-                    <input type="text" id="addressParam" hidden="true" value="" name="address">
+                    <input type="text" id="addressParam" hidden="true" th:value="${ #authentication.principal.address }" name="address">
                 </div>
             </div>
             <hr>
@@ -168,6 +168,7 @@
         <div class="userInfoDescription">
             <p>주문자 정보</p>
             <div class="userInfo">
+                <input type="text" hidden="true" name="userNo" id="userNo" th:value="${ #authentication.principal.userNo }">
                 <span>이름 : <span class="userName" sec:authentication="principal.memberName"></span></span><br>
                 <span>연락처 : <span class="phone" sec:authentication="principal.phone"></span></span><br>
                 <span>주소 : <span id="userAddr" sec:authentication="principal.address"></span></span>
@@ -204,6 +205,12 @@
     $("#totalPayPrice").text($price.toLocaleString());
     $("#totalPlusFee").text(($price + 3000).toLocaleString());
     $("#hiddenTotP").val($("#totalPlusFee").text().replace(",", ""));
+
+    /* 화면 로딩시 회원 주소 출력 */
+    let fulladdr = $("#addressParam").val().split(",");
+    $("#postcode").val(fulladdr[0]);
+    $("#address").val(fulladdr[1]);
+    $("#detailAddress").val(fulladdr[2]);
 
     /* 수량 변경 버튼 함수 */
     $(".amountButtons").on("click", function () {

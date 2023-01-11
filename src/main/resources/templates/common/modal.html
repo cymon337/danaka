@@ -30,7 +30,7 @@
         </div>
         <hr>
         <div class="urlShare">
-            <span>URL 복사</span><input type="text" id="currentUrl" th:value="|${ #httpServletRequest.requestURL }?productNo='${ product.productNo }'|" readonly>
+            <span>URL 복사</span><input type="text" id="currentUrl" th:value="|${ #httpServletRequest.requestURL }?productNo=${ product.productNo }|" readonly>
         </div>
         <hr>
         <div class="modalButtonsContainer">
