@@ -60,7 +60,7 @@
     </div>
     <div class="detailContainer">
         <form action="/product/purchase" method="get">
-            <input type="hidden" id="productNo" name="productNo" value="">
+            <input type="hidden" id="productNo" name="orgProductNo" th:value="${ product.productNo }">
         <div class="productName">
             <h2 th:text="${ product.productName }">상품명</h2>
         </div>
@@ -232,7 +232,7 @@
 
     $(document).ready(function (){
         /* 모달 창 띄우기 */
-        if ([[${ successMessage }]] != null) {
+        if ([[${ successMessage }]] != null || [[${ failMessage }]] != null) {
             modalSwitch(1);
         }
 
