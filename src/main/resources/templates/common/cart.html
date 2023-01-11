@@ -66,6 +66,8 @@
                         "cartNo" : cartNo,
                         "amount" : pNum
                     }  //위의 변수에 담긴 데이터를 전송해준다.
+                }).done(function (data) {
+                    console.log(data);
                 });
 
                 this.reCalc();
