@@ -34,40 +34,75 @@
         #contentArea {width:60%}
         #contentArea *{margin:5px}
 
-        /* adds some margin below the link sets  */
+        /*TOP 버튼*/
+        #backtotop{
+            margin-top: -50px;
+            margin-left: 90%;
+            position: fixed;
+            z-index: 100;
+        }
+        #backtotop button{
+            background-color: rgb(0, 0, 202);
+            color: white;
+        }
+
+        /* 전체보기 드랍다운  */
         .navbar .dropdown-menu div[class*="col"] {
             margin-bottom:1rem;
         }
 
         .navbar .dropdown-menu {
             border:none;
-            background-color:#0060c8!important;
+            background-color: rgb(137, 137, 238) !important;
         }
 
-        /* breakpoint and up - mega dropdown styles */
+        .col-md-3 a {
+            color: white;
+        }
+
+        .active{
+            font-weight: bolder;
+            font-size: large;
+            margin: 10px;
+        }
+
+        #navbarDropdown{
+            margin-left: -10px;
+            font-size: larger;
+            font-weight: 400;
+            color: white;
+        }
+
+        #navbarDropdown:hover{
+            color: black;
+        }
+
+        #navbarDropdown i{
+            margin-bottom: 10px;
+        }
+
+        /* 스타일 지정 */
         @media screen and (min-width: 992px) {
 
-            /* remove the padding from the navbar so the dropdown hover state is not broken */
+            /* 드랍다운 내 호버 상태 유지 위해 패딩제거 */
             .navbar {
-                padding-top:0px;
                 padding-bottom:0px;
             }
 
-            /* remove the padding from the nav-item and add some margin to give some breathing room on hovers */
+            /* 여백 */
             .navbar .nav-item {
-                padding:.5rem .5rem;
-                margin:0 .25rem;
+                margin:0 2rem;
             }
 
-            /* makes the dropdown full width  */
+            /* 드랍다운 전체 너비 지정  */
             .navbar .dropdown {position:static;}
 
             .navbar .dropdown-menu {
                 width:100%;
                 left:0;
                 right:0;
-                /*  height of nav-item  */
-                top:165px;
+                /* 드랍다운 영역 높이  */
+                top:157px;
 
                 display:block;
                 visibility: hidden;
@@ -76,7 +111,7 @@
 
             }
 
-            /* shows the dropdown menu on hover */
+            /* 드랍다운 호버 */
             .navbar .dropdown:hover .dropdown-menu, .navbar .dropdown .dropdown-menu:hover {
                 display:block;
                 visibility: visible;
@@ -90,6 +125,8 @@
             }
 
         }
+
+
     </style>
 
     <script>
@@ -141,15 +178,9 @@
                 </tbody>
             </table>
             <br>
-
-            <div class="row align-items-end" id="backtotop"> - .align-items-start, .align-items-end, .align-items-center, .align-items-baseline및 .align-items-stretch (기본값)입니다 -
-                <button type="button" class="btn btn-info btn-lg" onclick="window.scrollTo(0,0);">
-                    ▲TOP
-                </button>
-            </div>
-
         </div>
 
+        <!--게시글 추가-->
         <div align="center">
             <a th:href="@{'noticeEnroll'}" class="btn btn-primary">게시글추가</a>
         </div>
@@ -172,6 +203,13 @@
         <input type="search" id="searchValue" name="searchValue"/>
         <button type="submit">검색하기</button>
     </form>
+</div>
+
+<!--TOP버튼-->
+<div class="row align-items-end" id="backtotop">
+    <button type="button" class="btn btn-info btn-lg" onclick="window.scrollTo(0,0);">
+        ▲TOP
+    </button>
 </div>
 
 <!--<div class="search-area" align="center">
