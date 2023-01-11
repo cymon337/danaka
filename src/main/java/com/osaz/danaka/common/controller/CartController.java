@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Slf4j
@@ -55,14 +54,12 @@ public class CartController {
         return mv;
     }
 
-    @PostMapping("/update-db")
-    void updateCart(HttpServletRequest request) throws Exception{
-        request.getParameterNames().asIterator().forEachRemaining(paramName -> log.info(paramName +
-                "=" + request.getParameter(paramName)));
-        String cartNo = "";
-        String amount = "";
 
-//        cartService.updateCart(cartNo, amount);
+    @PostMapping("update-db")
+    void updateCart(String cartNo, String amount) throws Exception{
+        log.info("updateDB={}", "start");
+        log.info("cartNo={}", cartNo);
+        log.info("amount={}", amount);
 
     }
 

@@ -231,7 +231,7 @@
         }
         /* 관련 상품 이미지 갖고오기 */
         const param = { productNo : orgProductNo };
-        $.`ajax`({
+        $.ajax({
             type: "GET",
             url: "/product/refItems",
             data: param,

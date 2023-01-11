@@ -48,6 +48,7 @@
                 document.querySelector('#sum-order-price').textContent = '합계금액: ' + this.totalPrice.formatNumber() + '원';
             },
             changePNum: function (e) {
+                var cartNo = $(e).parent().parent().val().toString();
                 var pNum = $(e).val();
                 $(e).attr('value', pNum);
 
@@ -55,27 +56,39 @@
                 var calcPrice = pNum * price;
                 $(e).parent().parent().find('.calc-price').html(`${calcPrice.formatNumber()} 원`);
 
-                this.updateDB();
+                // ajax 장바구니 상태변경 업데이트 메소드
+
+                $.ajax({
+                    type:'post',   //post 방식으로 전송
+                    url:'update-db',   //데이터를 주고받을 파일 주소
+                    traditional: true, //Array 형식의 데이터를 전송할 때는 traditional: true 옵션을 적용
+                    data: {
+                        "cartNo" : cartNo,
+                        "amount" : pNum
+                    }  //위의 변수에 담긴 데이터를 전송해준다.
+                });
+
                 this.reCalc();
             },
+            /*
             updateDB: function () {
                 // cart current data
-                let cartList = new Array();
+                let cartList = [];
 
                 document.querySelectorAll("li").forEach(function (item) {
-                    var cartDTO = new Object();
-                    cartDTO.cartNo = $(item).val();
-                    cartDTO.amount = $(item).find(".pNum").val();
-                    console.log(cartDTO);
-                    cartList.push(cartDTO);
+                    var cart = {};
+                    cart.cartNo = $(item).val().toString();
+                    cart.amount = $(item).find(".pNum").val();
+                    cartList.push({...cart});
                 });
-                console.log('전체리스트 cartNo, amount 조회')
                 console.log(cartList);
+
                 // ajax 장바구니 상태변경 업데이트 메소드
                 $.ajax({
                     type:'post',   //post 방식으로 전송
                     url:'update-db',   //데이터를 주고받을 파일 주소
-                    data:cartList,   //위의 변수에 담긴 데이터를 전송해준다.
+                    traditional: true, //Array 형식의 데이터를 전송할 때는 traditional: true 옵션을 적용
+                    data: {data : JSON.stringify(cartList)},   //위의 변수에 담긴 데이터를 전송해준다.
                     success: function(){
                         alert("updated");
                     },
@@ -83,7 +96,7 @@
                         alert("update error!");
                     }
                 });
-            }
+            }*/
 
 
 
