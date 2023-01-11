@@ -22,13 +22,15 @@
 
     </resultMap>
 
-<!--
-    <select id="findMemberByID" resultMap="memberResultMap">
+    <select id="selectUser" parameterType="String" resultMap="memberResultMap">
+    SELECT
+        *
+    FROM T_MEMBER
+    WHERE EMAIL = #{email}
 
 
 
     </select>
--->
     <!--로그인-->
     <select id="loginAction" resultType="com.osaz.danaka.member.model.dto.MemberDTO">
         SELECT
@@ -69,6 +71,23 @@
         UPDATE T_MEMBER
         SET USER_NICKNAME= #{userNickname} , EMAIL= #{email}, PHONE= #{phone}
         WHERE USER_ID = #{userId}
+
+    </update>
+
+<!--  마이페이지 비번 변경  -->
+    <update id ="updatePassword" parameterType="com.osaz.danaka.member.model.dto.MemberDTO" >
+        UPDATE T_MEMBER
+        SET USER_PWD= #{userPwd}
+        WHERE USER_ID = #{userId}
+
+
+    </update>
+
+    <update id ="deleteMember" parameterType="com.osaz.danaka.member.model.dto.MemberDTO" >
+        UPDATE T_MEMBER
+        SET STATUS = 'N'
+        WHERE USER_ID = #{userId}
+
 
     </update>
 

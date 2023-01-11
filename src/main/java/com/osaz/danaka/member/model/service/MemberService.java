@@ -7,23 +7,20 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.text.SimpleDateFormat;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
 public class MemberService implements UserDetailsService {
 
-    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM HH:mm:sss");
-    Date time = new Date();
-
-
+    private final PasswordEncoder passwordEncoder;
 
 
     @Autowired
@@ -32,7 +29,9 @@ public class MemberService implements UserDetailsService {
 
     @Transactional
     public void saveUserData(MemberDTO memberDTO) {
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM HH:mm:sss");
+        Date time = new Date();
+
         memberDTO.setUserPwd(passwordEncoder.encode(memberDTO.getUserPwd()));
         memberDTO.setUserRole("MEMBER");
         memberDTO.setStatus("Y");
@@ -46,7 +45,7 @@ public class MemberService implements UserDetailsService {
     @Override
     public MemberDTO loadUserByUsername(String userId) throws UsernameNotFoundException {
         MemberDTO memberDTO = memberMapper.loginAction(userId);
-        if (memberDTO == null) {
+        if (Objects.isNull(memberDTO)) {
             throw new UsernameNotFoundException("해당하는 유저를 찾을 수 없습니다.");
         }
         return memberDTO;
@@ -66,15 +65,40 @@ public class MemberService implements UserDetailsService {
         return memberMapper.findPassword(user);
     }
 
+    public MemberDTO deleteMember(MemberDTO memberDTO){
+        memberMapper.deleteMember(memberDTO);
+        return memberDTO;
+    }
 
     public MemberDTO updateUser(MemberDTO memberDTO){
         memberMapper.userUpdate(memberDTO);
         return memberDTO;
     }
 
+    public MemberDTO selectUser(String email){
+       MemberDTO memberDTO = memberMapper.selectUser(email);
+       return memberDTO;
+    }
 
-
-//    public int userUpdate(MemberDTO memberDTO){
-//        return memberMapper.userUpdate(memberDTO);
+//    public MemberDTO findPw(MemberDTO memberDTO) throws Exception{
+//      BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+//      String result = null;
+//
+//      MemberDTO memberDTO =
 //    }
+
+
+
+//
+    @Transactional
+    public void updatePassword(MemberDTO memberDTO, String newPassword){
+        memberDTO.updatePassword(passwordEncoder.encode(newPassword));
+        memberMapper.updatePassword(memberDTO);
+
+    }
+
+
+
+
+
 }

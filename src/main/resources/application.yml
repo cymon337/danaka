@@ -1,5 +1,16 @@
 spring:
-#   DB 연결
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username:
+    password:
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+  #   DB 연결
 #  mvc:
 #    static-path-pattern: /static/**
 

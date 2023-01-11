@@ -16,6 +16,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
@@ -28,21 +29,15 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final MemberService memberService;
-
     private final AuthenticationFailureHandler customFailureHandler;
-
-    @Bean
-    public BCryptPasswordEncoder Encoder() {
-        return new BCryptPasswordEncoder();
-
-    }
+    private final PasswordEncoder passwordEncoder;
 
     /*   - public 접근 제한자: 단어 뜻 그대로 외부 클래스가 자유롭게 사용할 수 있도록 합니다.
          - protected 접근 제한자: 같은 패키지 또는 자식 클래스에서 사용할 수 있도록 합니다.
          - private 접근 제한자: 단어 뜻 그대로 개인적인 것이라 외부에서 사용될 수 없도록 합니다.*/
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(memberService).passwordEncoder(Encoder());
+        auth.userDetailsService(memberService).passwordEncoder(passwordEncoder);
     }
 
     @Bean
@@ -70,7 +65,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin() //폼을 이용해서 로그인을 하겠다
                 .loginPage("/member/login") //내가 사용할 로그인 페이지 기술 없으면 시큐리티 페이지가 나옴
-                .loginProcessingUrl("/login_action") // 로그인이 진행 될 url 설정 (loginpage.html의 th:action="@{/login_action}"를 말함
+                .loginProcessingUrl("/loginAction") // 로그인이 진행 될 url 설정 (loginpage.html의 th:action="@{/login_action}"를 말함
                 //.successForwardUrl("/") //로그인 성공시 이동할 경로 설정
                 .failureHandler(customFailureHandler) // 로그인 실패 핸들러
                 .defaultSuccessUrl("/member/modification")
