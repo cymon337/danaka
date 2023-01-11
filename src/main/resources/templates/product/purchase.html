@@ -168,9 +168,9 @@
         <div class="userInfoDescription">
             <p>주문자 정보</p>
             <div class="userInfo">
-                <span>이름 : <span class="userName" th:text="${ session.userName }"></span></span><br>
-                <span>연락처 : <span class="phone" th:text="${ session.phone }"></span></span><br>
-                <span>주소 : <span id="userAddr"></span></span>
+                <span>이름 : <span class="userName" sec:authentication="principal.memberName"></span></span><br>
+                <span>연락처 : <span class="phone" sec:authentication="principal.phone"></span></span><br>
+                <span>주소 : <span id="userAddr" sec:authentication="principal.address"></span></span>
             </div>
             <hr>
             <p>결제 상세</p>

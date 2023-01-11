@@ -27,17 +27,27 @@
           <!--                    </div>-->
           <h3 class="text-center mb-4">아이디 찾기</h3>
           <b><hr></b>
-          <form action="#" class="login-form">
+          <form action="/find_id" class="login-form" name="findform" method="post">
             <div class="form-group">
-              <input type="text" class="form-control rounded-left" placeholder="이름" required>
+              <input type="text" class="form-control rounded-left" placeholder="이름" name="userName" required>
             </div>
             <div class="form-group d-flex">
-              <input type="text" class="form-control rounded-left" placeholder="휴대전화" required>
+              <input type="tel" class="form-control rounded-left" placeholder="휴대전화" name="phone" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" required>
             </div>
             <div class="form-group">
               <button type="submit" class="btn btn-primary rounded submit p-3 px-5">아이디 찾기</button>
             </div>
+
             <div class="form-group d-md-flex">
+
+
+
+
+
+
+
+
+
               <!--  <div class="w-50">
                     <label class="checkbox-wrap checkbox-primary">Remember Me
                         <input type="checkbox" checked>
@@ -55,7 +65,17 @@
                 <a href="#">회원가입</a>
               </div>
             </div>
+            <span th:if="${check == 1}">
 
+            <label>일치하는 정보가 존재하지 않습니다.</label>
+
+              </script>
+
+
+              </span>
+            <span th:if="${check == 0}">
+            <label>찾으시는 아이디는' *[[${userId}]]* ' 입니다.</label>
+                </span>
           </form>
         </div>
       </div>
