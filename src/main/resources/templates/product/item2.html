@@ -132,10 +132,12 @@
 </div>
 <hr>
 <div class="refItemsContainer">
-    <div class="refMove" id="refLeft"><button type="button" value="-"><</button></div>
+    <div id="slideShow">
     <div class="refItems" id="refItems">
 <!--        <th:block th:replace="~{product/refProducts :: #refItems}"/>-->
     </div>
+    </div>
+    <div class="refMove" id="refLeft"><button type="button" value="-"><</button></div>
     <div class="refMove" id="refRight"><button type="button" value="+">></button></div>
 </div>
 <hr>
@@ -296,6 +298,35 @@
             });
         }
     }
+
+    /* 관련상품 이미지 슬라이드쇼 */
+    const slides = $(".refItems");
+    // const slideImg = $(".refItem");
+    let currenIdx = 0;
+    const slideCount = 20;
+    const slideWidth = 80;
+    // const slideMargin = 1;
+
+    slides.style.width = slideWidth * slideCount + 'px';
+
+    function moveSlide(num) {
+        slides.style.left = -num * 100 + 'px';
+        currentIdx = num;
+    }
+
+    $(".refMove").on('click', function () {
+        /*첫 번째 슬라이드로 표시 됐을때는
+        이전 버튼 눌러도 아무런 반응 없게 하기 위해
+        currentIdx !==0일때만 moveSlide 함수 불러옴 */
+
+        switch ($(this).val()){
+            case "+":
+                if (currentIdx !== slideCount - 1) {
+                moveSlide(currentIdx + 1);
+                }; break;
+            case "-": if (currentIdx !== 0) moveSlide(currentIdx - 1); break;
+        }
+    });
 </script>
 
 </body>

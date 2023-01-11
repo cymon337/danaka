@@ -187,7 +187,7 @@ option {
     padding: 0.5em;
     background-color: white;
     box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.25);
-    position: marker;
+    position: relative;
 }
 .refMove {
     height: 5em;
@@ -197,6 +197,14 @@ option {
     border: 1px #c3c1fe solid;
     background-color: white;
 }
+#refLeft {
+    position: absolute;
+    left: 5px;
+}
+#refRight {
+    position: absolute;
+    right: 5px;
+}
 #refLeft>button {
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
@@ -205,17 +213,25 @@ option {
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
 }
-.refItems {
+#slideShow {
+    position: absolute;
+    left: 30px;
     width: 95%;
-    display: flex;
-    justify-content: center;
+    height: 100px;
+    overflow: hidden;
 }
-.refItems>ul>li>div {
+.refItems {/* slideshow*/
+    position: absolute;
+    left: 0;
+    width: 190%;
+    height: 100px;
+}
+.refItems>div {
+    display: inline-block;
     width: 5em;
-    margin: 0 1% 0 1%;
     padding: 0.5%;
 }
-.refItems>ul>li>div>img {
+.refItems>div>img {
     width: 100%;
     border: 1px #e5e5ff solid;
     box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.25);

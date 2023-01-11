@@ -85,11 +85,11 @@ public class MemberController {
     @PostMapping("/find_id")
     public String findId(HttpServletRequest request, Model model){
 
-        String userName = request.getParameter("userName");
+        String memberName = request.getParameter("memberName");
         String phone = request.getParameter("phone");
 
         MemberDTO memberDTO = new MemberDTO();
-        memberDTO.setMemberName(userName);
+        memberDTO.setMemberName(memberName);
         memberDTO.setPhone(phone);
 
         MemberDTO user = memberService.findId(memberDTO);
