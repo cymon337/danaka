@@ -9,8 +9,11 @@
 <div id="successM" class="modal" th:fragment="successM">
   <div class="modalContent">
         <div class="modalClose"><button type="button" class="modalCloseButton">x</button></div>
-        <div><p th:text="${ successMessage?:'' }"></p></div>
-        <div id="modalImgContainer"><img id="modalImg" th:src="@{ /image/check.png }" alt="성공 이미지"></div>
+        <div><p th:text="${ successMessage?:failMessage }"></p></div>
+        <div id="modalImgContainer">
+            <img class="modalImg" th:if="${ successMessage != null }" th:src="@{ /image/check.png }" alt="성공 이미지">
+            <img class="modalImg" th:unless="${ successMessage != null }" th:src="@{ https://cdn-icons-png.flaticon.com/512/7778/7778647.png }" alt="성공 이미지">
+        </div>
         <div class="modalButtonsContainer">
             <button type="button" class="modalButtons" th:onclick="|location.href='@{/product/list2(categoryCode=${ product.categoryCode })}'|">쇼핑 계속하기</button>
             <button type="button" class="modalButtons" th:onclick="|location.href='@{ /main }'|">메인화면 가기</button>
@@ -34,11 +37,16 @@
         </div>
         <hr>
         <div class="modalButtonsContainer">
-            <button type="button" class="modalButtons" th:onclick="|location.href='@{/product/list2(categoryCode=${ product.categoryCode })}'|">쇼핑 계속하기</button>
+            <button type="button" class="modalButtons" th:onclick="|location.href='@{/product/list2(categoryCode=${ product?.categoryCode })}'|">쇼핑 계속하기</button>
             <button type="button" class="modalButtons" th:onclick="|location.href='@{ /main }'|">메인화면 가기</button>
         </div>
     </div>
     <div class="modalLayer"></div>
+</div>
+<div class="toTopBtn" id="backtotop" th:fragment="backtotop">
+    <button type="button" id="toTopBtn" onclick="window.scrollTo(0,0);">
+        ▲TOP
+    </button>
 </div>
 </body>
 </html>

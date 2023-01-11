@@ -24,10 +24,14 @@
 
     <!-- 승재 css -->
     <link rel="stylesheet" type="text/css" th:href="@{ /css/list.css }">
+    <link rel="stylesheet" type="text/css" th:href="@{ /css/modal.css }">
 </head>
 <body>
 <div class="header">
     <th:block th:replace="~{common/header2 :: header}"/>
+</div>
+<div>
+    <th:block th:replace="~{common/modal :: backtotop}"/>
 </div>
 <div class="categoryImg">
     <th:block th:switch="${ selectCriteria.categoryCode }">

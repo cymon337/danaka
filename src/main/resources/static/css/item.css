@@ -222,7 +222,7 @@ option {
 .refItems {/* slideshow*/
     position: absolute;
     left: 0;
-    width: 1600px;
+    width: 2100px;
     height: 100px;
     transition: left 0.5s ease-out;
 }

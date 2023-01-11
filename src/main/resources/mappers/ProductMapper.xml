@@ -38,7 +38,10 @@
         SELECT
             COUNT(*)
           FROM VIEW_PRODUCT
-         WHERE CATEGORY_CODE = #{ categoryCode }
+         WHERE 1 = 1
+        <if test="categoryCode != null">
+           AND CATEGORY_CODE = #{ categoryCode }
+        </if>
            AND PRODUCT_NO IN (SELECT
                                   MIN(PRODUCT_NO)
                                 FROM VIEW_PRODUCT

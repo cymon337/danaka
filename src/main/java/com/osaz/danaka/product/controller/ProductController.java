@@ -144,7 +144,7 @@ public class ProductController {
         return mv;
     }
 
-    // # update : 2023-01-08(최종수정)
+    // # update : 2023-01-12(최종수정)
     // # title : 상품 상세페이지
     // # author : 오승재
     // # description : 해당하는 상품 위시리스트에 넣기
@@ -164,12 +164,17 @@ public class ProductController {
 
         mv.addObject("productNo", orgProductNo);
         mv.setViewName("redirect:/product/item2");
-        rttr.addFlashAttribute("successMessage", "찜하기 성공!");
+
+        if(result) {
+            rttr.addFlashAttribute("successMessage", "찜하기 성공!");
+        } else {
+            rttr.addFlashAttribute("failMessage", "찜하기 실패..");
+        }
 
         return mv;
     }
 
-    // # update : 2023-01-08(최종수정)
+    // # update : 2023-01-12(최종수정)
     // # title : 상품 상세페이지
     // # author : 오승재
     // # description : 해당하는 상품 장바구니에 넣기
@@ -192,7 +197,11 @@ public class ProductController {
 
         mv.addObject("productNo", orgProductNo);
         mv.setViewName("redirect:/product/item2");
-        rttr.addFlashAttribute("successMessage", "장바구니 담기 성공!");
+        if(result) {
+            rttr.addFlashAttribute("successMessage", "장바구니 담기 성공!");
+        } else {
+            rttr.addFlashAttribute("failMessage", "장바구니 담기 실패..");
+        }
 
         return mv;
     }
@@ -208,12 +217,14 @@ public class ProductController {
         log.info("상품번호 = {}", productNo);
         String amount = request.getParameter("amount");
         log.info("수량 = {}", amount);
+        String orgProductNo = request.getParameter("orgProductNo");
 //        String packageId = request.getParameter("packageId");
 
         if(productNo != null && !"".equals(productNo)) {
 
             ProductDTO product = productService.selectOneProduct(productNo);
             mv.addObject("product", product);
+            mv.addObject("orgProductNo", orgProductNo);
             mv.addObject("amount", amount);
         }
 
@@ -221,7 +232,7 @@ public class ProductController {
         return mv;
     }
 
-    // # update : 2023-01-10
+    // # update : 2023-01-12
     // # title : 상품 구매페이지
     // # author : 오승재
     // # description : 상품 결제 일단은 db에 넣기만
@@ -239,14 +250,13 @@ public class ProductController {
         // 성공했을 시, 실패했을 시 각각 추가하기
         boolean result = productService.insertOrder(order);
 
-        mv.addObject("productNo", order.getProductNo());
+        mv.addObject("productNo", request.getParameter("orgProductNo"));
+        mv.setViewName("redirect:/product/item2");
 
         if(result) {
-            mv.setViewName("redirect:/product/item2");
             rttr.addFlashAttribute("successMessage", "구매 성공!");
         } else {
-            mv.setViewName("redirect:/product/item2");
-            rttr.addFlashAttribute("successMessage", "구매 실패..");
+            rttr.addFlashAttribute("failMessage", "구매 실패..");
         }
 
         return mv;

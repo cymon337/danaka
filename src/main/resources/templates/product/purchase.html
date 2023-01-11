@@ -53,10 +53,14 @@
 
     <!-- 승재 css -->
     <link rel="stylesheet" type="text/css" th:href="@{ /css/purchase.css }">
+    <link rel="stylesheet" type="text/css" th:href="@{ /css/modal.css }"/>
 </head>
 <body>
 <div class="header">
     <th:block th:replace="~{common/header2 :: header}"/>
+</div>
+<div>
+    <th:block th:replace="~{common/modal :: backtotop}"/>
 </div>
 <form action="/product/pay" method="POST">
 <div class="description">
@@ -66,6 +70,7 @@
     <div class="buyingProduct">
         <th:block th:if="${ product }" th:switch="${ product.categoryCode }">
             <input type="text" hidden="true" th:name="productNo" th:value="${ product.productNo }">
+            <input type="text" hidden="true" th:name="orgProductNo" th:value="${ orgProductNo }">
             <div class="thumnail">
                 <img th:src="${ product?.savePath }?: '/image/line/lineDefault.png'" alt="상품섬네일">
             </div>
@@ -252,6 +257,7 @@
         $("#card").show();
     })
 
+    /* 결제 종류 띄우기*/
     $(".payTypeInput").on("change", function () {
 
         $(".infoSwitch").hide();
