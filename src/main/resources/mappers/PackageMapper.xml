@@ -23,10 +23,12 @@
 
     <select id="selectLineMinOption" resultType="String">
         SELECT
-            DISTINCT LINE_MIN
-        FROM VIEW_PRODUCT
-        WHERE NOT LINE_MIN IS NULL
-        ORDER BY LINE_MIN ASC
+            DISTINCT *
+        FROM (SELECT
+                  TO_CHAR(LINE_MIN, 'FM9990.99') LINE_MAX
+              FROM VIEW_PRODUCT
+              WHERE NOT LINE_MIN IS NULL
+              ORDER BY LINE_MIN ASC)
     </select>
 
     <select id="selectLineMaxOption" resultType="String">
