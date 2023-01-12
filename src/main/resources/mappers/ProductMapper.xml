@@ -32,6 +32,19 @@
         <result property="lineSize" column="LINE_SIZE"/>
         <result property="price" column="LINE_PRICE"/>
     </resultMap>
+    <resultMap id="productCartMap" type="com.osaz.danaka.product.model.dto.ProductCartDTO">
+        <id property="cartNo" column="CART_NO"/>
+        <result property="categoryCode" column="CATEGORY_CODE"/>
+        <result property="productNo" column="PRODUCT_NO"/>
+        <result property="productName" column="PRODUCT_NAME"/>
+        <result property="brandName" column="BRAND_NAME"/>
+        <result property="amount" column="AMOUNT"/>
+        <result property="packageId" column="PACKAGE_ID"/>
+        <result property="savePath" column="SAVE_PATH"/>
+        <association property="rod" resultMap="rodResultMap"></association>
+        <association property="reel" resultMap="reelResultMap"></association>
+        <association property="line" resultMap="lineResultMap"></association>
+    </resultMap>
 
     <!-- 페이징 처리를 위한 대상품 총 개수 조회 쿼리 -->
     <select id="selectTotalCount" resultType="_int" parameterType="hashmap">
@@ -55,16 +68,24 @@
         SELECT
             A.*,
             A.RNUM,
-            H.SAVE_PATH
-        <if test="orderCondition != null and orderCondition == 'sale'">
-            ,E.TOTSALE
-        </if>
+            A.SAVE_PATH
           FROM (SELECT
                     B.*,
                     ROWNUM "RNUM"
                   FROM (SELECT
                             C.*
+                            <if test="orderCondition != null and orderCondition == 'sale'">
+                                ,E.TOTSALE
+                            </if>
                           FROM VIEW_PRODUCT C
+                        <if test="orderCondition != null and orderCondition == 'sale'">
+                            LEFT JOIN (SELECT
+                                            D.PRODUCT_NO,
+                                            SUM(AMOUNT) "TOTSALE"
+                                        FROM T_ORDER D
+                                        GROUP BY D.PRODUCT_NO) E
+                            ON C.PRODUCT_NO = E.PRODUCT_NO
+                        </if>
                          WHERE C.PRODUCT_NO IN (SELECT
                                                     MIN(F.PRODUCT_NO)
                                                   FROM VIEW_PRODUCT F
@@ -75,6 +96,9 @@
                         <choose>
                             <when test="orderCondition == null">
                                 ORDER BY C.PRODUCT_NO DESC
+                            </when>
+                            <when test="orderCondition != null and orderCondition == 'sale'">
+                                ORDER BY E.TOTSALE DESC
                             </when>
                             <when test="orderCondition == 'lowPrice' and categoryCode == 'RD'">
                                 ORDER BY C.ROD_PRICE ASC
@@ -95,21 +119,12 @@
                                 ORDER BY C.LINE_PRICE DESC
                             </when>
                         </choose>) B
-                 ) A
-          LEFT JOIN (SELECT
-                         G.PRODUCT_NO,
-                         G.SAVE_PATH
-                       FROM T_IMG_PATH G
-                      WHERE IMG_CATEGORY = 'T') H
-            ON A.PRODUCT_NO = H.PRODUCT_NO
-          <if test="orderCondition != null and orderCondition == 'sale'">
-          LEFT JOIN (SELECT
-                         D.PRODUCT_NO,
-                         SUM(AMOUNT) "TOTSALE"
-                       FROM T_ORDER D
-                      GROUP BY D.PRODUCT_NO) E
-            ON A.PRODUCT_NO = E.PRODUCT_NO
-          </if>
+                  LEFT JOIN (SELECT
+                                G.PRODUCT_NO,
+                                G.SAVE_PATH
+                               FROM T_IMG_PATH G
+                              WHERE IMG_CATEGORY = 'T') H
+                                 ON B.PRODUCT_NO = H.PRODUCT_NO) A
          WHERE A.RNUM BETWEEN #{ startRow } AND #{ endRow }
     </select>
     <!-- 상품 상세 페이지를 위한 한개의 대상품 정보 조회 쿼리 -->
@@ -192,22 +207,68 @@
              ''
             )
     </insert>
+    <!-- 장바구니 목록 조회 -->
+    <select id="selectCartList" parameterType="hashmap" resultMap="productCartMap">
+        SELECT
+            A.CART_NO,
+            B.CATEGORY_CODE,
+            A.PRODUCT_NO,
+            B.PRODUCT_NAME,
+            B.BRAND_NAME,
+            B.ROD_MODEL,
+            B.ROD_REEL_TYPE,
+            B.LINE_MIN,
+            B.LINE_MAX,
+            B.ROD_PRICE,
+            B.REEL_MODEL,
+            B.REEL_TYPE,
+            B.REEL_PRICE,
+            B.LINE_SIZE,
+            B.LINE_PRICE,
+            A.AMOUNT,
+            A.PACKAGE_ID,
+            B.SAVE_PATH
+          FROM T_CART A
+          LEFT JOIN VIEW_PRODUCT B
+            ON A.PRODUCT_NO = B.PRODUCT_NO
+         WHERE A.CART_NO IN
+                <foreach collection="cartNos" item="cartNos" open="(" close=")" separator=",">
+                    #{ cartNos }
+                </foreach>
+    </select>
     <!-- 상품 구매시 구매내역 테이블에 데이터 추가하는 쿼리 -->
-    <insert id="insertOrder" parameterType="com.osaz.danaka.product.model.dto.OrderDTO">
+    <insert id="insertOrder" parameterType="java.util.List">
         INSERT INTO T_ORDER
-        VALUES
             (
-             SEQ_ORDER_NO.NEXTVAL,
-             #{ userNo },
-             #{ productNo },
-             #{ orderId },
-             #{ packageId },
-             #{ address },
-             #{ amount },
-             #{ totPrice },
-             #{ orderRequest },
-             #{ payType },
-             DEFAULT
+             ORDER_NO,
+             USER_NO,
+             PRODUCT_NO,
+             ORDER_ID,
+             PACKAGE_ID,
+             ADDRESS,
+             AMOUNT,
+             TOT_PRICE,
+             ORDER_REQUEST,
+             PAY_TYPE,
+             REG_DATE
             )
+        SELECT
+            SEQ_ORDER_NO.NEXTVAL,
+            A.*
+          FROM (
+        <foreach collection="list" item="order" separator="UNION ALL ">
+            SELECT
+                #{ order.userNo } AS USER_NO,
+                #{ order.productNo } AS PRODUCT_NO,
+                #{ order.orderId, jdbcType = VARCHAR } AS ORDER_ID,
+                #{ order.packageId, jdbcType = INTEGER } AS PACKAGE_ID,
+                #{ order.address } AS ADDRESS,
+                #{ order.amount } AS AMOUNT,
+                #{ order.totPrice } AS TOT_PRICE,
+                #{ order.orderRequest } AS ORDER_REQUEST,
+                #{ order.payType } AS PAY_TYPE,
+                SYSDATE AS REG_DATE
+              FROM DUAL
+        </foreach>) A
     </insert>
 </mapper>

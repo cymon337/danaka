@@ -3,11 +3,13 @@ package com.osaz.danaka.product.model.service;
 import com.osaz.danaka.common.SelectCriteria;
 import com.osaz.danaka.product.model.dao.ProductMapper;
 import com.osaz.danaka.product.model.dto.OrderDTO;
+import com.osaz.danaka.product.model.dto.ProductCartDTO;
 import com.osaz.danaka.product.model.dto.ProductDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -34,7 +36,7 @@ public class ProductService {
         return productMapper.selectListByCategory(selectCriteria);
     }
 
-    // 상품 상세페이지용 상품 조회
+    // 상품 상세페이지/구매페이지용 상품 조회
     public ProductDTO selectOneProduct(String productNo) {
 
         return productMapper.selectOneProduct(productNo);
@@ -50,6 +52,12 @@ public class ProductService {
     public List<ProductDTO> selectRefProducts(String productNo) {
 
         return productMapper.selectRefProducts(productNo);
+    }
+
+    // 상품 구매페이지용 장바구니 목록 조회
+    public List<ProductCartDTO> selectCartList(HashMap<String, Object> map) {
+
+        return productMapper.selectCartList(map);
     }
 
     // 위시리스트 테이블에 추가
@@ -75,9 +83,9 @@ public class ProductService {
     }
 
     // 구매내역 테이블에 추가
-    public boolean insertOrder(OrderDTO order) throws Exception {
+    public boolean insertOrder(List<OrderDTO> orderList) throws Exception {
 
-        int result = productMapper.insertOrder(order);
+        int result = productMapper.insertOrder(orderList);
 
         if (result <= 0) {
             throw new Exception("구매 실패");
