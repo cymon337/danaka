@@ -2,9 +2,11 @@ package com.osaz.danaka.product.model.dao;
 
 import com.osaz.danaka.common.SelectCriteria;
 import com.osaz.danaka.product.model.dto.OrderDTO;
+import com.osaz.danaka.product.model.dto.ProductCartDTO;
 import com.osaz.danaka.product.model.dto.ProductDTO;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,7 +27,9 @@ public interface ProductMapper {
     
     // 상품 상세페이지용 관련상품들 조회
     List<ProductDTO> selectRefProducts(String productNo);
-    
+
+    List<ProductCartDTO> selectCartList(HashMap<String, Object> map);
+
     // 위시리스트 테이블에 추가
     int insertWishProduct(Map<String, String> wishMap);
     

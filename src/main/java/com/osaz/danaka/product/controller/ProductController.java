@@ -3,6 +3,7 @@ package com.osaz.danaka.product.controller;
 import com.osaz.danaka.common.Pagenation;
 import com.osaz.danaka.common.SelectCriteria;
 import com.osaz.danaka.product.model.dto.OrderDTO;
+import com.osaz.danaka.product.model.dto.ProductCartDTO;
 import com.osaz.danaka.product.model.dto.ProductDTO;
 import com.osaz.danaka.product.model.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
@@ -209,7 +210,7 @@ public class ProductController {
     // # update : 2023-01-08(최종수정)
     // # title : 상품 구매페이지
     // # author : 오승재
-    // # description : 상세페이지에서 받아온 데이터로 구매페이지 렌더링
+    // # description : 상세페이지에서 받아온 데이터로 구매페이지 출력용
     @GetMapping("/purchase")
     public ModelAndView purchasePage(HttpServletRequest request, ModelAndView mv) {
 
@@ -218,17 +219,32 @@ public class ProductController {
         String amount = request.getParameter("amount");
         log.info("수량 = {}", amount);
         String orgProductNo = request.getParameter("orgProductNo");
-//        String packageId = request.getParameter("packageId");
 
-        if(productNo != null && !"".equals(productNo)) {
-
-            ProductDTO product = productService.selectOneProduct(productNo);
-            mv.addObject("product", product);
-            mv.addObject("orgProductNo", orgProductNo);
-            mv.addObject("amount", amount);
-        }
+        ProductDTO product = productService.selectOneProduct(productNo);
+        mv.addObject("product", product);
+        mv.addObject("orgProductNo", orgProductNo);
+        mv.addObject("amount", amount);
 
         mv.setViewName("/product/purchase");
+        return mv;
+    }
+
+    // # update : 2023-01-12
+    // # title : 상품 구매페이지
+    // # author : 오승재
+    // # description : 장바구니에서 받아온 데이터로 구매페이지 출력용
+    @PostMapping("/purchase")
+    public ModelAndView purchaseCart(HttpServletRequest request, ModelAndView mv) {
+
+        String[] cartNos = request.getParameterValues("cartNo");
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("cartNos", cartNos);
+        
+        List<ProductCartDTO> cartList = productService.selectCartList(map);
+
+        mv.addObject("cartList", cartList);
+        mv.setViewName("/product/purchase");
+
         return mv;
     }
 
