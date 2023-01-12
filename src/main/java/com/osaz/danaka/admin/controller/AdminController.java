@@ -33,7 +33,7 @@ public class AdminController {
 
 	/*회원 전체보기 / 페이징 처리를 위한 총 갯수 조회와 공지사항 리스트 조회, 출력*/
 	@GetMapping("adminMemberListView")
-	public ModelAndView noticeListView(HttpServletRequest request, ModelAndView mv){
+	public ModelAndView memberListView(HttpServletRequest request, ModelAndView mv){
 
 		/* 목록보기를 눌렀을 시 가장 처음에 보여지는 페이지는 1페이지이다. 파라미터로 전달되는 페이지가 있는 경우 currentPage는 파라미터로 전달받은 페이지 수 이다. */
 		String currentPage = request.getParameter("currentPage");
@@ -51,10 +51,12 @@ public class AdminController {
 		/*검색기준과 검색어를 가져와 Map으로 담아줌*/
 		String searchCondition = request.getParameter("searchCondition");
 		String searchValue = request.getParameter("searchValue");
+		String memberCondition = request.getParameter("memberCondition");
 
 		Map<String, String> searchMap = new HashMap<>();
 		searchMap.put("searchCondition", searchCondition);
 		searchMap.put("searchValue", searchValue);
+		searchMap.put("memberCondition", memberCondition);
 
 		/* 전체 게시물 수가 필요하다.
 		 * 데이터베이스에서 먼저 전체 게시물 수를 조회해올 것이다.
@@ -74,7 +76,7 @@ public class AdminController {
 		SelectCriteria selectCriteria = null;
 
 		if(searchCondition != null && !"".equals(searchCondition)) {
-			selectCriteria = Pagenation.getSelectCriteria(pageNo, totalCount, limit, buttonAmount, searchCondition, searchValue);
+			selectCriteria = Pagenation.getSelectCriteria(pageNo, totalCount, limit, buttonAmount, searchCondition, searchValue, memberCondition);
 		} else {
 			selectCriteria = Pagenation.getSelectCriteria(pageNo, totalCount, limit, buttonAmount);
 		}
@@ -134,7 +136,7 @@ public class AdminController {
 	public ModelAndView updateNotice(AdminDTO modifyMember, ModelAndView mv, RedirectAttributes rttr) {
 		adminService.updateMember(modifyMember);
 
-		mv.setViewName("redirect:/admin/adminMemberModify");
+		mv.setViewName("redirect:/admin/adminMemberListView");
 		rttr.addFlashAttribute("successMessage","회원정보 수정 성공 !" );
 
 		return mv;

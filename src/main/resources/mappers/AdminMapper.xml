@@ -26,18 +26,32 @@
         SELECT
                COUNT(*)
           FROM T_MEMBER A
-          WHERE A.STATUS = 'Y'
-        <choose>
-            <when test="searchCondition == 'userId'">
-                A.USER_ID LIKE '%' || #{ searchValue } || '%'
-            </when>
-            <when test="searchCondition == 'userNickName'">
-                A.USER_NICKNAME LIKE '%' || #{ searchValue } || '%'
-            </when>
-            <when test="searchCondition == 'userName'">
-                A.USER_NAME LIKE '%' || #{ searchValue } || '%'
-            </when>
-        </choose>
+          <where>
+              <if test="memberCondition != 'deleteMember'">
+                  A.STATUS = 'Y'
+              </if>
+              <if test="memberCondition == 'deleteMember'">
+                  A.STATUS = 'N'
+              </if>
+          </where>
+          <choose>
+              <when test="searchCondition == 'total'">
+                  AND (A.USER_ID LIKE '%' || #{ searchValue } || '%'
+                  OR A.USER_NICKNAME LIKE '%' || #{ searchValue } || '%'
+                  OR A.USER_NAME LIKE '%' || #{ searchValue } || '%'
+                  )
+              </when>
+              <when test="searchCondition == 'userId'">
+                  AND A.USER_ID LIKE '%' || #{ searchValue } || '%'
+              </when>
+              <when test="searchCondition == 'userNickName'">
+                  AND A.USER_NICKNAME LIKE '%' || #{ searchValue } || '%'
+              </when>
+              <when test="searchCondition == 'userName'">
+                  AND A.USER_NAME LIKE '%' || #{ searchValue } || '%'
+              </when>
+          </choose>
+
     </select>
 
     <!--공지사항 전체조회 / <where> 해당되지 않을 경우 무시되서 기본 리스트 출력(C, D), 출력될 내용들을 ROWNUM으로 카운팅 해주고(B) 번호를 이용하여 출력할 범위를 지정(A)-->
@@ -49,6 +63,7 @@
             , A.USER_NICKNAME
             , A.USER_NAME
             , A.PHONE
+            , A.STATUS
         FROM (
                 SELECT
                       ROWNUM RNUM
@@ -57,6 +72,7 @@
                     , B.USER_NICKNAME
                     , B.USER_NAME
                     , B.PHONE
+                    , B.STATUS
                     FROM (
                             SELECT
                                   C.USER_NO
@@ -64,17 +80,31 @@
                                 , C.USER_NICKNAME
                                 , C.USER_NAME
                                 , C.PHONE
+                                , C.STATUS
                                 FROM T_MEMBER C
-                                WHERE C.STATUS = 'Y'
+                                <where>
+                                    <if test="memberCondition != 'deleteMember'">
+                                        C.STATUS = 'Y'
+                                    </if>
+                                    <if test="memberCondition == 'deleteMember'">
+                                        C.STATUS = 'N'
+                                    </if>
+                                </where>
                                 <choose>
+                                    <when test="searchCondition == 'total'">
+                                        AND (C.USER_ID LIKE '%' || #{ searchValue } || '%'
+                                        OR C.USER_NICKNAME LIKE '%' || #{ searchValue } || '%'
+                                        OR C.USER_NAME LIKE '%' || #{ searchValue } || '%'
+                                        )
+                                    </when>
                                     <when test="searchCondition == 'userId'">
-                                        C.USER_ID LIKE '%' || #{ searchValue } || '%'
+                                        AND C.USER_ID LIKE '%' || #{ searchValue } || '%'
                                     </when>
                                     <when test="searchCondition == 'userNickName'">
-                                        C.USER_NICKNAME LIKE '%' || #{ searchValue } || '%'
+                                        AND C.USER_NICKNAME LIKE '%' || #{ searchValue } || '%'
                                     </when>
                                     <when test="searchCondition == 'userName'">
-                                        C.USER_NAME LIKE '%' || #{ searchValue } || '%'
+                                        AND C.USER_NAME LIKE '%' || #{ searchValue } || '%'
                                     </when>
                                 </choose>
                                 ORDER BY C.USER_NO DESC
@@ -107,11 +137,13 @@
     <update id="updateMember">
         UPDATE T_MEMBER A
         SET
-            A.USER_NICKNAME = #{ noticeName }
-          , A.USER_PWD = #{ noticeContent }
-          , A.NOTICE_DATE = SYSDATE
+            A.USER_NICKNAME = #{ userNickname }
+          , A.USER_PWD = #{ userPwd }
+          , A.ADDRESS = #{ address }
+          , A.EMAIL = #{ email }
+          , A.PHONE = #{ phone }
         WHERE
-            A.NOTICE_NO = #{ noticeNo }
+            A.USER_NO = #{ userNo }
     </update>
 
 </mapper>

@@ -36,7 +36,6 @@
             , A.NOTICE_NO
             , A.USER_NAME
             , A.NOTICE_NAME
-            , A.NOTICE_CONTENT
             , A.NOTICE_DATE
             , A.NOTICE_COUNT
         FROM (
@@ -45,7 +44,6 @@
                     , B.NOTICE_NO
                     , B.USER_NAME
                     , B.NOTICE_NAME
-                    , B.NOTICE_CONTENT
                     , B.NOTICE_DATE
                     , B.NOTICE_COUNT
                     FROM (
@@ -53,12 +51,16 @@
                                   C.NOTICE_NO
                                 , D.USER_NAME
                                 , C.NOTICE_NAME
-                                , C.NOTICE_CONTENT
                                 , C.NOTICE_DATE
                                 , C.NOTICE_COUNT
                                 FROM T_NOTICE C, T_MEMBER D
                                 WHERE C.USER_NO = D.USER_NO
                                 <choose>
+                                    <when test="searchCondition == 'total'">
+                                        AND (C.NOTICE_NAME LIKE '%' || #{ searchValue } || '%'
+                                        OR C.NOTICE_CONTENT LIKE '%' || #{ searchValue } || '%'
+                                        )
+                                    </when>
                                     <when test="searchCondition == 'title'">
                                         AND C.NOTICE_NAME LIKE '%' || #{ searchValue } || '%'
                                     </when>

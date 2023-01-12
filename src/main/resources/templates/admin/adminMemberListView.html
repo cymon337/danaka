@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- 타임리프용 헤더 스타일 시트 적용-->
-    <link rel="stylesheet" th:href="@{/css/indexCss.css}" />
+    <link rel="stylesheet" th:href="@{/css/indexCss.css}"/>
 
     <!-- 부트스트랩 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
@@ -24,19 +24,10 @@
     <style>
         #contentArea {width:60%}
         #contentArea *{margin:5px}
-
-        /*TOP 버튼*/
-        #backtotop{
-            margin-top: -50px;
-            margin-left: 90%;
-            position: fixed;
-            z-index: 100;
-        }
-        #backtotop button{
-            background-color: rgb(0, 0, 202);
-            color: white;
-        }
+        body {min-width: 1200px;}
     </style>
+
+    <link rel="stylesheet" th:href="@{/css/plusCss.css}" />
 
     <script>
         const successMessage = "[[${ successMessage }]]";
@@ -68,8 +59,9 @@
                     <th>회원번호</th>
                     <th>회원아이디</th>
                     <th>닉네임</th>
-                    <th width="300px">사용자명</th>
+                    <th>사용자명</th>
                     <th>휴대전화</th>
+                    <th>회원상태</th>
                     <th></th>
                 </tr>
                 </thead>
@@ -80,10 +72,17 @@
                         <td th:text="${member.userNickname}"></td>
                         <td th:text="${member.userName}"></td>
                         <td th:text="${member.phone}"></td>
+                        <td th:text="${member.status}"></td>
                         <td><a th:href="@{/admin/adminMemberDetail(userNo=${ member.userNo })}" class="btn btn-primary">상세보기</a></td>
                     </tr>
                 </tbody>
             </table>
+<!--            <div align="center">-->
+<!--                <form method="get">-->
+<!--                    <input type="hidden" name="currentPage" value="1">-->
+<!--                    <button type="submit" th:action="@{/admin/adminMemberListView}" name="memberCondition" value="deleteMember" class="btn btn-primary">탈퇴회원</button>-->
+<!--                </form>-->
+<!--            </div>-->
             <br>
         </div>
     </div>
@@ -96,24 +95,73 @@
 
 <!-- 검색 폼 -->
 <div class="search-area" align="center">
-    <form id="loginForm" th:action="@{/admin/adminMemberListView}" method="get" style="display:inline-block">
+    <form id="searchForm" th:action="@{/admin/adminMemberListView}" method="get" style="display:inline-block">
         <input type="hidden" name="currentPage" value="1">
+
         <select id="searchCondition" name="searchCondition"> <!-- 선택 유지? selected -->
+            <option value="total">전체</option>
             <option value="userId">아이디</option>
             <option value="userNickName">닉네임</option>
             <option value="userName">이름</option>
         </select>
+
         <input type="search" id="searchValue" name="searchValue"/>
-        <button type="submit">검색하기</button>
+
+        <button th:if="${param.memberCondition == param.deleteMember}" type="submit" class="btn btn-primary">검색</button>
+        <button th:if="${param.memberCondition != param.deleteMember}" type="submit" name="memberCondition" value="deleteMember" class="btn btn-primary">검색</button>
+
+        <button th:if="${param.memberCondition == param.deleteMember}" type="submit" name="memberCondition" value="deleteMember" class="btn btn-danger" onclick="searchFormDelete()">탈퇴회원</button>
+        <a th:if="${param.memberCondition != param.deleteMember}" th:href="@{'adminMemberListView'}" type="button" class="btn btn-outline-primary">정상회원</a>
     </form>
 </div>
 
 <!--TOP버튼-->
-<div class="row align-items-end" id="backtotop">
+<div class="row align-items-end" id="goTop">
     <button type="button" class="btn btn-info btn-lg" onclick="window.scrollTo(0,0);">
         ▲TOP
     </button>
 </div>
 
+<script th:inline="javascript">
+    /*<![CDATA[*/
+
+    // searchCondition태그 값, 쿼리스트링 searchCondition값 전역변수 지정
+    let search = document.getElementById('searchCondition');
+    let data = [[ ${param.searchCondition} ]]
+
+    // 탈퇴회원 클릭 시 onclick이벤트로 searchCondition값 전체로 변경
+    function searchFormDelete() {
+        search.value = "total";
+    }
+
+    // 쿼리스트링에 따라 빈 값(첫 화면)일 경우 전체로 설정, 수동 변경 시 화면 이동할때도 값 유지
+    window.onload=function() {
+        // console.log(search.value);
+
+        if(data == null){
+            search.value = "total";
+        }else{
+            search.value = data;
+        }
+
+        /*로케이션으로 URL 읽어서 쿼리스트링 파라미터 가져오고 foreach문으로 value값 바꿔주는 쿼리 (미적용, 보류)*/
+        // if ( !location.search ) {
+        //     return false;
+        // }
+
+        // const form = document.getElementById('searchCondition');
+
+        // new URLSearchParams(location.search).forEach((value, key) => {
+            // if (form[key]) {
+            //     console.log(key)
+            //     console.log(value)
+            //     form[key].value = value;
+            // }
+            //console.log("key : " + key + " / value : " + value)
+            // document.getElementById(key).value = value;
+        // })
+    }
+    /*]]*/
+</script>
 </body>
 </html>
