@@ -43,7 +43,7 @@ public class PackageController {
         log.info("lineMax={}", Arrays.toString(lineMax));
 
         mv.setViewName("/common/fragment/package-fragment :: rodOption");
-
+                        //반환할 페이지 주소 :: fragment id 타임리프는 th:fragment="id값"
         return mv;
     }
 //    3 상품 목록
