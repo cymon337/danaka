@@ -70,42 +70,8 @@
                         console.log(data);
                     }
                 })
-                    // .done(function (data) {
-                    // console.log(data);
-                // });
-
                 this.reCalc();
             },
-            /*
-            updateDB: function () {
-                // cart current data
-                let cartList = [];
-
-                document.querySelectorAll("li").forEach(function (item) {
-                    var cart = {};
-                    cart.cartNo = $(item).val().toString();
-                    cart.amount = $(item).find(".pNum").val();
-                    cartList.push({...cart});
-                });
-                console.log(cartList);
-
-                // ajax 장바구니 상태변경 업데이트 메소드
-                $.ajax({
-                    type:'post',   //post 방식으로 전송
-                    url:'update-db',   //데이터를 주고받을 파일 주소
-                    traditional: true, //Array 형식의 데이터를 전송할 때는 traditional: true 옵션을 적용
-                    data: {data : JSON.stringify(cartList)},   //위의 변수에 담긴 데이터를 전송해준다.
-                    success: function(){
-                        alert("updated");
-                    },
-                    error: function(){
-                        alert("update error!");
-                    }
-                });
-            }*/
-
-
-
         }
 
         // 숫자 포매터 3자리 , 찍기
@@ -160,14 +126,31 @@
                 <!--         선택삭제 메서드 스크립트     -->
                 <script type="text/javascript">
                     $("#btn-remove-cart").on("click", function () {
+                        var cartNoList = [];
+                        document.querySelectorAll("li.active").forEach(function (e){
+                            cartNoList.push($(e).val());
+                            console.log($(e).val());
+                        });
+                        console.log(cartNoList);
+
+                        $.ajax({
+                            type:'post',   //post 방식으로 전송
+                            url:'delete-db',   //데이터를 주고받을 파일 주소
+                            traditional: true, //Array 형식의 데이터를 전송할 때는 traditional: true 옵션을 적용
+                            data: { "cartNoList": cartNoList},  //위의 변수에 담긴 데이터를 전송해준다.
+                            success: function (data) {
+                                console.log(data);
+                            },
+                            error: function () {
+                                console.log("delete error")
+                            }
+
+                        });
                         alert("선택한 상품을 장바구니에서 삭제합니다.")
 
-                        document.querySelectorAll("li.active").forEach(function (activeItem){
-                            activeItem.remove();
+                        document.querySelectorAll("li.active").forEach(function (e){
+                            e.remove();
                         });
-
-                        // todo: 삭제내역 서버 업데이트
-
                     });
                 </script>
 

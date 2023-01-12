@@ -5,6 +5,7 @@ import com.osaz.danaka.common.model.dto.CartProductDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Mapper
@@ -21,7 +22,7 @@ public interface CartMapper {
     int updateCart(String cartNo, String amount);
 
     //4. deleteCart 장바구니페이지에서 선택된 장바구니 번호 별 삭제 delete method
-    int deleteCart(String cartNo);
+    int deleteCart(HashMap<String, Object> paramMap);
 
 
 }
