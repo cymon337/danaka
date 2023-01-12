@@ -56,14 +56,14 @@ public class CartController {
 
 
     @PostMapping("update-db")
-    public ModelAndView updateCart(ModelAndView mv, String cartNo, String amount) throws Exception{
+    public void updateCart(ModelAndView mv, String cartNo, String amount) throws Exception{
         log.info("updateDB={}", "start");
         log.info("cartNo={}", cartNo);
         log.info("amount={}", amount);
-        mv.setViewName("common/cart");
-        mv.addObject("success");
 
-        return mv;
+
+
+
 
     }
 
