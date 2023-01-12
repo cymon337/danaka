@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -50,20 +51,26 @@ public class CartController {
     public ModelAndView registCart(ModelAndView mv, List<CartDTO> cartList) throws Exception{
         cartService.registCart(cartList);
 
+        mv.addObject("sucess");
+        mv.setViewName("common/fragment/success");
 
         return mv;
     }
 
 
+    @ResponseBody
     @PostMapping("update-db")
-    public void updateCart(ModelAndView mv, String cartNo, String amount) throws Exception{
+    public ModelAndView updateCart(ModelAndView mv, String cartNo, String amount) throws Exception{
         log.info("updateDB={}", "start");
         log.info("cartNo={}", cartNo);
         log.info("amount={}", amount);
 
+        Boolean result = cartService.updateCart(cartNo, amount);
 
+        mv.addObject(result);
+        mv.setViewName("common/fragment/success");
 
-
+        return mv;
 
     }
 
