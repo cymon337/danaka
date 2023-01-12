@@ -14,12 +14,23 @@
 <body>
 <script th:inline="javascript">
 
+ $(document).ready(function () {
+
+   $(".cencle").on("click",function (){
+
+     location.herf = "/";
+   })
+
+   $("#submit").on("click", function (){
+     if($("#password").val()==""){
+            alert("비밀번호를 입력해 주세요");
+           $("#password").focus()
+            return false;
+   }
+   });
+ })
 
 
-  var message = [[${message}]];
-  alert(message);
-
-  location.replace([[${searchUrl}]]);
 
 
 
@@ -39,31 +50,36 @@
 
           <h3 class="text-center mb-4">탈퇴 하기</h3>
           <b><hr></b>
-          <form th:action="@{/deletAction}" class="login-form" method="post">
+          <form th:action="@{/deleteAction}" class="login-form" method="post">
             <input type="hidden" th:value= "${#authentication.name}">
 <!--            <input type="hidden" th:value="${}">-->
 
             <div class="form-group">
-              <input type="text" class="form-control rounded-left" name="username" placeholder="아이디" required>
+              <input type="text" th:name="userId" class="form-control rounded-left" id="userId" placeholder="아이디" name="userId" th:value="${member.userId}"  required readonly>
             </div>
             <div class="form-group d-flex">
-              <input type="password" class="form-control rounded-left" placeholder="비밀번호" required>
+              <input type="password" name="password" id="password" class="form-control rounded-left" placeholder="비밀번호" required>
             </div>
-            <div class="form-group">
-              <input type="text" class="form-control rounded-left" placeholder="이름" name="userName" required>
-            </div>
+
 
             <div class="form-group d-md-flex">
               <div class="form-group">
                          <button type="button" th:href="@{/member/mypage}" class="btn btn-primary rounded submit p-3 px-5 ml-3 my-4">취소</button>
                        </div>
               <div class="form-group">
-                <button type="submit" class="btn btn-primary rounded submit p-3 px-5 ml-4 my-4" >탈퇴</button>
+                <button type="submit" id="submit" class="btn btn-primary rounded submit p-3 px-5 ml-4 my-4" >탈퇴</button>
               </div>
 
 
             </div>
           </form>
+
+            </span>
+                       <span th:if="${msg != null}">
+                     <label>비밀번호를 다시 확이해 주세요</label>
+                        </span>
+
+
         </div>
       </div>
     </div>

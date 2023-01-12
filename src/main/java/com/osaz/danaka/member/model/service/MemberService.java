@@ -27,7 +27,6 @@ public class MemberService implements UserDetailsService {
     MemberMapper memberMapper;
 
 
-    @Transactional
     public void saveUserData(MemberDTO memberDTO) {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM HH:mm:sss");
         Date time = new Date();
@@ -65,19 +64,19 @@ public class MemberService implements UserDetailsService {
         return memberMapper.findPassword(user);
     }
 
-    public MemberDTO deleteMember(MemberDTO memberDTO){
+    public MemberDTO deleteMember(MemberDTO memberDTO) {
         memberMapper.deleteMember(memberDTO);
         return memberDTO;
     }
 
-    public MemberDTO updateUser(MemberDTO memberDTO){
+    public MemberDTO updateUser(MemberDTO memberDTO) {
         memberMapper.userUpdate(memberDTO);
         return memberDTO;
     }
 
-    public MemberDTO selectUser(String email){
-       MemberDTO memberDTO = memberMapper.selectUser(email);
-       return memberDTO;
+    public MemberDTO selectUser(String email) {
+        MemberDTO memberDTO = memberMapper.selectUser(email);
+        return memberDTO;
     }
 
 //    public MemberDTO findPw(MemberDTO memberDTO) throws Exception{
@@ -88,17 +87,13 @@ public class MemberService implements UserDetailsService {
 //    }
 
 
-
-//
+    //
     @Transactional
-    public void updatePassword(MemberDTO memberDTO, String newPassword){
+    public void updatePassword(MemberDTO memberDTO, String newPassword) {
         memberDTO.updatePassword(passwordEncoder.encode(newPassword));
         memberMapper.updatePassword(memberDTO);
 
     }
-
-
-
 
 
 }

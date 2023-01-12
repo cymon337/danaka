@@ -87,6 +87,7 @@
         UPDATE T_MEMBER
         SET STATUS = 'N'
         WHERE USER_ID = #{userId}
+        AND USER_PWD = #{userPwd}
 
 
     </update>

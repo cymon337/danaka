@@ -6,11 +6,17 @@ import com.osaz.danaka.member.model.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpHeaders;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
@@ -37,6 +43,9 @@ public class MemberController {
     @Autowired
     private final MemberService memberService;
     private MemberMapper memberMapper;
+
+
+
     @Autowired
     JavaMailSender mailSender;
     MemberDTO memberDTO;
@@ -149,23 +158,46 @@ public class MemberController {
     }
 
     @GetMapping("/member/unregister")
-    public String deleteMember(){
+    public String deleteMember(@AuthenticationPrincipal MemberDTO memberDTO, Model model, RedirectAttributes rttr){
+
+        rttr.addAttribute("msg", false);
+        model.addAttribute("member", memberDTO);
 
         return "member/unregister";
     }
 
-//    @PostMapping("/deletAction")
-//    public String memberDelete(MemberDTO memberDTO ,HttpSession session , RedirectAttributes rttr) throws Exception{
-//
-//        MemberDTO member = (MemberDTO)session.getAttribute("member");
-//
+//    @PostMapping("/deleteAction")
+//    public String memberDelete(@AuthenticationPrincipal MemberDTO memberDTO, @RequestParam(value = "password") String password, HttpSession session, RedirectAttributes rttr, Model model
+//    ) throws Exception {
 //
 //
-////        String password = memberDTO.getPassword();
-////
-////        if(!())
-////
-////    }
+//
+//
+//        model.addAttribute("member", memberDTO);
+//        log.info( "딜리트액션 ={} ",(memberDTO));
+//        log.info( "딜리트액션 친비번 ={} ",password);
+//
+//        String sessionPassword = memberDTO.getPassword();
+//
+//
+//
+//        log.info( "딜리트액션 친비번 ={} ",password);
+//        String str;
+//
+//        if (!(passwordEncoder.matches(password, sessionPassword))) {
+//           rttr.addAttribute("msg", false);
+//            str = "redirect:member/unregister";
+//
+//        } else {
+//            memberService.deleteMember(memberDTO);
+//            session.invalidate();
+//            str = "redirect:member/login";
+//        }
+//
+//
+//        return str;
+//
+//    }
 
     @GetMapping("/member/passwordUpdate")
     public String passUpdateForm( Model model,String email) {
@@ -178,21 +210,7 @@ public class MemberController {
         return "member/passwordUpdate";
     }
 
-//    @PostMapping("/NewPassword")
-//    public String updatePassword(@AuthenticationPrincipal MemberDTO memberDTO, @Valid PasswordForm passwordForm,
-//                                 Errors errors, Model model, RedirectAttributes attributes) {
-//
-//        if (errors.hasErrors()) {
-//            model.addAttribute(memberDTO);
-//            return "member/passwordUpdate";
-//        }
-//        memberService.updatePassword(memberDTO, passwordForm.getNewPassword());
-//        attributes.addFlashAttribute("message", "패스워드를 변경했습니다.");
-//        /*패스워드 변경후 로그아웃 시키는거 추가할 수 있으면 하자*/
-//        return "redirect:NewPassword";
-//
-//    }
-//MemberDTO memberDTO,
+
     @PostMapping("/NewPassword")
     public String updatePassword( @Valid PasswordForm passwordForm, HttpSession session,
                                  Errors errors, Model model, RedirectAttributes attributes, String userId) {
@@ -279,8 +297,5 @@ public class MemberController {
         }
     }
 
-//    @PostMapping("pwNew")
-//    public String pwNew(MemberDTO memberDTO , HttpSession session) throws IOException{
-//        int result = memberService.newPassEmail(memberDTO);
-//    }
+
 }

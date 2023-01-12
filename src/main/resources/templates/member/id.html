@@ -28,7 +28,7 @@
           <!--                    </div>-->
           <h3 class="text-center mb-4">아이디 찾기</h3>
           <b><hr></b>
-          <form action="/findId" class="login-form" name="findform" method="post">
+          <form th:action="@{/findId}" class="login-form" name="findform" method="post">
             <div class="form-group">
               <input type="text" class="form-control rounded-left" placeholder="이름" name="userName" required>
             </div>
