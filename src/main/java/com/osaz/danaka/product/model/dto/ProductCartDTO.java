@@ -9,9 +9,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ProductCartDTO {
 
+    private int cartNo;
     private int productNo;   //상품번호
-    private String productName;
+    private String categoryCode;
     private String brandName;
+    private String productName;
     private RodDTO rod;
     private ReelDTO reel;
     private LineDTO line;

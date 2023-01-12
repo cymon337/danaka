@@ -67,12 +67,12 @@
     <p>구매목록</p>
 </div>
 <div class="listContainer">
-    <div class="buyingProduct">
-        <th:block th:if="${ product != null }" th:switch="${ product.categoryCode }">
+    <div class="buyingProduct"th:if="${ product != null }">
+        <th:block th:switch="${ product.categoryCode }">
             <input type="text" hidden="true" th:name="productNo" th:value="${ product.productNo }">
             <input type="text" hidden="true" th:name="orgProductNo" th:value="${ orgProductNo }">
             <div class="thumnail">
-                <img th:src="${ product?.savePath }?: '/image/line/lineDefault.png'" alt="상품섬네일">
+                <img th:src="${ product.savePath }?: '/image/line/lineDefault.png'" alt="상품섬네일">
             </div>
             <div class="product">
                 <div class="productName">
@@ -88,47 +88,54 @@
                 <div class="quantity">
                     <span>총 수량 : </span>
                     <button type="button" class="amountButtons" value="-"><div><img th:src="@{ /image/minus.png }"></div></button>
-                    <input type="text" name="amount" id="amount" th:value="${ amount }" readonly>
+                    <input type="text" name="amount" class="amount" th:value="${ amount }" readonly>
                     <button type="button" class="amountButtons" value="+"><div><img th:src="@{ /image/plus.png }"></div></button>
                     &nbsp;<button type="button" class="amountButtons" value="x"><div><img th:src="@{ /image/x.png }"></div></button>
                 </div>
                 <div class="price">
                     <span>총 가격 : </span>
-                    <span>₩ <span th:class="totalPrice">510,500</span></span>
-                </div>
-            </div>
-        </th:block>
-        <th:block th:unless="${ product != null }" th:each="cartItem : ${ cartList }">
-            <input type="text" hidden="true" th:name="productNo" th:value="${ cartItem.productNo }">
-            <div class="thumnail">
-                <img th:src="${ cartItem?.savePath }?: '/image/line/lineDefault.png'" alt="상품섬네일">
-            </div>
-            <div class="product">
-                <div class="productName">
-                    <span th:text="${ cartItem.productName }">상품명 </span>
-                </div>
-                <div class="productDetail">
-                    <span th:case="RD" th:text="|브랜드 :  ${ cartItem.brandName }, ${ cartItem.rod }|">상품 상세</span>
-                    <span th:case="RL" th:text="|브랜드 :  ${ cartItem.brandName }, ${ cartItem.reel }|">상품 상세</span>
-                    <span th:case="LN" th:text="|브랜드 :  ${ cartItem.brandName }, ${ cartItem.line }|">상품 상세</span>
-                </div>
-            </div>
-            <div class="options">
-                <div class="quantity">
-                    <span>총 수량 : </span>
-                    <button type="button" class="amountButtons" value="-"><div><img th:src="@{ /image/minus.png }"></div></button>
-                    <input type="text" name="amount" id="amount" th:value="${ amount }" readonly>
-                    <button type="button" class="amountButtons" value="+"><div><img th:src="@{ /image/plus.png }"></div></button>
-                    &nbsp;<button type="button" class="amountButtons" value="x"><div><img th:src="@{ /image/x.png }"></div></button>
-                </div>
-                <div class="price">
-                    <span>총 가격 : </span>
-                    <span>₩ <span th:class="totalPrice">510,500</span></span>
+                    <span th:switch="${ product.categoryCode }">
+                    ₩ <span th:case="RD" th:class="totalPrice" th:text="${ product.rod.price }">510,500</span>
+                    <span th:case="RL" th:class="totalPrice" th:text="${ product.reel.price }">510,500</span>
+                    <span th:case="LN" th:class="totalPrice" th:text="${ product.line.price }">510,500</span>
+                    </span>
                 </div>
             </div>
         </th:block>
     </div>
-    <hr>
+    <div class="buyingProduct" th:if="${ cartList != null }" th:each="cartItem : ${ cartList }">
+        <input type="text" hidden="true" th:name="productNo" th:value="${ cartItem.productNo }">
+        <div class="thumnail">
+            <img th:src="${ cartItem?.savePath }?: '/image/line/lineDefault.png'" alt="상품섬네일">
+        </div>
+        <div class="product">
+            <div class="productName">
+                <span th:text="${ cartItem.productName }">상품명 </span>
+            </div>
+            <div class="productDetail" th:switch="${ cartItem.categoryCode }">
+                <span th:case="RD" th:text="|브랜드 : ${ cartItem.brandName }, ${ cartItem.rod }|">상품 상세</span>
+                <span th:case="RL" th:text="|브랜드 : ${ cartItem.brandName }, ${ cartItem.reel }|">상품 상세</span>
+                <span th:case="LN" th:text="|브랜드 : ${ cartItem.brandName }, ${ cartItem.line }|">상품 상세</span>
+            </div>
+        </div>
+        <div class="options">
+            <div class="quantity">
+                <span>총 수량 : </span>
+                <button type="button" class="amountButtons" value="-"><div><img th:src="@{ /image/minus.png }"></div></button>
+                <input type="text" name="amount" class="amount" th:value="${ cartItem.amount }" readonly>
+                <button type="button" class="amountButtons" value="+"><div><img th:src="@{ /image/plus.png }"></div></button>
+                &nbsp;<button type="button" class="amountButtons" value="x"><div><img th:src="@{ /image/x.png }"></div></button>
+            </div>
+            <div class="price">
+                <span>총 가격 : </span>
+                <span th:switch="${ cartItem.categoryCode }">
+                    ₩ <span th:case="RD" th:class="totalPrice" th:text="${ cartItem.rod.price }">510,500</span>
+                    <span th:case="RL" th:class="totalPrice" th:text="${ cartItem.reel.price }">510,500</span>
+                    <span th:case="LN" th:class="totalPrice" th:text="${ cartItem.line.price }">510,500</span>
+                </span>
+            </div>
+        </div>
+    </div>
 </div>
 <hr>
 <div class="description">
@@ -227,18 +234,42 @@
 </form>
 <script th:inline="javascript">
     /* 화면 로딩 시 넘겨온 수량에 따른 가격 출력 */
-    let categoryCode = [[${ product.categoryCode }]];
-    let $price = 0;
-    switch (categoryCode) {
-        case "RD": $price = [[${ product.rod?.price }]]; break;
-        case "RL": $price = [[${ product.reel?.price }]]; break;
-        case "LN": $price = [[${ product.line?.price }]]; break;
-    }
-    $price = $price * $("#amount").val();
-    $(".totalPrice").text($price.toLocaleString());
-    $("#totalPayPrice").text($price.toLocaleString());
-    $("#totalPlusFee").text(($price + 3000).toLocaleString());
-    $("#hiddenTotP").val($("#totalPlusFee").text().replace(",", ""));
+
+        // let categoryCode = [[${ product?.categoryCode }]];
+        // switch (categoryCode) {
+        //     case "RD": $price = [[${ product?.rod?.price }]]; break;
+        //     case "RL": $price = [[${ product?.reel?.price }]]; break;
+        //     case "LN": $price = [[${ product?.line?.price }]]; break;
+        // }
+    let $totalPayPrice = 0;
+    $(".totalPrice").each(function (item) {
+        let $totalPrice =  $(this);
+        let $amount = $(this).parentsUntil(".options").siblings().children(".amount");
+
+
+        $totalPayPrice += $totalPrice.text() * $amount.val();
+        $totalPrice.text($totalPayPrice.toLocaleString());
+
+        $("#totalPayPrice").text($totalPayPrice.toLocaleString());
+        $("#totalPlusFee").text(($totalPayPrice + 3000).toLocaleString());
+    })
+
+
+
+
+
+
+
+
+
+
+
+
+        // $price = $price * $(".amount").val();
+        // $(".totalPrice").text($price.toLocaleString());
+        // $("#totalPayPrice").text($price.toLocaleString());
+        // $("#totalPlusFee").text(($price + 3000).toLocaleString());
+        // $("#hiddenTotP").val($("#totalPlusFee").text().replace(",", ""));
 
     /* 화면 로딩시 회원 주소 출력 */
     let fulladdr = $("#addressParam").val().split(",");
@@ -248,19 +279,37 @@
 
     /* 수량 변경 버튼 함수 */
     $(".amountButtons").on("click", function () {
+        let $amountInput = $(this).siblings(":input:text");
+        let $priceSpan =  $(this).parentsUntil(".options").siblings().children().children();
+        let $price = $priceSpan.text().replace(",", "");
 
-        $price = $price / $("#amount").val();
+        console.log($(this).parentsUntil(".options").siblings().children().children());
+        $price = $price / $amountInput.val();
+        // $price = $price / $(".amount").val();
+
         switch ($(this).val()) {
-            case "-": if($("#amount").val() > 1) $("#amount").val(new Number($("#amount").val()) - 1); break;
-            case "+": $("#amount").val(new Number($("#amount").val()) + 1); break;
-            case "x": $(this).parent().parent().parent().remove();
-                      $("#totalPayPrice").text(0); $("#totalPlusFee").text(0); return;
+            case "-":
+                if($amountInput.val() > 1) {
+                    $amountInput.val(new Number($amountInput.val()) - 1);
+                }
+                $("#totalPayPrice").text($price.toLocaleString());
+                $("#totalPlusFee").text(($price + 3000).toLocaleString());
+                $("#hiddenTotP").val($price + 3000);
+                break;
+            case "+":
+                $amountInput.val(new Number($amountInput.val()) + 1);
+                $("#totalPayPrice").text($price.toLocaleString());
+                $("#totalPlusFee").text(($price + 3000).toLocaleString());
+                $("#hiddenTotP").val($price + 3000);
+                break;
+            case "x": $(this).parentsUntil(".listContainer").remove();
+                     /* $("#totalPayPrice").text(0); $("#totalPlusFee").text(0); */ return;
         }
-        $price = $price * $("#amount").val();
-        $(".totalPrice").text($price.toLocaleString());
-        $("#totalPayPrice").text($price.toLocaleString());
-        $("#totalPlusFee").text(($price + 3000).toLocaleString());
-        $("#hiddenTotP").val($("#totalPlusFee").text().replace(",", ""));
+        console.log("원래 가격 : " + $price);
+        $price = $price * $amountInput.val();
+        console.log("곱한 가격 : " + $price);
+        $priceSpan.text($price.toLocaleString());
+
     });
 
     /* 주소 api */
@@ -292,9 +341,6 @@
         $(".infoSwitch").hide();
         $("#" + $(this).val()).show();
     })
-
-
-
 </script>
 </body>
 </html>

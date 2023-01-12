@@ -2,12 +2,14 @@ package com.osaz.danaka.product.controller;
 
 import com.osaz.danaka.common.Pagenation;
 import com.osaz.danaka.common.SelectCriteria;
+import com.osaz.danaka.member.model.dto.MemberDTO;
 import com.osaz.danaka.product.model.dto.OrderDTO;
 import com.osaz.danaka.product.model.dto.ProductCartDTO;
 import com.osaz.danaka.product.model.dto.ProductDTO;
 import com.osaz.danaka.product.model.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,7 +18,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -150,27 +151,31 @@ public class ProductController {
     // # author : 오승재
     // # description : 해당하는 상품 위시리스트에 넣기
     @GetMapping("/wish")
-    public ModelAndView insertWishProduct (Principal principal, HttpServletRequest request, ModelAndView mv, RedirectAttributes rttr) throws Exception {
+    public ModelAndView insertWishProduct (@AuthenticationPrincipal MemberDTO member, HttpServletRequest request, ModelAndView mv, RedirectAttributes rttr) {
 
         HashMap<String, String> wishMap = new HashMap<>();
         String productNo = request.getParameter("productNo");
         String orgProductNo = request.getParameter("orgProductNo");
-        String userNo = request.getParameter("userNo");
+        String userNo = member.getUserNo();
 
         wishMap.put("userNo", userNo);
         wishMap.put("productNo", productNo);
 
         // 성공했을 시, 실패했을 시 각각 추가하기
-        boolean result = productService.insertWishProduct(wishMap);
+        boolean result;
+        try {
+            result = productService.insertWishProduct(wishMap);
+
+            if(result) {
+                rttr.addFlashAttribute("successMessage", "찜하기 성공!");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            rttr.addFlashAttribute("failMessage", "찜하기 실패..");
+        }
 
         mv.addObject("productNo", orgProductNo);
         mv.setViewName("redirect:/product/item2");
-
-        if(result) {
-            rttr.addFlashAttribute("successMessage", "찜하기 성공!");
-        } else {
-            rttr.addFlashAttribute("failMessage", "찜하기 실패..");
-        }
 
         return mv;
     }
@@ -180,29 +185,36 @@ public class ProductController {
     // # author : 오승재
     // # description : 해당하는 상품 장바구니에 넣기
     @GetMapping("/cart")
-    public ModelAndView insertCartProduct (Principal principal, HttpServletRequest request, ModelAndView mv, RedirectAttributes rttr) throws Exception {
+    public ModelAndView insertCartProduct (@AuthenticationPrincipal MemberDTO member, HttpServletRequest request, ModelAndView mv, RedirectAttributes rttr) {
 
         HashMap<String, String> cartMap = new HashMap<>();
         String productNo = request.getParameter("productNo");
         String orgProductNo = request.getParameter("orgProductNo");
         String amount = request.getParameter("amount");
         log.info("원래 상품번호 = {}", orgProductNo);
-        String userNo = request.getParameter("userNo");
+        log.info("로그인 회원 = {}", member);
+        String userNo = member.getUserNo();
 
         cartMap.put("productNo", productNo);
         cartMap.put("userNo", userNo);
         cartMap.put("amount", amount);
 
         // 성공했을 시, 실패했을 시 각각 추가하기
-        boolean result = productService.insertCartProduct(cartMap);
+        boolean result;
+
+        try {
+            result = productService.insertCartProduct(cartMap);
+
+            if(result) {
+                rttr.addFlashAttribute("successMessage", "장바구니 담기 성공!");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            rttr.addFlashAttribute("failMessage", "장바구니 담기 실패..");
+        }
 
         mv.addObject("productNo", orgProductNo);
         mv.setViewName("redirect:/product/item2");
-        if(result) {
-            rttr.addFlashAttribute("successMessage", "장바구니 담기 성공!");
-        } else {
-            rttr.addFlashAttribute("failMessage", "장바구니 담기 실패..");
-        }
 
         return mv;
     }
@@ -237,6 +249,10 @@ public class ProductController {
     public ModelAndView purchaseCart(HttpServletRequest request, ModelAndView mv) {
 
         String[] cartNos = request.getParameterValues("cartNo");
+        for (int i = 0; i < cartNos.length; i++) {
+            log.info("장바구니 번호들 = {}", cartNos[i]);
+        }
+
         HashMap<String, Object> map = new HashMap<>();
         map.put("cartNos", cartNos);
         
@@ -253,7 +269,7 @@ public class ProductController {
     // # author : 오승재
     // # description : 상품 결제 일단은 db에 넣기만
     @PostMapping("/pay")
-    public ModelAndView insertOrder(HttpServletRequest request, OrderDTO order, ModelAndView mv, RedirectAttributes rttr) throws Exception {
+    public ModelAndView insertOrder(HttpServletRequest request, OrderDTO order, ModelAndView mv, RedirectAttributes rttr) {
 
         String orderId = UUID.randomUUID().toString();
 
@@ -264,17 +280,28 @@ public class ProductController {
         log.info("주문 정보 = {}", order);
 
         // 성공했을 시, 실패했을 시 각각 추가하기
-        boolean result = productService.insertOrder(order);
+        boolean result;
+        try {
+            result = productService.insertOrder(order);
+
+            if(result) {
+                rttr.addFlashAttribute("successMessage", "구매 성공!");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            rttr.addFlashAttribute("failMessage", "구매 실패..");
+        }
 
         mv.addObject("productNo", request.getParameter("orgProductNo"));
         mv.setViewName("redirect:/product/item2");
 
-        if(result) {
-            rttr.addFlashAttribute("successMessage", "구매 성공!");
-        } else {
-            rttr.addFlashAttribute("failMessage", "구매 실패..");
-        }
+        return mv;
+    }
 
+    @GetMapping("/test")
+    public ModelAndView testPage(ModelAndView mv){
+
+        mv.setViewName("/product/test");
         return mv;
     }
 }

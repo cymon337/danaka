@@ -32,6 +32,19 @@
         <result property="lineSize" column="LINE_SIZE"/>
         <result property="price" column="LINE_PRICE"/>
     </resultMap>
+    <resultMap id="productCartMap" type="com.osaz.danaka.product.model.dto.ProductCartDTO">
+        <id property="cartNo" column="CART_NO"/>
+        <result property="categoryCode" column="CATEGORY_CODE"/>
+        <result property="productNo" column="PRODUCT_NO"/>
+        <result property="productName" column="PRODUCT_NAME"/>
+        <result property="brandName" column="BRAND_NAME"/>
+        <result property="amount" column="AMOUNT"/>
+        <result property="packageId" column="PACKAGE_ID"/>
+        <result property="savePath" column="SAVE_PATH"/>
+        <association property="rod" resultMap="rodResultMap"></association>
+        <association property="reel" resultMap="reelResultMap"></association>
+        <association property="line" resultMap="lineResultMap"></association>
+    </resultMap>
 
     <!-- 페이징 처리를 위한 대상품 총 개수 조회 쿼리 -->
     <select id="selectTotalCount" resultType="_int" parameterType="hashmap">
@@ -195,8 +208,9 @@
             )
     </insert>
     <!-- 장바구니 목록 조회 -->
-    <select id="selectCartList" parameterType="hashmap" resultType="com.osaz.danaka.common.model.dto.CartProductDTO">
+    <select id="selectCartList" parameterType="hashmap" resultMap="productCartMap">
         SELECT
+            B.CATEGORY_CODE,
             A.PRODUCT_NO,
             B.PRODUCT_NAME,
             B.BRAND_NAME,
@@ -217,8 +231,8 @@
           LEFT JOIN VIEW_PRODUCT B
             ON A.PRODUCT_NO = B.PRODUCT_NO
          WHERE A.CART_NO IN
-                <foreach collection="cartNos" item="cartNos" index="index" open="(" close=")" separator=",">
-                    #{ cartNos[index] }
+                <foreach collection="cartNos" item="cartNos" open="(" close=")" separator=",">
+                    #{ cartNos }
                 </foreach>
     </select>
     <!-- 상품 구매시 구매내역 테이블에 데이터 추가하는 쿼리 -->
