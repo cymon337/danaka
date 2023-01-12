@@ -37,5 +37,5 @@ public interface ProductMapper {
     int insertCartProduct(Map<String, String> cartMap);
 
     // 구매내역 테이블에 추가
-    int insertOrder(OrderDTO order);
+    int insertOrder(List<OrderDTO> orderList);
 }

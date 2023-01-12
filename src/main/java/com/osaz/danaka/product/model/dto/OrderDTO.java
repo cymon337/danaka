@@ -14,5 +14,4 @@ public class OrderDTO {
     private String totPrice;
     private String orderRequest;
     private String payType;
-//    private List<ProductDTO> productDTOList;
 }

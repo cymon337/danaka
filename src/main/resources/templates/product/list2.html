@@ -31,6 +31,9 @@
     <th:block th:replace="~{common/header2 :: header}"/>
 </div>
 <div>
+    <th:block th:replace="~{common/modal :: successM}"/>
+</div>
+<div>
     <th:block th:replace="~{common/modal :: backtotop}"/>
 </div>
 <div class="categoryImg">
@@ -91,6 +94,7 @@
 
 </div>
 <script th:inline="javascript">
+    /* 정렬 버튼 색 입히기 */
     if([[${ selectCriteria.orderCondition }]] != null) {
         switch ([[${ selectCriteria.orderCondition }]]) {
             case "sale":
@@ -102,6 +106,28 @@
             case "highPrice":
                 $("#highPrice").css("backgroundColor", "#0448AD");
                 $("#highPrice").css("color", "white"); break;
+        }
+    }
+
+    $(document).ready(function (){
+        /* 모달 창 띄우기 */
+        if ([[${ successMessage }]] != null || [[${ failMessage }]] != null) {
+            modalSwitch(1);
+        }
+    })
+
+    /* 모달 창 닫기 버튼 */
+    $(".modalCloseButton, .modalLayer").on("click", function() {
+
+        modalSwitch(3);
+    });
+
+    /* 모달창 스위치 함수 */
+    function modalSwitch(key) {
+
+        switch (key) {
+            case 1: $("#successM").show(); break;
+            case 3: $(".modal").hide(); break;
         }
     }
 </script>

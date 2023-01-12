@@ -83,9 +83,9 @@ public class ProductService {
     }
 
     // 구매내역 테이블에 추가
-    public boolean insertOrder(OrderDTO order) throws Exception {
+    public boolean insertOrder(List<OrderDTO> orderList) throws Exception {
 
-        int result = productMapper.insertOrder(order);
+        int result = productMapper.insertOrder(orderList);
 
         if (result <= 0) {
             throw new Exception("구매 실패");

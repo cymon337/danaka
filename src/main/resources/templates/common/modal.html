@@ -15,7 +15,7 @@
             <img class="modalImg" th:unless="${ successMessage != null }" th:src="@{ https://cdn-icons-png.flaticon.com/512/7778/7778647.png }" alt="성공 이미지">
         </div>
         <div class="modalButtonsContainer">
-            <button type="button" class="modalButtons" th:onclick="|location.href='@{/product/list2(categoryCode=${ product.categoryCode })}'|">쇼핑 계속하기</button>
+            <button type="button" class="modalButtons" th:onclick="|location.href='@{/product/list2(categoryCode=${ product?.categoryCode }?:RD)}'|">쇼핑 계속하기</button>
             <button type="button" class="modalButtons" th:onclick="|location.href='@{ /main }'|">메인화면 가기</button>
         </div>
   </div>
