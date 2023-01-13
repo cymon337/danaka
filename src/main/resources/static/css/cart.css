@@ -64,13 +64,16 @@
     margin-bottom: auto;
 }
 
+
 .item-thumnail {
     height: 100%;
     width: auto;
+    pointer-events: none;
 }
 .item-info {
     width: 55%;
     padding-left: 5%;
+    pointer-events: none;
 }
 #item-info-title {
     font-size: x-large;
@@ -84,6 +87,7 @@
 }
 .item-price {
     width: 20%;
+    pointer-events: none;
 }
 .calc-price {
     font-size: x-large;

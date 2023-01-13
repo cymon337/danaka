@@ -9,8 +9,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Slf4j
@@ -46,13 +48,54 @@ public class CartController {
         return mv;
     }
 
-    @PostMapping("registCart")
+    @ResponseBody
+    @PostMapping("regist-cart")
     public ModelAndView registCart(ModelAndView mv, List<CartDTO> cartList) throws Exception{
         cartService.registCart(cartList);
 
+        mv.addObject("sucess");
+        mv.setViewName("common/fragment/success");
 
         return mv;
     }
+
+
+    @ResponseBody
+    @PostMapping("update-db")
+    public ModelAndView updateCart(ModelAndView mv, String cartNo, String amount) throws Exception{
+        log.info("updateDB={}", "start");
+        log.info("cartNo={}", cartNo);
+        log.info("amount={}", amount);
+
+        Boolean result = cartService.updateCart(cartNo, amount);
+
+        mv.addObject(result);
+        mv.setViewName("common/fragment/success");
+
+        return mv;
+
+    }
+
+    @ResponseBody
+    @PostMapping("delete-db")
+    public ModelAndView deleteCart(ModelAndView mv, String[] cartNoList) throws Exception{
+        log.info("deleteDB={}", "start");
+
+        for (String cartNo:cartNoList) {
+            log.info("cartNoList={}", cartNo);
+        };
+        HashMap<String, Object> paramMap = new HashMap<>();
+        paramMap.put("cartNo",cartNoList);
+
+        Boolean result = cartService.deleteCart(paramMap);
+
+        mv.addObject(result);
+        mv.setViewName("common/fragment/success");
+
+        return mv;
+
+    }
+
 
 
 }

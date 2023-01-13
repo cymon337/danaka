@@ -149,7 +149,11 @@
     <delete id="deleteCart">
         DELETE FROM T_CART
         WHERE
-            CART_NO = #{ cartNo }
+            CART_NO IN (
+        <foreach collection="cartNo" item="item" index="index" separator="," open="" close="">
+            #{item}
+        </foreach>
+        )
     </delete>
 
 </mapper>

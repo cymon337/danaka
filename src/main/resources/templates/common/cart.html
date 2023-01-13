@@ -12,13 +12,13 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
             crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.6.3.slim.min.js"
-            integrity="sha256-ZwqZIVdD3iXNyGHbSYdsmWP//UBokj2FHAxKuSBKDSo="
-            crossorigin="anonymous"></script>
+    <!-- 제이쿼리 -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link rel="stylesheet" th:href="@{ /css/cart.css }">
     <title>DANAKA-장바구니</title>
 
     <script type="text/javascript">
+        // 장바구니 수량, 가격 계산 및 출력 관련 메서드 객체
         let cart = {
             totalCount: 0,
             totalPrice: 0,
@@ -38,6 +38,7 @@
 
 
                     }
+
                 }, this);
 
                 this.updateUI();
@@ -47,6 +48,7 @@
                 document.querySelector('#sum-order-price').textContent = '합계금액: ' + this.totalPrice.formatNumber() + '원';
             },
             changePNum: function (e) {
+                var cartNo = $(e).parent().parent().val().toString();
                 var pNum = $(e).val();
                 $(e).attr('value', pNum);
 
@@ -54,17 +56,22 @@
                 var calcPrice = pNum * price;
                 $(e).parent().parent().find('.calc-price').html(`${calcPrice.formatNumber()} 원`);
 
+                // ajax 장바구니 상태변경 업데이트 메소드
+
+                $.ajax({
+                    type:'post',   //post 방식으로 전송
+                    url:'update-db',   //데이터를 주고받을 파일 주소
+                    traditional: true, //Array 형식의 데이터를 전송할 때는 traditional: true 옵션을 적용
+                    data: {
+                        "cartNo" : cartNo,
+                        "amount" : pNum
+                    },  //위의 변수에 담긴 데이터를 전송해준다.
+                    success: function (data) {
+                        console.log(data);
+                    }
+                })
                 this.reCalc();
             },
-            loadPrice: function (e) {
-                console.log(`${e} loadPrice`)
-                var pNum = $(e).parent().parent().find('.pNum').val();
-                var pPrice = $(e).parent().parent().find('.pPrice').val();
-                var calcPrice = pNum * pPrice;
-                $(e).parent().find('.calc-price').html(`${calcPrice.formatNumber()} 원`);
-            }
-
-
         }
 
         // 숫자 포매터 3자리 , 찍기
@@ -119,14 +126,31 @@
                 <!--         선택삭제 메서드 스크립트     -->
                 <script type="text/javascript">
                     $("#btn-remove-cart").on("click", function () {
+                        var cartNoList = [];
+                        document.querySelectorAll("li.active").forEach(function (e){
+                            cartNoList.push($(e).val());
+                            console.log($(e).val());
+                        });
+                        console.log(cartNoList);
+
+                        $.ajax({
+                            type:'post',   //post 방식으로 전송
+                            url:'delete-db',   //데이터를 주고받을 파일 주소
+                            traditional: true, //Array 형식의 데이터를 전송할 때는 traditional: true 옵션을 적용
+                            data: { "cartNoList": cartNoList},  //위의 변수에 담긴 데이터를 전송해준다.
+                            success: function (data) {
+                                console.log(data);
+                            },
+                            error: function () {
+                                console.log("delete error")
+                            }
+
+                        });
                         alert("선택한 상품을 장바구니에서 삭제합니다.")
 
-                        document.querySelectorAll("li.active").forEach(function (activeItem){
-                            activeItem.remove();
+                        document.querySelectorAll("li.active").forEach(function (e){
+                            e.remove();
                         });
-
-                        // todo: 삭제내역 서버 업데이트
-
                     });
                 </script>
 
