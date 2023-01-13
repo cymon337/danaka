@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.osaz.danaka.productPackage.model.dao.PackageMapper">
+
+    <select id="selectBrandNameOption" resultType="String">
+        SELECT
+            DISTINCT BRAND_NAME
+        FROM VIEW_PRODUCT
+        WHERE NOT BRAND_NAME IS NULL
+        ORDER BY BRAND_NAME ASC
+    </select>
+
+    <select id="selectReelTypeOption" resultType="String">
+        SELECT
+            DISTINCT ROD_REEL_TYPE
+        FROM VIEW_PRODUCT
+        WHERE NOT ROD_REEL_TYPE IS NULL
+        ORDER BY ROD_REEL_TYPE ASC
+    </select>
+
+    <select id="selectLineMinOption" resultType="String">
+        SELECT
+            DISTINCT LINE_MIN
+        FROM VIEW_PRODUCT
+        WHERE NOT LINE_MIN IS NULL
+        ORDER BY LINE_MIN ASC
+    </select>
+
+    <select id="selectLineMaxOption" resultType="String">
+        SELECT
+            DISTINCT LINE_MAX
+        FROM VIEW_PRODUCT
+        WHERE NOT LINE_MAX IS NULL
+        ORDER BY LINE_MAX ASC
+    </select>
+
+
+
+
+
+
+
+</mapper>

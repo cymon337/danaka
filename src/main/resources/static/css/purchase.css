@@ -1,0 +1,363 @@
+body {
+    background-color: #f0f2fe;
+}
+form>hr {
+    width: 80%;
+    margin: 1% auto;
+}
+.description{
+    position: relative;
+    left: 12%;
+    margin-top: 1%;
+    font-weight: bold;
+    width: 50%;
+}
+.description>p {
+    margin-bottom: 0;
+}
+.listContainer, .addressContainer, .paymentContainer, .userInfoContainer {
+    border: 1px #C4C2FF solid;
+    border-radius: 7px;
+    box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.25);
+    background-color: white;
+}
+.info {
+    width: 80%;
+    margin: 0 auto;
+}
+.listContainer {
+    height: 20em;
+    margin: 0 auto;
+    width: 81%;
+    box-sizing: border-box;
+}
+.listContainer>hr {
+    width: 95%;
+    margin: 0 auto;
+}
+.buyingProduct {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+.buyingProduct * {
+    font-size: small;
+}
+.thumnail {
+    width: 4%;
+    padding: 0.5em;
+    max-width: 50px;
+
+}
+.thumnail>img {
+    width: 100%;
+    border: 1px #C4C2FF solid;
+    border-radius: 5px;
+}
+.product {
+    width: 600px;
+}
+.productName>span {
+    font-weight: bolder;
+}
+.productDetail>span {
+    font-size: smaller;
+    color: gray;
+}
+.options {
+    width: 205px;
+}
+.options span {
+    font-size: smaller;
+}
+.quantity {
+    display: flex;
+    align-items: center;
+}
+.quantity>span {
+    margin-right: 1em;
+}
+#amount {
+    width: 46px;
+    height: 1.2rem;
+    border: 1px #C4C2FF solid;
+    margin-right: 0;
+    margin-left: 0;
+    text-align: center;
+}
+.amountButtons {
+    width: 1.2rem;
+    height: 1.2rem;
+    border: 1px #e3e6fa solid;
+    font-size: 1rem;
+    background-color: #e3e6fa;
+    margin-right: 0;
+    margin-left: 0;
+    text-align: center;
+    padding: 0;
+    box-sizing: border-box;
+}
+.amountButtons>div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.amountButtons img {
+    width: 8px;
+    height: 8px;
+    object-fit: contain;
+    vertical-align: middle;
+}
+.price {
+    display: flex;
+}
+.price>span:nth-child(2) {
+    margin-left: 3.5em;
+    margin-right: 0;
+}
+.addressContainer {
+    grid-area: a;
+    padding: 1em;
+}
+.addressContainer hr {
+    margin: 1.5% auto;
+}
+.addressApi {
+    height: 5em;
+    margin: 0 auto 1% auto;
+}
+#postcode, #address, #detailAddress {
+    border-radius: 5px;
+    border: 1px #c2c0fe solid;
+    margin-top: 0.5px;
+    margin-bottom: 0.5px;
+    font-size: smaller;
+}
+#address, #detailAddress {
+    width: 400px;
+}
+.addrSpan {
+    display: inline-block;
+    text-align: center;
+    line-height: 5.5em;
+    vertical-align: middle;
+    margin-right: 2%;
+}
+.addressApi, .deliveryRequest {
+    display: grid;
+    grid-template-columns: 15% 83%;
+}
+#addrButton {
+    border-radius: 5px;
+    border: 1px #e3e6fa solid;
+    background-color: #e3e6fa;
+    font-size: small;
+}
+.deliveryRequest {
+    height: 5.5em;
+}
+#deliveryRequest {
+    resize: none;
+    border-radius: 5px;
+    border: 1px #c2c0fe solid;
+    margin-top: 0.5px;
+    margin-bottom: 0.5px;
+    font-size: smaller;
+}
+.payP>p {
+    margin-bottom: 0;
+    font-weight: bold;
+    position: relative;
+    left: 1.5em;
+    width: 50%;
+    margin-top: 1%;
+}
+.payInfo {
+    display: grid;
+    grid-template-columns: 70% 30%;
+    grid-template-areas:
+        "a side"
+        "b side";
+    grid-gap: 1%;
+    width: 80%;
+    margin: 0 auto 2% auto;
+    box-sizing: border-box;
+}
+.payDescription {
+    grid-area: b;
+}
+.payApi {
+    padding: 2%;
+}
+#card p {
+    font-weight: bold;
+    margin-bottom: 1%;
+}
+.cardDetail input {
+    border-radius: 5px;
+    border: 1px #c2c0fe solid;
+    font-size: smaller;
+    width: 300px;
+}
+.infoSwitch {
+    border: 1px #C4C2FF solid;
+    border-radius: 7px;
+    padding: 2.5%;
+    display: none;
+}
+#account>hr {
+    margin: 0 auto 2% auto;
+}
+#account p {
+    font-weight: bold;
+    margin-bottom: 0;
+}
+#easyPay button {
+    border: none;
+    background-color: white;
+    width: 100px;
+}
+#easyPay img {
+    width: 100%;
+    object-fit: fill;
+}
+.payType {
+    margin-left: 2%;
+    margin-bottom: 1%;
+}
+.cardInfo hr {
+    margin: 1% auto;
+}
+.userInfoDescription p {
+    margin: 0 auto;
+}
+.paymentContainer {
+    border: 1px #C4C2FF solid;
+    border-radius: 7px;
+    margin: 0 auto;
+    padding: 1em;
+}
+.payApi {
+    border: 1px #C4C2FF solid;
+    border-radius: 7px;
+    margin: 0 auto;
+}
+.userInfoContainer {
+    height: 361px;
+    grid-area: side;
+    border: 1px #C4C2FF solid;
+    border-radius: 7px;
+    padding: 1em;
+    height: 380px;
+}
+.userInfoDescription {
+    border: 1px #C4C2FF solid;
+    border-radius: 7px;
+    padding-left: 2%;
+    height: 77%;
+}
+.userInfoDescription>p {
+    font-weight: bold;
+    margin-bottom: 1%;
+}
+.userInfoDescription>div {
+    padding-left: 2%;
+}
+.userInfoDescription>hr {
+    width: 95%;
+    margin: 1% auto;
+}
+.payButton {
+
+}
+.payButton>button {
+    width: 100%;
+    height: 3.5em;
+    background-color: #0448AD;
+    color: white;
+    border-radius: 5px;
+    border: none;
+    margin-top: 16px;
+    margin-bottom: 0;
+    font-weight: bold;
+}
+@media screen and (max-width : 767px) {
+    .listContainer {
+        width: 100%;
+    }
+    .thumnail {
+        width: 6em;
+    }
+    .payInfo {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+        "a"
+        "b"
+        "side";
+        grid-gap: 1em;
+        width: 100%;
+        margin: 0 auto;
+    }
+    .payP>p {
+        left: 3.5em;
+    }
+    body>hr {
+        width: 100%;
+        margin-top: 1.5em;
+    }
+    .listContainer * {
+        font-size: 0.7rem;
+    }
+    .buyingProduct {
+        justify-content: space-around;
+    }
+    .product {
+        width: 40%
+    }
+    .options {
+        width: 30%;
+    }
+    #centerCategory, #notice {
+        display: none;
+    }
+    .addressApi, .deliveryRequest {
+        grid-template-columns: 17% 85%;
+    }
+}
+@media screen and (min-width : 767px) and (max-width : 1080px) {
+    .listContainer {
+        width: 80%;
+    }
+    .thumnail {
+        width: 6em;
+    }
+    .payInfo {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+        "a"
+        "b"
+        "side";
+        grid-gap: 1em;
+        width: 80%;
+        margin: 0 auto;
+    }
+    body>hr {
+        width: 80%;
+        margin-top: 1.5em;
+    }
+    .buyingProduct {
+        justify-content: space-around;
+    }
+    .product {
+        width: 50%
+    }
+    .options {
+        width: 30%;
+    }
+    #centerCategory, #notice {
+        display: none;
+    }
+    .addressApi, .deliveryRequest {
+        grid-template-columns: 15% 85%;
+    }
+}

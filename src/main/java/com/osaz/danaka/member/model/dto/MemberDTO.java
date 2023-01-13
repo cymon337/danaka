@@ -1,32 +1,106 @@
 package com.osaz.danaka.member.model.dto;
 
-import lombok.AllArgsConstructor;
+
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.sql.Date;
+import java.util.Collection;
+import java.util.Collections;
+
 
 @Data
-//Data 어노테이션은 총 5개, Getter, Setter, RequiredArgsConstructor, ToString, EqualsAndHashCode 어노테이션이 합쳐져 있습니다.
-//@RequiredArgsConstructor / final 변수, Notnull 표시가 된 변수처럼 필수적인 정보를 세팅하는 생성자를 만들어준다.
-@NoArgsConstructor
-//기본 생성자를 생성해준다. 초기값 세팅이 필요한 final 변수가 있을 경우 컴파일 에러가 발생, (force=true) 를 사용하면 null, 0 등 기본 값으로 초기화 된다.
-@AllArgsConstructor
-//전체 변수를 생성하는 생성자를 만들어준다.
-public class MemberDTO {
+@Setter
+@Getter
 
-    public int userNo;
+public class MemberDTO implements UserDetails{
+
+
+    public String userNo;
     public String userId;
     public String userNickname;
     public String userPwd;
-    public String userName;
+    public String memberName;
     public Date birthday;
-    public char gender;
+    public String gender;
     public String address;
+    public String email;
     public String phone;
-    public Date regDate;
-    public char status;
-    public char userRole;
+    public String regDate;
+    public String status;
+    public String userRole;
+
+    public MemberDTO() {}
 
 
+
+    public MemberDTO(String userNo, String userId, String userNickname, String userPwd, String memberName, Date birthday, String gender, String address, String email, String phone, String regDate, String status, String userRole) {
+        this.userNo = userNo;
+        this.userId = userId;
+        this.userNickname = userNickname;
+        this.userPwd = userPwd;
+        this.memberName = memberName;
+        this.birthday = birthday;
+        this.gender = gender;
+        this.address = address;
+        this.email = email;
+        this.phone = phone;
+        this.regDate = regDate;
+        this.status = status;
+        this.userRole = userRole;
+    }
+
+
+
+
+    @Override
+    public String getPassword() {
+        return this.userPwd;
+    }
+    // 사용자의 Password를 반환한다.
+    @Override
+    public String getUsername() {
+        return this.userId; //Id를  반환해야함 name아닌거 주의
+    }
+    // 사용자의 ID를 반환한다. (Unique하기에 해당 프로젝트에서는 Id를 반환한다.)
+    // Security에서 인증처리를 하기 위해 userId를 지정해주는 것.
+
+
+    public String getUMemberName() {
+        return this.memberName; //Id를  반환해야함 name아닌거 주의
+    }
+
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;// true:만료되지 않음, false:만료됨
+        // 계정의 만료 여부를 확인한다.
+    }
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.singletonList(new SimpleGrantedAuthority(this.userRole));
+        //사용자 권한을 Collection 형태로 반환
+    }
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;// true:잠기지 않음, false:잠김
+    }
+    // 계정의 잠금 여부를 확인한다.
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;// true:만료되지 않음, false:만료됨
+    }
+    // 비밀번호의 만료 여부를 확인한다.
+    @Override
+    public boolean isEnabled() {
+        return true;// true:사용 가능, false:사용 불가
+    }
+
+
+    // 계정이 사용 가능한지 확인한다.
 }

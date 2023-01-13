@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+    <tr>
+        <th>브랜드</th>
+        <td><button type="button" class="btn btn-outline-secondary">다이와</button></td>
+        <td><button type="button" class="btn btn-outline-secondary">다이와</button></td>
+        <td><button type="button" class="btn btn-outline-secondary">다이와</button></td>
+        <td><button type="button" class="btn btn-outline-secondary">다이와</button></td>
+        <td><button type="button" class="btn btn-outline-secondary">다이와</button></td>
+        <td><button type="button" class="btn btn-outline-secondary">다이와</button></td>
+
+    </tr>
+
+    <tr th:fragment="rod" th:each="rod : ${rodList}">
+        <th>브랜드</th>
+        <td>다이와</td>
+        <td>시마노</td>
+        <td>js</td>
+        <td>ns</td>
+        <td>도요</td>
+    </tr>
+
+    <tr>
+        <th>브랜드</th>
+        <td>다이와</td>
+        <td>시마노</td>
+        <td>js</td>
+        <td>ns</td>
+        <td>도요</td>
+    </tr>
+
+
+
+
+
+
+
+
+</body>
+</html>
