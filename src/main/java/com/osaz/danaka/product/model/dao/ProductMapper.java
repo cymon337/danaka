@@ -1,5 +1,6 @@
 package com.osaz.danaka.product.model.dao;
 
+import com.osaz.danaka.common.SelectCriteria;
 import com.osaz.danaka.product.model.dto.ProductDTO;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -9,9 +10,13 @@ import java.util.Map;
 @Mapper
 public interface ProductMapper {
 
-    List<ProductDTO> selectByCategory(String categoryCode);
+    int selectTotalCount(Map<String, String> searchMap);
 
-    ProductDTO selectOne(String productNo);
+    List<ProductDTO> selectListByCategory(SelectCriteria selectCriteria);
+
+    ProductDTO selectOneProduct(String productNo);
+
+    List<ProductDTO> selectOptionList(String productName);
 
     int registWishList(Map<String, String> parameter);
 

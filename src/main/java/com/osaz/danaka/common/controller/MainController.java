@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/")
-public class CartController {
+public class MainController {
 
-    @GetMapping("/cart")
-    public String cartMain (){ return "common/cart"; }
-
-
+    @GetMapping(value={"/", "/main", "/index"})
+    public String main(){
+        return "main/index2";
+    }
 }
