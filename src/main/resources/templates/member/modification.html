@@ -34,6 +34,7 @@
           <form  class="login-form" th:action="@{/updateMembers}" method="post" >
               <input type="hidden" id="id" th:value="${member.username}">
            <!-- <th:block sec:authorize="isAuthenticated()">-->
+
               <div class="form-group">
 
                   <input type="text" th:name="userId" class="form-control rounded-left" id="userId" placeholder="아이디" name="userId" th:value="${member.userId}"  required readonly>
@@ -60,6 +61,9 @@
             <div class="form-group">
               <button type="submit" id="btn-update" class="btn btn-primary rounded submit p-3 px-5">수정</button>
             </div>
+              <div class="w-100 text-md-center">
+                <a th:href="@{/member/unregister}">회원탈퇴</a>
+              </div>
 
   <!--          </th:block>
 -->

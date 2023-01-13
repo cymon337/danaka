@@ -101,6 +101,9 @@ public class MemberDTO implements UserDetails{
         return true;// true:사용 가능, false:사용 불가
     }
 
+    public void updatePassword(String newPassword) {
+        this.userPwd = newPassword;
+    }
 
     // 계정이 사용 가능한지 확인한다.
 }
