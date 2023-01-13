@@ -1,7 +1,11 @@
 package com.osaz.danaka.member.model.dao;
 
 import com.osaz.danaka.member.model.dto.MemberDTO;
+import com.osaz.danaka.member.model.dto.OrderDTO;
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.data.domain.jaxb.SpringDataJaxb;
+
+import java.util.List;
 
 @Mapper //@Mapper 어노테이션은 해당 클래스가 Mapper 임을 명시함
 public interface MemberMapper  {
@@ -29,6 +33,6 @@ public interface MemberMapper  {
 
     //  쿼리 수정 후 받아올 결과 값이 따로 없기 때문에 interface의 리턴 값은 void로 설정
 
-
+    List<OrderDTO> selectOrder(MemberDTO memberDTO);
 
 }

@@ -3,6 +3,7 @@ package com.osaz.danaka.member.model.service;
 
 import com.osaz.danaka.member.model.dao.MemberMapper;
 import com.osaz.danaka.member.model.dto.MemberDTO;
+import com.osaz.danaka.member.model.dto.OrderDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -53,7 +55,7 @@ public class MemberService implements UserDetailsService {
 
     public MemberDTO findId(MemberDTO user) {
         System.out.println("user = " + user);
-        System.out.println("이름" + user.getUserName());
+        System.out.println("이름" + user.getMemberName());
         return memberMapper.findId(user);
     }
 
@@ -96,4 +98,8 @@ public class MemberService implements UserDetailsService {
     }
 
 
+    public List<OrderDTO> selectOrder(MemberDTO memberDTO){
+
+        return memberMapper.selectOrder(memberDTO);
+    }
 }
