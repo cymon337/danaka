@@ -27,6 +27,7 @@
     <!-- 승재 css -->
     <link rel="stylesheet" type="text/css" th:href="@{ /css/item.css }"/>
     <link rel="stylesheet" type="text/css" th:href="@{ /css/modal.css }"/>
+    <link rel="stylesheet" type="text/css" th:href="@{ /css/productBoard.css }"/>
 </head>
 <body>
 
@@ -149,6 +150,17 @@
         <h2>본문 내용</h2>
     </div>
 </div>
+<div id="productBoardContainer" th:replace="~{product/productBoard :: productBoard}">
+<!--    <div class="boardControlButtons">-->
+<!--        <button>상품 리뷰</button>-->
+<!--        <button>상품 문의</button>-->
+<!--    </div>-->
+<!--    <div id="productReview">-->
+
+<!--    </div>-->
+<!--    <div id="productAsk">-->
+<!--    </div>-->
+</div>
 <script th:inline="javascript">
     /* 원래 상품 번호 */
     const orgProductNo = [[${ product.productNo }]];
@@ -244,7 +256,77 @@
         }).done(function (data) {
             $("#refItems").replaceWith(data);
         });
+
+        /* 리뷰 갖고오기 */
+        $.ajax({
+            type: "GET",
+            url: "/product/review",
+            data: param,
+        }).done(function (data) {
+            $("#productBoardContainer").replaceWith(data);
+        });
     })
+
+    /* 후기, 문의 컨트롤 버튼 */
+    function boardControl(key) {
+        if(key == 1) {
+            /* 리뷰 갖고오기 */
+            console.log("리뷰");
+            $.ajax({
+                type: "GET",
+                url: "/product/review",
+                data: {productNo : orgProductNo},
+            }).done(function (data) {
+                $("#productBoardContainer").replaceWith(data);
+            });
+
+            $("#productReview").show();
+            $("#reviewBtn").css("border-bottom", "none");
+            $("#askBtn").css("border-bottom", "1px #C4C2FF solid");
+            $("#productAsk").hide();
+        } else if(key == 2) {
+            console.log("문의");
+            /* 문의 갖고오기 */
+            $.ajax({
+                type: "GET",
+                url: "/product/qna",
+                data: {productNo : orgProductNo},
+            }).done(function (data) {
+                $("#productBoardContainer").replaceWith(data);
+            });
+
+            $("#productAsk").show();
+            $("#askBtn").css("border-bottom", "none");
+            $("#reviewBtn").css("border-bottom", "1px #C4C2FF solid");
+            $("#productReview").hide();
+        }
+    }
+    // $(".boardControlBtn").on("click", function () {
+    //     console.log(3);
+    //     if($(this).val() == "1") {
+    //         console.log(1);
+    //        ;
+    //         /* 리뷰 갖고오기 */
+    //         $.ajax({
+    //             type: "GET",
+    //             url: "/product/review",
+    //             data: {productNo : orgProductNo},
+    //         }).done(function (data) {
+    //             $("#productBoardContainer").replaceWith(data);
+    //         });
+    //     } else {
+    //         console.log(2);
+    //
+    //         /* 문의 갖고오기 */
+    //         $.ajax({
+    //             type: "GET",
+    //             url: "/product/qna",
+    //             data: {productNo : orgProductNo},
+    //         }).done(function (data) {
+    //             $("#productBoardContainer").replaceWith(data);
+    //         });
+    //     }
+    // })
 
     /* 관련 상품 버튼 */
     $(".refMove").on("click", function () {
@@ -309,7 +391,6 @@
         $("#refItems").css("left", -num * 105 + 'px');
         currentIdx = num;
     }
-
     $(".refMove").children().on('click', function () {
         let $visibleItems = Math.floor($(".refItemsContainer").width() / 105) - 1;
         let slideCount = $(".refItem").length - $visibleItems;

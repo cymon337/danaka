@@ -1,0 +1,60 @@
+#productBoardContainer {
+    width: 60%;
+    margin: 1% auto;
+    padding: 1%;
+    border: 1px #C4C2FF solid;
+    border-radius: 1em;
+    box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.25);
+    background-color: white;
+}
+#productReview, #productAsk {
+    margin: 0 auto;
+}
+#reviewBtn, #askBtn {
+    width: 49%;
+    box-sizing: border-box;
+    height: 3em;
+    border: 1px #C4C2FF solid;
+    background-color: white;
+}
+#reviewBtn {
+    border-top-left-radius: 5px;
+    margin-left: 1%;
+    margin-right: 0;
+    border-right: none;
+    border-bottom: none;
+}
+#reviewBtn:hover {
+    background-color: #d8fdfb;
+}
+#askBtn {
+    border-top-right-radius: 5px;
+    margin-left: 0;
+}
+#askBtn:hover {
+    background-color: #d8fdfb;
+}
+#productReview, #productAsk {
+    width: 98%;
+    border: 1px #C4C2FF solid;
+    border-top: none;
+}
+#productAsk {
+    display: none;
+}
+.boardHead {
+    display: grid;
+    grid-template-columns: 5% 75% 10% 10%;
+    padding: 1%;
+    text-align: center;
+}
+@media screen and (max-width : 767px) {
+    #productBoardContainer {
+        width: 100%;
+    }
+}
+@media screen and (min-width : 768px) and (max-width : 1024px) {
+    #productBoardContainer {
+        width: 80%;
+    }
+}

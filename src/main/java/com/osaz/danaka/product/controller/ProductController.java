@@ -3,9 +3,7 @@ package com.osaz.danaka.product.controller;
 import com.osaz.danaka.common.Pagenation;
 import com.osaz.danaka.common.SelectCriteria;
 import com.osaz.danaka.member.model.dto.MemberDTO;
-import com.osaz.danaka.product.model.dto.OrderDTO;
-import com.osaz.danaka.product.model.dto.ProductCartDTO;
-import com.osaz.danaka.product.model.dto.ProductDTO;
+import com.osaz.danaka.product.model.dto.*;
 import com.osaz.danaka.product.model.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -291,10 +289,34 @@ public class ProductController {
         return mv;
     }
 
-    @GetMapping("/test")
-    public ModelAndView testPage(ModelAndView mv) {
+    // # update : 2023-01-14
+    // # title : 상품 상세페이지
+    // # author : 오승재
+    // # description : 상품 리뷰, 문의 관리 ajax 메소드
+    @GetMapping("/review")
+    public ModelAndView selectReview(@AuthenticationPrincipal MemberDTO member, String productNo, ModelAndView mv) {
 
-        mv.setViewName("/product/test");
+        HashMap<String, String> map = new HashMap<>();
+        map.put("productNo", productNo);
+        map.put("userNo", member.getUserNo());
+        Boolean bMember = productService.selectOrder(map);
+
+        List<ReviewDTO> reviewList = productService.selectReviewList(productNo);
+
+
+        mv.addObject("bMember", bMember);
+        mv.addObject("reviewList", reviewList);
+        mv.setViewName("product/productBoard");
+        return mv;
+    }
+
+    @GetMapping("/qna")
+    public ModelAndView selectQna(String productNo, ModelAndView mv) {
+
+        List<QnaDTO> qnaList = productService.selectQnaList(productNo);
+
+        mv.addObject("qnaList", qnaList);
+        mv.setViewName("product/productBoard");
         return mv;
     }
 }

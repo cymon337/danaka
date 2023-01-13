@@ -45,6 +45,26 @@
         <association property="reel" resultMap="reelResultMap"></association>
         <association property="line" resultMap="lineResultMap"></association>
     </resultMap>
+    <resultMap id="reviewResultMap" type="com.osaz.danaka.product.model.dto.ReviewDTO">
+        <id property="reviewNo" column="REVIEW_NO"/>
+        <result property="productNo" column="PRODUCT_NO"/>
+        <result property="userNo" column="USER_NO"/>
+        <result property="userNickname" column="USER_NICKNAME"/>
+        <result property="reviewTitle" column="REVIEW_TITLE"/>
+        <result property="reviewBody" column="REVIEW_BODY"/>
+        <result property="regDate" column="REG_DATE"/>
+    </resultMap>
+    <resultMap id="qnaResultMap" type="com.osaz.danaka.product.model.dto.QnaDTO">
+        <id property="qnaNo" column="QNA_NO"/>
+        <result property="productNo" column="PRODUCT_NO"/>
+        <result property="userNo" column="USER_NO"/>
+        <result property="userNickname" column="USER_NICKNAME"/>
+        <result property="qnaBody" column="QNA_BODY"/>
+        <result property="secretStatus" column="SECRET_STATUS"/>
+        <result property="regDate" column="REG_DATE"/>
+        <result property="reply" column="REPLY"/>
+        <result property="replyDate" column="REPLY_DATE"/>
+    </resultMap>
 
     <!-- 페이징 처리를 위한 대상품 총 개수 조회 쿼리 -->
     <select id="selectTotalCount" resultType="_int" parameterType="hashmap">
@@ -271,4 +291,47 @@
               FROM DUAL
         </foreach>) A
     </insert>
+    <!-- 구매했는지 여부 확인 -->
+    <select id="selectOrder" parameterType="map" resultType="_int">
+        SELECT
+            COUNT(*)
+          FROM T_ORDER
+         WHERE PRODUCT_NO = #{ productNo }
+           AND USER_NO = #{ userNo }
+    </select>
+    <!-- 상품 리뷰 조회 -->
+    <select id="selectReviewList" parameterType="String" resultMap="reviewResultMap">
+        SELECT
+            A.REVIEW_NO,
+            C.PRODUCT_NAME,
+            A.USER_NO,
+            B.USER_NICKNAME,
+            A.REVIEW_TITLE,
+            A.REVIEW_BODY,
+            A.REG_DATE
+          FROM T_REVIEW A
+          LEFT JOIN T_MEMBER B
+            ON A.USER_NO = B.USER_NO
+          LEFT JOIN T_PRODUCT C
+            ON A.PRODUCT_NO = C.PRODUCT_NO
+         WHERE A.PRODUCT_NO = #{ productNo }
+    </select>
+    <!-- 상품 qna 조회 -->
+    <select id="selectQnaList" parameterType="String" resultMap="qnaResultMap">
+        SELECT
+            A.QNA_NO,
+            C.PRODUCT_NAME,
+            A.USER_NO,
+            B.USER_NICKNAME,
+            A.QNA_BODY,
+            A.REG_DATE,
+            A.REPLY,
+            A.REPLY_DATE
+        FROM T_QNA A
+        LEFT JOIN T_MEMBER B
+          ON A.USER_NO = B.USER_NO
+        LEFT JOIN T_PRODUCT C
+          ON A.PRODUCT_NO = C.PRODUCT_NO
+       WHERE A.PRODUCT_NO = #{ productNo }
+    </select>
 </mapper>
