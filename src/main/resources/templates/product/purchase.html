@@ -58,7 +58,7 @@
 </head>
 <body>
 <div class="header">
-    <th:block th:replace="~{common/header2 :: header}"/>
+    <th:block th:replace="~{common/header :: header}"/>
 </div>
 <div>
     <th:block th:replace="~{common/modal :: backtotop}"/>
@@ -258,10 +258,21 @@
 
     /* 수량 변경 버튼 함수 */
     $(".amountButtons").on("click", function () {
+        // 버튼 눌렀을 때 각 상품 수량 input
         const $amountInput = $(this).siblings(":input:text");
-        const $priceSpan =  $(this).parentsUntil(".options").siblings().children().children();
-        let $price = $priceSpan.text().replace(",", "");
-        $price = Number($price / $amountInput.val());
+        // 각 상품 총가격 span
+        const $priceSpan =  $(this).parentsUntil(".options").siblings().children().children("span");
+        // 각 상품 총가격 input
+        const $hiddenTotP = $priceSpan.siblings(".hiddenTotP");
+        // 각 상품 총가격 number로 형변환
+        let $price = Number($priceSpan.text().replace(",", ""));
+        // 각 상품 1개일 때의 가격
+        console.log("각 상품 총가격 span : ");
+        console.log($priceSpan);
+        console.log("각 상품 총가격 span : " + $priceSpan.text().replace(",", ""));
+        console.log("각 상품 총가격 :" + $price);
+        console.log("각 상품 총가격 input :" + $hiddenTotP.val());
+        $price = $price / Number($amountInput.val());
         $totalPayPrice = Number($("#totalPayPrice").text().replace(",", ""));
 
         switch ($(this).val()) {
@@ -270,27 +281,29 @@
                     $amountInput.val(new Number($amountInput.val()) - 1);
                     $("#totalPayPrice").text(($totalPayPrice - $price).toLocaleString());
                     $("#totalPlusFee").text(($totalPayPrice - $price + 3000).toLocaleString());
-                    $("#hiddenTotP").val($("#totalPlusFee").text().replace(",", ""));
+                    break;
+                } else {
+                    return;
                 }
-                break;
             case "+":
                 $amountInput.val(new Number($amountInput.val()) + 1);
                 $("#totalPayPrice").text(($totalPayPrice + $price).toLocaleString());
                 $("#totalPlusFee").text(($totalPayPrice + $price + 3000).toLocaleString());
-                $("#hiddenTotP").val($("#totalPlusFee").text().replace(",", ""));
                 break;
             case "x":
                 $(this).parentsUntil(".listContainer").remove();
                 $("#totalPayPrice").text($totalPayPrice - $price * $amountInput.val());
                 if($("#totalPayPrice").text() == 0) {
                     $("#totalPlusFee").text(0);
-                    $("#hiddenTotP").val($("#totalPlusFee").text().replace(",", ""));
                 } else {
                     $("#totalPlusFee").text($totalPayPrice - $price * $amountInput.val() + 3000);
-                    $("#hiddenTotP").val($("#totalPlusFee").text().replace(",", ""));
                 }
                 return;
         }
+        $price = $price * $amountInput.val();
+        $hiddenTotP.val($price);
+        $priceSpan.text($price.toLocaleString());
+        console.log("최종적으로 span에 들어가는 값 : " + $price);
     });
 
     /* 주소 api */

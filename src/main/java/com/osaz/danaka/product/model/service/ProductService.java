@@ -2,9 +2,7 @@ package com.osaz.danaka.product.model.service;
 
 import com.osaz.danaka.common.SelectCriteria;
 import com.osaz.danaka.product.model.dao.ProductMapper;
-import com.osaz.danaka.product.model.dto.OrderDTO;
-import com.osaz.danaka.product.model.dto.ProductCartDTO;
-import com.osaz.danaka.product.model.dto.ProductDTO;
+import com.osaz.danaka.product.model.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -91,5 +89,25 @@ public class ProductService {
             throw new Exception("구매 실패");
         }
         return (result > 0) ? true : false;
+    }
+
+    // 상품 구매했는지 조회
+    public boolean selectOrder(Map<String, String> orderMap) {
+
+        int result = productMapper.selectOrder(orderMap);
+
+        return (result > 0)? true : false;
+    }
+
+    // 상품 리뷰 조회
+    public List<ReviewDTO> selectReviewList(String productNo) {
+
+        return productMapper.selectReviewList(productNo);
+    }
+
+    // 상품 문의 조회
+    public List<QnaDTO> selectQnaList(String productNo) {
+
+        return productMapper.selectQnaList(productNo);
     }
 }

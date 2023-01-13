@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+<!--    <link rel="stylesheet" href="productBoard.css">-->
+</head>
+<body>
+<div id="productBoardContainer" th:fragment="productBoard">
+    <div class="boardControlButtons">
+        <button type="button" class="boardControlBtn" id="reviewBtn" onclick="boardControl(1)">REVIEW</button><button type="button" class="boardControlBtn" id="askBtn" onclick="boardControl(2)">Q & A</button>
+    </div>
+    <div id="productReview">
+        <div class="boardHead">
+            <span>번호</span>
+            <span>제목</span>
+            <span>닉네임</span>
+            <span>등록일</span>
+        </div>
+        <div class="boardHead" th:if="${ #strings.isEmpty(reviewList) }">
+            <p th:text="${ reviewList }"></p>
+            <p>상품 후기가 없습니다.</p>
+        </div>
+        <th:block th:each="review : ${ reviewList }">
+            <div class="boardHead">
+                <span th:text="${ review.reviewNo }">0</span>
+                <span th:text="${ review.reviewTitle }">상품 후기 제목</span>
+                <span th:text="${ review.userNickname }">닉네임</span>
+                <span th:text="${ review.regDate }">등록일</span>
+            </div>
+            <div class="boardContent">
+                <p class="boardBody" th:text="${ review.reviewBody }">상품 후기 본문</p>
+            </div>
+        </th:block>
+    </div>
+    <div id="productAsk">
+        <div class="boardHead">
+            <span>번호</span>
+            <span>문의내용</span>
+            <span>닉네임</span>
+            <span>등록일</span>
+        </div>
+        <div class="boardHead" th:if="${ qnaList == null }">
+            <p>상품 문의가 없습니다.</p>
+        </div>
+        <th:block th:each="qna : ${ qnaList }">
+            <div class="boardHead">
+                <span th:text="${ qna.qnaNo }">번호</span>
+                <span th:if="${ qna.secretStatus == 'Y' }">비밀글입니다.</span>
+                <span th:if="${ qna.secretStatus == 'N' || qna.userNo == principal.userNo }" th:text="${ qna.qnaBody }">문의 내용</span>
+                <span th:text="${ qna.userNickname }">닉네임</span>
+                <span th:text="${ qna.regDate }">등록일</span>
+            </div>
+            <div class="boardContent">
+                <p class="boardBody">관리자</p>
+                <p class="boardBody" th:text="${ qna.reply }">문의 내용 답변</p>
+                <p class="boardBody" th:text="${ qna.replyDate }">답변일</p>
+            </div>
+        </th:block>
+    </div>
+</div>
+
+</body>
+</html>
