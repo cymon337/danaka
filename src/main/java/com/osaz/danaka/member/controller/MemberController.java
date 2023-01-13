@@ -6,32 +6,24 @@ import com.osaz.danaka.member.model.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.http.HttpHeaders;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCrypt;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.validation.Errors;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.mail.internet.MimeMessage;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.Random;
 
@@ -108,11 +100,11 @@ public class MemberController {
     @PostMapping("/findId")
     public String findId(HttpServletRequest request, Model model) {
 
-        String userName = request.getParameter("userName");
+        String memberName = request.getParameter("memberName");
         String phone = request.getParameter("phone");
 
         MemberDTO memberDTO = new MemberDTO();
-        memberDTO.setUserName(userName);
+        memberDTO.setMemberName(memberName);
         memberDTO.setPhone(phone);
 
         MemberDTO user = memberService.findId(memberDTO);
@@ -246,7 +238,7 @@ public class MemberController {
             Random r = new Random();
             int num = r.nextInt(99999); //랜덤 난수 설정
 
-            if (memberDTO.getUserName().equals(name)) {
+            if (memberDTO.getMemberName().equals(name)) {
                 session.setAttribute("email", memberDTO.getEmail());
 
                 String setform = "jgh337337@gmail.com";
