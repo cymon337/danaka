@@ -1,41 +1,145 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" type="text/css" href="/static/css/purchase.css">
+    <!-- index.html css -->
+    <link rel="stylesheet" th:href="@{ /css/indexCss.css }"/>
+
+        <!-- 부트스트랩 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+
+    <!--    &lt;!&ndash; 아이콘 &ndash;&gt;-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+
+    <!--    &lt;!&ndash; 제이쿼리 &ndash;&gt;-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <!--    &lt;!&ndash; 자바스크립트 &ndash;&gt;-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+            crossorigin="anonymous"></script>
+
+    <!-- 카카오 주소 api -->
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script>
+        function findPostcode() {
+            new daum.Postcode({
+                oncomplete: function(data) {
+                    // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                    // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+                    // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                    var addr = ''; // 주소 변수
+                    var extraAddr = ''; // 참고항목 변수
+
+                    //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                    if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                        addr = data.roadAddress;
+                    } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                        addr = data.jibunAddress;
+                    }
+
+                    // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                    document.getElementById('postcode').value = data.zonecode;
+                    document.getElementById("address").value = addr;
+                    // 커서를 상세주소 필드로 이동한다.
+                    document.getElementById("detailAddress").focus();
+                    document.getElementById("detailAddress").value = '';
+                }
+            }).open();
+        }
+    </script>
+
+    <!-- 승재 css -->
+    <link rel="stylesheet" type="text/css" th:href="@{ /css/purchase.css }">
+    <link rel="stylesheet" type="text/css" th:href="@{ /css/modal.css }"/>
 </head>
 <body>
+<div class="header">
+    <th:block th:replace="~{common/header2 :: header}"/>
+</div>
+<div>
+    <th:block th:replace="~{common/modal :: backtotop}"/>
+</div>
+<form action="/product/pay" method="POST">
 <div class="description">
     <p>구매목록</p>
 </div>
 <div class="listContainer">
-    <div class="buyingProduct">
+    <div class="buyingProduct"th:if="${ product != null }">
+        <th:block th:switch="${ product.categoryCode }">
+            <input type="text" hidden="true" th:name="productNo" th:value="${ product.productNo }">
+            <input type="text" hidden="true" th:name="orgProductNo" th:value="${ orgProductNo }">
+            <div class="thumnail">
+                <img th:src="${ product.savePath }?: '/image/line/lineDefault.png'" alt="상품섬네일">
+            </div>
+            <div class="product">
+                <div class="productName">
+                    <span th:text="${ product.productName }">상품명 </span>
+                </div>
+                <div class="productDetail">
+                    <span th:case="RD" th:text="|브랜드 :  ${ product.brandName }, ${ product.rod }|">상품 상세</span>
+                    <span th:case="RL" th:text="|브랜드 :  ${ product.brandName }, ${ product.reel }|">상품 상세</span>
+                    <span th:case="LN" th:text="|브랜드 :  ${ product.brandName }, ${ product.line }|">상품 상세</span>
+                </div>
+            </div>
+            <div class="options">
+                <div class="quantity">
+                    <span>총 수량 : </span>
+                    <button type="button" class="amountButtons" value="-"><div><img th:src="@{ /image/minus.png }"></div></button>
+                    <input type="text" name="amount" class="amount" th:value="${ amount }" readonly>
+                    <button type="button" class="amountButtons" value="+"><div><img th:src="@{ /image/plus.png }"></div></button>
+                    &nbsp;<button type="button" class="amountButtons" value="x"><div><img th:src="@{ /image/x.png }"></div></button>
+                </div>
+                <div class="price">
+                    <span>총 가격 : </span>
+                    <span th:switch="${ product.categoryCode }">
+                    ₩ <span th:case="RD" th:class="totalPrice" th:text="${ product.rod.price }">510,500</span>
+                    <span th:case="RL" th:class="totalPrice" th:text="${ product.reel.price }">510,500</span>
+                    <span th:case="LN" th:class="totalPrice" th:text="${ product.line.price }">510,500</span>
+                    <input type="text" hidden="true" class="hiddenTotP" name="totPrice" value="">
+                    </span>
+                </div>
+            </div>
+        </th:block>
+    </div>
+    <div class="buyingProduct" th:if="${ cartList != null }" th:each="cartItem : ${ cartList }">
+        <input type="text" hidden="true" th:name="productNo" th:value="${ cartItem.productNo }">
+        <input type="text" hidden="true" th:name="packageId" th:value="${ cartItem.packageId }?:0">
         <div class="thumnail">
-            <img src="/image/rod/rod5.png" alt="섬네일">
+            <img th:src="${ cartItem?.savePath }?: '/image/line/lineDefault.png'" alt="상품섬네일">
         </div>
         <div class="product">
             <div class="productName">
-                <span>상품명 </span>
-                <span>옵션명</span>
+                <span th:text="${ cartItem.productName }">상품명 </span>
             </div>
-            <div class="productDetail">
-                <p>상품상세</p>
+            <div class="productDetail" th:switch="${ cartItem.categoryCode }">
+                <span th:case="RD" th:text="|브랜드 : ${ cartItem.brandName }, ${ cartItem.rod }|">상품 상세</span>
+                <span th:case="RL" th:text="|브랜드 : ${ cartItem.brandName }, ${ cartItem.reel }|">상품 상세</span>
+                <span th:case="LN" th:text="|브랜드 : ${ cartItem.brandName }, ${ cartItem.line }|">상품 상세</span>
             </div>
         </div>
         <div class="options">
             <div class="quantity">
                 <span>총 수량 : </span>
-                <input type="number" name="amount" min="1" value="1">
-                <button>x</button>
+                <button type="button" class="amountButtons" value="-"><div><img th:src="@{ /image/minus.png }"></div></button>
+                <input type="text" name="amount" class="amount" th:value="${ cartItem.amount }" readonly>
+                <button type="button" class="amountButtons" value="+"><div><img th:src="@{ /image/plus.png }"></div></button>
+                &nbsp;<button type="button" class="amountButtons" value="x"><div><img th:src="@{ /image/x.png }"></div></button>
             </div>
             <div class="price">
                 <span>총 가격 : </span>
-                <span>510,500</span>
+                <span th:switch="${ cartItem.categoryCode }">
+                    ₩ <span th:case="RD" th:class="totalPrice" th:text="${ cartItem.rod.price }">510,500</span>
+                    <span th:case="RL" th:class="totalPrice" th:text="${ cartItem.reel.price }">510,500</span>
+                    <span th:case="LN" th:class="totalPrice" th:text="${ cartItem.line.price }">510,500</span>
+                    <input type="text" hidden="true" class="hiddenTotP" name="totPrice" value="">
+                </span>
             </div>
         </div>
     </div>
-    <hr>
 </div>
 <hr>
 <div class="description">
@@ -44,9 +148,20 @@
 <div class="payInfo">
         <div class="addressContainer">
             <div class="addressApi">
+                <span class="addrSpan">주소</span>
                 <div>
-                    주소 api
+                    <input type="text" id="postcode" placeholder="우편번호" value="" required>
+                    <input type="button" id="addrButton" onclick="findPostcode()" value="우편번호 찾기"><br>
+                    <input type="text" id="address" placeholder="주소" value="" readonly required><br>
+                    <input type="text" id="detailAddress" placeholder="상세주소" value="" maxlength="22" required>
+                    <input type="text" id="extraAddress" hidden="true" value="" placeholder="참고항목">
+                    <input type="text" id="addressParam" hidden="true" th:value="${ #authentication.principal.address }" name="address">
                 </div>
+            </div>
+            <hr>
+            <div class="deliveryRequest">
+                <span class="addrSpan"><label for="deliveryRequest">요청사항</label></span>
+                <textarea name="orderRequest" id="deliveryRequest" cols="40" rows="3" maxlength="60" placeholder="배송 전 연락바랍니다."></textarea>
             </div>
         </div>
     <div class="payDescription">
@@ -55,29 +170,62 @@
         </div>
         <div class="paymentContainer">
             <div class="payApi">
-                <p>결제 api</p>
+                <div class="payType">
+                    <label><input type="radio" name="payType" class="payTypeInput" value="card" checked> 카드</label>
+                    <label><input type="radio" name="payType" class="payTypeInput" value="account"> 무통장입금</label>
+                    <label><input type="radio" name="payType" class="payTypeInput" value="easyPay"> 간편결제</label>
+                </div>
+                <div>
+                    <div class="infoSwitch" id="card">
+                        <div class="cardComSelect">
+                            <div><p>카드 선택</p></div>
+                            <div class="cardComInput">
+                                <label><input type="radio" name="cardCom" class="cardCom" value="kb"> 국민</label>
+                                <label><input type="radio" name="cardCom" class="cardCom" value="sh"> 신한</label>
+                                <label><input type="radio" name="cardCom" class="cardCom" value="ss"> 삼성</label>
+                                <label><input type="radio" name="cardCom" class="cardCom" value="hn"> 하나</label>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="cardDetail">
+                            <div><p>카드 번호</p></div>
+                            <div>
+                            <input type="text" name="cardNum" id="cardNum" placeholder=" - 포함 입력"><br>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="infoSwitch" id="account">
+                        <div><p>입금계좌</p></div>
+                        <hr>
+                        <div><p>국민은행</p></div>
+                        <div><h4>111111-22-333333</h4></div>
+                        <div><p>우리은행</p></div>
+                        <div><h4>1111-222-333333</h4></div>
+                    </div>
+                    <div class="infoSwitch" id="easyPay">
+                        <button type="button"><img th:src="@{ https://developers.kakao.com/tool/resource/static/img/button/pay/payment_icon_yellow_large.png }" alt="카카오페이"></button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
     <div class="userInfoContainer">
         <div class="userInfoDescription">
             <p>주문자 정보</p>
-            <hr>
             <div class="userInfo">
-                <p>이름 : </p>
-                <p>연락처 : </p>
-                <p>주소 : </p>
+                <input type="text" hidden="true" name="userNo" id="userNo" th:value="${ #authentication.principal.userNo }">
+                <span>이름 : <span class="userName" sec:authentication="principal.memberName"></span></span><br>
+                <span>연락처 : <span class="phone" sec:authentication="principal.phone"></span></span><br>
+                <span>주소 : <span id="userAddr" sec:authentication="principal.address"></span></span>
             </div>
             <hr>
+            <p>결제 상세</p>
             <div class="priceInfo">
-                <p>결제 상세</p>
-                <p>상품 금액 : </p>
-                <p>배송비 : </p>
+                <span>상품 금액 : ₩ <span id="totalPayPrice">0</span></span><br>
+                <span>배송비 : ₩ 3,000</span>
             </div>
             <hr>
-            <div class="totPrice">
-                <p>총 결제금액 : </p>
-            </div>
+            <p>총 결제금액 : ₩ <span id="totalPlusFee">0</span></p>
         </div>
         <div class="payButton">
             <button>
@@ -86,5 +234,107 @@
         </div>
     </div>
 </div>
+</form>
+<script th:inline="javascript">
+    /* 화면 로딩시 회원 주소 출력 */
+    let fulladdr = $("#addressParam").val().split(",");
+    $("#postcode").val(fulladdr[0]);
+    $("#address").val(fulladdr[1]);
+    $("#detailAddress").val(fulladdr[2]);
+
+    /* 화면 로딩 시 넘겨온 수량에 따른 가격 출력 */
+    let $totalPayPrice = 0;
+    $(".totalPrice").each(function () {
+        let $singlePrice = $(this);
+        let $amount = $(this).parentsUntil(".options").siblings().children(".amount");
+
+        $totalPayPrice += $singlePrice.text() * $amount.val();
+        $singlePrice.siblings(".hiddenTotP").val($singlePrice.text() * $amount.val());
+        $singlePrice.text(($singlePrice.text() * $amount.val()).toLocaleString());
+    })
+    $("#totalPayPrice").text($totalPayPrice.toLocaleString());
+    $("#totalPlusFee").text(($totalPayPrice + 3000).toLocaleString());
+
+
+    /* 수량 변경 버튼 함수 */
+    $(".amountButtons").on("click", function () {
+        // 버튼 눌렀을 때 각 상품 수량 input
+        const $amountInput = $(this).siblings(":input:text");
+        // 각 상품 총가격 span
+        const $priceSpan =  $(this).parentsUntil(".options").siblings().children().children("span");
+        // 각 상품 총가격 input
+        const $hiddenTotP = $priceSpan.siblings(".hiddenTotP");
+        // 각 상품 총가격 number로 형변환
+        let $price = Number($priceSpan.text().replace(",", ""));
+        // 각 상품 1개일 때의 가격
+        console.log("각 상품 총가격 span : ");
+        console.log($priceSpan);
+        console.log("각 상품 총가격 span : " + $priceSpan.text().replace(",", ""));
+        console.log("각 상품 총가격 :" + $price);
+        console.log("각 상품 총가격 input :" + $hiddenTotP.val());
+        $price = $price / Number($amountInput.val());
+        $totalPayPrice = Number($("#totalPayPrice").text().replace(",", ""));
+
+        switch ($(this).val()) {
+            case "-":
+                if($amountInput.val() > 1) {
+                    $amountInput.val(new Number($amountInput.val()) - 1);
+                    $("#totalPayPrice").text(($totalPayPrice - $price).toLocaleString());
+                    $("#totalPlusFee").text(($totalPayPrice - $price + 3000).toLocaleString());
+                    break;
+                } else {
+                    return;
+                }
+            case "+":
+                $amountInput.val(new Number($amountInput.val()) + 1);
+                $("#totalPayPrice").text(($totalPayPrice + $price).toLocaleString());
+                $("#totalPlusFee").text(($totalPayPrice + $price + 3000).toLocaleString());
+                break;
+            case "x":
+                $(this).parentsUntil(".listContainer").remove();
+                $("#totalPayPrice").text($totalPayPrice - $price * $amountInput.val());
+                if($("#totalPayPrice").text() == 0) {
+                    $("#totalPlusFee").text(0);
+                } else {
+                    $("#totalPlusFee").text($totalPayPrice - $price * $amountInput.val() + 3000);
+                }
+                return;
+        }
+        $price = $price * $amountInput.val();
+        $hiddenTotP.val($price);
+        $priceSpan.text($price.toLocaleString());
+        console.log("최종적으로 span에 들어가는 값 : " + $price);
+    });
+
+    /* 주소 api */
+    $("#postcode").on("click", function() {
+
+        findPostcode();
+    });
+
+    /* 주소 합치기 */
+    $("#detailAddress").on("focusout", function() {
+
+        let $postcode = $("#postcode").val();
+        let $address = $("#address").val();
+        let $detailAddress = $("#detailAddress").val();
+
+        $("#addressParam").val($postcode + "," + $address + "," + $detailAddress);
+        $("#userAddr").text($address + " " + $detailAddress);
+    })
+
+    /* 결제 방식 */
+    $(document).ready(function () {
+
+        $("#card").show();
+    })
+
+    /* 결제 종류 띄우기*/
+    $(".payTypeInput").on("change", function () {
+
+        $(".infoSwitch").hide();
+        $("#" + $(this).val()).show();
+    })
+</script>
 </body>
 </html>

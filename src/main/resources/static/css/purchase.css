@@ -1,13 +1,14 @@
 body {
     background-color: #f0f2fe;
 }
-body>hr {
+form>hr {
     width: 80%;
-    margin-top: 1.5em;
+    margin: 1% auto;
 }
 .description{
     position: relative;
     left: 12%;
+    margin-top: 1%;
     font-weight: bold;
     width: 50%;
 }
@@ -25,22 +26,33 @@ body>hr {
     margin: 0 auto;
 }
 .listContainer {
-    height: 20em;
     margin: 0 auto;
     width: 81%;
+    height: 300px;
     box-sizing: border-box;
+    padding: 0.5%;
+    overflow: scroll;
 }
-.listContainer>hr {
+.buyingProduct {
+    display: grid;
+    grid-template-columns: 10% 70% 20%;
+    margin: 0 auto;
+    padding-left: 1.5%;
+    border-bottom: 1px #dbe7f8 solid;
+    width: 100%;
+    align-items: center;
+    /*justify-content: space-around;*/
+}
+.buyingProduct>hr {
     width: 95%;
     margin: 0 auto;
 }
-.buyingProduct {
-    display: flex;
-    align-items: center;
+.buyingProduct * {
+    font-size: small;
 }
 .thumnail {
-    width: 7%;
-    padding: 0.5em;
+    max-width: 50px;
+    padding-bottom: 5px;
 
 }
 .thumnail>img {
@@ -49,35 +61,114 @@ body>hr {
     border-radius: 5px;
 }
 .product {
-    width: 70%;
+    width: 600px;
+}
+.productName>span {
+    font-weight: bolder;
+}
+.productDetail>span {
+    font-size: smaller;
+    color: gray;
 }
 .options {
-    width: 25%;
+    width: 205px;
 }
 .options span {
-    font-weight: bold;
+    font-size: smaller;
 }
 .quantity {
+    display: flex;
+    align-items: center;
 }
-.quantity>input {
-    display: inline-block;
-    width: 40%;
+.quantity>span {
+    margin-right: 1em;
+}
+.amount {
+    width: 46px;
+    height: 1.2rem;
+    border: 1px #C4C2FF solid;
+    margin-right: 0;
+    margin-left: 0;
+    text-align: center;
+}
+.amountButtons {
+    width: 1.2rem;
+    height: 1.2rem;
+    border: 1px #e3e6fa solid;
+    font-size: 1rem;
+    background-color: #e3e6fa;
+    margin-right: 0;
+    margin-left: 0;
+    text-align: center;
+    padding: 0;
+    box-sizing: border-box;
+}
+.amountButtons>div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.amountButtons img {
+    width: 8px;
+    height: 8px;
+    object-fit: contain;
+    vertical-align: middle;
 }
 .price {
     display: flex;
 }
 .price>span:nth-child(2) {
-    margin-left: 4em;
+    margin-left: 3.5em;
+    margin-right: 0;
 }
 .addressContainer {
     grid-area: a;
     padding: 1em;
 }
+.addressContainer hr {
+    margin: 1.5% auto;
+}
 .addressApi {
-    border: 1px #C4C2FF solid;
-    border-radius: 7px;
-    height: 100%;
-    margin: 0 auto;
+    height: 5em;
+    margin: 0 auto 1% auto;
+}
+#postcode, #address, #detailAddress {
+    border-radius: 5px;
+    border: 1px #c2c0fe solid;
+    margin-top: 0.5px;
+    margin-bottom: 0.5px;
+    font-size: smaller;
+}
+#address, #detailAddress {
+    width: 400px;
+}
+.addrSpan {
+    display: inline-block;
+    text-align: center;
+    line-height: 5.5em;
+    vertical-align: middle;
+    margin-right: 2%;
+}
+.addressApi, .deliveryRequest {
+    display: grid;
+    grid-template-columns: 15% 83%;
+}
+#addrButton {
+    border-radius: 5px;
+    border: 1px #e3e6fa solid;
+    background-color: #e3e6fa;
+    font-size: small;
+}
+.deliveryRequest {
+    height: 5.5em;
+}
+#deliveryRequest {
+    resize: none;
+    border-radius: 5px;
+    border: 1px #c2c0fe solid;
+    margin-top: 0.5px;
+    margin-bottom: 0.5px;
+    font-size: smaller;
 }
 .payP>p {
     margin-bottom: 0;
@@ -85,6 +176,7 @@ body>hr {
     position: relative;
     left: 1.5em;
     width: 50%;
+    margin-top: 1%;
 }
 .payInfo {
     display: grid;
@@ -94,11 +186,56 @@ body>hr {
         "b side";
     grid-gap: 1%;
     width: 80%;
-    margin: 0 auto;
+    margin: 0 auto 2% auto;
     box-sizing: border-box;
 }
 .payDescription {
     grid-area: b;
+}
+.payApi {
+    padding: 2%;
+}
+#card p {
+    font-weight: bold;
+    margin-bottom: 1%;
+}
+.cardDetail input {
+    border-radius: 5px;
+    border: 1px #c2c0fe solid;
+    font-size: smaller;
+    width: 300px;
+}
+.infoSwitch {
+    border: 1px #C4C2FF solid;
+    border-radius: 7px;
+    padding: 2.5%;
+    display: none;
+}
+#account>hr {
+    margin: 0 auto 2% auto;
+}
+#account p {
+    font-weight: bold;
+    margin-bottom: 0;
+}
+#easyPay button {
+    border: none;
+    background-color: white;
+    width: 100px;
+}
+#easyPay img {
+    width: 100%;
+    object-fit: fill;
+}
+.payType {
+    margin-left: 2%;
+    margin-bottom: 1%;
+}
+.cardInfo hr {
+    margin: 1% auto;
+}
+.userInfoDescription p {
+    margin: 0 auto;
 }
 .paymentContainer {
     border: 1px #C4C2FF solid;
@@ -112,21 +249,32 @@ body>hr {
     margin: 0 auto;
 }
 .userInfoContainer {
+    height: 361px;
     grid-area: side;
     border: 1px #C4C2FF solid;
     border-radius: 7px;
     padding: 1em;
+    height: 380px;
 }
 .userInfoDescription {
     border: 1px #C4C2FF solid;
     border-radius: 7px;
+    padding-left: 2%;
+    height: 77%;
+}
+.userInfoDescription>p {
+    font-weight: bold;
+    margin-bottom: 1%;
+}
+.userInfoDescription>div {
+    padding-left: 2%;
 }
 .userInfoDescription>hr {
-    width: 90%;
+    width: 95%;
+    margin: 1% auto;
 }
-.priceInfo {
-    display: flex;
-    flex-direction: column;
+.payButton {
+
 }
 .payButton>button {
     width: 100%;
@@ -135,7 +283,8 @@ body>hr {
     color: white;
     border-radius: 5px;
     border: none;
-    margin-top: 1em;
+    margin-top: 16px;
+    margin-bottom: 0;
     font-weight: bold;
 }
 @media screen and (max-width : 767px) {
@@ -165,17 +314,30 @@ body>hr {
     .listContainer * {
         font-size: 0.7rem;
     }
+    .buyingProduct {
+        display: grid;
+        grid-template-columns: 10% 60% 30%;
+    }
     .product {
-        width: 50%
+        width: 100%
     }
     .options {
-        width: 40%;
-
+        width: 100%;
+    }
+    #centerCategory, #notice {
+        display: none;
+    }
+    .addressApi, .deliveryRequest {
+        grid-template-columns: 17% 85%;
     }
 }
-@media screen and (min-width : 768px) and (max-width : 1024px) {
+@media screen and (min-width : 767px) and (max-width : 1080px) {
     .listContainer {
         width: 80%;
+    }
+    .buyingProduct {
+        display: grid;
+        grid-template-columns: 10% 50% 30%;
     }
     .thumnail {
         width: 6em;
@@ -194,10 +356,20 @@ body>hr {
         width: 80%;
         margin-top: 1.5em;
     }
+    .buyingProduct {
+        display: grid;
+        grid-template-columns: 10% 60% 30%;
+    }
     .product {
-        width: 50%
+        width: 100%
     }
     .options {
-        width: 40%;
+        width: 100%;
+    }
+    #centerCategory, #notice {
+        display: none;
+    }
+    .addressApi, .deliveryRequest {
+        grid-template-columns: 15% 85%;
     }
 }

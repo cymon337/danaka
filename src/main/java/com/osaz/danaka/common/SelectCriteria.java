@@ -18,6 +18,24 @@ public class SelectCriteria implements java.io.Serializable {
 	
 	public SelectCriteria() {}
 
+	// 성식이 notice
+	public SelectCriteria(int pageNo, int totalCount, int limit, int buttonAmount, int maxPage, int startPage,
+						  int endPage, int startRow, int endRow, String searchCondition, String searchValue) {
+		super();
+		this.pageNo = pageNo;
+		this.totalCount = totalCount;
+		this.limit = limit;
+		this.buttonAmount = buttonAmount;
+		this.maxPage = maxPage;
+		this.startPage = startPage;
+		this.endPage = endPage;
+		this.startRow = startRow;
+		this.endRow = endRow;
+		this.searchCondition = searchCondition;
+		this.searchValue = searchValue;
+	}
+
+	// 승재 product
 	public SelectCriteria(int pageNo, int totalCount, int limit, int buttonAmount, int maxPage, int startPage,
 			int endPage, int startRow, int endRow, String searchCondition, String searchValue, String categoryCode, String orderCondition) {
 		super();

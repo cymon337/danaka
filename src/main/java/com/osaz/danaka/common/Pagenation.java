@@ -2,6 +2,10 @@ package com.osaz.danaka.common;
 
 public class Pagenation {
 
+    public static SelectCriteria getSelectCriteria(int pageNo, int totalCount, int limit, int buttonAmount) {
+
+        return getSelectCriteria(pageNo, totalCount, limit, buttonAmount, null, null);
+    }
     /* 검색어가 없는 경우 페이징 처리만을 위한 용도 */
     public static SelectCriteria getSelectCriteria(int pageNo, int totalCount, int limit, int buttonAmount, String categoryCode, String orderCondition) {
 
@@ -56,7 +60,13 @@ public class Pagenation {
         System.out.println("startRow : " + startRow);
         System.out.println("endRow : " + endRow);
 
-        SelectCriteria selectCriteria = new SelectCriteria(pageNo, totalCount, limit, buttonAmount, maxPage, startPage, endPage, startRow, endRow, searchCondition, searchValue, categoryCode, orderCondition);
+        SelectCriteria selectCriteria;
+
+        if(categoryCode == null && orderCondition == null) {
+            selectCriteria = new SelectCriteria(pageNo, totalCount, limit, buttonAmount, maxPage, startPage, endPage, startRow, endRow, searchCondition, searchValue);
+        } else {
+            selectCriteria = new SelectCriteria(pageNo, totalCount, limit, buttonAmount, maxPage, startPage, endPage, startRow, endRow, searchCondition, searchValue, categoryCode, orderCondition);
+        }
 
         return selectCriteria;
     }

@@ -27,5 +27,9 @@ spring:
 server:
   port: 8090
 
+# 로그레벨설정 TRACE > DEBUG > INFO > WARN > ERROR  (개발서버는 debug  / 운영서버는 info)
+logging:
+  level:
+    com.osaz.danaka: debug
 
 

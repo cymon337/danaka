@@ -9,7 +9,7 @@ public class ProductDTO {
 
     private int productNo;
     private String categoryCode;
-    private int brandNo;
+    private String brandName;
     private String productName;
     private Date productRegDate;
     private LineDTO line;

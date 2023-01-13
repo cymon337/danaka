@@ -1,129 +1,332 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
     <!-- index.html css -->
     <link rel="stylesheet" th:href="@{ /css/indexCss.css }"/>
-    <!--    &lt;!&ndash; 부트스트랩 &ndash;&gt;-->
+    <!-- 부트스트랩 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous"/>
-    <!--    &lt;!&ndash; 아이콘 &ndash;&gt;-->
+    <!-- 아이콘 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css"/>
-    <!--    &lt;!&ndash; 제이쿼리 &ndash;&gt;-->
+    <!-- 제이쿼리 -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <!--    &lt;!&ndash; 자바스크립트 &ndash;&gt;-->
+    <!-- 자바스크립트 -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
             crossorigin="anonymous"></script>
+
+    <!-- 카카오톡 공유하기 -->
+    <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.1.0/kakao.min.js"
+            integrity="sha384-dpu02ieKC6NUeKFoGMOKz6102CLEWi9+5RQjWSV0ikYSFFd8M3Wp2reIcquJOemx" crossorigin="anonymous"></script>
+    <script>
+        Kakao.init('179529a4be026dbb9680f16bff85f4f6');
+    </script>
+
     <!-- 승재 css -->
     <link rel="stylesheet" type="text/css" th:href="@{ /css/item.css }"/>
+    <link rel="stylesheet" type="text/css" th:href="@{ /css/modal.css }"/>
 </head>
 <body>
 
 <div class="header">
     <th:block th:replace="~{common/header2 :: header}"/>
 </div>
-
+<div>
+    <th:block th:replace="~{common/modal :: successM}"/>
+</div>
+<div>
+    <th:block th:replace="~{common/modal :: shareM}"/>
+</div>
+<div>
+    <th:block th:replace="~{common/modal :: backtotop}"/>
+</div>
 <div class="productContainer">
     <div class="imgContainer">
         <div class="bigImg">
             <img th:src="${ product.savePath }">
         </div>
         <div class="otherImges">
-            <div class="otherImg"><img th:src="@{ /image/rod/rod5.png }"></div>
-            <div class="otherImg"><img th:src="@{ /image/rod/rod5.png }"></div>
-            <div class="otherImg"><img th:src="@{ /image/rod/rod5.png }"></div>
-            <div class="otherImg"><img th:src="@{ /image/rod/rod5.png }"></div>
-            <div class="otherImg"><img th:src="@{ /image/rod/rod5.png }"></div>
+            <div class="otherImg"><img th:src="${ product.savePath }"></div>
+            <th:block th:each="option : ${ optionList }">
+                <th:block th:switch="${ option.categoryCode }">
+                    <div class="otherImg" th:case="RD"><img th:src="${ option?.savePath }?:'/image/rod/rodDefault.png'"></div>
+                    <div class="otherImg" th:case="RL"><img th:src="${ option?.savePath }?:'/image/reel/reelDefault.png'"></div>
+                    <div class="otherImg" th:case="LN"><img th:src="${ option?.savePath }?:'/image/line/lineDefault.png'"></div>
+                </th:block>
+            </th:block>
         </div>
     </div>
     <div class="detailContainer">
-        <form action="/product/purchase" method="post">
+        <form action="/product/purchase" method="get">
+            <input type="hidden" id="productNo" name="orgProductNo" th:value="${ product.productNo }">
         <div class="productName">
             <h2 th:text="${ product.productName }">상품명</h2>
         </div>
         <div class="productDetail">
             <th:block th:switch="${ product.categoryCode }">
-                <p th:case="RD" th:text="${ product.rod }">상품내용</p>
-                <p th:case="RL" th:text="${ product.reel }">상품내용</p>
-                <p th:case="LN" th:text="${ product.line }">상품내용</p>
+                <p class="orgContent" th:case="RD">브랜드 : [[${ product.brandName }]], [[${ product.rod }]]</p>
+                <p class="orgContent" th:case="RL">브랜드 : [[${ product.brandName }]], [[${ product.reel }]]</p>
+                <p class="orgContent" th:case="LN">브랜드 : [[${ product.brandName }]], [[${ product.line }]]</p>
+            </th:block>
+            <th:block th:each="option : ${ optionList }">
+                <th:block th:switch="${ product.categoryCode }">
+                    <p hidden="true" th:case="RD" th:class="${ option.productNo }">브랜드 : [[${ product.brandName }]], [[${ option.rod }]]</p>
+                    <p hidden="true" th:case="RL" th:class="${ option.productNo }">브랜드 : [[${ product.brandName }]], [[${ option.reel }]]</p>
+                    <p hidden="true" th:case="LN" th:class="${ option.productNo }">브랜드 : [[${ product.brandName }]], [[${ option.line }]]</p>
+                </th:block>
             </th:block>
         </div>
-        <hr>
-        <div class="quantity">
-            <span>수량 : </span>
-            <input type="number" name="quantity" id="quantity" min="1" value="1" step="1">
-        </div>
-        <div class="price">
-            <span>총 가격 : </span>
-            <th:block th:switch="${ product.categoryCode }">
-                <span class="totalPrice" th:case="RD" th:text="${ #numbers.formatCurrency(product.rod?.price) }"></span>
-                <span class="totalPrice" th:case="RL" th:text="${ #numbers.formatCurrency(product.reel?.price) }"></span>
-                <span class="totalPrice" th:case="LN" th:text="${ #numbers.formatCurrency(product.line?.price) }"></span>
-            </th:block>
-
-        </div>
-        <div class="option">
-            <select name="option" id="option">
-                <option value="" selected="true">옵션선택</option>
+        <div id="toBottom">
+            <hr>
+            <div class="quantity">
+                <span>수량 : </span>
+                <div>
+    <!--            <input type="number" name="amount" id="quantity" min="1" value="1" step="1">-->
+                    <button type="button" class="amountButtons" value="-"><div><img th:src="@{ /image/minus.png }"></div></button>
+                    <input type="text" name="amount" id="quantity" value="1" readonly>
+                    <button type="button" class="amountButtons" value="+"><div><img th:src="@{ /image/plus.png }"></div></button>
+                </div>
+            </div>
+            <div class="price">
+                <span>총 가격 : </span>
+                <span>₩
+                    <th:block th:switch="${ product.categoryCode }">
+                        <span th:class="totalPrice" th:case="RD" th:text="${ product.rod.price }"></span>
+                        <span th:class="totalPrice" th:case="RL" th:text="${ product.reel.price }"></span>
+                        <span th:class="totalPrice" th:case="LN" th:text="${ product.line.price }"></span>
+                    </th:block>
+                </span>
                 <th:block th:each="option : ${ optionList }">
                     <th:block th:switch="${ product.categoryCode }">
-                        <option th:case="RD" th:value="${ option.productNo }">[[${ option.rod.model }]] : [[${ #numbers.formatCurrency(option.rod.price) }]]</option>
-                        <option th:case="RL" th:value="${ option.productNo }">[[${ option.reel.model }]] : [[${ #numbers.formatCurrency(option.reel.price) }]]</option>
-                        <option th:case="LN" th:value="${ option.productNo }">[[${ option.line.lineSize }]] : [[${ #numbers.formatCurrency(option.line.price) }]]</option>
+                        <p hidden="true" th:class="${ option.productNo } + totP" th:case="RD" th:text="${ option.rod.price }"></p>
+                        <p hidden="true" th:class="${ option.productNo } + totP" th:case="RL" th:text="${ option.reel.price }"></p>
+                        <p hidden="true" th:class="${ option.productNo } + totP" th:case="LN" th:text="${ option.line.price }"></p>
                     </th:block>
                 </th:block>
-            </select>
-        </div>
-        <div class="buttons">
-            <button type="button" th:onclick="|location.href='@{/product/wish(productNo=${ product.productNo })}'|"><img th:src="@{ /image/heart.png }"></button>
-            <button type="button" th:onclick="|location.href='@{/product/share(productNo=${ product.productNo })}'|"><img th:src="@{ /image/share.png }"></button>
-            <button type="button" th:onclick="|location.href='@{/product/cart2(productNo=${ product.productNo })}'|"><img th:src="@{ /image/cart.png }"></button>
-            <button type="submit" id="buy">구매하기</button>
+
+            </div>
+            <div class="option">
+                <select name="option" id="option">
+                    <th:block th:switch="${ product.categoryCode }">
+                        <option th:case="RD" th:value="${ product.productNo }" selected="true">[[${ product.rod.model }]] : [[${ #numbers.formatCurrency(product.rod.price) }]]</option>
+                        <option th:case="RL" th:value="${ product.productNo }" selected="true">[[${ product.reel.model }]] : [[${ #numbers.formatCurrency(product.reel.price) }]]</option>
+                        <option th:case="LN" th:value="${ product.productNo }" selected="true">[[${ product.line.lineSize }]] : [[${ #numbers.formatCurrency(product.line.price) }]]</option>
+                    </th:block>
+                    <th:block th:each="option : ${ optionList }">
+                        <th:block th:switch="${ product.categoryCode }">
+                            <option th:case="RD" th:value="${ option.productNo }">[[${ option.rod.model }]] : [[${ #numbers.formatCurrency(option.rod.price) }]]</option>
+                            <option th:case="RL" th:value="${ option.productNo }">[[${ option.reel.model }]] : [[${ #numbers.formatCurrency(option.reel.price) }]]</option>
+                            <option th:case="LN" th:value="${ option.productNo }">[[${ option.line.lineSize }]] : [[${ #numbers.formatCurrency(option.line.price) }]]</option>
+                        </th:block>
+                    </th:block>
+                </select>
+            </div>
+            <div class="buttons">
+                <button type="button" id="insertWish"><img th:src="@{ /image/heart.png }"></button>
+                <button type="button" onclick="modalSwitch(2)"><img th:src="@{ /image/share.png }"></button>
+                <button type="button" id="insertCart"><img th:src="@{ /image/cart.png }"></button>
+                <button type="submit" id="buy">구매하기</button>
+            </div>
         </div>
         </form>
     </div>
 </div>
 <hr>
 <div class="refItemsContainer">
-    <div><p><</p></div>
-    <div><img src="/image/rod/rod5.png" alt=""></div>
-    <div><img src="/image/rod/rod5.png" alt=""></div>
-    <div><img src="/image/rod/rod5.png" alt=""></div>
-    <div><img src="/image/rod/rod5.png" alt=""></div>
-    <div><img src="/image/rod/rod5.png" alt=""></div>
-    <div><img src="/image/rod/rod5.png" alt=""></div>
-    <div><p>></p></div>
+    <div id="slideShow">
+    <div class="refItems" id="refItems">
+<!--        <th:block th:replace="~{product/refProducts :: #refItems}"/>-->
+    </div>
+    </div>
+    <div class="refMove" id="refLeft"><button type="button" value="-"><</button></div>
+    <div class="refMove" id="refRight"><button type="button" value="+">></button></div>
 </div>
 <hr>
 <div class="contentContainer">
     <div class="content">
-
+        <h2>본문 내용</h2>
     </div>
 </div>
 <script th:inline="javascript">
-    $(document).ready(function(){
+    /* 원래 상품 번호 */
+    const orgProductNo = [[${ product.productNo }]];
+    /* 화면 로딩 시 기본 수량에 따른 총 가격 출력 */
+    const $orgPrice = new Number($(".totalPrice").text());
+    $(".totalPrice").text($orgPrice.toLocaleString());
+    let $productNo;
 
-        let categoryCode = [[${ product.categoryCode }]];
+    /* 이미지 바꾸기 */
+    $(".otherImg").on("click", function () {
+
+        const $otherImg = $(this).html();
+
+        $(".bigImg").html($otherImg);
+    });
+
+    /* 수량 변경 버튼 함수 + 수량 변화에 따라 가격 바꾸기 */
+    $(".amountButtons").on("click", function () {
+
+        switch ($(this).val()) {
+            case "-": if($("#quantity").val() > 1) $("#quantity").val(new Number($("#quantity").val()) - 1); break;
+            case "+": $("#quantity").val(new Number($("#quantity").val()) + 1); break;
+        }
+
         /* 총 가격 용 변수 */
         let $totPrice;
-        console.log(categoryCode);
+        if($("#option").val() == [[${ product.productNo }]]) {
 
-        /* 총 가격 입력 용 함수 */
-        $("#quantity").on("change", function () {
-
-            switch (categoryCode) {
-                case "RD":
-                    $totPrice = [[${ product.rod?.price }]] * $("#quantity").val(); break;
-                case "RL":
-                    $totPrice = [[${ product.reel?.price }]] * $("#quantity").val(); break;
-                case "LN":
-                    $totPrice = [[${ product.line?.price }]] * $("#quantity").val(); break;
-            }
-            $totPrice = "₩" + $totPrice.toLocaleString();
+            $totPrice = $orgPrice * $("#quantity").val();
+            $totPrice = $totPrice.toLocaleString();
             $(".totalPrice").text($totPrice);
-        })
+        } else {
+
+            let $newPrice = $("." + $("#option").val() + "totP").text();
+            $totPrice = $newPrice * $("#quantity").val();
+            $totPrice = $totPrice.toLocaleString();
+            $(".totalPrice").text($totPrice);
+        }
+    });
+
+    /* 해당 상품 위시리스트에 넣기 */
+    $("#insertWish").on("click", function () {
+
+        $productNo = $("#option").val();
+
+        location.href="/product/wish?productNo=" + $productNo + "&orgProductNo=" + orgProductNo + "&userNo=" + $("#userNo").text();
+    });
+
+    /* 해당 상품 장바구니에 넣기 */
+    $("#insertCart").on("click", function () {
+
+        $productNo = $("#option").val();
+        const $amount = $("#quantity").val();
+
+        location.href="/product/cart?productNo=" + $productNo + "&amount=" + $amount + "&orgProductNo=" + orgProductNo + "&userNo=" + $("#userNo").text();
+    });
+
+    /* 옵션 변경시 상품 정보 및 가격 바꾸기 */
+    const $orgContent = $(".orgContent").text();
+
+    $("#option").on("change", function () {
+
+        const $selectedOption = $("." + $(this).val()).text();
+        let $selectedPrice = new Number($("." + $(this).val() + "totP").text());
+
+        if($(this).val() == orgProductNo) {
+
+            let $orgProductPrice = $orgPrice.toLocaleString();
+            $(".orgContent").text($orgContent);
+            $(".totalPrice").text($orgProductPrice);
+            $("#quantity").val(1);
+            return;
+        }
+
+        $selectedPrice = $selectedPrice.toLocaleString();
+        $(".orgContent").text($selectedOption);
+        $(".totalPrice").text($selectedPrice);
+        $("#quantity").val(1);
+    });
+
+    $(document).ready(function (){
+        /* 모달 창 띄우기 */
+        if ([[${ successMessage }]] != null || [[${ failMessage }]] != null) {
+            modalSwitch(1);
+        }
+
+        /* 관련 상품 이미지 갖고오기 */
+        const param = { productNo : orgProductNo };
+        $.ajax({
+            type: "GET",
+            url: "/product/refItems",
+            data: param,
+        }).done(function (data) {
+            $("#refItems").replaceWith(data);
+        });
+    })
+
+    /* 관련 상품 버튼 */
+    $(".refMove").on("click", function () {
+
+        if($(this).val() == "+") {
+
+        }
+    })
+
+    /* 모달 창 닫기 버튼 */
+    $(".modalCloseButton, .modalLayer").on("click", function() {
+
+        modalSwitch(3);
+    });
+
+    /* 모달창 스위치 함수 */
+    function modalSwitch(key) {
+
+        switch (key) {
+            case 1: $("#successM").show(); break;
+            case 2: $("#shareM").show(); break;
+            case 3: $(".modal").hide(); break;
+        }
+    }
+
+    /* 공유하기 url 복사 */
+    $("#currentUrl").on("click", function () {
+
+        $("#currentUrl").select();
+        let copy = document.execCommand("copy");
+
+        if(copy) {
+            alert("URL 복사되었습니다.");
+        }
+    })
+
+    /* sns 공유하기 */
+    function snsShare(sns) {
+
+        let thisUrl = document.URL;
+        let snsTitle = "DANAKA";
+        if (sns == 'fb') {
+            let url = "https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(thisUrl);
+            window.open(url, "", "width=486, height=286");
+        } else if (sns == 'tw') {
+            let url = "https://www.twitter.com/share?url=" + encodeURIComponent(thisUrl) + "&text=" + encodeURIComponent(snsTitle);
+            window.open(url, "tweetPop", "width=486, height=286,scrollbars=yes");
+        } else if (sns == 'nv') {
+            let url = "https://share.naver.com/web/shareView?url=" + encodeURIComponent(thisUrl) + "&text=" + encodeURIComponent(snsTitle);
+            window.open(url, "네이버 공유하기", "width=486, height=286,scrollbars=yes");
+        } else if (sns == 'kt') {
+            Kakao.Share.sendScrap({
+                requestUrl: thisUrl,
+            });
+        }
+    }
+
+    /* 관련상품 이미지 슬라이드쇼 */
+    let currentIdx = 0;
+    function moveSlide(num) {
+
+        $("#refItems").css("left", -num * 105 + 'px');
+        currentIdx = num;
+    }
+
+    $(".refMove").children().on('click', function () {
+        let $visibleItems = Math.floor($(".refItemsContainer").width() / 105) - 1;
+        let slideCount = $(".refItem").length - $visibleItems;
+        console.log(slideCount);
+        if(slideCount > 0) {
+            switch ($(this).val()){
+                case "+":
+                    if (currentIdx !== slideCount - 1) {
+                        console.log("뭐지");
+                        moveSlide(currentIdx + 1);
+                    } break;
+                case "-":
+                    if (currentIdx !== 0) {
+                        moveSlide(currentIdx - 1);
+                    } break;
+            }
+        }
     });
 </script>
 

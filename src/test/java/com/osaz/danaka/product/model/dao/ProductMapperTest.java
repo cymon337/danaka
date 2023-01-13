@@ -29,7 +29,7 @@ class ProductMapperTest {
     }
 
     @Test
-    public void 카테고리별_상품_총개수_조회용_매퍼_테스트() {
+    public void 페이징_처리용_총_상품_개수_조회_매퍼_테스트() {
 
         // given
         HashMap<String, String> searchMap = new HashMap<>();
@@ -43,7 +43,7 @@ class ProductMapperTest {
     }
 
     @Test
-    public void 카테고리별_상품_조회용_매퍼_테스트() {
+    public void 카테고리별_상품들_조회_매퍼_테스트() {
 
         // given
         String categoryCode = "RD";
@@ -71,7 +71,7 @@ class ProductMapperTest {
     }
 
     @Test
-    public void 상품_조회용_매퍼_테스트(){
+    public void 상품_상세페이지용_조회_매퍼_테스트(){
 
         // given
         String productNo = "1";
@@ -79,5 +79,59 @@ class ProductMapperTest {
         ProductDTO product = productMapper.selectOneProduct(productNo);
         // then
         assertNotNull(product);
+    }
+
+    @Test
+    public void 상품_상세페이지용_옵션상품들_조회_매퍼_테스트() {
+
+        // given
+        String productName = "ROD01";
+        // when
+        List<ProductDTO> optionList = productMapper.selectOptionList(productName);
+        // then
+        assertNotNull(optionList);
+    }
+
+    @Test
+    public void 상품_상세페이지용_관련상품들_조회_매퍼_테스트() {
+
+        // given
+        String productNo = "1";
+        // when
+        List<ProductDTO> refProductList = productMapper.selectRefProducts(productNo);
+        // then
+        assertNotNull(refProductList);
+    }
+
+    @Test
+    public void 위시리스트_테이블에_추가_매퍼_테스트() {
+
+        // given
+        String userNo = "1";
+        String productNo = "1";
+        HashMap<String, String> wishMap  = new HashMap<>();
+        wishMap.put("userNo", userNo);
+        wishMap.put("productNo", productNo);
+        // when
+        int result = productMapper.insertWishProduct(wishMap);
+        // then
+        assertTrue(result >= 0? true:false);
+    }
+
+    @Test
+    public void 장바구니_테이블에_추가_매퍼_테스트() {
+
+        // given
+        String userNo = "1";
+        String productNo = "1";
+        String amount = "1";
+        HashMap<String, String> cartMap  = new HashMap<>();
+        cartMap.put("userNo", userNo);
+        cartMap.put("productNo", productNo);
+        cartMap.put("amount", amount);
+        // when
+        int result = productMapper.insertCartProduct(cartMap);
+        // then
+        assertTrue(result >= 0? true:false);
     }
 }
