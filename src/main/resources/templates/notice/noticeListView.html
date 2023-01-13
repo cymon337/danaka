@@ -8,7 +8,8 @@
 <!--    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>-->
 
     <!-- 타임리프용 헤더 스타일 시트 적용-->
-    <link rel="stylesheet" th:href="@{/css/indexCss.css}" />
+<!--    <link rel="stylesheet" type="text/css" href="/css/indexCss.css?ver=1"/>-->
+    <link rel="stylesheet" th:href="@{/css/indexCss.css}"/>
 
 <!--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">-->
 <!--    -->
@@ -30,69 +31,9 @@
     <!-- 자바스크립트 -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 
-    <style>
-        #contentArea {width:60%}
-        #contentArea *{margin:5px}
-
-        /* adds some margin below the link sets  */
-        .navbar .dropdown-menu div[class*="col"] {
-            margin-bottom:1rem;
-        }
-
-        .navbar .dropdown-menu {
-            border:none;
-            background-color:#0060c8!important;
-        }
-
-        /* breakpoint and up - mega dropdown styles */
-        @media screen and (min-width: 992px) {
-
-            /* remove the padding from the navbar so the dropdown hover state is not broken */
-            .navbar {
-                padding-top:0px;
-                padding-bottom:0px;
-            }
-
-            /* remove the padding from the nav-item and add some margin to give some breathing room on hovers */
-            .navbar .nav-item {
-                padding:.5rem .5rem;
-                margin:0 .25rem;
-            }
-
-            /* makes the dropdown full width  */
-            .navbar .dropdown {position:static;}
-
-            .navbar .dropdown-menu {
-                width:100%;
-                left:0;
-                right:0;
-                /*  height of nav-item  */
-                top:165px;
-
-                display:block;
-                visibility: hidden;
-                opacity: 0;
-                transition: visibility 0s, opacity 0.3s linear;
-
-            }
-
-            /* shows the dropdown menu on hover */
-            .navbar .dropdown:hover .dropdown-menu, .navbar .dropdown .dropdown-menu:hover {
-                display:block;
-                visibility: visible;
-                opacity: 1;
-                transition: visibility 0s, opacity 0.3s linear;
-            }
-
-            .navbar .dropdown-menu {
-                border: 1px solid rgba(0,0,0,.15);
-                background-color: #fff;
-            }
-
-        }
-    </style>
-
     <script>
+        // document.querySelector('link[href="/css/indexCss.css"]').remove();
+
         const successMessage = "[[${ successMessage }]]";
         console.log(successMessage);
         if (successMessage){
@@ -122,7 +63,6 @@
                     <th>글번호</th>
                     <th>제목</th>
                     <th>작성자</th>
-                    <th width="300px">내용</th>
                     <th>작성일</th>
                     <th>조회수</th>
 <!--                    <th></th>-->
@@ -133,7 +73,6 @@
                         <td th:text="${notice.noticeNo}"></td>
                         <td><a th:href="@{/notice/noticeDetail(noticeNo=${ notice.noticeNo })}" th:text="${notice.noticeName}"></a></td>
                         <td th:text="${notice.userName}"></td>
-                        <td th:text="${notice.noticeContent}"></td>
                         <td th:text="${#dates.format(notice.noticeDate, 'yyyy-MM-dd HH:mm')}"></td>
                         <td th:text="${notice.noticeCount}"></td>
 <!--                        <td><a href="/board" th:href="@{/templates/notice/delete/{id}(id=${notice.noticeNo})}" class="btn btn-danger">삭제</a></td>-->
@@ -141,15 +80,9 @@
                 </tbody>
             </table>
             <br>
-
-            <div class="row align-items-end" id="backtotop"><!-- - .align-items-start, .align-items-end, .align-items-center, .align-items-baseline및 .align-items-stretch (기본값)입니다 - -->
-                <button type="button" class="btn btn-info btn-lg" onclick="window.scrollTo(0,0);">
-                    ▲TOP
-                </button>
-            </div>
-
         </div>
 
+        <!--게시글 추가-->
         <div align="center">
             <a th:href="@{'noticeEnroll'}" class="btn btn-primary">게시글추가</a>
         </div>
@@ -158,7 +91,7 @@
 
 <!-- 페이징 처리-->
 <div class="paging">
-    <th:block th:include="~{common/noticePaging :: paging}" />
+    <th:block th:include="~{common/paging :: paging}" />
 </div>
 <br>
 <!-- 검색 폼 -->
@@ -166,12 +99,20 @@
     <form id="loginForm" th:action="@{/notice/noticeListView}" method="get" style="display:inline-block">
         <input type="hidden" name="currentPage" value="1">
         <select id="searchCondition" name="searchCondition"> <!-- 선택 유지? selected -->
+            <option value="total">전체</option>
             <option value="title">제목</option>
             <option value="content">내용</option>
         </select>
         <input type="search" id="searchValue" name="searchValue"/>
         <button type="submit">검색하기</button>
     </form>
+</div>
+
+<!--TOP버튼-->
+<div class="row align-items-end" id="goTop">
+    <button type="button" class="btn btn-info btn-lg" onclick="window.scrollTo(0,0);">
+        ▲TOP
+    </button>
 </div>
 
 <!--<div class="search-area" align="center">
@@ -187,6 +128,22 @@
         <button id="writeBoard">작성하기</button>
     </c:if>
 </div>-->
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    // 검색 기준 유지 : 쿼리스트링에 따라 빈 값(첫 화면)일 경우 전체로 설정, 수동 변경 시 화면 이동할때도 값 유지
+    window.onload=function() {
+        let search = document.getElementById('searchCondition');
+        let data = [[ ${param.searchCondition} ]]
+
+        if(data == null){
+            search.value = "total";
+        }else{
+            search.value = data;
+        }
+    }
+    /*]]*/
+</script>
 
 </body>
 </html>

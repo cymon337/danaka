@@ -124,7 +124,6 @@ body {
 /*중앙 카테고리*/
 #centerCategory {
     font-size: 1.3em;
-    margin-right: 120px;
 }
 
 #centerCategory>li>a {
@@ -172,3 +171,5 @@ body {
 .dropdown-menu>li>a:hover {
     background-color: rgba(0, 0, 196, 0.26);
 }
+
+

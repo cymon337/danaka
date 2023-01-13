@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title> NoticeModify </title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- 타임리프용 헤더 스타일 시트 적용-->
+    <link rel="stylesheet" th:href="@{/css/indexCss.css}" />
+
+    <!-- 부트스트랩 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+
+    <!-- 아이콘 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+
+    <!-- 제이쿼리 -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <!-- 자바스크립트 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<!--타임리프용 헤더-->
+<div class="header">
+    <th:block th:replace="~{common/header :: header}" />
+</div>
+
+    <div class="content">
+        <br><br>
+        <h2 align="center">회원정보 수정</h2>
+
+        <br>
+
+        <form th:action="@{/admin/adminMemberModify}"  method="post" onsubmit="updateMember()">
+            <table class="table" align="center" id="contentArea">
+                <input type="hidden" name="userNo" th:value="${member.userNo}"/>
+                <tr>
+                    <th width="100">회원번호</th>
+                    <td colspan="3" th:text="${member.userNo}"></td>
+                </tr>
+                <tr>
+                    <th>아이디</th>
+                    <td th:text="${member.userId}"></td>
+                </tr>
+                <tr>
+                    <th>닉네임</th>
+                    <td><input type="text" class="form-control" name = "userNickname" th:field="${member.userNickname}" required></td>
+                </tr>
+                <tr>
+                    <th>비밀번호</th>
+                    <td><input type="text" class="form-control" name = "userPwd" th:field="${member.userPwd}" required></td>
+                </tr>
+                <tr>
+                    <th>이름</th>
+                    <td th:text="${member.userName}"></td>
+                </tr>
+                <tr>
+                    <th>생년월일</th>
+                    <td th:text="${#dates.format(member.birthday, 'yyyy-MM-dd')}"></td>
+                </tr>
+                <tr>
+                    <th>성별</th>
+                    <td th:text="${member.gender}"></td>
+                </tr>
+                <tr>
+                    <th>주소</th>
+                    <td><input type="text" class="form-control" name = "address" th:field="${member.address}" required></td>
+                </tr>
+                <tr>
+                    <th>이메일</th>
+                    <td><input type="email" class="form-control" name = "email" th:field="${member.email}" required></td>
+                </tr>
+                <tr>
+                    <th>휴대전화</th>
+                    <td><input type="tel" id="phone" class="form-control" name = "phone" th:field="${member.phone}" required></td>
+                </tr>
+                <tr>
+                    <th>가입일</th>
+                    <td th:text="${#dates.format(member.regDate, 'yyyy-MM-dd HH:mm')}"></td>
+                </tr>
+                <tr>
+                    <th>회원상태</th>
+                    <td th:text="${member.status}"></td>
+                </tr>
+                <tr>
+                    <th>권한</th>
+                    <td th:text="${member.userRole}"></td>
+                </tr>
+            </table>
+            <br>
+
+            <div align="center">
+                <button type="submit" class="btn btn-primary">수정하기</button>
+                <button type="reset" class="btn btn-danger">초기화</button>
+                <button type="button" class="btn btn-secondary" onclick="history.go(-1);">이전으로</button>
+            </div>
+        </form>
+
+        <script th:inline="javascript">
+            /*<![CDATA[*/
+
+            // 게시글 삭제
+            function updateMember() {
+                const no = [[ ${member.userNo}]];
+
+                if (!confirm(no + '번 회원정보를 수정합니다.')) {
+                    return false;
+                }
+            }
+
+            /*]]>*/
+
+            // 핸드폰 번호 자동 하이픈
+            function autoHypenPhone(str){
+                str = str.replace(/[^0-9]/g, '');
+                var tmp = '';
+                if( str.length < 4){
+                    return str;
+                }else if(str.length < 7){
+                    tmp += str.substr(0, 3);
+                    tmp += '-';
+                    tmp += str.substr(3);
+                    return tmp;
+                }else if(str.length < 11){
+                    tmp += str.substr(0, 3);
+                    tmp += '-';
+                    tmp += str.substr(3, 3);
+                    tmp += '-';
+                    tmp += str.substr(6);
+                    return tmp;
+                }else{
+                    tmp += str.substr(0, 3);
+                    tmp += '-';
+                    tmp += str.substr(3, 4);
+                    tmp += '-';
+                    tmp += str.substr(7);
+                    return tmp;
+                }
+                return str;
+            }
+
+            var phone = document.getElementById('phone');
+            phone.onkeyup = function(event){
+                event = event || window.event;
+                var _val = this.value.trim();
+                this.value = autoHypenPhone(_val) ;
+            }
+        </script>
+
+    </div>
+</body>
+</html>

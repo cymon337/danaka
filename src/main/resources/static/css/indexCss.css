@@ -124,7 +124,6 @@ body {
 /*중앙 카테고리*/
 #centerCategory {
     font-size: 1.3em;
-    margin-right: 120px;
 }
 
 #centerCategory>li>a {
@@ -171,4 +170,109 @@ body {
 
 .dropdown-menu>li>a:hover {
     background-color: rgba(0, 0, 196, 0.26);
+}
+
+/*최소 영역 지정*/
+body {min-width: 1400px}
+
+/*컨텐츠 영역 지정    */
+#contentArea {
+    width: 60%
+}
+
+#contentArea * {
+    margin: 5px
+}
+
+/*TOP 버튼*/
+#goTop{
+    margin-top: -50px;
+    margin-left: 90%;
+    position: fixed;
+    z-index: 100;
+}
+#goTop button{
+    background-color: rgb(0, 0, 202);
+    color: white;
+}
+
+/* 전체보기 드랍다운  */
+.navbar .dropdown-menu div[class*="col"] {
+    margin-bottom:1rem;
+}
+
+.navbar .dropdown-menu {
+    border:none;
+    background-color: rgb(137, 137, 238) !important;
+}
+
+.col-md-3 a {
+    color: white;
+}
+
+.active{
+    font-weight: bolder;
+    font-size: large;
+    margin: 10px;
+}
+
+#navbarDropdown{
+    margin-left: -10px;
+    font-size: larger;
+    font-weight: 400;
+    color: white;
+}
+
+#navbarDropdown:hover{
+    color: black;
+}
+
+#navbarDropdown i{
+    margin-bottom: 10px;
+}
+
+/* 스타일 지정 */
+@media screen and (min-width: 992px) {
+
+
+    /* 드랍다운 내 호버 상태 유지 위해 패딩제거 */
+    .navbar {
+        padding-bottom:0px;
+    }
+
+    /* 여백 */
+    .navbar .nav-item {
+        margin:0 2rem;
+    }
+
+    /* 드랍다운 전체 너비 지정  */
+    .navbar .dropdown {position:static;}
+
+    .navbar .dropdown-menu {
+        width:100%;
+        left:0;
+        right:0;
+        /* 드랍다운 영역 높이  */
+        top:157px;
+
+        display:block;
+        visibility: hidden;
+        opacity: 0;
+        transition: visibility 0s, opacity 0.3s linear;
+
+    }
+
+    /* 드랍다운 호버 */
+    .navbar .dropdown:hover .dropdown-menu, .navbar .dropdown .dropdown-menu:hover {
+        display:block;
+        visibility: visible;
+        opacity: 1;
+        transition: visibility 0s, opacity 0.3s linear;
+    }
+
+    .navbar .dropdown-menu {
+        border: 1px solid rgba(0,0,0,.15);
+        background-color: #fff;
+    }
+
 }

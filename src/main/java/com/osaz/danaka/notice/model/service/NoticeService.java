@@ -60,11 +60,13 @@ public class NoticeService {
 	public void deleteNotice(String noticeNo) {
 		noticeMapper.deleteNotice(noticeNo);
 	}
-
+	
+	/*공지사항 수정*/
 	public void updateNotice(NoticeDTO modifyNotice) {
 		noticeMapper.updateNotice(modifyNotice);
 	}
-
+	
+	/*공지사항 조회수 증가*/
 	public void incrementNoticeCount(String noticeNo) {
 		noticeMapper.incrementNoticeCount(noticeNo);
 	}

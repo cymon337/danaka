@@ -59,10 +59,12 @@ public class NoticeController {
 		/*검색기준과 검색어를 가져와 Map으로 담아줌*/
 		String searchCondition = request.getParameter("searchCondition");
 		String searchValue = request.getParameter("searchValue");
+		String memberCondition = request.getParameter("memberCondition");
 
 		Map<String, String> searchMap = new HashMap<>();
 		searchMap.put("searchCondition", searchCondition);
 		searchMap.put("searchValue", searchValue);
+		searchMap.put("memberCondition", memberCondition);
 
 		/* 전체 게시물 수가 필요하다.
 		 * 데이터베이스에서 먼저 전체 게시물 수를 조회해올 것이다.
@@ -82,7 +84,7 @@ public class NoticeController {
 		SelectCriteria selectCriteria = null;
 
 		if(searchCondition != null && !"".equals(searchCondition)) {
-			selectCriteria = Pagenation.getSelectCriteria(pageNo, totalCount, limit, buttonAmount, searchCondition, searchValue);
+			selectCriteria = Pagenation.getSelectCriteria(pageNo, totalCount, limit, buttonAmount, searchCondition, searchValue, memberCondition);
 		} else {
 			selectCriteria = Pagenation.getSelectCriteria(pageNo, totalCount, limit, buttonAmount);
 		}
