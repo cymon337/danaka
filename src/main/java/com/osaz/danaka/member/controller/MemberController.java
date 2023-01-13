@@ -2,6 +2,7 @@ package com.osaz.danaka.member.controller;
 
 import com.osaz.danaka.member.model.dao.MemberMapper;
 import com.osaz.danaka.member.model.dto.MemberDTO;
+import com.osaz.danaka.member.model.dto.OrderDTO;
 import com.osaz.danaka.member.model.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +34,7 @@ import javax.servlet.http.HttpSession;
 
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Random;
 
 @Slf4j
@@ -109,11 +111,11 @@ public class MemberController {
     @PostMapping("/findId")
     public String findId(HttpServletRequest request, Model model) {
 
-        String userName = request.getParameter("userName");
+        String memeberName = request.getParameter("memeberName");
         String phone = request.getParameter("phone");
 
         MemberDTO memberDTO = new MemberDTO();
-        memberDTO.setUserName(userName);
+        memberDTO.setMemberName(memeberName);
         memberDTO.setPhone(phone);
 
         MemberDTO user = memberService.findId(memberDTO);
@@ -236,7 +238,7 @@ public class MemberController {
     @PostMapping("/pwAuth")
     public ModelAndView pwAuth(HttpSession session, HttpServletRequest request, HttpServletResponse response) throws IOException {
         String email = request.getParameter("email");
-        String name = request.getParameter("userName");
+        String name = request.getParameter("memeberName");
 
 
 
@@ -247,7 +249,7 @@ public class MemberController {
             Random r = new Random();
             int num = r.nextInt(99999); //랜덤 난수 설정
 
-            if (memberDTO.getUserName().equals(name)) {
+            if (memberDTO.getMemberName().equals(name)) {
                 session.setAttribute("email", memberDTO.getEmail());
 
                 String setform = "jgh337337@gmail.com";
@@ -298,5 +300,15 @@ public class MemberController {
         }
     }
 
+    @GetMapping("member/mypage")
+    public String mypageView(@AuthenticationPrincipal MemberDTO memberDTO, Model model){
+
+
+        List<OrderDTO> orderList = memberService.selectOrder(memberDTO);
+        model.addAttribute("orderList", orderList);
+
+
+        return "member/mypage";
+    }
 
 }

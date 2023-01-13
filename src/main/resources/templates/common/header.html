@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -24,7 +24,7 @@
 </head>
 
 <body>
-
+<div th:fragment="header">
 <!-- 네비게이션바 전체-->
 <nav class="navbar navbar-expand-md navbar-dark fixed-top" style="flex-wrap: wrap;">
 
@@ -46,9 +46,13 @@
                 <i class="bi bi-cart"></i><br>
                 <span>장바구니</span>
             </div>
-            <div onclick="location.href='../member/login.html'" id="loginMy">
+            <div sec:authorize="isAnonymous()" onclick="location.href='/member/login'" id="loginMy">
                 <i class="bi bi-person"></i><br>
                 <span>로그인</span>
+            </div>
+            <div sec:authorize="isAuthenticated()" onclick="location.href='/member/mypage'" id="myPage">
+                <i class="bi bi-person"></i><br>
+                <span>마이페이지</span>
             </div>
         </div>
     </div>
@@ -106,6 +110,6 @@
         </li>
     </ul>
 </div>
-
+</div>
 </body>
 </html>

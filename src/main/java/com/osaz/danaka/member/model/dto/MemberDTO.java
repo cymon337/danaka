@@ -25,7 +25,7 @@ public class MemberDTO implements UserDetails{
     public String userId;
     public String userNickname;
     public String userPwd;
-    public String userName;
+    public String memberName;
     public Date birthday;
     public String gender;
     public String address;
@@ -39,12 +39,12 @@ public class MemberDTO implements UserDetails{
 
 
 
-    public MemberDTO(String userNo, String userId, String userNickname, String userPwd, String userName, Date birthday, String gender, String address, String email, String phone, String regDate, String status, String userRole) {
+    public MemberDTO(String userNo, String userId, String userNickname, String userPwd, String memberName, Date birthday, String gender, String address, String email, String phone, String regDate, String status, String userRole) {
         this.userNo = userNo;
         this.userId = userId;
         this.userNickname = userNickname;
         this.userPwd = userPwd;
-        this.userName = userName;
+        this.memberName = memberName;
         this.birthday = birthday;
         this.gender = gender;
         this.address = address;
@@ -71,8 +71,8 @@ public class MemberDTO implements UserDetails{
     // Security에서 인증처리를 하기 위해 userId를 지정해주는 것.
 
 
-    public String getUserName() {
-        return this.userName; //Id를  반환해야함 name아닌거 주의
+    public String getMemberName() {
+        return this.memberName; //Id를  반환해야함 name아닌거 주의
     }
 
 
