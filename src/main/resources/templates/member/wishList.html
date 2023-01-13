@@ -6,8 +6,11 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>wishList</title>
-    <link rel="stylesheet" href="/css/myPageStyle.css">
-    <link rel="stylesheet" href="/static/css/list.css">
+    <link rel="stylesheet" th:href="@{/css/indexCss.css}">
+    <link rel="stylesheet" th:href="@{/css/myPageStyle.css}">
+    <link rel="stylesheet" th:href="@{/css/myPageStyle2.css}">
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 
 
@@ -84,35 +87,26 @@
                 <div>
 
                     <div class="outerProductsContainer">
-                        <div class="productContainer" th:each="order : ${ orderList }">
+                        <div class="productContainer" th:each="wish : ${ wishList }">
                             <div class="thumnail">
 
-                                <img th:src="${ order.savePath }" alt="상품썸네일" th:onclick="|location.href='@{/product/item2(productNo=${ order.productNo })}'|">
+                                <img th:src="${ wish.savePath }" alt="상품썸네일" th:onclick="|location.href='@{/product/item2(productNo=${ wish.productNo })}'|">
 
 
 
                             </div>
                             <div class="detail1">
                                 <div class="productName">
-                                    <a th:href="@{/product/item2(productNo=${ order.productNo })}"><p th:text="${ order.productName }">
+                                    <a th:href="@{/product/item2(productNo=${ wish.productNo })}"><p th:text="${ wish.productName }">
                                         상품명</p></a>
                                 </div>
                                 <div class="productDetail">
 
-                                    <p th:text="${ order.orderId }">주문아이디</p>
-                                    <p th:text="${ order.amount }">주문수량</p>
-                                    <p th:text="${ order.orderRequest }">주문요청사항</p>
 
 
 
                                 </div>
                             </div>
-                            <div class="detail2">
-                                <div class="price">
-
-                                    <p th:text="${ #numbers.formatCurrency(order.totPrice) }">상품가격</p>
-                                    <p th:text="${ order.regDate }">주문일자</p>
-                                </div>
 
 
                             </div>
