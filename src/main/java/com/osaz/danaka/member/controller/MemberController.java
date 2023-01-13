@@ -3,6 +3,7 @@ package com.osaz.danaka.member.controller;
 import com.osaz.danaka.member.model.dao.MemberMapper;
 import com.osaz.danaka.member.model.dto.MemberDTO;
 import com.osaz.danaka.member.model.dto.OrderDTO;
+import com.osaz.danaka.member.model.dto.WishListDTO;
 import com.osaz.danaka.member.model.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -311,4 +312,12 @@ public class MemberController {
         return "member/mypage";
     }
 
+    @GetMapping("member/wishList")
+    public String wishListView(@AuthenticationPrincipal MemberDTO memberDTO, Model model){
+
+        List<WishListDTO> wishList = memberService.selectWishList(memberDTO);
+        model.addAttribute("wishList" , wishList);
+
+        return "member/wishList";
+    }
 }

@@ -2,6 +2,7 @@ package com.osaz.danaka.member.model.dao;
 
 import com.osaz.danaka.member.model.dto.MemberDTO;
 import com.osaz.danaka.member.model.dto.OrderDTO;
+import com.osaz.danaka.member.model.dto.WishListDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.data.domain.jaxb.SpringDataJaxb;
 
@@ -34,5 +35,7 @@ public interface MemberMapper  {
     //  쿼리 수정 후 받아올 결과 값이 따로 없기 때문에 interface의 리턴 값은 void로 설정
 
     List<OrderDTO> selectOrder(MemberDTO memberDTO);
+
+    List<WishListDTO> selectWishList(MemberDTO memberDTO);
 
 }

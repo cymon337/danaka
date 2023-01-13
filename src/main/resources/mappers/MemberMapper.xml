@@ -37,6 +37,15 @@
 
     </resultMap>
 
+    <resultMap id="wishListResultMap" type="com.osaz.danaka.member.model.dto.WishListDTO">
+        <id column="WISH_No" property="wishNo"/>
+        <result column="PRODUCT_NO" property="productNo"/>
+        <result column="PRODUCT_NAME" property="productName"/>
+        <result column="SAVE_PATH" property="savePath"/>
+        <result column="USER_NO" property="userNo"/>
+    </resultMap>
+
+
 
     <select id="selectUser" parameterType="String" resultMap="memberResultMap">
     SELECT
@@ -128,6 +137,25 @@
 
 
     </select>
+
+    <select id="selectWishList" parameterType="com.osaz.danaka.member.model.dto.MemberDTO" resultMap="wishListResultMap">
+        SELECT
+            A.WISH_NO,
+            A.USER_NO,
+            A.PRODUCT_NO,
+            C.PRODUCT_NAME,
+            B.SAVE_PATH
+        FROM T_WISHLIST A
+                 LEFT JOIN T_IMG_PATH B ON A.PRODUCT_NO = B.PRODUCT_NO
+                 LEFT JOIN T_PRODUCT C ON A.PRODUCT_NO = C.PRODUCT_NO
+
+        WHERE A.USER_NO = #{userNo}
+
+
+
+    </select>
+
+
 
 
 </mapper>

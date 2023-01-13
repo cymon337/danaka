@@ -4,6 +4,7 @@ package com.osaz.danaka.member.model.service;
 import com.osaz.danaka.member.model.dao.MemberMapper;
 import com.osaz.danaka.member.model.dto.MemberDTO;
 import com.osaz.danaka.member.model.dto.OrderDTO;
+import com.osaz.danaka.member.model.dto.WishListDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -101,5 +102,9 @@ public class MemberService implements UserDetailsService {
     public List<OrderDTO> selectOrder(MemberDTO memberDTO){
 
         return memberMapper.selectOrder(memberDTO);
+    }
+
+    public List<WishListDTO> selectWishList(MemberDTO memberDTO){
+        return memberMapper.selectWishList(memberDTO);
     }
 }
