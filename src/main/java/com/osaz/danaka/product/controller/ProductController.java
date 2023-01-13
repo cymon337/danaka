@@ -258,4 +258,61 @@ public class ProductController {
 
         return mv;
     }
+
+
+    /*@RequestParam(name="file", required = false) MultipartFile file,*/
+    @PostMapping("productEnroll")
+    public ModelAndView writeRecord(ModelAndView mv, ProductDTO product, RedirectAttributes rttr){
+
+//        System.out.println(product.getCityCode());
+        productService.insertProduct(product);
+
+//        - 상품번호를 여기에 가져와야 함 / 파라미터에 담고 쓸라고 했는데 결국 조회를 해야함 왜냐, 인서트는 트렌젝션
+//        처리를 하고 동작이 끝임. 파라미터를 넘겨줄 행동이 낄 곳이 없음. 또 처리가 다 되야 상품번호가 커밋돼서 인식이 됨
+//        그래서 그 후 인서트된 값을 가져와야하는 것
+//
+//        1. 유니크한 컬럼(키)을 조건으로 가져오든가 (기본기처럼 유일한걸로) / 근데 그게 없자너
+//        2. 시퀀스 넘버를 가져오는게 있대, 그래서 그거에서 -1 하면 된다든디? (마지막 입력된 시퀀스 번호)
+
+//        if ((!file.getOriginalFilename().equals(""))){
+//            int fileNo = saveFile(file);
+//
+//            product.setImgFileNo(fileNo);
+//        }
+
+        mv.setViewName("redirect:/product/list");
+        rttr.addFlashAttribute("successMessage", "상품 등록 완료!");
+
+        return mv;
+
+    }
+
+//    private int saveFile(MultipartFile file){
+//
+//        String projectPath = System.getProperty("user.dir")+"/src/main/resources/static/uploadImgs";
+//        UUID uuid = UUID.randomUUID();
+//        String changeName = uuid+"_"+file.getOriginalFilename();
+//        File saveFile = new File(projectPath, changeName);
+//
+//        try {
+//            file.transferTo(saveFile);
+//
+//            FileDTO imgFile = new FileDTO();
+//            imgFile.setFileSize(file.getSize());
+//            imgFile.setOriginName(file.getOriginalFilename());
+//            imgFile.setChangeName(changeName);
+//            imgFile.setImgPath("/uploadImgs/" +changeName);
+//
+//            recordService.saveFile(imgFile);
+//
+//            System.out.println("에러 지점 확인용 출력");
+//
+//            return recordService.returnFileNo(changeName);
+//
+//        } catch (Exception e) {
+//            System.out.println("Exception" + e);
+//            throw new RuntimeException(e);
+//        }
+//
+//    }
 }

@@ -34,4 +34,6 @@ public interface ProductMapper {
 
     // 구매내역 테이블에 추가
     int insertOrder(OrderDTO order);
+
+    void insertProduct(ProductDTO product);
 }

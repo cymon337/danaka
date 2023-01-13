@@ -84,4 +84,8 @@ public class ProductService {
         }
         return (result > 0) ? true : false;
     }
+
+    public void insertProduct(ProductDTO product) {
+        productMapper.insertProduct(product);
+    }
 }

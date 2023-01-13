@@ -207,4 +207,26 @@
              DEFAULT
             )
     </insert>
+
+    <insert id="insertProduct">
+        INSERT
+        INTO T_PRODUCT A
+        (
+            A.PRODUCT_NO
+        , A.CATEGORY_CODE
+        , A.BRAND_NO
+        , A.PRODUCT_REG_DATE
+        , A.PRODUCT_NAME
+        , A.STOCK
+        )
+        VALUES
+            (
+                SEQ_NOTICE_NO.NEXTVAL
+            , #{ categoryCode }
+            , #{ brandNo }
+            , #{ productRegDate }
+            , #{ productName }
+            , #{ stock }
+            )
+    </insert>
 </mapper>
