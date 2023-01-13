@@ -87,8 +87,8 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .logout()   //로그아웃 설정을 시작하겠다
                 .logoutRequestMatcher(new AntPathRequestMatcher("/member/logout")) //AntPathRequestMatcher
                 .invalidateHttpSession(true)
-                .deleteCookies("JSESSIONID")
-                .logoutSuccessUrl("/");
+                .deleteCookies("JSESSIONID");
+
 
     }
 }
