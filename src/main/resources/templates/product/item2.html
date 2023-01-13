@@ -278,12 +278,13 @@
                 data: {productNo : orgProductNo},
             }).done(function (data) {
                 $("#productBoardContainer").replaceWith(data);
+                $("#productReview").show();
+                $("#reviewBtn").css("border-bottom", "none");
+                $("#askBtn").css("border-bottom", "1px #C4C2FF solid");
+                $("#productAsk").hide();
             });
 
-            $("#productReview").show();
-            $("#reviewBtn").css("border-bottom", "none");
-            $("#askBtn").css("border-bottom", "1px #C4C2FF solid");
-            $("#productAsk").hide();
+
         } else if(key == 2) {
             console.log("문의");
             /* 문의 갖고오기 */
@@ -293,12 +294,13 @@
                 data: {productNo : orgProductNo},
             }).done(function (data) {
                 $("#productBoardContainer").replaceWith(data);
+                $("#productAsk").show();
+                $("#askBtn").css("border-bottom", "none");
+                $("#reviewBtn").css("border-bottom", "1px #C4C2FF solid");
+                $("#productReview").hide();
             });
 
-            $("#productAsk").show();
-            $("#askBtn").css("border-bottom", "none");
-            $("#reviewBtn").css("border-bottom", "1px #C4C2FF solid");
-            $("#productReview").hide();
+
         }
     }
     // $(".boardControlBtn").on("click", function () {
