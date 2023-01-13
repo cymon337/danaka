@@ -55,7 +55,7 @@ public class MemberService implements UserDetailsService {
 
     public MemberDTO findId(MemberDTO user) {
         System.out.println("user = " + user);
-        System.out.println("이름" + user.getUserName());
+        System.out.println("이름" + user.getMemberName());
         return memberMapper.findId(user);
     }
 

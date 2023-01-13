@@ -1,5 +1,6 @@
 <!doctype html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+      lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -15,7 +16,10 @@
     <!-- 제이쿼리 -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link rel="stylesheet" th:href="@{ /css/package.css }">
+<!--        <link rel="stylesheet" href="/static/css/package.css">-->
+
     <title>DANAKA-조합견적</title>
+
 </head>
 <body>
 <div class="wrapper">
@@ -30,79 +34,90 @@
                 <tr>
                     <th>카테고리</th>
                     <td>
-                        <select id="category-select-box" onchange="selectCategory(this)">
+                        <select id="category-select-box" onchange="showOption(this)">
                             <option value="default">옵션선택</option>
                             <option value="rod">로드</option>
                             <option value="reel">릴</option>
                             <option value="line">라인</option>
                         </select>
-<!--                        select 메서드 -->
-                        <script type="text/javascript">
-                            let selectCategory = function (e) {
-                                var cat = $(e).val();
 
-                                switch (cat) {
-                                    case "rod":
-                                        alert( '로드선택' );
-                                        $.ajax({
-                                            url: "package/rod-option",
-                                            data: {category : "rod"},
-                                            type:"POST",
-                                        }).done(function (fragment) {
-                                            $("#category-option").replaceWith(fragment);
-                                        });
-                                        break;
-                                    case "reel":
-                                        alert( '릴선택' );
-                                        $.ajax({
-                                            url: "dataSend",
-                                            data: {category : "reel"},
-                                            type:"POST",
-                                        }).done(function (fragment) {
-                                            $("#category-option").replaceWith(fragment);
-                                        });
-                                        break;
-                                    case "line":
-                                        alert( '라인선택' );
-                                        $.ajax({
-                                            url: "dataSend",
-                                            data: {category : "line"},
-                                            type:"POST",
-                                        }).done(function (fragment) {
-                                            $("#resultDiv").replaceWith(fragment);
-                                        });
-                                        break;
-                                    default:
-                                        alert( "카테고리를 선택해 주세요." );
-                                }
 
-                            }
+                    </td>
+                </tr>
+            </table>
+            <hr>
+<!-- ========== 로드옵션테이블 ========== -->
 
-                        </script>
 
+            <table id="category-option-rod" class="category-option table-rod">
+
+                <tr>
+                    <th>브랜드</th>
+                    <td th:each="rodBrands : ${rodBrands}">
+                        <button type="button" class="btn btn-outline-secondary" th:text="${rodBrands}">브랜드</button>
+                    </td>
+                </tr>
+                <tr>
+                    <th>릴타입</th>
+                    <td th:each="rodReelType : ${rodReelType}">
+                        <button type="button" class="btn btn-outline-secondary" th:text="${rodReelType}">릴타입</button>
+                    </td>
+                </tr>
+                <tr>
+                    <th>라인MIN</th>
+                    <td th:each="rodLineMin : ${rodLineMin}">
+                        <button type="button" class="btn btn-outline-secondary" th:text="${rodLineMin}">라인MIN</button>
+                    </td>
+                </tr>
+                <tr>
+                    <th>라인MAX</th>
+                    <td th:each="rodLineMax : ${rodLineMax}">
+                        <button type="button" class="btn btn-outline-secondary" th:text="${rodLineMax}">라인MAX</button>
+                    </td>
+                </tr>
+            </table>
+
+
+<!-- ========== 릴옵션테이블 ========== -->
+
+            <table id="category-option-reel" class="category-option table-line">
+
+                <tr>
+                    <th>브랜드</th>
+                    <td th:each="reelBrands : ${reelBrands}">
+                        <button type="button" class="btn btn-outline-secondary" th:text="${reelBrands}">브랜드</button>
+                    </td>
+                </tr>
+                <tr>
+                    <th>릴타입</th>
+                    <td th:each="reelType : ${reelType}">
+                        <button type="button" class="btn btn-outline-secondary" th:text="${reelType}">릴타입</button>
+                    </td>
+                </tr>
+            </table>
+
+
+<!-- ========== 라인옵션테이블 ========== -->
+
+            <table id="category-option-line" class="category-option table-line">
+
+                <tr>
+                    <th>브랜드</th>
+                    <td th:each="lineBrands : ${lineBrands}">
+                        <button type="button" class="btn btn-outline-secondary" th:text="${lineBrands}">브랜드</button>
+                    </td>
+                </tr>
+                <tr>
+                    <th>라인사이즈</th>
+                    <td th:each="lineSize : ${lineSize}">
+                        <button type="button" class="btn btn-outline-secondary" th:text="${lineSize}">라인사이즈</button>
                     </td>
                 </tr>
             </table>
 
             <hr>
-            <table id="category-option" class="category-option"></table>
-            <hr>
-            <span>선택옵션 :</span>
+            <span id="selected-option">선택옵션 :</span>
         </div>
-        <!--        카테고리옵션 선택 활성/비활성    -->
-        <script type="text/javascript">
-            $(".btn-outline-secondary").on("click", function (e) {
-                // if ($("#btn-select-all-cart").hasClass("active") === true) {
-                //     $("#btn-select-all-cart").removeClass("active");
-                // }
-
-                if ($(e.target).hasClass("active") === true) {
-                    $(e.target).removeClass("active")
-                } else {
-                    $(e.target).addClass("active");
-                }
-            });
-        </script>
 
         <div class="package-search item-list">
             <ul>
@@ -125,5 +140,8 @@
         </div>
     </div>
 </div>
+
+
+<script th:src="@{ /js/package.js }"></script>
 </body>
 </html>

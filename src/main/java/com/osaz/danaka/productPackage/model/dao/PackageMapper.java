@@ -7,12 +7,27 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PackageMapper {
 
+// rod option mapper
+    String[] selectRodBrandNameOption();
 
-    String[] selectBrandNameOption();
+    String[] selectRodReelTypeOption();
+
+    String[] selectRodLineMinOption();
+
+    String[] selectRodLineMaxOption();
+
+// reel option mapper
+    String[] selectReelBrandNameOption();
 
     String[] selectReelTypeOption();
 
-    String[] selectLineMinOption();
+// line option mapper
+    String[] selectLineBrandNameOption();
 
-    String[] selectLineMaxOption();
+    String[] selectLineSizeOption();
+
+
+
+
+
 }

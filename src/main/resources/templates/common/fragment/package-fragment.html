@@ -1,14 +1,11 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<script th:src="@{ /js/package.js }"></script>
+
 <body>
 
-    <table id="category-option" class="category-option fragment" th:fragment="rodOption">
+
+    <table id="category-option" class="category-option fragment" th:if="category-select-box == 'rod'">
+
         <tr>
             <th>브랜드</th>
             <td th:each="brand : ${brands}">
@@ -33,27 +30,14 @@
                 <button type="button" class="btn btn-outline-secondary" th:text="${max}">라인MAX</button>
             </td>
         </tr>
-    </table>
-    <!--        카테고리옵션 선택 활성/비활성    -->
-    <script type="text/javascript">
-        $(".btn-outline-secondary").on("click", function (e) {
-            // if ($("#btn-select-all-cart").hasClass("active") === true) {
-            //     $("#btn-select-all-cart").removeClass("active");
-            // }
+        <script>$(".btn-outline-secondary").on("click", function (e) {
 
             if ($(e.target).hasClass("active") === true) {
                 $(e.target).removeClass("active")
             } else {
-                $(e.target).addClass("active");
+                $(e.target).addClass("active") ;
             }
-        });
-    </script>
-
-
-
-
-
-
+        });</script>
+    </table>
 
 </body>
-</html>
