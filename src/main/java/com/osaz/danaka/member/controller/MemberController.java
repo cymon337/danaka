@@ -44,6 +44,7 @@ public class MemberController {
     private final MemberService memberService;
     private MemberMapper memberMapper;
 
+    private final PasswordEncoder passwordEncoder;
 
 
     @Autowired
@@ -166,38 +167,38 @@ public class MemberController {
         return "member/unregister";
     }
 
-//    @PostMapping("/deleteAction")
-//    public String memberDelete(@AuthenticationPrincipal MemberDTO memberDTO, @RequestParam(value = "password") String password, HttpSession session, RedirectAttributes rttr, Model model
-//    ) throws Exception {
-//
-//
-//
-//
-//        model.addAttribute("member", memberDTO);
-//        log.info( "딜리트액션 ={} ",(memberDTO));
-//        log.info( "딜리트액션 친비번 ={} ",password);
-//
-//        String sessionPassword = memberDTO.getPassword();
-//
-//
-//
-//        log.info( "딜리트액션 친비번 ={} ",password);
-//        String str;
-//
-//        if (!(passwordEncoder.matches(password, sessionPassword))) {
-//           rttr.addAttribute("msg", false);
-//            str = "redirect:member/unregister";
-//
-//        } else {
-//            memberService.deleteMember(memberDTO);
-//            session.invalidate();
-//            str = "redirect:member/login";
-//        }
-//
-//
-//        return str;
-//
-//    }
+    @PostMapping("/deleteAction")
+    public String memberDelete(@AuthenticationPrincipal MemberDTO memberDTO, @RequestParam(value = "password") String password, HttpSession session, RedirectAttributes rttr, Model model
+    ) throws Exception {
+
+
+
+
+        model.addAttribute("member", memberDTO);
+        log.info( "딜리트액션 ={} ",(memberDTO));
+        log.info( "딜리트액션 친비번 ={} ",password);
+
+        String sessionPassword = memberDTO.getPassword();
+
+
+
+        log.info( "딜리트액션 친비번 ={} ",password);
+        String str;
+
+        if (!(passwordEncoder.matches(password, sessionPassword))) {
+           rttr.addAttribute("msg", false);
+            str = "redirect:member/unregister";
+
+        } else {
+            memberService.deleteMember(memberDTO);
+            session.invalidate();
+            str = "redirect:member/login";
+        }
+
+
+        return str;
+
+    }
 
     @GetMapping("/member/passwordUpdate")
     public String passUpdateForm( Model model,String email) {

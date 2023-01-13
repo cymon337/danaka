@@ -63,7 +63,7 @@
     <insert id="insertMember" parameterType="com.osaz.danaka.member.model.dto.MemberDTO" >
         INSERT INTO T_MEMBER
          (USER_NO, USER_ID, USER_NICKNAME, USER_PWD, USER_NAME, BIRTHDAY, GENDER, ADDRESS, EMAIL, PHONE, USER_ROLE)
-        values ( SEQ_USER_NO.NEXTVAL ,#{userId},#{userNickname},#{userPwd},#{userName},#{birthday},#{gender},#{address},#{email},#{phone},'ROLE_MEMBER')
+        values ( SEQ_USER_NO.NEXTVAL ,#{userId},#{userNickname},#{userPwd},#{userName},#{birthday},#{gender},#{address},#{email},#{phone},'ROLE_USER')
 
     </insert>
 

@@ -1,6 +1,7 @@
 package com.osaz.danaka.config;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -11,4 +12,8 @@ public class SecurityPasswordEncoder {
     public PasswordEncoder Encoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
+
+
+
 }
+
