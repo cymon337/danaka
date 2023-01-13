@@ -116,13 +116,17 @@ body {
     height: 2em;
     border-radius: 5px;
     color: black;
-    border: 1px #C4C2FF solid;
+    border: none;
     font-size: 1rem;
-    background-color: white;
+    color: white;
+    background-color: #0a53bd;
     text-align: center;
 }
+.pagingArea>button:hover {
+    background-color: #45d1ea;
+}
 .pagingArea>button:disabled {
-    background-color: #dcdcdc;
+    background-color: #b2c7e3;
 }
 @media screen and (max-width : 767px) {
     .outerProductsContainer {
