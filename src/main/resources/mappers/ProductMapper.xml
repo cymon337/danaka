@@ -324,6 +324,7 @@
             A.USER_NO,
             B.USER_NICKNAME,
             A.QNA_BODY,
+            A.SECRET_STATUS,
             A.REG_DATE,
             A.REPLY,
             A.REPLY_DATE
@@ -333,5 +334,6 @@
         LEFT JOIN T_PRODUCT C
           ON A.PRODUCT_NO = C.PRODUCT_NO
        WHERE A.PRODUCT_NO = #{ productNo }
+       ORDER BY A.QNA_NO DESC
     </select>
 </mapper>

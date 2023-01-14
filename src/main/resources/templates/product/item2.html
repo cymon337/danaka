@@ -267,69 +267,6 @@
         });
     })
 
-    /* 후기, 문의 컨트롤 버튼 */
-    function boardControl(key) {
-        if(key == 1) {
-            /* 리뷰 갖고오기 */
-            console.log("리뷰");
-            $.ajax({
-                type: "GET",
-                url: "/product/review",
-                data: {productNo : orgProductNo},
-            }).done(function (data) {
-                $("#productBoardContainer").replaceWith(data);
-                $("#productReview").show();
-                $("#reviewBtn").css("border-bottom", "none");
-                $("#askBtn").css("border-bottom", "1px #C4C2FF solid");
-                $("#productAsk").hide();
-            });
-
-
-        } else if(key == 2) {
-            console.log("문의");
-            /* 문의 갖고오기 */
-            $.ajax({
-                type: "GET",
-                url: "/product/qna",
-                data: {productNo : orgProductNo},
-            }).done(function (data) {
-                $("#productBoardContainer").replaceWith(data);
-                $("#productAsk").show();
-                $("#askBtn").css("border-bottom", "none");
-                $("#reviewBtn").css("border-bottom", "1px #C4C2FF solid");
-                $("#productReview").hide();
-            });
-
-
-        }
-    }
-    // $(".boardControlBtn").on("click", function () {
-    //     console.log(3);
-    //     if($(this).val() == "1") {
-    //         console.log(1);
-    //        ;
-    //         /* 리뷰 갖고오기 */
-    //         $.ajax({
-    //             type: "GET",
-    //             url: "/product/review",
-    //             data: {productNo : orgProductNo},
-    //         }).done(function (data) {
-    //             $("#productBoardContainer").replaceWith(data);
-    //         });
-    //     } else {
-    //         console.log(2);
-    //
-    //         /* 문의 갖고오기 */
-    //         $.ajax({
-    //             type: "GET",
-    //             url: "/product/qna",
-    //             data: {productNo : orgProductNo},
-    //         }).done(function (data) {
-    //             $("#productBoardContainer").replaceWith(data);
-    //         });
-    //     }
-    // })
-
     /* 관련 상품 버튼 */
     $(".refMove").on("click", function () {
 
@@ -344,16 +281,6 @@
         modalSwitch(3);
     });
 
-    /* 모달창 스위치 함수 */
-    function modalSwitch(key) {
-
-        switch (key) {
-            case 1: $("#successM").show(); break;
-            case 2: $("#shareM").show(); break;
-            case 3: $(".modal").hide(); break;
-        }
-    }
-
     /* 공유하기 url 복사 */
     $("#currentUrl").on("click", function () {
 
@@ -364,6 +291,66 @@
             alert("URL 복사되었습니다.");
         }
     })
+
+    /* 관련상품 이미지 슬라이드쇼 */
+    $(".refMove").children().on('click', function () {
+        let $visibleItems = Math.floor($(".refItemsContainer").width() / 105) - 1;
+        let slideCount = $(".refItem").length - $visibleItems;
+        console.log(slideCount);
+        if(slideCount > 0) {
+            switch ($(this).val()){
+                case "+":
+                    if (currentIdx !== slideCount - 1) {
+                        console.log("뭐지");
+                        moveSlide(currentIdx + 1);
+                    } break;
+                case "-":
+                    if (currentIdx !== 0) {
+                        moveSlide(currentIdx - 1);
+                    } break;
+            }
+        }
+    });
+
+    /* 후기, 문의 컨트롤 버튼 */
+    let keyCheck = 1;
+    function boardControl(key) {
+
+        if (keyCheck == key) {
+            return;
+        }
+        if(key == 1) {
+            /* 리뷰 갖고오기 */
+            console.log("리뷰");
+            $.ajax({
+                type: "GET",
+                url: "/product/review",
+                data: {productNo : orgProductNo},
+            }).done(function (data) {
+                $("#productBoardContainer").replaceWith(data);
+                $("#productReview").show();
+                $("#reviewBtn").css({"backgroundColor":"#0447ad", "color":"white"});
+                $("#askBtn").css({"backgroundColor":"white", "color":"black"});
+                $("#productAsk").hide();
+                keyCheck = key;
+            });
+        } else if(key == 2) {
+            console.log("문의");
+            /* 문의 갖고오기 */
+            $.ajax({
+                type: "GET",
+                url: "/product/qna",
+                data: {productNo : orgProductNo},
+            }).done(function (data) {
+                $("#productBoardContainer").replaceWith(data);
+                $("#productAsk").show();
+                $("#askBtn").css({"backgroundColor":"#0447ad", "color":"white"});
+                $("#reviewBtn").css({"backgroundColor":"white", "color":"black"});
+                $("#productReview").hide();
+                keyCheck = key;
+            });
+        }
+    }
 
     /* sns 공유하기 */
     function snsShare(sns) {
@@ -386,31 +373,23 @@
         }
     }
 
-    /* 관련상품 이미지 슬라이드쇼 */
+    /* 관련상품 이미지 슬라이드 함수 */
     let currentIdx = 0;
     function moveSlide(num) {
 
         $("#refItems").css("left", -num * 105 + 'px');
         currentIdx = num;
     }
-    $(".refMove").children().on('click', function () {
-        let $visibleItems = Math.floor($(".refItemsContainer").width() / 105) - 1;
-        let slideCount = $(".refItem").length - $visibleItems;
-        console.log(slideCount);
-        if(slideCount > 0) {
-            switch ($(this).val()){
-                case "+":
-                    if (currentIdx !== slideCount - 1) {
-                        console.log("뭐지");
-                        moveSlide(currentIdx + 1);
-                    } break;
-                case "-":
-                    if (currentIdx !== 0) {
-                        moveSlide(currentIdx - 1);
-                    } break;
-            }
+
+    /* 모달창 스위치 함수 */
+    function modalSwitch(key) {
+
+        switch (key) {
+            case 1: $("#successM").show(); break;
+            case 2: $("#shareM").show(); break;
+            case 3: $(".modal").hide(); break;
         }
-    });
+    }
 </script>
 
 </body>

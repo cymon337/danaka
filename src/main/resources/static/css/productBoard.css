@@ -10,6 +10,10 @@
 #productReview, #productAsk {
     margin: 0 auto;
 }
+.boardControlButtons {
+    box-sizing: border-box;
+    padding: 0;
+}
 #reviewBtn, #askBtn {
     width: 49%;
     box-sizing: border-box;
@@ -23,30 +27,38 @@
     margin-right: 0;
     border-right: none;
     border-bottom: none;
-}
-#reviewBtn:hover {
-    background-color: #d8fdfb;
+    background-color: #0447ad;
+    color: white;
 }
 #askBtn {
     border-top-right-radius: 5px;
     margin-left: 0;
-}
-#askBtn:hover {
-    background-color: #d8fdfb;
+    border-bottom: none;
 }
 #productReview, #productAsk {
     width: 98%;
     border: 1px #C4C2FF solid;
     border-top: none;
+    border-bottom: none;
 }
 #productAsk {
     display: none;
 }
 .boardHead {
     display: grid;
-    grid-template-columns: 5% 75% 10% 10%;
+    grid-template-columns: 5% 65% 15% 15%;
     padding: 1%;
     text-align: center;
+    border-bottom: 1px #C4C2FF solid;
+    font-size: small;
+}
+.boardHead:first-child {
+    background-color: #0447ad;
+    color: white;
+    border-top: none;
+}
+.boardContent {
+    display: none;
 }
 @media screen and (max-width : 767px) {
     #productBoardContainer {
