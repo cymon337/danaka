@@ -151,15 +151,7 @@
     </div>
 </div>
 <div id="productBoardContainer">
-<!--    <div class="boardControlButtons">-->
-<!--        <button>상품 리뷰</button>-->
-<!--        <button>상품 문의</button>-->
-<!--    </div>-->
-<!--    <div id="productReview">-->
 
-<!--    </div>-->
-<!--    <div id="productAsk">-->
-<!--    </div>-->
 </div>
 <script th:inline="javascript">
     /* 원래 상품 번호 */
@@ -220,7 +212,6 @@
 
     /* 옵션 변경시 상품 정보 및 가격 바꾸기 */
     const $orgContent = $(".orgContent").text();
-
     $("#option").on("change", function () {
 
         const $selectedOption = $("." + $(this).val()).text();
@@ -266,14 +257,6 @@
             $("#productBoardContainer").replaceWith(data);
         });
     })
-
-    // /* 관련 상품 버튼 */
-    // $(".refMove").on("click", function () {
-    //
-    //     if($(this).val() == "+") {
-    //
-    //     }
-    // })
 
     /* 모달 창 닫기 버튼 */
     $(".modalCloseButton, .modalLayer").on("click", function() {
@@ -352,6 +335,59 @@
         }
     }
 
+    /* 후기 내용보기 (자바스크립트) */
+    function showContent(that) {
+        that.nextElementSibling.classList.toggle("visibilityToggle");
+        // if(that.nextElementSibling.style.display == 'block') {
+        //     that.nextElementSibling.style.display = 'none';
+        //     return
+        // }
+        // that.nextElementSibling.style.display = 'block';
+
+    }
+
+    /* 상품 후기, 문의 페이징 버튼 */
+    function pagingFn(value) {
+        console.log(value);
+        if(keyCheck == 1) {
+            /* 리뷰 갖고오기 */
+            console.log("리뷰");
+            $.ajax({
+                type: "GET",
+                url: "/product/review",
+                data: {
+                    productNo : orgProductNo,
+                    currentPage : value
+                },
+            }).done(function (data) {
+                $("#productBoardContainer").replaceWith(data);
+                $("#productReview").show();
+                $("#reviewBtn").css({"backgroundColor":"#0447ad", "color":"white"});
+                $("#askBtn").css({"backgroundColor":"white", "color":"black"});
+                $("#productAsk").hide();
+                keyCheck = 1;
+            });
+        } else if(keyCheck == 2) {
+            console.log("문의");
+            /* 문의 갖고오기 */
+            $.ajax({
+                type: "GET",
+                url: "/product/qna",
+                data: {
+                    productNo : orgProductNo,
+                    currentPage : value
+                },
+            }).done(function (data) {
+                $("#productBoardContainer").replaceWith(data);
+                $("#productAsk").show();
+                $("#askBtn").css({"backgroundColor":"#0447ad", "color":"white"});
+                $("#reviewBtn").css({"backgroundColor":"white", "color":"black"});
+                $("#productReview").hide();
+                keyCheck = 2;
+            });
+        }
+    }
+
     /* sns 공유하기 */
     function snsShare(sns) {
 
@@ -390,6 +426,7 @@
             case 3: $(".modal").hide(); break;
         }
     }
+
 </script>
 
 </body>

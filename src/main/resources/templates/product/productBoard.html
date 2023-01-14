@@ -17,18 +17,21 @@
             <span>닉네임</span>
             <span>등록일</span>
         </div>
-        <div class="boardHead" th:if="${ #lists.isEmpty(reviewList) }">
-            <span></span>
+        <div class="boardNull" th:if="${ #lists.isEmpty(reviewList) }">
             <span>상품 후기가 없습니다.</span>
         </div>
         <th:block th:each="review : ${ reviewList }">
-            <div class="boardHead">
+            <div class="boardTitle" onclick="showContent(this)">
                 <span th:text="${ review.reviewNo }">0</span>
                 <span th:text="${ review.reviewTitle }">상품 후기 제목</span>
                 <span th:text="${ review.userNickname }">닉네임</span>
                 <span th:text="${ review.regDate }">등록일</span>
             </div>
             <div class="boardContent">
+                <div th:if="${ review.userNo } == ${ #authentication.principal.userNo }" align="end">
+                    <buttont class="contentButtons" type="button">수정</buttont>
+                    <buttont class="contentButtons" type="button">삭제</buttont>
+                </div>
                 <p class="boardBody" th:text="${ review.reviewBody }">상품 후기 본문</p>
             </div>
         </th:block>
@@ -40,12 +43,11 @@
             <span>닉네임</span>
             <span>등록일</span>
         </div>
-        <div class="boardHead" th:if="${ #lists.isEmpty(qnaList) }">
-            <span></span>
+        <div class="boardNull" th:if="${ #lists.isEmpty(qnaList) }">
             <span>상품 문의가 없습니다.</span>
         </div>
         <th:block th:each="qna : ${ qnaList }">
-            <div class="boardHead">
+            <div class="boardTitle" onclick="showContent(this)">
                 <span th:text="${ qna.qnaNo }">번호</span>
                 <th:block th:switch="${ qna.secretStatus }">
                     <span th:case="Y">비밀글입니다.</span>
@@ -68,7 +70,7 @@
                 <button disabled><<</button>
             </th:block>
             <th:block th:if="${ page ne start}">
-                <button id="startPage" th:onclick=""><<</button>
+                <button id="startPage" th:value="${ start }" onclick="pagingFn(this.value)"><<</button>
             </th:block>
 
             <!-- 이전 페이지로 가기 버튼 -->
@@ -76,7 +78,7 @@
                 <button disabled><</button>
             </th:block>
             <th:block th:if="${ page > 1 }">
-                <button id="prevPage"><</button>
+                <button id="prevPage" th:value="${ page - 1 }" onclick="pagingFn(this.value)"><</button>
             </th:block>
 
             <!-- 숫자 버튼 -->
@@ -85,7 +87,7 @@
                     <button th:text="${ p }" disabled></button>
                 </th:block>
                 <th:block th:if="${ page ne p }">
-                    <button th:text="${ p }"></button>
+                    <button th:text="${ p }" th:value="${ p }" onclick="pagingFn(this.value)"></button>
                 </th:block>
             </th:block>
 
@@ -94,7 +96,7 @@
                 <button disabled>></button>
             </th:block>
             <th:block th:if="${ page < selectCriteria.maxPage }">
-                <button id="nextPage">></button>
+                <button id="nextPage" th:value="${ page + 1 }" onclick="pagingFn(this.value)">></button>
             </th:block>
 
             <!-- 마지막 페이지로 이동 버튼 -->
@@ -102,9 +104,12 @@
                 <button disabled>>></button>
             </th:block>
             <th:block th:if="${ page ne selectCriteria.maxPage }">
-                <button id="maxPage">>></button>
+                <button id="maxPage" th:value="${ max }" onclick="pagingFn(this.value)">>></button>
             </th:block>
         </th:block>
+        <!-- to do 처음 들어갔을 때 둘다 뜨는 거 고치기 -->
+        <button type="button" th:if="${ bMember } and ${ #lists.isEmpty(qnaList) }" id="writeR">리뷰하기</button>
+        <button type="button" th:if="${ #lists.isEmpty(reviewList) }"id="writeQ">문의하기</button>
     </div>
 </div>
 

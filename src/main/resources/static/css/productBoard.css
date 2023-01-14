@@ -1,4 +1,6 @@
 #productBoardContainer {
+    z-index: 2;
+    position: relative;
     width: 60%;
     margin: 1% auto;
     padding: 1%;
@@ -14,7 +16,7 @@
     box-sizing: border-box;
     padding: 0;
 }
-#reviewBtn, #askBtn {
+#reviewBtn, #askBtn{
     width: 49%;
     box-sizing: border-box;
     height: 3em;
@@ -40,11 +42,13 @@
     border: 1px #C4C2FF solid;
     border-top: none;
     border-bottom: none;
+    z-index: 2;
+    background-color: white;
 }
 #productAsk {
     display: none;
 }
-.boardHead {
+.boardHead, .boardTitle {
     display: grid;
     grid-template-columns: 5% 65% 15% 15%;
     padding: 1%;
@@ -52,16 +56,90 @@
     border-bottom: 1px #C4C2FF solid;
     font-size: small;
 }
-.boardHead:first-child {
+.boardHead{
     background-color: #0447ad;
     color: white;
     border-top: none;
+    border-bottom: none;
 }
 .boardHead>span {
     height: 32px;
+    line-height: 32px;
+}
+.boardNull {
+    text-align: center;
+    font-size: small;
+    border-bottom: 1px #C4C2FF solid;
+}
+.boardTitle:hover{
+    background-color: #d3f8f5;
+}
+.boardTitle {
+    position: relative;
+    background-color: white;
+    z-index: 2;
 }
 .boardContent {
-    display: none;
+    visibility: hidden;
+    border-bottom: 1px #C4C2FF solid;
+    font-size: small;
+    height: 0vh;
+    transition: all 0.3s;
+    color: white;
+    position: relative;
+    z-index: 1;
+}
+.visibilityToggle {
+    visibility: visible;
+    height: 100px;
+    color: black;
+    padding: 1%;
+    z-index: 0;
+}
+.boardContent>p {
+    height: 60%;
+}
+.contentButtons {
+    width: 4em;
+    border-radius: 5px;
+    border: none;
+    font-size: smaller;
+    color: white;
+    background-color: #0a53bd;
+    text-align: center;
+}
+.pagingArea {
+    position: relative;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    z-index: 2;
+    background-color: white;
+}
+.pagingArea>button {
+    width: 2em;
+    height: 2em;
+    border-radius: 5px;
+    border: none;
+    font-size: 1rem;
+    color: white;
+    background-color: #0a53bd;
+    text-align: center;
+}
+.pagingArea>button:hover {
+    background-color: #45d1ea;
+}
+.pagingArea>button:disabled {
+    background-color: #b2c7e3;
+}
+#writeR, #writeQ {
+    width: 5em;
+    border-radius: 5px;
+    border: none;
+    font-size: smaller;
+    color: white;
+    background-color: #0a53bd;
+    text-align: center;
+    float: right;
 }
 @media screen and (max-width : 767px) {
     #productBoardContainer {
