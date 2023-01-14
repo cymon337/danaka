@@ -99,15 +99,27 @@ public class ProductService {
         return (result > 0)? true : false;
     }
 
-    // 상품 리뷰 조회
-    public List<ReviewDTO> selectReviewList(String productNo) {
+    // 상품 review 총 개수 조회
+    public int selectTotalReviewCount(String productNo) {
 
-        return productMapper.selectReviewList(productNo);
+        return productMapper.selectTotalReviewCount(productNo);
+    }
+
+    // 상품 qna 총 개수 조회
+    public int selectTotalQnaCount(String productNo) {
+
+        return productMapper.selectTotalQnaCount(productNo);
+    }
+
+    // 상품 리뷰 조회
+    public List<ReviewDTO> selectReviewList(SelectCriteria selectCriteria) {
+
+        return productMapper.selectReviewList(selectCriteria);
     }
 
     // 상품 문의 조회
-    public List<QnaDTO> selectQnaList(String productNo) {
+    public List<QnaDTO> selectQnaList(SelectCriteria selectCriteria) {
 
-        return productMapper.selectQnaList(productNo);
+        return productMapper.selectQnaList(selectCriteria);
     }
 }
