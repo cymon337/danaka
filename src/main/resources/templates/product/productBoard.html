@@ -17,10 +17,10 @@
             <span>닉네임</span>
             <span>등록일</span>
         </div>
-        <div class="boardHead" th:if="${ #strings.isEmpty(reviewList) }">
-            <p th:text="${ reviewList }"></p>
-            <p>상품 후기가 없습니다.</p>
-        </div>
+
+            <p th:if="${ reviewList == null }">상품 후기가 없습니다.</p>
+
+
         <th:block th:each="review : ${ reviewList }">
             <div class="boardHead">
                 <span th:text="${ review.reviewNo }">0</span>
@@ -40,14 +40,12 @@
             <span>닉네임</span>
             <span>등록일</span>
         </div>
-        <div class="boardHead" th:if="${ qnaList == null }">
-            <p>상품 문의가 없습니다.</p>
-        </div>
+        <p th:if="${ qnaList == null }">상품 후기가 없습니다.</p>
         <th:block th:each="qna : ${ qnaList }">
             <div class="boardHead">
                 <span th:text="${ qna.qnaNo }">번호</span>
                 <span th:if="${ qna.secretStatus == 'Y' }">비밀글입니다.</span>
-                <span th:if="${ qna.secretStatus == 'N' || qna.userNo == principal.userNo }" th:text="${ qna.qnaBody }">문의 내용</span>
+                <span th:if="${ qna.secretStatus == 'N' }" th:text="${ qna.qnaBody }">문의 내용</span>
                 <span th:text="${ qna.userNickname }">닉네임</span>
                 <span th:text="${ qna.regDate }">등록일</span>
             </div>
