@@ -294,29 +294,66 @@ public class ProductController {
     // # author : 오승재
     // # description : 상품 리뷰, 문의 관리 ajax 메소드
     @GetMapping("/review")
-    public ModelAndView selectReview(@AuthenticationPrincipal MemberDTO member, String productNo, ModelAndView mv) {
+    public ModelAndView selectReview(@AuthenticationPrincipal MemberDTO member, @RequestParam(required = false)String currentPage, String productNo, ModelAndView mv) {
 
         HashMap<String, String> map = new HashMap<>();
         map.put("productNo", productNo);
         map.put("userNo", member.getUserNo());
         Boolean bMember = productService.selectOrder(map);
 
-        List<ReviewDTO> reviewList = productService.selectReviewList(productNo);
+        int pageNo = 1;
+        if (currentPage != null && !"".equals(currentPage)) {
+            pageNo = Integer.parseInt(currentPage);
+        }
 
+        if (pageNo <= 0) {
+            pageNo = 1;
+        }
+
+        int totalCount = productService.selectTotalReviewCount(productNo);
+        int limit = 10;
+        int buttonAmount = 5;
+
+        /* 페이징 처리를 위한 로직 호출 후 페이징 처리에 관한 정보를 담고 있는 인스턴스를 반환받는다. */
+        SelectCriteria selectCriteria = Pagenation.getSelectCriteria(pageNo, totalCount, limit, buttonAmount);
+        selectCriteria.setSearchValue(productNo);
+        log.info("검색조건 = {}", selectCriteria);
+        List<ReviewDTO> reviewList = productService.selectReviewList(selectCriteria);
+
+        log.info("검색조건 = {}", selectCriteria);
 
         mv.addObject("bMember", bMember);
         mv.addObject("reviewList", reviewList);
+        mv.addObject("selectCriteria", selectCriteria);
         mv.setViewName("product/productBoard");
         return mv;
     }
 
     @GetMapping("/qna")
-    public ModelAndView selectQna(String productNo, ModelAndView mv) {
+    public ModelAndView selectQna(@RequestParam(required = false) String currentPage, String productNo, ModelAndView mv) {
 
-        List<QnaDTO> qnaList = productService.selectQnaList(productNo);
+        int pageNo = 1;
+        if (currentPage != null && !"".equals(currentPage)) {
+            pageNo = Integer.parseInt(currentPage);
+        }
+
+        if (pageNo <= 0) {
+            pageNo = 1;
+        }
+
+        int totalCount = productService.selectTotalQnaCount(productNo);
+        int limit = 10;
+        int buttonAmount = 5;
+
+        /* 페이징 처리를 위한 로직 호출 후 페이징 처리에 관한 정보를 담고 있는 인스턴스를 반환받는다. */
+        SelectCriteria selectCriteria = Pagenation.getSelectCriteria(pageNo, totalCount, limit, buttonAmount);
+        selectCriteria.setSearchValue(productNo);
+        List<QnaDTO> qnaList = productService.selectQnaList(selectCriteria);
 
         mv.addObject("qnaList", qnaList);
+        mv.addObject("selectCriteria", selectCriteria);
         mv.setViewName("product/productBoard");
+
         return mv;
     }
 }

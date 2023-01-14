@@ -299,41 +299,64 @@
          WHERE PRODUCT_NO = #{ productNo }
            AND USER_NO = #{ userNo }
     </select>
-    <!-- 상품 리뷰 조회 -->
-    <select id="selectReviewList" parameterType="String" resultMap="reviewResultMap">
+    <!-- 상품 리뷰 총 개수 조회 -->
+    <select id="selectTotalReviewCount" parameterType="String" resultType="_int">
         SELECT
-            A.REVIEW_NO,
-            C.PRODUCT_NAME,
-            A.USER_NO,
-            B.USER_NICKNAME,
-            A.REVIEW_TITLE,
-            A.REVIEW_BODY,
-            A.REG_DATE
-          FROM T_REVIEW A
-          LEFT JOIN T_MEMBER B
-            ON A.USER_NO = B.USER_NO
-          LEFT JOIN T_PRODUCT C
-            ON A.PRODUCT_NO = C.PRODUCT_NO
-         WHERE A.PRODUCT_NO = #{ productNo }
+            COUNT(*)
+          FROM T_REVIEW
+         WHERE PRODUCT_NO = #{ productNo }
+    </select>
+    <!-- 상품 qna 총 개수 조회 -->
+    <select id="selectTotalQnaCount" parameterType="String" resultType="_int">
+        SELECT
+            COUNT(*)
+          FROM T_QNA
+         WHERE PRODUCT_NO = #{ productNo }
+    </select>
+    <!-- 상품 리뷰 조회 -->
+    <select id="selectReviewList" parameterType="com.osaz.danaka.common.SelectCriteria" resultMap="reviewResultMap">
+        SELECT
+            D.*
+          FROM (SELECT
+                      ROWNUM "RNUM",
+                      A.REVIEW_NO,
+                      C.PRODUCT_NAME,
+                      A.USER_NO,
+                      B.USER_NICKNAME,
+                      A.REVIEW_TITLE,
+                      A.REVIEW_BODY,
+                      A.REG_DATE
+                 FROM T_REVIEW A
+                 LEFT JOIN T_MEMBER B
+                   ON A.USER_NO = B.USER_NO
+                 LEFT JOIN T_PRODUCT C
+                   ON A.PRODUCT_NO = C.PRODUCT_NO
+                WHERE A.PRODUCT_NO = #{ searchValue }
+                ORDER BY A.REVIEW_NO DESC) D
+         WHERE D.RNUM BETWEEN #{ startRow } AND #{ endRow }
     </select>
     <!-- 상품 qna 조회 -->
-    <select id="selectQnaList" parameterType="String" resultMap="qnaResultMap">
+    <select id="selectQnaList" parameterType="com.osaz.danaka.common.SelectCriteria" resultMap="qnaResultMap">
         SELECT
-            A.QNA_NO,
-            C.PRODUCT_NAME,
-            A.USER_NO,
-            B.USER_NICKNAME,
-            A.QNA_BODY,
-            A.SECRET_STATUS,
-            A.REG_DATE,
-            A.REPLY,
-            A.REPLY_DATE
-        FROM T_QNA A
-        LEFT JOIN T_MEMBER B
-          ON A.USER_NO = B.USER_NO
-        LEFT JOIN T_PRODUCT C
-          ON A.PRODUCT_NO = C.PRODUCT_NO
-       WHERE A.PRODUCT_NO = #{ productNo }
-       ORDER BY A.QNA_NO DESC
+            D.*
+          FROM (SELECT
+                     ROWNUM "RNUM",
+                     A.QNA_NO,
+                     C.PRODUCT_NAME,
+                     A.USER_NO,
+                     B.USER_NICKNAME,
+                     A.QNA_BODY,
+                     A.SECRET_STATUS,
+                     A.REG_DATE,
+                     A.REPLY,
+                     A.REPLY_DATE
+                 FROM T_QNA A
+                          LEFT JOIN T_MEMBER B
+                                    ON A.USER_NO = B.USER_NO
+                          LEFT JOIN T_PRODUCT C
+                                    ON A.PRODUCT_NO = C.PRODUCT_NO
+                WHERE A.PRODUCT_NO = #{ searchValue }
+                ORDER BY A.QNA_NO DESC) D
+         WHERE D.RNUM BETWEEN #{ startRow } AND #{ endRow }
     </select>
 </mapper>

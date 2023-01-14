@@ -150,7 +150,7 @@
         <h2>본문 내용</h2>
     </div>
 </div>
-<div id="productBoardContainer" th:replace="~{product/productBoard :: productBoard}">
+<div id="productBoardContainer">
 <!--    <div class="boardControlButtons">-->
 <!--        <button>상품 리뷰</button>-->
 <!--        <button>상품 문의</button>-->
@@ -267,13 +267,13 @@
         });
     })
 
-    /* 관련 상품 버튼 */
-    $(".refMove").on("click", function () {
-
-        if($(this).val() == "+") {
-
-        }
-    })
+    // /* 관련 상품 버튼 */
+    // $(".refMove").on("click", function () {
+    //
+    //     if($(this).val() == "+") {
+    //
+    //     }
+    // })
 
     /* 모달 창 닫기 버튼 */
     $(".modalCloseButton, .modalLayer").on("click", function() {

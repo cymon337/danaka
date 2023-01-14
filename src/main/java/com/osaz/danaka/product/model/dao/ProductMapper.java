@@ -40,9 +40,16 @@ public interface ProductMapper {
     // 상품 구매했는지 조회
     int selectOrder(Map<String, String> orderMap);
 
+    // 상품 리뷰 총 개수 조회
+    int selectTotalReviewCount(String productNo);
+
+    // 상품 qna 총 개수 조회
+    int selectTotalQnaCount(String productNo);
+
     // 상품 리뷰 조회
-    List<ReviewDTO> selectReviewList(String productNo);
+    List<ReviewDTO> selectReviewList(SelectCriteria selectCriteria);
 
     // 상품 qna 조회
-    List<QnaDTO> selectQnaList(String productNo);
+    List<QnaDTO> selectQnaList(SelectCriteria selectCriteria);
+
 }

@@ -57,6 +57,9 @@
     color: white;
     border-top: none;
 }
+.boardHead>span {
+    height: 32px;
+}
 .boardContent {
     display: none;
 }
