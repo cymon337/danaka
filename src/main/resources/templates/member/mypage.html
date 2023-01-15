@@ -5,12 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge"><title>Document</title>
-  <link rel="stylesheet" th:href="@{/css/indexCss.css}">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"><title>마이페이지</title>
+<!--  <link rel="stylesheet" th:href="@{/css/indexCss.css}">-->
   <link rel="stylesheet" th:href="@{/css/myPageStyle.css}">
   <link rel="stylesheet" th:href="@{/css/myPageStyle2.css}">
 
-  <link rel="stylesheet" th:href="@{/css/style.css}">
+<!--  <link rel="stylesheet" th:href="@{/css/style.css}">-->
 <!--  <link rel="stylesheet" th:href="@{/css/list.css}">-->
  
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -23,9 +23,9 @@
 </head>
 <body>
 <div class="row" style="margin: 0; padding: 0;">
-  <div class="header">
-    <th:block th:replace="~{common/header :: header}"/>
-  </div>
+<!--  <div class="header">-->
+<!--    <th:block th:replace="~{common/rootheader :: header}"/>-->
+<!--  </div>-->
 
   <div class="col-lg-1"></div>
   <div class="col-lg-6" style="margin: 25px;">
@@ -37,9 +37,9 @@
   </div>
 </div>
 
-<div id="viewport" >
+<div id="viewport1" >
   <!-- Sidebar -->
-  <div id="sidebar">
+  <div id="sidebar1">
     <header style="height: 200px">
 
       <a href="#" style="margin-outside: 10px"><img src="/image/image2.png"></a>
@@ -49,7 +49,7 @@
 
     <ul class="nav">
       <li>
-        <a th:href="@{/member/modefication}">
+        <a th:href="@{/member/modification}">
           <i class="zmdi zmdi-view-dashboard"></i> 회원정보 수정
         </a>
       </li>
@@ -61,7 +61,7 @@
       </li>
       <hr>
       <li>
-        <a href="#">
+        <a th:href="@{/package/package}">
           <i class="zmdi zmdi-widgets"></i> 장바구니
         </a>
         <hr>
@@ -71,7 +71,7 @@
         <br>
 
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <button type="button" th:href="@{/member/unregister}" class="btn btn-primary rounded submit " style="background: white; color: black; width:100px; height: 40px" >회원탈퇴</button>
+        <button type="button"onclick="location.href='/member/unregister'" id="unregister" class="btn btn-primary rounded submit " style="background: white; color: black; width:100px; height: 40px" >회원탈퇴</button>
       </li>
     </ul>
   </div>
