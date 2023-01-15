@@ -292,14 +292,15 @@ public class ProductController {
     // # update : 2023-01-14
     // # title : 상품 상세페이지
     // # author : 오승재
-    // # description : 상품 리뷰, 문의 관리 ajax 메소드
+    // # description : 상품 리뷰 관리 ajax 메소드
     @GetMapping("/review")
     public ModelAndView selectReview(@AuthenticationPrincipal MemberDTO member, @RequestParam(required = false)String currentPage, String productNo, ModelAndView mv) {
 
         HashMap<String, String> map = new HashMap<>();
         map.put("productNo", productNo);
         map.put("userNo", member.getUserNo());
-        Boolean bMember = productService.selectOrder(map);
+        HashMap orderInfo = productService.selectOrder(map);
+        log.info("마이바티스에서 받은 해시맵 체크 = {}", orderInfo);
 
         int pageNo = 1;
         if (currentPage != null && !"".equals(currentPage)) {
@@ -322,13 +323,17 @@ public class ProductController {
 
         log.info("검색조건 = {}", selectCriteria);
 
-        mv.addObject("bMember", bMember);
+        mv.addObject("orderInfo", orderInfo);
         mv.addObject("reviewList", reviewList);
         mv.addObject("selectCriteria", selectCriteria);
         mv.setViewName("product/productBoard");
         return mv;
     }
 
+    // # update : 2023-01-15
+    // # title : 상품 상세페이지
+    // # author : 오승재
+    // # description : 상품 문의 관리 ajax 메소드
     @GetMapping("/qna")
     public ModelAndView selectQna(@RequestParam(required = false) String currentPage, String productNo, ModelAndView mv) {
 
@@ -355,5 +360,71 @@ public class ProductController {
         mv.setViewName("product/productBoard");
 
         return mv;
+    }
+
+    // # update : 2023-01-15
+    // # title : 상품 상세페이지
+    // # author : 오승재
+    // # description : 상품 리뷰 insert ajax메소드
+    @PostMapping("/insertReview")
+    public ModelAndView insertReview(ReviewDTO review, ModelAndView mv) {
+
+        log.info("새 리뷰 = {}", review);
+
+        try {
+            boolean result = productService.insertReview(review);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        int pageNo = 1;
+        int totalCount = productService.selectTotalReviewCount(review.getProductNo());
+        int limit = 10;
+        int buttonAmount = 5;
+
+        /* 페이징 처리를 위한 로직 호출 후 페이징 처리에 관한 정보를 담고 있는 인스턴스를 반환받는다. */
+        SelectCriteria selectCriteria = Pagenation.getSelectCriteria(pageNo, totalCount, limit, buttonAmount);
+        selectCriteria.setSearchValue(review.getProductNo());
+        log.info("검색조건 = {}", selectCriteria);
+        List<ReviewDTO> reviewList = productService.selectReviewList(selectCriteria);
+
+        mv.addObject("selectCriteria", selectCriteria);
+        mv.addObject("reviewList", reviewList);
+        mv.setViewName("/product/productBoard");
+
+        return mv;
+    }
+
+    // # update : 2023-01-15
+    // # title : 상품 상세페이지
+    // # author : 오승재
+    // # description : 상품 리뷰 insert ajax메소드
+    @PostMapping("/insertQna")
+    public void insertQna(QnaDTO qna, ModelAndView mv) {
+
+        log.info("새 상품문의 = {}", qna);
+
+//        try {
+//            boolean result = productService.insertReview(review);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+
+        int pageNo = 1;
+//        int totalCount = productService.selectTotalReviewCount(qna.getProductNo());
+        int limit = 10;
+        int buttonAmount = 5;
+
+        /* 페이징 처리를 위한 로직 호출 후 페이징 처리에 관한 정보를 담고 있는 인스턴스를 반환받는다. */
+//        SelectCriteria selectCriteria = Pagenation.getSelectCriteria(pageNo, totalCount, limit, buttonAmount);
+//        selectCriteria.setSearchValue(qna.getProductNo());
+//        log.info("검색조건 = {}", selectCriteria);
+//        List<ReviewDTO> reviewList = productService.selectReviewList(selectCriteria);
+//
+//        mv.addObject("selectCriteria", selectCriteria);
+//        mv.addObject("reviewList", reviewList);
+//        mv.setViewName("/product/productBoard");
+
+//        return mv;
     }
 }

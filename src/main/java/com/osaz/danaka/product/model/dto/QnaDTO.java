@@ -7,9 +7,9 @@ import java.sql.Date;
 @Data
 public class QnaDTO {
 
-    private int qnaNo;
-    private int userNo;
-    private String productName;
+    private String qnaNo;
+    private String userNo;
+    private String productNo;
     private String userNickname;
     private String qnaBody;
     private String secretStatus;

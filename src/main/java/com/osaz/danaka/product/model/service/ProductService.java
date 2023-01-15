@@ -92,11 +92,11 @@ public class ProductService {
     }
 
     // 상품 구매했는지 조회
-    public boolean selectOrder(Map<String, String> orderMap) {
+    public HashMap selectOrder(Map<String, String> orderMap) {
 
-        int result = productMapper.selectOrder(orderMap);
+        HashMap<String, String> result = productMapper.selectOrder(orderMap);
 
-        return (result > 0)? true : false;
+        return result;
     }
 
     // 상품 review 총 개수 조회
@@ -121,5 +121,16 @@ public class ProductService {
     public List<QnaDTO> selectQnaList(SelectCriteria selectCriteria) {
 
         return productMapper.selectQnaList(selectCriteria);
+    }
+
+    // 상품 리뷰 추가
+    public boolean insertReview(ReviewDTO review) throws Exception {
+
+        int result = productMapper.insertReview(review);
+
+        if (result <= 0) {
+            throw new Exception("리뷰 등록 실패");
+        }
+        return (result > 0) ? true : false;
     }
 }

@@ -315,6 +315,7 @@
                 $("#reviewBtn").css({"backgroundColor":"#0447ad", "color":"white"});
                 $("#askBtn").css({"backgroundColor":"white", "color":"black"});
                 $("#productAsk").hide();
+                $("#writeQ").hide();
                 keyCheck = key;
             });
         } else if(key == 2) {
@@ -327,6 +328,7 @@
             }).done(function (data) {
                 $("#productBoardContainer").replaceWith(data);
                 $("#productAsk").show();
+                $("#writeQ").show();
                 $("#askBtn").css({"backgroundColor":"#0447ad", "color":"white"});
                 $("#reviewBtn").css({"backgroundColor":"white", "color":"black"});
                 $("#productReview").hide();
@@ -338,12 +340,64 @@
     /* 후기 내용보기 (자바스크립트) */
     function showContent(that) {
         that.nextElementSibling.classList.toggle("visibilityToggle");
-        // if(that.nextElementSibling.style.display == 'block') {
-        //     that.nextElementSibling.style.display = 'none';
-        //     return
-        // }
-        // that.nextElementSibling.style.display = 'block';
+    }
 
+    /* 상품 후기, 문의 input 창 버튼 */
+    function inputRQ(that) {
+
+        if(that.value == 'review') {
+            $("#productReview").hide();
+            $("#writeR").hide();
+            $("#reviewInput").show();
+            $("#insertR").show();
+        } else if(that.value == 'qna') {
+            $("#productAsk").hide();
+            $("#writeQ").hide();
+            $("#qnaInput").show();
+            $("#insertQ").show();
+        }
+    }
+
+    /* 상품 후기, 문의 submit 버튼 */
+    function submitRQ(key) {
+
+        let queryString;
+        if(key == 'R'){
+            queryString = $("#reviewForm").serialize();
+            $.ajax({
+                type : 'post',
+                url : '/product/insertReview',
+                data : queryString,
+                success : function() {
+                    alert('리뷰 등록 성공!');
+                    $("#productReview").show();
+                    $("#writeR").show();
+                    $("#reviewInput").hide();
+                    $("#insertR").hide();
+                },
+                error : function () {
+                    alert('리뷰 등록 실패..');
+                    $("#productReview").show();
+                    $("#writeR").show();
+                    $("#reviewInput").hide();
+                    $("#insertR").hide();
+                }
+            });
+        } else if(key == 'Q') {
+            queryString = $("#qnaForm").serialize();
+            console.log(queryString);
+            $.ajax({
+                type : 'POST',
+                url : '/product/insertQna',
+                data : queryString,
+                success : function() {
+                    alert('문의 등록 성공!');
+                },
+                error : function () {
+                    alert('문의 등록 실패..');
+                }
+            });
+        }
     }
 
     /* 상품 후기, 문의 페이징 버튼 */
