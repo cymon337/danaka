@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -21,20 +21,37 @@
             <span>상품 후기가 없습니다.</span>
         </div>
         <th:block th:each="review : ${ reviewList }">
-            <div class="boardTitle" onclick="showContent(this)">
-                <span th:text="${ review.reviewNo }">0</span>
-                <span th:text="${ review.reviewTitle }">상품 후기 제목</span>
-                <span th:text="${ review.userNickname }">닉네임</span>
-                <span th:text="${ review.regDate }">등록일</span>
+        <div class="boardTitle" onclick="showContent(this)">
+            <span th:text="${ review.reviewNo }">0</span>
+            <span th:text="${ review.reviewTitle }">상품 후기 제목</span>
+            <span th:text="${ review.userNickname }">닉네임</span>
+            <span th:text="${ review.regDate }">등록일</span>
+        </div>
+        <div class="boardContent">
+            <div th:if="${ review.userNo } == ${ #authentication.principal.userNo }" align="end">
+                <buttont class="contentButtons" type="button">수정</buttont>
+                <buttont class="contentButtons" type="button" th:onclick="deleteBoard([[${ review.reviewNo }]])">삭제</buttont>
             </div>
-            <div class="boardContent">
-                <div th:if="${ review.userNo } == ${ #authentication.principal.userNo }" align="end">
-                    <buttont class="contentButtons" type="button">수정</buttont>
-                    <buttont class="contentButtons" type="button">삭제</buttont>
-                </div>
-                <p class="boardBody" th:text="${ review.reviewBody }">상품 후기 본문</p>
-            </div>
+            <p class="boardBody" th:text="${ review.reviewBody }">상품 후기 본문</p>
+        </div>
         </th:block>
+    </div>
+    <div id="reviewInput" th:if="${ orderInfo != null }">
+        <form id="reviewForm">
+            <span>구매 상품 : </span>
+            <th:block th:switch="${ orderInfo['CATEGORY_CODE'] }">
+                <input th:case="RD" type="text" name="reviewTitle" class="reviewTitle" th:value="${ orderInfo['PRODUCT_NAME'] } + ' - ' + ${ orderInfo['ROD_MODEL'] }">
+                <input th:case="RL" type="text" name="reviewTitle" class="reviewTitle" th:value="${ orderInfo['PRODUCT_NAME'] } + ' - ' + ${ orderInfo['REEL_MODEL'] }">
+                <input th:case="LN" type="text" name="reviewTitle" class="reviewTitle" th:value="${ orderInfo['PRODUCT_NAME'] } + ' - ' + ${ orderInfo['LINE_SIZE'] }">
+            </th:block>
+            <input type="text" hidden="true" name="userNo" th:value="${ #authentication.principal.userNo }" readonly>
+            <input type="text" hidden="true" name="productNo" th:value="${ orderInfo['PRODUCT_NO'] }" readonly>
+            <div>
+            <div><span>닉네임 : </span><input type="text" id="userNickname" th:value="${ #authentication.principal.userNickname }" readonly></div>
+            <div><span>구매일 : </span><input type="text" name="buyDate" th:value="${#dates.format(orderInfo['REG_DATE'], 'yyyy-MM-dd')}" readonly></div>
+            </div>
+            <textarea name="reviewBody" maxlength="88" placeholder="리뷰 내용을 작성하세요."></textarea>
+        </form>
     </div>
     <div id="productAsk">
         <div class="boardHead">
@@ -47,21 +64,38 @@
             <span>상품 문의가 없습니다.</span>
         </div>
         <th:block th:each="qna : ${ qnaList }">
-            <div class="boardTitle" onclick="showContent(this)">
-                <span th:text="${ qna.qnaNo }">번호</span>
-                <th:block th:switch="${ qna.secretStatus }">
-                    <span th:case="Y">비밀글입니다.</span>
-                    <span th:case="N">[[${ qna.qnaBody }]]</span>
+        <div class="boardTitle" onclick="showContent(this)">
+            <span th:text="${ qna.qnaNo }">번호</span>
+            <th:block th:switch="${ qna.secretStatus }">
+                <th:block th:case="Y">
+                    <span th:if="${ #authentication.name == 'admin' } or ${ qna.userNo } == ${ #authentication.principal.userNo }" th:text="${ qna.qnaBody }"></span>
+                    <span th:unless="${ #authentication.name == 'admin' } or ${ qna.userNo } == ${ #authentication.principal.userNo }">비밀글입니다.</span>
                 </th:block>
-                <span th:text="${ qna.userNickname }">닉네임</span>
-                <span th:text="${ qna.regDate }">등록일</span>
+                <span th:case="N">[[${ qna.qnaBody }]]</span>
+            </th:block>
+            <span th:text="${ qna.userNickname }">닉네임</span>
+            <span th:text="${ qna.regDate }">등록일</span>
+        </div>
+        <div class="boardContent">
+            <div th:if="${ #authentication.name == 'admin' }" align="end">
+                <buttont class="contentButtons" type="button">답변</buttont>
             </div>
-            <div class="boardContent">
-                <p class="boardBody">관리자</p>
-                <p class="boardBody" th:text="${ qna.reply }">문의 내용 답변</p>
-                <p class="boardBody" th:text="${ qna.replyDate }">답변일</p>
+            <div th:if="${ qna.userNo } == ${ #authentication.principal.userNo }" align="end">
+                <buttont class="contentButtons" type="button">수정</buttont>
+                <buttont class="contentButtons" type="button" th:onclick="deleteBoard([[${ qna.qnaNo }]])">삭제</buttont>
             </div>
+            <span th:text="${ qna?.replyDate }">답변일</span>
+            <span th:text="${ qna?.reply }">문의 내용 답변</span>
+        </div>
         </th:block>
+    </div>
+    <div id="qnaInput">
+        <form id="qnaForm">
+            <input type="text" hidden="true" name="userNo" th:value="${ #authentication.principal.userNo }" readonly>
+            <span>닉네임 : </span><input type="text" class="userNickname" th:value="${ #authentication.principal.userNickname }" readonly>
+            <textarea name="qnaBody" minlength="10" maxlength="40" required placeholder="문의 내용을 작성하세요."></textarea>
+            <label>비밀글 <input type="checkbox" name="secretStatus" value="Y"></label>
+        </form>
     </div>
     <div class="pagingArea" align="center">
         <th:block th:with="start = ${ selectCriteria.startPage }, last = ${ selectCriteria.endPage }, page = ${ selectCriteria.pageNo }, max = ${ selectCriteria.maxPage}">
@@ -108,8 +142,10 @@
             </th:block>
         </th:block>
         <!-- to do 처음 들어갔을 때 둘다 뜨는 거 고치기 -->
-        <button type="button" th:if="${ bMember } and ${ #lists.isEmpty(qnaList) }" id="writeR">리뷰하기</button>
-        <button type="button" th:if="${ #lists.isEmpty(reviewList) }"id="writeQ">문의하기</button>
+        <button type="button" th:if="${ orderInfo != null }" id="writeR" onclick="inputRQ(this)" value="review">리뷰하기</button>
+        <button type="button" id="insertR" onclick="submitRQ('R')">작성완료</button>
+        <button type="button" id="writeQ" onclick="inputRQ(this)" value="qna">문의하기</button>
+        <button type="button" id="insertQ" onclick="submitRQ('Q')">작성완료</button>
     </div>
 </div>
 

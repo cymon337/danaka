@@ -38,7 +38,7 @@ public interface ProductMapper {
     int insertOrder(List<OrderDTO> orderList);
 
     // 상품 구매했는지 조회
-    int selectOrder(Map<String, String> orderMap);
+    HashMap<String, String> selectOrder(Map<String, String> orderMap);
 
     // 상품 리뷰 총 개수 조회
     int selectTotalReviewCount(String productNo);
@@ -52,4 +52,15 @@ public interface ProductMapper {
     // 상품 qna 조회
     List<QnaDTO> selectQnaList(SelectCriteria selectCriteria);
 
+    // 상품 리뷰 등록
+    int insertReview(ReviewDTO review);
+
+    // 상품 문의 등록
+    int insertQna(QnaDTO qna);
+
+    // 상품 리뷰 삭제
+    int deleteReview(String reviewNo);
+
+    // 상품 문의 삭제
+    int deleteQna(String qnaNo);
 }
