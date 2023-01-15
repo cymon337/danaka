@@ -11,15 +11,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Slf4j
 @Controller
@@ -260,59 +258,110 @@ public class ProductController {
     }
 
 
+    @GetMapping("productEnroll")
+    public void insertProduct() {}
+
     /*@RequestParam(name="file", required = false) MultipartFile file,*/
     @PostMapping("productEnroll")
-    public ModelAndView writeRecord(ModelAndView mv, ProductDTO product, RedirectAttributes rttr){
+    public ModelAndView insertProduct(ModelAndView mv, HttpServletRequest request, ProductDTO product, RedirectAttributes rttr, MultipartFile[] mutifile){
 
 //        System.out.println(product.getCityCode());
+        /* T_PRODUCT 테이블 데이터 먼저 추가 */
         productService.insertProduct(product);
 
-//        - 상품번호를 여기에 가져와야 함 / 파라미터에 담고 쓸라고 했는데 결국 조회를 해야함 왜냐, 인서트는 트렌젝션
-//        처리를 하고 동작이 끝임. 파라미터를 넘겨줄 행동이 낄 곳이 없음. 또 처리가 다 되야 상품번호가 커밋돼서 인식이 됨
-//        그래서 그 후 인서트된 값을 가져와야하는 것
-//
-//        1. 유니크한 컬럼(키)을 조건으로 가져오든가 (기본기처럼 유일한걸로) / 근데 그게 없자너
-//        2. 시퀀스 넘버를 가져오는게 있대, 그래서 그거에서 -1 하면 된다든디? (마지막 입력된 시퀀스 번호)
+        /* T_PRODUCT 테이블 마지막 상품 번호 구하기 */
+        String lastNum = productService.selectProductLastNum();
 
-//        if ((!file.getOriginalFilename().equals(""))){
-//            int fileNo = saveFile(file);
-//
-//            product.setImgFileNo(fileNo);
-//        }
+        /* 케이스에 따라 카테고리 테이블 데이터 추가 */
+        HashMap<String, String> categoryMap = new HashMap<>();
+        String category = request.getParameter("categoryCode");
 
-        mv.setViewName("redirect:/product/list");
+        if(Objects.equals(category, "RD")){
+            String rodModel = request.getParameter("rodModel");
+            String reelType = request.getParameter("reelType");
+            String lineMin = request.getParameter("lineMin");
+            String lineMax = request.getParameter("lineMax");
+            String rodPrice = request.getParameter("rodPrice");
+            categoryMap.put("rodModel", rodModel);
+            categoryMap.put("reelType", reelType);
+            categoryMap.put("lineMin", lineMin);
+            categoryMap.put("lineMax", lineMax);
+            categoryMap.put("rodPrice", rodPrice);
+            categoryMap.put("lastNum", lastNum);
+            categoryMap.put("category", "T_ROD");
+        } else if (Objects.equals(category, "RL")) {
+            String reelModel = request.getParameter("reelModel");
+            String reelType = request.getParameter("reelType");
+            String reelPrice = request.getParameter("reelPrice");
+            categoryMap.put("reelModel", reelModel);
+            categoryMap.put("reelType", reelType);
+            categoryMap.put("reelPrice", reelPrice);
+            categoryMap.put("lastNum", lastNum);
+            categoryMap.put("category", "T_REEL");
+        } else if (Objects.equals(category, "LN")) {
+            String lineSize = request.getParameter("lineSize");
+            String linePrice = request.getParameter("linePrice");
+            categoryMap.put("lineSize", lineSize);
+            categoryMap.put("linePrice", linePrice);
+            categoryMap.put("lastNum", lastNum);
+            categoryMap.put("category", "T_LINE");
+        } else if (category == null){
+            System.out.println("값이 없음");
+        }
+        // System.out.println(lastNum);
+        // System.out.println(category);
+        // System.out.println(categoryMap);
+        productService.insertCategory(categoryMap);
+
+        List<ProductDTO> fileList = new ArrayList<>();
+
+        // for (int i = 0; i < mutifile.length; i++) {
+        //     String projectPath = System.getProperty("user.dir")+"/src/main/resources/static/uploadImgs";
+        //     UUID uuid = UUID.randomUUID();
+        //     String changeName = uuid+"_"+mutifile.getOriginalFilename();
+        //     File saveFile = new File(projectPath, changeName);
+        //
+        //     try {
+        //         mutifile.transferTo(saveFile);
+        //
+        //         FileDTO imgFile = new FileDTO();
+        //         imgFile.setFileSize(file.getSize());
+        //         imgFile.setOriginName(file.getOriginalFilename());
+        //         imgFile.setChangeName(changeName);
+        //         imgFile.setImgPath("/uploadImgs/" +changeName);
+        //
+        //         recordService.saveFile(imgFile);
+        //
+        //         System.out.println("에러 지점 확인용 출력");
+        //
+        //         return recordService.returnFileNo(changeName);
+        //
+        //     } catch (Exception e) {
+        //         System.out.println("Exception" + e);
+        //         throw new RuntimeException(e);
+        //     }
+        // }
+
+        // 디티오에 리스트<제니릭DTO> 생성하고, 컨트롤러 안에서 리스트<디티오> = 어레이 리스트 생성,
+        // 메소드 파라미터에 멀티파일[] 배열로 받고, for문으로 배열.길이 만큼 돌림 그냥 상품 디티오 생성은 반복문안에서 하고 리스트에 에드도
+
+
+       // if ((!file.getOriginalFilename().equals(""))){
+       //     int fileNo = saveFile(file);
+       //
+       //     product.setImgFileNo(fileNo);
+       // }
+
+        mv.setViewName("redirect:/product/list2?categoryCode=" + request.getParameter("categoryCode"));
         rttr.addFlashAttribute("successMessage", "상품 등록 완료!");
 
         return mv;
 
     }
 
-//    private int saveFile(MultipartFile file){
-//
-//        String projectPath = System.getProperty("user.dir")+"/src/main/resources/static/uploadImgs";
-//        UUID uuid = UUID.randomUUID();
-//        String changeName = uuid+"_"+file.getOriginalFilename();
-//        File saveFile = new File(projectPath, changeName);
-//
-//        try {
-//            file.transferTo(saveFile);
-//
-//            FileDTO imgFile = new FileDTO();
-//            imgFile.setFileSize(file.getSize());
-//            imgFile.setOriginName(file.getOriginalFilename());
-//            imgFile.setChangeName(changeName);
-//            imgFile.setImgPath("/uploadImgs/" +changeName);
-//
-//            recordService.saveFile(imgFile);
-//
-//            System.out.println("에러 지점 확인용 출력");
-//
-//            return recordService.returnFileNo(changeName);
-//
-//        } catch (Exception e) {
-//            System.out.println("Exception" + e);
-//            throw new RuntimeException(e);
-//        }
-//
-//    }
+   // private int saveFile(MultipartFile file){
+   //
+   //
+   //
+   // }
 }

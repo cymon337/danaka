@@ -5,6 +5,7 @@ import com.osaz.danaka.product.model.dto.OrderDTO;
 import com.osaz.danaka.product.model.dto.ProductDTO;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -36,4 +37,8 @@ public interface ProductMapper {
     int insertOrder(OrderDTO order);
 
     void insertProduct(ProductDTO product);
+
+    void insertCategory(HashMap<String, String> categoryMap);
+
+    String selectProductLastNum();
 }

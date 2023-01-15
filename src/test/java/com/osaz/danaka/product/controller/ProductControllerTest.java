@@ -12,8 +12,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -41,14 +39,9 @@ class ProductControllerTest {
     @Test
     public void 카테고리별_상품_조회용_컨트롤러_테스트_동작_확인() throws Exception {
 
-        // given
-        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-        params.add("categoryCode", "REEL");
-        params.add("orderCondition", "highPrice");
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/product/list2").params(params))
+        mockMvc.perform(MockMvcRequestBuilders.get("/product/category"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.forwardedUrl("product/list2"))
+                .andExpect(MockMvcResultMatchers.content().contentType("application/json;charset=UTF-8"))
                 .andDo(MockMvcResultHandlers.print());
     }
 }

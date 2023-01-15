@@ -208,6 +208,9 @@
             )
     </insert>
 
+
+
+    <!--상품 테이블 데이터 삽입-->
     <insert id="insertProduct">
         INSERT
         INTO T_PRODUCT A
@@ -221,12 +224,51 @@
         )
         VALUES
             (
-                SEQ_NOTICE_NO.NEXTVAL
+                SEQ_PRODUCT_NO.NEXTVAL
             , #{ categoryCode }
             , #{ brandNo }
-            , #{ productRegDate }
+            , DEFAULT
             , #{ productName }
             , #{ stock }
             )
     </insert>
+
+    <!--기준에 따라 카테고리 테이블 데이터 삽입-->
+    <insert id="insertCategory" parameterType="Map">
+        INSERT INTO ${ category }
+        <if test="category == 'T_ROD'">
+            VALUES
+            (
+              #{ lastNum }
+            , #{ rodModel }
+            , #{ reelType }
+            , #{ lineMin }
+            , #{ lineMax }
+            , #{ rodPrice }
+            )
+        </if>
+        <if test="category == 'T_REEL'">
+            VALUES
+            (
+              #{ lastNum }
+            , #{ reelModel }
+            , #{ reelType }
+            , #{ reelPrice }
+            )
+        </if>
+        <if test="category == 'T_LINE'">
+            VALUES
+            (
+              #{ lastNum }
+            , #{ lineSize }
+            , #{ linePrice }
+            )
+        </if>
+    </insert>
+
+    <!--T_PRODUCT 테이블 마지막 번호 구하기-->
+    <select id="selectProductLastNum" resultType="string">
+        SELECT MAX(PRODUCT_NO)
+          FROM T_PRODUCT
+    </select>
 </mapper>
