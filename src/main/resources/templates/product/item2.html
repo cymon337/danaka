@@ -368,33 +368,68 @@
                 type : 'post',
                 url : '/product/insertReview',
                 data : queryString,
-                success : function() {
-                    alert('리뷰 등록 성공!');
-                    $("#productReview").show();
-                    $("#writeR").show();
-                    $("#reviewInput").hide();
-                    $("#insertR").hide();
+                dataType : 'text',
+                success : function(msg) {
+                    alert(msg);
+                    pagingFn(1);
                 },
-                error : function () {
-                    alert('리뷰 등록 실패..');
-                    $("#productReview").show();
-                    $("#writeR").show();
-                    $("#reviewInput").hide();
-                    $("#insertR").hide();
+                error : function (msg) {
+                    alert(msg);
+                    pagingFn(1);
                 }
             });
         } else if(key == 'Q') {
             queryString = $("#qnaForm").serialize();
+            queryString += "&productNo=" + orgProductNo,
             console.log(queryString);
             $.ajax({
                 type : 'POST',
                 url : '/product/insertQna',
                 data : queryString,
-                success : function() {
-                    alert('문의 등록 성공!');
+                dataType : 'text',
+                success : function(msg) {
+                    alert(msg);
+                    pagingFn(1);
                 },
-                error : function () {
-                    alert('문의 등록 실패..');
+                error : function (msg) {
+                    alert(msg);
+                    pagingFn(1);
+                }
+            });
+        }
+    }
+
+    /* 상품 후기, 문의 삭제 버튼 */
+    function deleteBoard(boardNo) {
+        console.log(boardNo);
+        if(keyCheck == 1) {
+            $.ajax({
+                type: "GET",
+                url: "/product/deleteReview",
+                data: { reviewNo : boardNo },
+                dataType: 'text',
+                success : function(msg) {
+                    alert(msg);
+                    pagingFn(1);
+                },
+                error : function (msg) {
+                    alert(msg);
+                    pagingFn(1);
+                }
+            });
+        } else if(keyCheck == 2) {
+            $.ajax({
+                type: "GET",
+                url: "/product/deleteQna",
+                data: { qnaNo : boardNo },
+                dataType: 'text',
+                success : function(msg) {
+                    alert(msg);
+                    pagingFn(1);
+                },
+                error : function (msg) {
+                    alert(msg);
+                    pagingFn(1);
                 }
             });
         }
@@ -419,6 +454,8 @@
                 $("#reviewBtn").css({"backgroundColor":"#0447ad", "color":"white"});
                 $("#askBtn").css({"backgroundColor":"white", "color":"black"});
                 $("#productAsk").hide();
+                $("#writeR").show();
+                $("#writeQ").hide();
                 keyCheck = 1;
             });
         } else if(keyCheck == 2) {
@@ -437,6 +474,8 @@
                 $("#askBtn").css({"backgroundColor":"#0447ad", "color":"white"});
                 $("#reviewBtn").css({"backgroundColor":"white", "color":"black"});
                 $("#productReview").hide();
+                $("#writeR").hide();
+                $("#writeQ").show();
                 keyCheck = 2;
             });
         }

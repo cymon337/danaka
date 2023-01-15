@@ -133,4 +133,37 @@ public class ProductService {
         }
         return (result > 0) ? true : false;
     }
+
+    // 상품 문의 추가
+    public boolean insertQna(QnaDTO qna) throws Exception {
+
+        int result = productMapper.insertQna(qna);
+
+        if (result <= 0) {
+            throw new Exception("문의 등록 실패");
+        }
+        return (result > 0) ? true : false;
+    }
+
+    // 상품 리뷰 삭제
+    public boolean deleteReview(String reviewNo) throws Exception {
+
+        int result = productMapper.deleteReview(reviewNo);
+
+        if(result <= 0) {
+            throw new Exception("리뷰 삭제 실패");
+        }
+        return (result > 0)? true : false;
+    }
+
+    // 상품 문의 삭제
+    public boolean deleteQna(String qnaNo) throws Exception {
+
+        int result = productMapper.deleteQna(qnaNo);
+
+        if(result <= 0) {
+            throw new Exception("문의 삭제 실패");
+        }
+        return (result > 0)? true : false;
+    }
 }

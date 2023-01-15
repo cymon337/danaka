@@ -30,7 +30,7 @@
         <div class="boardContent">
             <div th:if="${ review.userNo } == ${ #authentication.principal.userNo }" align="end">
                 <buttont class="contentButtons" type="button">수정</buttont>
-                <buttont class="contentButtons" type="button">삭제</buttont>
+                <buttont class="contentButtons" type="button" th:onclick="deleteBoard([[${ review.reviewNo }]])">삭제</buttont>
             </div>
             <p class="boardBody" th:text="${ review.reviewBody }">상품 후기 본문</p>
         </div>
@@ -50,7 +50,7 @@
             <div><span>닉네임 : </span><input type="text" id="userNickname" th:value="${ #authentication.principal.userNickname }" readonly></div>
             <div><span>구매일 : </span><input type="text" name="buyDate" th:value="${#dates.format(orderInfo['REG_DATE'], 'yyyy-MM-dd')}" readonly></div>
             </div>
-            <textarea name="reviewBody" maxlength="88"></textarea>
+            <textarea name="reviewBody" maxlength="88" placeholder="리뷰 내용을 작성하세요."></textarea>
         </form>
     </div>
     <div id="productAsk">
@@ -67,16 +67,25 @@
         <div class="boardTitle" onclick="showContent(this)">
             <span th:text="${ qna.qnaNo }">번호</span>
             <th:block th:switch="${ qna.secretStatus }">
-                <span th:case="Y">비밀글입니다.</span>
+                <th:block th:case="Y">
+                    <span th:if="${ #authentication.name == 'admin' } or ${ qna.userNo } == ${ #authentication.principal.userNo }" th:text="${ qna.qnaBody }"></span>
+                    <span th:unless="${ #authentication.name == 'admin' } or ${ qna.userNo } == ${ #authentication.principal.userNo }">비밀글입니다.</span>
+                </th:block>
                 <span th:case="N">[[${ qna.qnaBody }]]</span>
             </th:block>
             <span th:text="${ qna.userNickname }">닉네임</span>
             <span th:text="${ qna.regDate }">등록일</span>
         </div>
         <div class="boardContent">
-            <p class="boardBody">관리자</p>
-            <p class="boardBody" th:text="${ qna.reply }">문의 내용 답변</p>
-            <p class="boardBody" th:text="${ qna.replyDate }">답변일</p>
+            <div th:if="${ #authentication.name == 'admin' }" align="end">
+                <buttont class="contentButtons" type="button">답변</buttont>
+            </div>
+            <div th:if="${ qna.userNo } == ${ #authentication.principal.userNo }" align="end">
+                <buttont class="contentButtons" type="button">수정</buttont>
+                <buttont class="contentButtons" type="button" th:onclick="deleteBoard([[${ qna.qnaNo }]])">삭제</buttont>
+            </div>
+            <span th:text="${ qna?.replyDate }">답변일</span>
+            <span th:text="${ qna?.reply }">문의 내용 답변</span>
         </div>
         </th:block>
     </div>
@@ -84,7 +93,7 @@
         <form id="qnaForm">
             <input type="text" hidden="true" name="userNo" th:value="${ #authentication.principal.userNo }" readonly>
             <span>닉네임 : </span><input type="text" class="userNickname" th:value="${ #authentication.principal.userNickname }" readonly>
-            <textarea name="qnaBody" maxlength="40"></textarea>
+            <textarea name="qnaBody" minlength="10" maxlength="40" required placeholder="문의 내용을 작성하세요."></textarea>
             <label>비밀글 <input type="checkbox" name="secretStatus" value="Y"></label>
         </form>
     </div>

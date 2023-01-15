@@ -9,10 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -366,65 +363,111 @@ public class ProductController {
     // # title : 상품 상세페이지
     // # author : 오승재
     // # description : 상품 리뷰 insert ajax메소드
-    @PostMapping("/insertReview")
-    public ModelAndView insertReview(ReviewDTO review, ModelAndView mv) {
+    @PostMapping(value = "/insertReview", produces="application/json; charset=UTF-8")
+    @ResponseBody
+    public String insertReview(ReviewDTO review) {
 
         log.info("새 리뷰 = {}", review);
+        String msg = "";
+
+        if(review.getReviewBody() == null || "".equals(review.getReviewBody())) {
+            msg = "리뷰 내용을 작성해주세요.";
+            return msg;
+        }
 
         try {
             boolean result = productService.insertReview(review);
+            if(result) {
+                msg = "리뷰 등록 성공!";
+            }
         } catch (Exception e) {
+            msg = "리뷰 등록 실패..";
             e.printStackTrace();
+            return msg;
         }
 
-        int pageNo = 1;
-        int totalCount = productService.selectTotalReviewCount(review.getProductNo());
-        int limit = 10;
-        int buttonAmount = 5;
-
-        /* 페이징 처리를 위한 로직 호출 후 페이징 처리에 관한 정보를 담고 있는 인스턴스를 반환받는다. */
-        SelectCriteria selectCriteria = Pagenation.getSelectCriteria(pageNo, totalCount, limit, buttonAmount);
-        selectCriteria.setSearchValue(review.getProductNo());
-        log.info("검색조건 = {}", selectCriteria);
-        List<ReviewDTO> reviewList = productService.selectReviewList(selectCriteria);
-
-        mv.addObject("selectCriteria", selectCriteria);
-        mv.addObject("reviewList", reviewList);
-        mv.setViewName("/product/productBoard");
-
-        return mv;
+        return msg;
     }
 
     // # update : 2023-01-15
     // # title : 상품 상세페이지
     // # author : 오승재
-    // # description : 상품 리뷰 insert ajax메소드
-    @PostMapping("/insertQna")
-    public void insertQna(QnaDTO qna, ModelAndView mv) {
+    // # description : 상품 문의 insert ajax메소드
+    @PostMapping(value = "/insertQna", produces="application/json; charset=UTF-8")
+    @ResponseBody
+    public String insertQna(QnaDTO qna) {
 
+        String msg = "";
         log.info("새 상품문의 = {}", qna);
 
-//        try {
-//            boolean result = productService.insertReview(review);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        if(qna.getSecretStatus() == null) {
+            qna.setSecretStatus("N");
+        }
 
-        int pageNo = 1;
-//        int totalCount = productService.selectTotalReviewCount(qna.getProductNo());
-        int limit = 10;
-        int buttonAmount = 5;
+        if(qna.getQnaBody() == null || "".equals(qna.getQnaBody())) {
+            msg = "문의 내용을 작성해주세요.";
+            return msg;
+        }
 
-        /* 페이징 처리를 위한 로직 호출 후 페이징 처리에 관한 정보를 담고 있는 인스턴스를 반환받는다. */
-//        SelectCriteria selectCriteria = Pagenation.getSelectCriteria(pageNo, totalCount, limit, buttonAmount);
-//        selectCriteria.setSearchValue(qna.getProductNo());
-//        log.info("검색조건 = {}", selectCriteria);
-//        List<ReviewDTO> reviewList = productService.selectReviewList(selectCriteria);
-//
-//        mv.addObject("selectCriteria", selectCriteria);
-//        mv.addObject("reviewList", reviewList);
-//        mv.setViewName("/product/productBoard");
+        try {
+            boolean result = productService.insertQna(qna);
+            if(result) {
+                msg = "문의 등록 성공!";
+            }
+        } catch (Exception e) {
+            msg = "문의 등록 실패..";
+            e.printStackTrace();
+            return msg;
+        }
 
-//        return mv;
+        return msg;
+    }
+
+    // # update : 2023-01-16
+    // # title : 상품 상세페이지
+    // # author : 오승재
+    // # description : 상품 리뷰 삭제 ajax메소드
+    @GetMapping(value = "/deleteReview", produces="application/json; charset=UTF-8")
+    @ResponseBody
+    public String deleteReview(String reviewNo) {
+
+        String msg = " ";
+
+        try {
+            boolean result = productService.deleteReview(reviewNo);
+            if(result) {
+                msg = "리뷰 삭제 성공!";
+            }
+        } catch (Exception e) {
+            msg = "리뷰 삭제 실패..";
+            e.printStackTrace();
+            return msg;
+        }
+
+        return msg;
+    }
+
+    // # update : 2023-01-16
+    // # title : 상품 상세페이지
+    // # author : 오승재
+    // # description : 상품 문의 삭제 ajax메소드
+    @GetMapping(value = "/deleteQna", produces="application/json; charset=UTF-8")
+    @ResponseBody
+    public String deleteQna(String qnaNo) {
+
+        String msg = " ";
+
+        try {
+            boolean result = productService.deleteQna(qnaNo);
+            if(result) {
+                msg = "문의 삭제 성공!";
+            }
+        } catch (Exception e) {
+            msg = "문의 삭제 실패..";
+            e.printStackTrace();
+            return msg;
+        }
+
+        return msg;
     }
 }

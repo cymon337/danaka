@@ -54,4 +54,13 @@ public interface ProductMapper {
 
     // 상품 리뷰 등록
     int insertReview(ReviewDTO review);
+
+    // 상품 문의 등록
+    int insertQna(QnaDTO qna);
+
+    // 상품 리뷰 삭제
+    int deleteReview(String reviewNo);
+
+    // 상품 문의 삭제
+    int deleteQna(String qnaNo);
 }

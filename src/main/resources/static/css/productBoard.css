@@ -99,6 +99,8 @@
 .boardContent>p {
     height: 60%;
 }
+.boardContent>span {
+}
 .contentButtons {
     width: 4em;
     border-radius: 5px;
