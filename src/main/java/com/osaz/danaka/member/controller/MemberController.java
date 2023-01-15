@@ -320,4 +320,63 @@ public class MemberController {
 
         return "member/wishList";
     }
+
+    @ResponseBody
+    @PostMapping("/member/cancelPurchase")
+    public int cancelPurchase(@AuthenticationPrincipal MemberDTO memberDTO,@RequestParam(value = "chbox[]") List<String> chArr ,OrderDTO orderDTO) throws Exception {
+
+
+
+
+        String userNo = memberDTO.getUserNo();
+
+        int result = 0;
+        int orderNum = 0;
+
+
+        if(memberDTO != null) {
+            orderDTO.setUserNo(userNo);
+
+            for(String i : chArr) {
+                orderNum = Integer.parseInt(i);
+                orderDTO.setOrderNo(String.valueOf(orderNum));
+                memberService.cancelPurchase(orderDTO);
+            }
+            result = 1;
+            }
+            return result;
+
+
+
+    }
+
+
+    @ResponseBody
+    @PostMapping("/member/cancelWishList")
+    public int cancelWishList(@AuthenticationPrincipal MemberDTO memberDTO,@RequestParam(value = "chbox[]") List<String> chArr ,WishListDTO wishListDTO) throws Exception {
+
+
+
+
+        String userNo = memberDTO.getUserNo();
+
+        int result = 0;
+        int whisNum = 0;
+
+
+        if(memberDTO != null) {
+            wishListDTO.setUserNo(userNo);
+
+            for(String i : chArr) {
+                whisNum = Integer.parseInt(i);
+                wishListDTO.setWishNo(String.valueOf(whisNum));
+                memberService.cancelWishList(wishListDTO);
+            }
+            result = 1;
+        }
+        return result;
+
+
+
+    }
 }

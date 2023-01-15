@@ -6,11 +6,11 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>wishList</title>
-    <link rel="stylesheet" th:href="@{/css/indexCss.css}">
+
     <link rel="stylesheet" th:href="@{/css/myPageStyle.css}">
     <link rel="stylesheet" th:href="@{/css/myPageStyle2.css}">
 
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+
 </head>
 
 
@@ -24,9 +24,9 @@
 </head>
 <body>
 <div class="row" style="margin: 0; padding: 0;">
-    <div class="header">
-        <th:block th:replace="~{common/header :: header}"/>
-    </div>
+<!--    <div class="header">-->
+<!--        <th:block th:replace="~{common/header :: header}"/>-->
+<!--    </div>-->
 
     <div class="col-lg-1"></div>
     <div class="col-lg-6" style="margin: 25px;">
@@ -62,7 +62,7 @@
             </li>
             <hr>
             <li>
-                <a href="#">
+                <a th:href="@{/package/package}">
                     <i class="zmdi zmdi-widgets"></i> 장바구니
                 </a>
                 <hr>
@@ -72,7 +72,7 @@
                 <br>
 
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <button type="button" th:href="@{/member/unregister}" class="btn btn-primary rounded submit " style="background: white; color: black; width:100px; height: 40px" >회원탈퇴</button>
+                <button type="button"onclick="location.href='/member/unregister'" id="unregister" class="btn btn-primary rounded submit " style="background: white; color: black; width:100px; height: 40px" >회원탈퇴</button>
             </li>
         </ul>
     </div>
@@ -82,14 +82,69 @@
 
         <div class="container-fluid">
             <h1>찜한 목록</h1>
-            <div>
+            <div class="allCheck" style="display: flex; justify-content: flex-end; margin-right: 10% " >
+                <input type="checkbox" name="allCheck" id="allCheck" /><label for="allCheck">모두 선택</label>
+                <script th:inline="javascript">
+                    $("#allCheck").click(function(){
+                        let chk = $("#allCheck").prop("checked");
+                        if(chk) {
+                            $(".chBox").prop("checked", true);
+                        } else {
+                            $(".chBox").prop("checked", false);
+                        }
+                    });
 
-                <div>
+                </script>
+            </div>
+
+
+            <div class="delBtn" style="display: flex; justify-content: flex-end; margin-right: 10% ">
+                <button type="button" class="selectDelete_btn" >선택 삭제</button>
+                <script th:inline="javascript">
+                    $(".selectDelete_btn").click(function(){
+                        let confirm_val = confirm("정말 취소하시겠습니까?");
+
+                        if(confirm_val) {
+                            let checkArr = new Array();
+
+                            $("input[class='chBox']:checked").each(function(){
+                                checkArr.push($(this).attr("data-wishNum"));
+                            });
+
+                            $.ajax({
+                                url : "/member/cancelWishList",
+                                type : "post",
+                                data : $.param({ chbox : checkArr }),
+                                success : function(result){
+
+                                    if(result == 1){
+                                        location.href = "/member/wishList";
+                                        alert("취소 성공");
+                                    }else {
+                                        alert("취소 실패");
+                                    }
+
+                                }
+                            });
+                        }
+                    });
+
+                </script>
+            </div>
 
                     <div class="outerProductsContainer">
                         <div class="productContainer" th:each="wish : ${ wishList }">
-                            <div class="thumnail">
+                            <div class="checkBox">
+                                <input type="checkbox" name="chBox" class="chBox" th:data-wishNum="${wish.wishNo}"  />
+                                <script th:inline="javascript">
+                                    $(".chBox").click(function(){
+                                        $("#allCheck").prop("checked", false);
+                                    });
+                                </script>
+                            </div>
 
+
+                            <div class="thumnail">
                                 <img th:src="${ wish.savePath }" alt="상품썸네일" th:onclick="|location.href='@{/product/item2(productNo=${ wish.productNo })}'|">
 
 
@@ -102,12 +157,46 @@
                                 </div>
                                 <div class="productDetail">
 
-
-
-
                                 </div>
                             </div>
+                            <div class="detail2">
+                                <div class="price">
 
+                                    <div class="delete">
+                                        <button type="button" style="height: 30px" th:class="|delete${wish.wishNo}btn|" th:data-wishNum="${wish.wishNo}">목록 삭제</button>
+
+                                        <script th:inline="javascript">
+                                            $('.delete'+[[${wish.wishNo}]]+'btn').click(function(){
+                                                let confirm_val = confirm("정말 삭제하시겠습니까?");
+
+                                                if(confirm_val) {
+                                                    let checkArr = new Array();
+
+
+                                                    checkArr.push($(this).attr("data-wishNum"));
+
+
+                                                    $.ajax({
+                                                        url : "/member/cancelWishList",
+                                                        type : "post",
+                                                        data : $.param({ chbox : checkArr }),
+                                                        success : function(result){
+
+                                                            if(result == 1){
+                                                                location.href = "/member/wishList";
+                                                                alert("삭제 성공");
+                                                            }else {
+                                                                alert("삭제 실패");
+                                                            }
+
+                                                        }
+                                                    });
+                                                }
+                                            });
+
+                                        </script>
+                                    </div>
+                                </div>
 
                             </div>
                         </div>

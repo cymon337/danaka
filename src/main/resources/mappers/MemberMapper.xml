@@ -34,7 +34,7 @@
         <result column="ORDER_REQUEST" property="orderRequest"/>
         <result column="REG_DATE" property="regDate"/>
         <result column="SAVE_PATH" property="savePath"/>
-
+        <result column="USER_NO" property="userNo"/>
     </resultMap>
 
     <resultMap id="wishListResultMap" type="com.osaz.danaka.member.model.dto.WishListDTO">
@@ -117,7 +117,7 @@
 
     </update>
 
-    <select id="selectOrder" parameterType="com.osaz.danaka.member.model.dto.MemberDTO" resultMap="orderResultMap">
+    <select id="selectOrder" parameterType="com.osaz.danaka.member.model.dto.OrderDTO" resultMap="orderResultMap">
         SELECT
             A.USER_NO,
             A.ORDER_NO,
@@ -138,7 +138,7 @@
 
     </select>
 
-    <select id="selectWishList" parameterType="com.osaz.danaka.member.model.dto.MemberDTO" resultMap="wishListResultMap">
+    <select id="selectWishList" parameterType="com.osaz.danaka.member.model.dto.WishListDTO" resultMap="wishListResultMap">
         SELECT
             A.WISH_NO,
             A.USER_NO,
@@ -151,9 +151,23 @@
 
         WHERE A.USER_NO = #{userNo}
 
-
-
     </select>
+
+    <delete id="cancelPurchase" parameterType="com.osaz.danaka.member.model.dto.OrderDTO">
+
+        DELETE T_ORDER
+        WHERE ORDER_NO = #{orderNo}
+
+
+     </delete>
+
+    <delete id="cancelWishList" parameterType="com.osaz.danaka.member.model.dto.WishListDTO">
+
+        DELETE T_WISHLIST
+        WHERE WISH_NO = #{wishNo}
+
+
+    </delete>
 
 
 

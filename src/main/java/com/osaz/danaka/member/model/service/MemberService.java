@@ -107,4 +107,14 @@ public class MemberService implements UserDetailsService {
     public List<WishListDTO> selectWishList(MemberDTO memberDTO){
         return memberMapper.selectWishList(memberDTO);
     }
+
+    public void  cancelPurchase(OrderDTO orderDTO) throws Exception{
+         memberMapper.cancelPurchase(orderDTO);
+
+    }
+    public void  cancelWishList(WishListDTO wishListDTO) throws Exception{
+        memberMapper.cancelWishList(wishListDTO);
+
+    }
+
 }

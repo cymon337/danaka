@@ -4,7 +4,6 @@ import com.osaz.danaka.member.model.dto.MemberDTO;
 import com.osaz.danaka.member.model.dto.OrderDTO;
 import com.osaz.danaka.member.model.dto.WishListDTO;
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.data.domain.jaxb.SpringDataJaxb;
 
 import java.util.List;
 
@@ -38,4 +37,8 @@ public interface MemberMapper  {
 
     List<WishListDTO> selectWishList(MemberDTO memberDTO);
 
+    void cancelPurchase (OrderDTO orderNo);
+
+
+    void cancelWishList(WishListDTO wishListDTO);
 }
