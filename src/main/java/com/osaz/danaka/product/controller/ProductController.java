@@ -289,7 +289,7 @@ public class ProductController {
     // # update : 2023-01-14
     // # title : 상품 상세페이지
     // # author : 오승재
-    // # description : 상품 리뷰 관리 ajax 메소드
+    // # description : 상품 리뷰 출력 ajax 메소드
     @GetMapping("/review")
     public ModelAndView selectReview(@AuthenticationPrincipal MemberDTO member, @RequestParam(required = false)String currentPage, String productNo, ModelAndView mv) {
 
@@ -330,7 +330,7 @@ public class ProductController {
     // # update : 2023-01-15
     // # title : 상품 상세페이지
     // # author : 오승재
-    // # description : 상품 문의 관리 ajax 메소드
+    // # description : 상품 문의 출력 ajax 메소드
     @GetMapping("/qna")
     public ModelAndView selectQna(@RequestParam(required = false) String currentPage, String productNo, ModelAndView mv) {
 
