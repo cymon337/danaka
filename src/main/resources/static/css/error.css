@@ -1,0 +1,17 @@
+div {
+    margin: 0 auto;
+}
+#errorImg {
+    width: 60%;
+}
+#errorButtons {
+    width: 60%;
+}
+#errorButtons>button {
+    width: 100%;
+    background-color: #0448AD;
+    box-sizing: border-box;
+    padding: 0;
+    border: none;
+    border-radius: 5px;
+}

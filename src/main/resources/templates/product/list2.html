@@ -93,6 +93,9 @@
 </div>
 
 </div>
+<div th:include="~{ common/footer :: footer }">
+
+</div>
 <script th:inline="javascript">
     /* 정렬 버튼 색 입히기 */
     if([[${ selectCriteria.orderCondition }]] != null) {
