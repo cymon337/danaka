@@ -42,11 +42,11 @@ public class CartController {
 
         // 회원별 T_CART 내역 조회
 
-//        String userNo;
-//
-//        userNo = member.getUserNo(); 유저넘버 널일경우 처리?
+        String userNo;
 
-        String userNo = "1";
+        userNo = member.getUserNo(); //유저넘버 널일경우 처리?
+
+//        String userNo = "1";
         List<CartProductDTO> cartList = cartService.selectAllCart(userNo);
         cartList.stream().forEach(cart -> log.info("cart ={}", cart));
 

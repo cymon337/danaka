@@ -60,7 +60,7 @@
 
                 $.ajax({
                     type:'post',   //post 방식으로 전송
-                    url:'update-db',   //데이터를 주고받을 파일 주소
+                    url:'/cart/update-db',   //데이터를 주고받을 파일 주소
                     traditional: true, //Array 형식의 데이터를 전송할 때는 traditional: true 옵션을 적용
                     data: {
                         "cartNo" : cartNo,

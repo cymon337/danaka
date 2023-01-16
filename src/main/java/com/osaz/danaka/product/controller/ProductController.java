@@ -219,10 +219,12 @@ public class ProductController {
     // # author : 오승재
     // # description : 장바구니에서 받아온 데이터로 구매페이지 출력용
     @PostMapping("/purchase")
-    public ModelAndView purchaseCart(@RequestParam(value = "cartNo") String[] cartNos, ModelAndView mv) {
+    public ModelAndView purchaseCart(@RequestParam(value = "cartNoList") String cartNos, ModelAndView mv) {
+
+        String[] cartNumbers = cartNos.split(",");
 
         HashMap<String, Object> map = new HashMap<>();
-        map.put("cartNos", cartNos);
+        map.put("cartNos", cartNumbers);
 
         List<ProductCartDTO> cartList = productService.selectCartList(map);
 
