@@ -19,6 +19,9 @@ public interface ProductMapper {
 
     // 상품 상세페이지용 상품 조회
     ProductDTO selectOneProduct(String productNo);
+
+    // 상품 상세페이지용 찜 체크 조회
+    int selectWishCheck(HashMap<String, String> wishCheckMap);
     
     // 상품 상세페이지용 해당하는 상품의 옵션 상품들 조회
     List<ProductDTO> selectOptionList(String productName);
@@ -26,10 +29,14 @@ public interface ProductMapper {
     // 상품 상세페이지용 관련상품들 조회
     List<ProductDTO> selectRefProducts(String productNo);
 
+    // 상품 구매페이지용 카트 조회
     List<ProductCartDTO> selectCartList(HashMap<String, Object> map);
 
     // 위시리스트 테이블에 추가
     int insertWishProduct(Map<String, String> wishMap);
+
+    // 위시리스트 테이블에서 제거
+    int deleteWish(Map<String, String> wishMap);
     
     // 장바구니 테이블에 추가
     int insertCartProduct(Map<String, String> cartMap);
@@ -63,4 +70,10 @@ public interface ProductMapper {
 
     // 상품 문의 삭제
     int deleteQna(String qnaNo);
+
+    // 상품 리뷰 수정
+    int updateReview(HashMap<String, String> updateMap);
+
+    // 상품 문의 수정
+    int updateQna(HashMap<String, String> updateMap);
 }

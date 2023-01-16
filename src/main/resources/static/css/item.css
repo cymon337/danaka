@@ -238,7 +238,6 @@ body>hr {
     border: 1px #C4C2FF solid;
     border-radius: 1em;
     width: 60%;
-    height: 1000px;
     margin: 0 auto;
     padding: 1%;
     background-color: white;
@@ -247,12 +246,14 @@ body>hr {
 .content {
     border: 1px #C4C2FF solid;
     width: 98%;
-    height: 100%;
     margin: 0 auto;
     border-radius: 1em;
     background-color: white;
 }
-
+#dImg {
+    width: 100%;
+    border-radius: 1em;
+}
 @media screen and (max-width : 767px) {
     .productContainer {
         width: 100%;
