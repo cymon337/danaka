@@ -87,6 +87,7 @@ $(".btn-outline-secondary").on("click", function (e) {
 let searchProductList = {
 
     categoryCode: "default",
+    result: [],
 
     // select option 로드, 릴, 라인 스위치문에서 받아옴
     selectCategoryOption: function (categoryCode) {
@@ -99,6 +100,7 @@ let searchProductList = {
         var categoryOptionList = selectedOption;
         console.log(categoryOptionList);
 
+
         $.ajax({
             url: "package/selectProduct",
             type: "POST",
@@ -109,7 +111,11 @@ let searchProductList = {
             },
             success : function(productList) {
                 console.log("searchProductList() = success");
+                this.result = productList;
                 console.log(productList);
+
+                console.log("searchProductList() = break");
+
             },
             error : function () {
                 alert("searchProductList() = error");
@@ -119,11 +125,9 @@ let searchProductList = {
 
     // 검색상품 리스트 출력
     display: function () {
+        console.log("productList");
 
     }
-
-
-
 
 
 
