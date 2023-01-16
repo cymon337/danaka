@@ -147,7 +147,7 @@
 <hr>
 <div class="contentContainer">
     <div class="content">
-        <img id="dImg" th:src="${ product?.dSavePath }" alt="상품 본문">
+        <img id="dImg" th:src="${ product?.dSavePath }?:'/image/rod/defaultD.png'" alt="상품 본문">
     </div>
 </div>
 <div id="productBoardContainer">
