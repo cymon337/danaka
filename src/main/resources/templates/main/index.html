@@ -1,57 +1,97 @@
-
-<!--    <button type="button" class="btn btn-outline-info" onclick="location.href='/main/login'">로그인</button>-->
-
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>메인페이지</title>
-
+    <title>Main</title>
     <!-- 타임리프용 헤더 스타일 시트 적용-->
     <link rel="stylesheet" th:href="@{/css/indexCss.css}" />
-
+    <!-- 타임리프용 푸터 스타일 시트 적용-->
+    <link rel="stylesheet" th:href="@{/css/footerCss.css}" />
     <!-- 부트스트랩 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-
     <!-- 아이콘 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
-
     <!-- 제이쿼리 -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
     <!-- 자바스크립트 -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
-
+    
+    <!-- <link rel="stylesheet" th:href="@{/css/slideCss.css}" /> -->
 </head>
 
 <body>
-
-<!--헤더 불러오기-->
-<!--<header id="header"></header>-->
-
-<!--<script>-->
-<!--    fetch("../common/header.html")-->
-<!--        .then(response => {-->
-<!--            return response.text()-->
-<!--        })-->
-<!--        .then(data => {-->
-<!--            document.querySelector("header").innerHTML = data;-->
-<!--        });-->
-<!--</script>-->
 
 <!--타임리프용 헤더-->
 <div class="header">
     <th:block th:replace="~{ common/header :: header }" />
 </div>
 
-<div>
-    <main class="container">
-        <div class="bg-light p-5 rounded">
-            <h1>배너 들어갈 자리aaa</h1>
-        </div>
-    </main>
+<script>
+    // jQuery(document).ready(function ($) {
+    //
+    //     var slideCount = $('#slider ul li').length;
+    //     var slideWidth = $('#slider ul li').width();
+    //     var slideHeight = $('#slider ul li').height();
+    //     var sliderUlWidth = slideCount * slideWidth;
+    //
+    //     $('#slider').css({ width: slideWidth, height: slideHeight });
+    //
+    //     $('#slider ul').css({ width: sliderUlWidth, marginLeft: - slideWidth });
+    //
+    //     $('#slider ul li:last-child').prependTo('#slider ul');
+    //
+    //     setInterval(function () {
+    //         moveRight();
+    //     }, 5000);
+    //
+    //     function moveLeft() {
+    //         $('#slider ul').animate({
+    //             left: + slideWidth
+    //         }, 200, function () {
+    //             $('#slider ul li:last-child').prependTo('#slider ul');
+    //             $('#slider ul').css('left', '');
+    //         });
+    //     };
+    //
+    //     function moveRight() {
+    //         $('#slider ul').animate({
+    //             left: - slideWidth
+    //         }, 200, function () {
+    //             $('#slider ul li:first-child').appendTo('#slider ul');
+    //             $('#slider ul').css('left', '');
+    //         });
+    //     };
+    //
+    //     $('a.control_prev').click(function () {
+    //         moveLeft();
+    //     });
+    //
+    //     $('a.control_next').click(function () {
+    //         moveRight();
+    //     });
+    // });
+</script>
+
+<!-- <div id="slider"> -->
+<!--     <a href="#" class="control_next">></a> -->
+<!--     <a href="#" class="control_prev"><</a> -->
+<!--     <ul> -->
+<!--         <li><img alt="img1" src="/image/banner/banner02.jpg"></li> -->
+<!--         <li><img alt="img1" src="/image/banner/banner01.jpg"></li> -->
+<!--         <li><img alt="img1" src="/image/banner/banner03.jpg"></li> -->
+<!--     </ul> -->
+<!-- </div> -->
+
+<!--타임리프용 슬라이더-->
+<div class="slider">
+    <th:block th:replace="~{common/slider :: slider}" />
+</div>
+
+<!--타임리프용 푸터-->
+<div class="header">
+    <th:block th:replace="~{common/footer :: footer}" />
 </div>
 
 <div th:include="~{ common/footer :: footer }">

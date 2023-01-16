@@ -54,7 +54,7 @@
 
     </select>
 
-    <!--공지사항 전체조회 / <where> 해당되지 않을 경우 무시되서 기본 리스트 출력(C, D), 출력될 내용들을 ROWNUM으로 카운팅 해주고(B) 번호를 이용하여 출력할 범위를 지정(A)-->
+    <!--공지사항 전체조회 / <where> 해당되지 않을 경우 무시 -->
     <select id="selectAllList" resultMap="memberResultMap">
         SELECT
               A.RNUM
@@ -116,7 +116,7 @@
         WHERE A.RNUM >= #{ startRow }
     </select>
 
-<!--    파라미터 타입 인트형이든 스트링이든 쿼리 값 나옴 / 없어도 나오는디 전달값 한개면 파라미터 이름, 타입을 자동으로 매핑했던거같음 -->
+    <!-- 회원 단일 조회 -->
     <select id="selectOneMember" resultMap="memberResultMap">
         SELECT
             *
@@ -124,7 +124,7 @@
         WHERE A.USER_NO = #{ userNo }
     </select>
 
-<!--회원 삭제-->
+    <!--회원 삭제-->
     <update id="deleteMember">
         UPDATE T_MEMBER A
         SET
@@ -133,7 +133,7 @@
             A.USER_NO = #{ userNo }
     </update>
 
-<!--    공지사항 번호 전달 할때 타입 parameterType="com.study.domain.post.PostRequest" / 반환 타입(map도)은 필요없음, 수정 처리만 하고 리다이렉트로 리스트로 이동-->
+    <!-- 회원정보 수정 -->
     <update id="updateMember">
         UPDATE T_MEMBER A
         SET

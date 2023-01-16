@@ -5,197 +5,148 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Header</title>
-
-    <!-- index.html css (타임리프로 할 경우 적용 안 됨) -->
-<!--    <link rel="stylesheet" href="/static/css/indexCss.css" />-->
-    <!-- 타임리프로 스타일 시트 적용 (안 됨) -->
-<!--    <link rel="stylesheet" type="text/css" th:href="@{ /css/indexCss.css }" />-->
-
     <!-- 부트스트랩 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-
     <!-- 아이콘 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
-
     <!-- 제이쿼리 -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
     <!-- 자바스크립트 -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
-
 </head>
 
 <body>
-
-<script>
-    $(document).ready(function() {
-        $(window).resize(function(){
-            if ($(window).width() >= 980){
-
-                $(".navbar .dropdown-toggle").hover(function () {
-                    $(this).parent().toggleClass("show");
-                    $(this).parent().find(".dropdown-menu").toggleClass("show");
-                });
-
-                $( ".navbar .dropdown-menu" ).mouseleave(function() {
-                    $(this).removeClass("show");
-                });
-            }
+    <script>
+        /* 헤더 전체보기 드랍다운 효과 */
+        $(document).ready(function() {
+            $(window).resize(function(){
+                if ($(window).width() >= 980){
+    
+                    $(".navbar .dropdown-toggle").hover(function () {
+                        $(this).parent().toggleClass("show");
+                        $(this).parent().find(".dropdown-menu").toggleClass("show");
+                    });
+    
+                    $( ".navbar .dropdown-menu" ).mouseleave(function() {
+                        $(this).removeClass("show");
+                    });
+                }
+            });
         });
-    });
-</script>
+    </script>
 
-<!-- 네비게이션바 전체-->
-
-<div th:fragment="header"><!--navbar navbar-expand-lg navbar-dark bg-primary-->
-<nav class="navbar navbar-expand-md navbar-dark fixed-top" style="flex-wrap: wrap;">
-
-    <!-- 상단바 (로고, 검색, 장바구니, 로그인) -->
-    <div class="container-fluid" id="firstNav">
-        <!-- 좌측 로고 -->
-        <a class="navbar-brand" href="/"><img alt="로고" id="logo" th:src="@{/image/logo.png}"></a>
-        <!-- 중간 검색 -->
-        <form class="d-flex" role="search">
-            <div id="search">
-                <input class="form-control me-2" type="search" placeholder="검색어를 입력하세요." aria-label="Search">
-                <button class="btn btn-outline-success" type="submit"><i class="bi bi-search"></i></button>
-            </div>
-        </form>
-
-        <!-- 우측 기능 -->
-        <div id="topRight">
-            <div onclick="location.href='/cart'" id="cart">
-                <i class="bi bi-cart"></i><br>
-                <span>장바구니</span>
-            </div>
-            <div  onclick="location.href='/member/login'" id="loginMy">
-                <i class="bi bi-person"></i><br>
-                <span>로그인</span>
+    <!-- 네비게이션바 전체-->
+    <div th:fragment="header"><!-- 타임리프 헤더영역 지정 -->
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top" style="flex-wrap: wrap;">
+        <!-- 상단바 (로고, 검색, 장바구니, 로그인) -->
+        <div class="container-fluid" id="firstNav">
+            <!-- 좌측 로고 -->
+            <a class="navbar-brand" href="/"><img alt="로고" id="logo" th:src="@{/image/logo.png}"></a>
+            <!-- 중간 검색 -->
+            <form class="d-flex" role="search">
+                <div id="search">
+                    <input class="form-control me-2" type="search" placeholder="검색어를 입력하세요." aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit"><i class="bi bi-search"></i></button>
+                </div>
+            </form>
+            <!-- 우측 기능 -->
+            <div id="topRight">
+                <div onclick="location.href='#'" id="cart">
+                    <i class="bi bi-cart"></i><br>
+                    <span>장바구니</span>
+                </div>
+                <div onclick="location.href='../member/login.html'" id="loginMy">
+                    <i class="bi bi-person"></i><br>
+                    <span>로그인</span>
+                </div>
             </div>
         </div>
-    </div>
-
-    <!-- 카데고리(네비게이션)바 (전체 카테고리, 카테고리, 공지사항) -->
-    <div class="container-fluid" id="secondNav">
-
-        <!-- 전체 카테고리 -->
-<!--        <a class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#dropTotalCategory" aria-controls="dropTotalCategory" aria-expanded="false" aria-label="Toggle navigation" id="totalCategory">-->
-<!--            <i class="bi bi-list"></i>전체 카테고리-->
-<!--        </a>-->
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="bi bi-list"></i>전체 카테고리
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-md-3">
-<!--                                    <span class="text-uppercase text-white">Category 2</span>-->
-                                    <ul class="nav flex-column">
-                                        <li class="nav-item">
-                                            <a class="nav-link active" href="#">로드</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="#">- NS</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="#">- 다이와</a>
-                                        </li>
-                                    </ul>
+    
+        <!-- 카데고리(네비게이션)바 (전체 카테고리, 카테고리, 공지사항) -->
+        <div class="container-fluid" id="secondNav">
+    
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="bi bi-list"></i>전체 카테고리
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <ul class="nav flex-column">
+                                            <li class="nav-item">
+                                                <a class="nav-link active" href="#">로드</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="#">- NS</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="#">- 다이와</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <ul class="nav flex-column">
+                                            <li class="nav-item">
+                                                <a class="nav-link active" href="#">릴</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="#">- 시마노</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="#">- 도요</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <ul class="nav flex-column">
+                                            <li class="nav-item">
+                                                <a class="nav-link active" href="#">라인</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="#">- 도요</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="#">- BMS</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <a target="_blank" href="https://bootstrapcreative.com/shop/jake-portfolio-hubspot-theme/">
+                                            <img src="/image/testImg.PNG" class="img-fluid" alt="인기상품" style="max-width: 150px; margin-top: 20px">
+                                        </a>
+                                        <p class="text-white" style="margin: 10px 0 0 10px; font-weight: bold">이 달의 인기 상품</p>
+                                    </div>
                                 </div>
-                                <!-- /.col-md-4  -->
-                                <div class="col-md-3">
-                                    <ul class="nav flex-column">
-                                        <li class="nav-item">
-                                            <a class="nav-link active" href="#">릴</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="#">- 시마노</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="#">- 도요</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <!-- /.col-md-4  -->
-                                <div class="col-md-3">
-                                    <ul class="nav flex-column">
-                                        <li class="nav-item">
-                                            <a class="nav-link active" href="#">라인</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="#">- 도요</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="#">- BMS</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <!-- /.col-md-4  -->
-                                <div class="col-md-3">
-                                    <a target="_blank" href="https://bootstrapcreative.com/shop/jake-portfolio-hubspot-theme/">
-                                        <img src="https://i0.wp.com/bootstrapcreative.com/wp-bc/wp-content/uploads/2022/01/jake-portfolio-cover.jpg?w=200&ssl=1" alt="Portfolio Website Templates" class="img-fluid">
-                                    </a>
-                                    <p class="text-white">이 달의 인기 상품</p>
-
-                                </div>
-                                <!-- /.col-md-4  -->
                             </div>
                         </div>
-                        <!--  /.container  -->
-                    </div>
-                </li>
-            </ul>
-        </div>
-
-        <!-- 중앙 메뉴 -->
-        <div class="container">
-            <header class="d-flex justify-content-center py-2">
-                <ul class="nav nav-pills" id="centerCategory" style="margin-left: -130px">
-                    <li class="nav-item"><a href="/product/list2?categoryCode=RD" class="nav-link">로드</a></li>
-                    <li class="nav-item"><a href="/product/list2?categoryCode=RL" class="nav-link">릴</a></li>
-                    <li class="nav-item"><a href="/product/list2?categoryCode=LN" class="nav-link">라인</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link">장비조합</a></li>
-                    <li class="nav-item"><a th:href="@{/admin/adminMemberListView}" class="nav-link">견적보기</a></li>
+                    </li>
                 </ul>
-            </header>
-        </div>
-        <a class="navbar-brand" th:href="@{/notice/noticeListView}" id="notice">공지사항</a>
+            </div>
+    
+            <!-- 중앙 메뉴 -->
+            <div class="container">
+                <header class="d-flex justify-content-center py-2">
+                    <ul class="nav nav-pills" id="centerCategory" style="margin-left: -130px">
+                        <li class="nav-item"><a href="#" class="nav-link">로드</a></li>
+                        <li class="nav-item"><a href="#" class="nav-link">릴</a></li>
+                        <li class="nav-item"><a href="#" class="nav-link">라인</a></li>
+                        <li class="nav-item"><a href="#" class="nav-link">장비조합</a></li>
+                        <li class="nav-item"><a th:href="@{/admin/adminMemberListView}" class="nav-link">견적보기</a></li>
+                    </ul>
+                </header>
+            </div>
+            <a class="navbar-brand" th:href="@{/notice/noticeListView}" id="notice">공지사항</a>
+        </nav>
     </div>
-</nav>
-
-<!-- 드랍다운 (대분류 영역 - 추가표현) -->
-<!--<div class="collapse navbar-collapse" id="dropTotalCategory">-->
-<!--    <ul class="navbar-nav me-auto mb-2">-->
-<!--        <li class="nav-item dropend" id="secondCategory1">-->
-<!--            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">&nbsp;- 릴</a>-->
-<!--            <ul class="dropdown-menu">-->
-<!--                <li><a class="dropdown-item" href="#">도요</a></li>-->
-<!--                <li><a class="dropdown-item" href="#">시마노</a></li>-->
-<!--                <li><a class="dropdown-item" href="#">NS</a></li>-->
-<!--            </ul>-->
-<!--        </li>-->
-<!--        <li class="nav-item dropend" id="secondCategory2">-->
-<!--            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">&nbsp;- 로드</a>-->
-<!--            <ul class="dropdown-menu">-->
-<!--                <li><a class="dropdown-item" href="#">도요</a></li>-->
-<!--                <li><a class="dropdown-item" href="#">시마노</a></li>-->
-<!--                <li><a class="dropdown-item" href="#">NS</a></li>-->
-<!--            </ul>-->
-<!--        </li>-->
-<!--        <li class="nav-item dropend" >-->
-<!--            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">&nbsp;- 라인</a>-->
-<!--            <ul class="dropdown-menu">-->
-<!--                <li><a class="dropdown-item" href="#">도요</a></li>-->
-<!--                <li><a class="dropdown-item" href="#">시마노</a></li>-->
-<!--                <li><a class="dropdown-item" href="#">NS</a></li>-->
-<!--            </ul>-->
-<!--        </li>-->
-<!--    </ul>-->
-<!--</div>-->
-</div>
-
+    
+    <!--TOP버튼-->
+    <div class="row align-items-end" id="goTop">
+        <button type="button" class="btn btn-info btn-lg" onclick="window.scrollTo(0,0);">
+            ▲TOP
+        </button>
+    </div>
 </body>
 </html>
