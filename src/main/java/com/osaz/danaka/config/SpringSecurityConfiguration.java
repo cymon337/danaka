@@ -72,9 +72,11 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 //                .csrf().ignoringAntMatchers("/api/**") /* REST API 사용 예외처리 */
 
                 .authorizeRequests()
-                .antMatchers(  "signUp_action" ,"/member/login", "/member/id","/member/password", "/member/signUp", "/resource/**").permitAll()
-                  /* .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/order/**").hasAnyRole("ADMIN","USER")*/
+                .antMatchers(  "signUpAction" ,"/member/login", "/member/id","/member/password", "/member/signUp", "/resource/**").permitAll()
+                .antMatchers("/product/**").hasAnyRole("ADMIN","USER")
+                .antMatchers( "/cart/**").hasAnyRole("ADMIN","USER")
+                .antMatchers("/notice/**").hasAnyRole("ADMIN","USER")
+                .antMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().permitAll() //모든요청에 접급을 허용하겠다
                 .and()
                 .formLogin() //폼을 이용해서 로그인을 하겠다
