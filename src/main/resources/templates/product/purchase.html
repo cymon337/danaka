@@ -63,7 +63,7 @@
 <div>
     <th:block th:replace="~{common/modal :: backtotop}"/>
 </div>
-<form action="/product/pay" method="POST">
+<form id="productPay" action="/product/pay" method="POST">
 <div class="description">
     <p>구매목록</p>
 </div>
@@ -228,7 +228,7 @@
             <p>총 결제금액 : ₩ <span id="totalPlusFee">0</span></p>
         </div>
         <div class="payButton">
-            <button>
+            <button type="button" onclick="submitPay()">
                 구매하기
             </button>
         </div>
@@ -335,6 +335,16 @@
         $(".infoSwitch").hide();
         $("#" + $(this).val()).show();
     })
+
+    /* 결제 전 null 체크 */
+    function submitPay() {
+
+        if($("#totalPlusFee").text() == 0) {
+            alert("구매할 상품을 추가해주세요.");
+        } else {
+            $("#productPay").submit();
+        }
+    }
 </script>
 </body>
 </html>
