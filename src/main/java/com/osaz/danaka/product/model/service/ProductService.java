@@ -166,4 +166,28 @@ public class ProductService {
         }
         return (result > 0)? true : false;
     }
+
+    // 상품 리뷰 수정
+    public boolean updateReview(HashMap<String, String> updateMap) throws Exception {
+
+        int result = productMapper.updateReview(updateMap);
+
+        if(result <= 0) {
+            throw new Exception("리뷰 수정 실패");
+        }
+        return (result > 0)? true : false;
+    }
+
+    // 상품 문의 수정
+    public boolean updateQna(HashMap<String, String> updateMap) throws Exception {
+
+        int result = productMapper.updateQna(updateMap);
+
+        if(result <= 0) {
+            throw new Exception("문의 수정 실패");
+        }
+        return (result > 0)? true : false;
+    }
+
+
 }

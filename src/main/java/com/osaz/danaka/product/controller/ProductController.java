@@ -219,10 +219,12 @@ public class ProductController {
     // # author : 오승재
     // # description : 장바구니에서 받아온 데이터로 구매페이지 출력용
     @PostMapping("/purchase")
-    public ModelAndView purchaseCart(@RequestParam(value = "cartNo") String[] cartNos, ModelAndView mv) {
+    public ModelAndView purchaseCart(@RequestParam(value = "cartNoList") String cartNos, ModelAndView mv) {
+
+        String[] cartNumbers = cartNos.split(",");
 
         HashMap<String, Object> map = new HashMap<>();
-        map.put("cartNos", cartNos);
+        map.put("cartNos", cartNumbers);
 
         List<ProductCartDTO> cartList = productService.selectCartList(map);
 
@@ -464,6 +466,74 @@ public class ProductController {
             }
         } catch (Exception e) {
             msg = "문의 삭제 실패..";
+            e.printStackTrace();
+            return msg;
+        }
+
+        return msg;
+    }
+
+    // # update : 2023-01-16
+    // # title : 상품 상세페이지
+    // # author : 오승재
+    // # description : 상품 리뷰 수정 ajax메소드
+    @PostMapping(value = "/updateReview", produces="application/json; charset=UTF-8")
+    @ResponseBody
+    public String updateReview(String reviewNo, String updateReviewBody) {
+
+        String msg = " ";
+
+        if(updateReviewBody == null || "".equals(updateReviewBody)) {
+            msg = "수정할 내용을 작성해주세요.";
+
+            return msg;
+        }
+
+        HashMap<String, String> updateMap = new HashMap<>();
+        updateMap.put("reviewNo", reviewNo);
+        updateMap.put("reviewBody", updateReviewBody);
+
+        try {
+            boolean result = productService.updateReview(updateMap);
+            if(result) {
+                msg = "리뷰 수정 성공!";
+            }
+        } catch (Exception e) {
+            msg = "리뷰 수정 실패..";
+            e.printStackTrace();
+            return msg;
+        }
+
+        return msg;
+    }
+
+    // # update : 2023-01-16
+    // # title : 상품 상세페이지
+    // # author : 오승재
+    // # description : 상품 문의 수정 ajax메소드
+    @PostMapping(value = "/updateQna", produces="application/json; charset=UTF-8")
+    @ResponseBody
+    public String updateQna(String qnaNo, @RequestParam(required = false) String updateQnaBody, @RequestParam(required = false) String qnaReply) {
+
+        String msg = " ";
+
+        if(updateQnaBody == null || "".equals(updateQnaBody)) {
+            msg = "수정할 내용을 작성해주세요.";
+
+            return msg;
+        }
+
+        HashMap<String, String> updateMap = new HashMap<>();
+        updateMap.put("qnaNo", qnaNo);
+        updateMap.put("qnaBody", updateQnaBody);
+
+        try {
+            boolean result = productService.updateQna(updateMap);
+            if(result) {
+                msg = "문의 수정 성공!";
+            }
+        } catch (Exception e) {
+            msg = "문의 수정 실패..";
             e.printStackTrace();
             return msg;
         }

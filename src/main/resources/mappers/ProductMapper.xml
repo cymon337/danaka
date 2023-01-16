@@ -307,6 +307,8 @@
             ON A.PRODUCT_NO = B.PRODUCT_NO
          WHERE A.PRODUCT_NO = #{ productNo }
            AND A.USER_NO = #{ userNo }
+           AND ROWNUM = 1
+         ORDER BY A.REG_DATE
     </select>
     <!-- 상품 리뷰 총 개수 조회 -->
     <select id="selectTotalReviewCount" parameterType="String" resultType="_int">
@@ -408,4 +410,16 @@
         DELETE FROM T_QNA
         WHERE QNA_NO = #{ qnaNo }
     </delete>
+    <!-- 상품 리뷰 수정 -->
+    <update id="updateReview" parameterType="hashmap">
+        UPDATE T_REVIEW
+           SET REVIEW_BODY = #{ reviewBody }
+         WHERE REVIEW_NO = #{ reviewNo }
+    </update>
+    <!-- 상품 문의 수정 -->
+    <update id="updateQna" parameterType="hashmap">
+        UPDATE T_QNA
+           SET QNA_BODY = #{ qnaBody }
+         WHERE QNA_NO = #{ qnaNo }
+    </update>
 </mapper>

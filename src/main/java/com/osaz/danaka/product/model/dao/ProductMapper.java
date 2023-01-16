@@ -63,4 +63,10 @@ public interface ProductMapper {
 
     // 상품 문의 삭제
     int deleteQna(String qnaNo);
+
+    // 상품 리뷰 수정
+    int updateReview(HashMap<String, String> updateMap);
+
+    // 상품 문의 수정
+    int updateQna(HashMap<String, String> updateMap);
 }

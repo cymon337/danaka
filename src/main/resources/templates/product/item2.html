@@ -298,6 +298,7 @@
     /* 후기, 문의 컨트롤 버튼 */
     let keyCheck = 1;
     function boardControl(key) {
+        /* 옵션 상품 번호들 추가해야되는데... */
         // let productNos = [];
         // let options =   [[${optionList}]];
         // options.forEach(function(option){
@@ -439,6 +440,92 @@
             });
         }
     }
+
+    // $(".contentButtons updateBoard").on("click", function () {
+    //     console.log($("#review1"));
+    // })
+    /* 상품 후기, 문의 수정 버튼 */
+    function updateBoard(that) {
+        console.log(that);
+        let boardNumber;
+
+        if(keyCheck == 1) {
+
+            if($("#review" + that).attr("disabled") == "disabled") {
+                $("#review" + that).attr("disabled", false);
+                $("#review" + that).css("border", "1px #C4C2FF solid");
+                return;
+            }
+            boardNumber = $("#updateReview" + that).serialize();
+
+            $.ajax({
+                type: "POST",
+                url: "/product/updateReview",
+                data: boardNumber,
+                dataType: 'text',
+                success : function(msg) {
+                    alert(msg);
+                    pagingFn(1);
+                },
+                error : function (msg) {
+                    alert(msg);
+                    pagingFn(1);
+                }
+            });
+        } else if(keyCheck == 2) {
+
+            if($("#qnaInput" + that).attr("disabled") == "disabled") {
+                $("#qnaInput" + that).attr("disabled", false);
+                $("#qnaInput" + that).css("border", "1px #C4C2FF solid");
+                return;
+            }
+            boardNumber = $("#updateQna" + that).serialize();
+            console.log(boardNumber);
+            $.ajax({
+                type: "POST",
+                url: "/product/updateQna",
+                data: boardNumber,
+                dataType: 'text',
+                success : function(msg) {
+                    alert(msg);
+                    pagingFn(1);
+                },
+                error : function (msg) {
+                    alert(msg);
+                    pagingFn(1);
+                }
+            });
+        }
+    }
+
+    /* 상품 문의 답변 버튼 */
+    function updateReply(that) {
+
+        let boardNumber;
+        if($("#qnaReply" + that).attr("disabled") == "disabled") {
+            $("#qnaReply" + that).attr("disabled", false);
+            $("#qnaReply" + that).css("border", "1px #C4C2FF solid");
+            return;
+        }
+
+        boardNumber = $("#updateReply" + that).serialize();
+        console.log(boardNumber);
+        $.ajax({
+            type: "POST",
+            url: "/product/updateQna",
+            data: boardNumber,
+            dataType: 'text',
+            success : function(msg) {
+                alert(msg);
+                pagingFn(1);
+            },
+            error : function (msg) {
+                alert(msg);
+                pagingFn(1);
+            }
+        });
+    }
+
 
     /* 상품 후기, 문의 페이징 버튼 */
     function pagingFn(value) {
