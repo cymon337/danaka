@@ -2,9 +2,7 @@ package com.osaz.danaka.product.model.service;
 
 import com.osaz.danaka.common.SelectCriteria;
 import com.osaz.danaka.product.model.dao.ProductMapper;
-import com.osaz.danaka.product.model.dto.OrderDTO;
-import com.osaz.danaka.product.model.dto.ProductCartDTO;
-import com.osaz.danaka.product.model.dto.ProductDTO;
+import com.osaz.danaka.product.model.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -91,5 +89,81 @@ public class ProductService {
             throw new Exception("구매 실패");
         }
         return (result > 0) ? true : false;
+    }
+
+    // 상품 구매했는지 조회
+    public HashMap selectOrder(Map<String, String> orderMap) {
+
+        HashMap<String, String> result = productMapper.selectOrder(orderMap);
+
+        return result;
+    }
+
+    // 상품 review 총 개수 조회
+    public int selectTotalReviewCount(String productNo) {
+
+        return productMapper.selectTotalReviewCount(productNo);
+    }
+
+    // 상품 qna 총 개수 조회
+    public int selectTotalQnaCount(String productNo) {
+
+        return productMapper.selectTotalQnaCount(productNo);
+    }
+
+    // 상품 리뷰 조회
+    public List<ReviewDTO> selectReviewList(SelectCriteria selectCriteria) {
+
+        return productMapper.selectReviewList(selectCriteria);
+    }
+
+    // 상품 문의 조회
+    public List<QnaDTO> selectQnaList(SelectCriteria selectCriteria) {
+
+        return productMapper.selectQnaList(selectCriteria);
+    }
+
+    // 상품 리뷰 추가
+    public boolean insertReview(ReviewDTO review) throws Exception {
+
+        int result = productMapper.insertReview(review);
+
+        if (result <= 0) {
+            throw new Exception("리뷰 등록 실패");
+        }
+        return (result > 0) ? true : false;
+    }
+
+    // 상품 문의 추가
+    public boolean insertQna(QnaDTO qna) throws Exception {
+
+        int result = productMapper.insertQna(qna);
+
+        if (result <= 0) {
+            throw new Exception("문의 등록 실패");
+        }
+        return (result > 0) ? true : false;
+    }
+
+    // 상품 리뷰 삭제
+    public boolean deleteReview(String reviewNo) throws Exception {
+
+        int result = productMapper.deleteReview(reviewNo);
+
+        if(result <= 0) {
+            throw new Exception("리뷰 삭제 실패");
+        }
+        return (result > 0)? true : false;
+    }
+
+    // 상품 문의 삭제
+    public boolean deleteQna(String qnaNo) throws Exception {
+
+        int result = productMapper.deleteQna(qnaNo);
+
+        if(result <= 0) {
+            throw new Exception("문의 삭제 실패");
+        }
+        return (result > 0)? true : false;
     }
 }

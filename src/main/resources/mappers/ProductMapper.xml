@@ -45,6 +45,27 @@
         <association property="reel" resultMap="reelResultMap"></association>
         <association property="line" resultMap="lineResultMap"></association>
     </resultMap>
+    <resultMap id="reviewResultMap" type="com.osaz.danaka.product.model.dto.ReviewDTO">
+        <id property="reviewNo" column="REVIEW_NO"/>
+        <result property="productNo" column="PRODUCT_NO"/>
+        <result property="userNo" column="USER_NO"/>
+        <result property="userNickname" column="USER_NICKNAME"/>
+        <result property="reviewTitle" column="REVIEW_TITLE"/>
+        <result property="reviewBody" column="REVIEW_BODY"/>
+        <result property="buyDate" column="BUY_DATE"/>
+        <result property="regDate" column="REG_DATE"/>
+    </resultMap>
+    <resultMap id="qnaResultMap" type="com.osaz.danaka.product.model.dto.QnaDTO">
+        <id property="qnaNo" column="QNA_NO"/>
+        <result property="productNo" column="PRODUCT_NO"/>
+        <result property="userNo" column="USER_NO"/>
+        <result property="userNickname" column="USER_NICKNAME"/>
+        <result property="qnaBody" column="QNA_BODY"/>
+        <result property="secretStatus" column="SECRET_STATUS"/>
+        <result property="regDate" column="REG_DATE"/>
+        <result property="reply" column="REPLY"/>
+        <result property="replyDate" column="REPLY_DATE"/>
+    </resultMap>
 
     <!-- 페이징 처리를 위한 대상품 총 개수 조회 쿼리 -->
     <select id="selectTotalCount" resultType="_int" parameterType="hashmap">
@@ -94,7 +115,7 @@
                                AND C.CATEGORY_CODE = #{ categoryCode }
                             </if>
                         <choose>
-                            <when test="orderCondition == null">
+                            <when test="orderCondition == null or orderCondition == ''">
                                 ORDER BY C.PRODUCT_NO DESC
                             </when>
                             <when test="orderCondition != null and orderCondition == 'sale'">
@@ -271,4 +292,120 @@
               FROM DUAL
         </foreach>) A
     </insert>
+    <!-- 구매했는지 여부 확인 -->
+    <select id="selectOrder" parameterType="map" resultType="hashmap">
+        SELECT
+            A.PRODUCT_NO,
+            B.PRODUCT_NAME,
+            B.CATEGORY_CODE,
+            B.ROD_MODEL,
+            B.REEL_MODEL,
+            B.LINE_SIZE,
+            A.REG_DATE
+          FROM T_ORDER A
+          LEFT JOIN VIEW_PRODUCT B
+            ON A.PRODUCT_NO = B.PRODUCT_NO
+         WHERE A.PRODUCT_NO = #{ productNo }
+           AND A.USER_NO = #{ userNo }
+    </select>
+    <!-- 상품 리뷰 총 개수 조회 -->
+    <select id="selectTotalReviewCount" parameterType="String" resultType="_int">
+        SELECT
+            COUNT(*)
+          FROM T_REVIEW
+         WHERE PRODUCT_NO = #{ productNo }
+    </select>
+    <!-- 상품 qna 총 개수 조회 -->
+    <select id="selectTotalQnaCount" parameterType="String" resultType="_int">
+        SELECT
+            COUNT(*)
+          FROM T_QNA
+         WHERE PRODUCT_NO = #{ productNo }
+    </select>
+    <!-- 상품 리뷰 조회 -->
+    <select id="selectReviewList" parameterType="com.osaz.danaka.common.SelectCriteria" resultMap="reviewResultMap">
+        SELECT
+            D.*
+          FROM (SELECT
+                      ROWNUM "RNUM",
+                      A.REVIEW_NO,
+                      C.PRODUCT_NAME,
+                      A.USER_NO,
+                      B.USER_NICKNAME,
+                      A.REVIEW_TITLE,
+                      A.REVIEW_BODY,
+                      A.BUY_DATE,
+                      A.REG_DATE
+                 FROM T_REVIEW A
+                 LEFT JOIN T_MEMBER B
+                   ON A.USER_NO = B.USER_NO
+                 LEFT JOIN T_PRODUCT C
+                   ON A.PRODUCT_NO = C.PRODUCT_NO
+                WHERE A.PRODUCT_NO = #{ searchValue }
+                ORDER BY A.REVIEW_NO DESC) D
+         WHERE D.RNUM BETWEEN #{ startRow } AND #{ endRow }
+    </select>
+    <!-- 상품 qna 조회 -->
+    <select id="selectQnaList" parameterType="com.osaz.danaka.common.SelectCriteria" resultMap="qnaResultMap">
+        SELECT
+            D.*
+          FROM (SELECT
+                     ROWNUM "RNUM",
+                     A.QNA_NO,
+                     C.PRODUCT_NAME,
+                     A.USER_NO,
+                     B.USER_NICKNAME,
+                     A.QNA_BODY,
+                     A.SECRET_STATUS,
+                     A.REG_DATE,
+                     A.REPLY,
+                     A.REPLY_DATE
+                 FROM T_QNA A
+                 LEFT JOIN T_MEMBER B
+                   ON A.USER_NO = B.USER_NO
+                 LEFT JOIN T_PRODUCT C
+                   ON A.PRODUCT_NO = C.PRODUCT_NO
+                WHERE A.PRODUCT_NO = #{ searchValue }
+                ORDER BY A.QNA_NO DESC) D
+         WHERE D.RNUM BETWEEN #{ startRow } AND #{ endRow }
+    </select>
+    <!-- 상품 리뷰 등록 -->
+    <insert id="insertReview" parameterType="com.osaz.danaka.product.model.dto.ReviewDTO">
+        INSERT INTO T_REVIEW
+        VALUES
+            (
+             SEQ_REVIEW_NO.NEXTVAL,
+             #{ productNo },
+             #{ userNo },
+             #{ reviewTitle },
+             #{ reviewBody },
+             #{ buyDate },
+             DEFAULT
+            )
+    </insert>
+    <!-- 상품 문의 등록 -->
+    <insert id="insertQna" parameterType="com.osaz.danaka.product.model.dto.QnaDTO">
+        INSERT INTO T_QNA
+        VALUES
+            (
+             SEQ_QNA_NO.NEXTVAL,
+             #{ productNo },
+             #{ userNo },
+             #{ qnaBody },
+             #{ secretStatus },
+             DEFAULT,
+             '',
+             ''
+            )
+    </insert>
+    <!-- 상품 리뷰 삭제 -->
+    <delete id="deleteReview" parameterType="String">
+        DELETE FROM T_REVIEW
+        WHERE REVIEW_NO = #{ reviewNo }
+    </delete>
+    <!-- 상품 문의 삭제 -->
+    <delete id="deleteQna" parameterType="String">
+        DELETE FROM T_QNA
+        WHERE QNA_NO = #{ qnaNo }
+    </delete>
 </mapper>

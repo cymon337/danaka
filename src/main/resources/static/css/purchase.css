@@ -31,7 +31,7 @@ form>hr {
     height: 300px;
     box-sizing: border-box;
     padding: 0.5%;
-    overflow: scroll;
+    overflow: auto;
 }
 .buyingProduct {
     display: grid;
