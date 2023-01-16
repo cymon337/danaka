@@ -35,7 +35,7 @@ public class AdminController {
 	@GetMapping("adminMemberListView")
 	public ModelAndView memberListView(HttpServletRequest request, ModelAndView mv){
 
-		/* 목록보기를 눌렀을 시 가장 처음에 보여지는 페이지는 1페이지이다. 파라미터로 전달되는 페이지가 있는 경우 currentPage는 파라미터로 전달받은 페이지 수 이다. */
+		/* 첫 시작은 1페이지이다. 파라미터로 전달되는 페이지가 있는 경우 currentPage는 파라미터로 전달받은 페이지 수 */
 		String currentPage = request.getParameter("currentPage");
 		int pageNo = 1;
 
@@ -43,7 +43,7 @@ public class AdminController {
 			pageNo = Integer.parseInt(currentPage);
 		}
 
-		/* 0보다 작은 숫자값을 입력해도 1페이지를 보여준다 */
+		/* 0보다 작은 숫자값을 입력해도 1페이지 노출 */
 		if(pageNo <= 0) {
 			pageNo = 1;
 		}
@@ -58,7 +58,7 @@ public class AdminController {
 		searchMap.put("searchValue", searchValue);
 		searchMap.put("memberCondition", memberCondition);
 
-		/* 전체 게시물 조회, 검색조건이 있는 경우 검색 조건에 맞는 전체 게시물 수를 조회.*/
+		/* 전체 게시물 조회, 검색조건이 있는 경우 검색 조건에 맞는 전체 게시물 수를 조회 */
 		int totalCount = adminService.selectTotalCount(searchMap);
 
 		log.info("총 회원 수 = {}", totalCount);
@@ -69,7 +69,7 @@ public class AdminController {
 		/* 한 번에 보여질 페이징 버튼의 갯수 */
 		int buttonAmount = 5;
 
-		/* 페이징 처리를 위한 로직 호출 후 페이징 처리에 관한 정보를 담고 있는 인스턴스를 반환받는다. */
+		/* 페이징 처리를 위한 로직 호출 후 페이징 처리에 관한 정보를 담고 있는 인스턴스를 반환 */
 		SelectCriteria selectCriteria = null;
 
 		if(searchCondition != null && !"".equals(searchCondition)) {
@@ -91,7 +91,7 @@ public class AdminController {
 		return mv;
 	}
 
-//	회원 디테일뷰 (단일조회) HttpServletRequest request
+//	회원 디테일뷰 (단일조회)
 	@GetMapping("adminMemberDetail")
 	public ModelAndView selectOneMember(@RequestParam(value = "userNo") String userNo, ModelAndView mv){
 
