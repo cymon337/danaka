@@ -3,6 +3,7 @@ package com.osaz.danaka.product.model.dao;
 import com.osaz.danaka.common.SelectCriteria;
 import com.osaz.danaka.product.model.dto.OrderDTO;
 import com.osaz.danaka.product.model.dto.ProductDTO;
+import com.osaz.danaka.product.model.dto.imgPathDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.HashMap;
@@ -41,4 +42,6 @@ public interface ProductMapper {
     void insertCategory(HashMap<String, String> categoryMap);
 
     String selectProductLastNum();
+
+    void insertImgFile(imgPathDTO imgFile);
 }

@@ -4,6 +4,7 @@ import com.osaz.danaka.common.Pagenation;
 import com.osaz.danaka.common.SelectCriteria;
 import com.osaz.danaka.product.model.dto.OrderDTO;
 import com.osaz.danaka.product.model.dto.ProductDTO;
+import com.osaz.danaka.product.model.dto.imgPathDTO;
 import com.osaz.danaka.product.model.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +12,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.File;
 import java.util.*;
 
 @Slf4j
@@ -257,24 +260,25 @@ public class ProductController {
         return mv;
     }
 
-
     @GetMapping("productEnroll")
     public void insertProduct() {}
 
-    /*@RequestParam(name="file", required = false) MultipartFile file,*/
     @PostMapping("productEnroll")
-    public ModelAndView insertProduct(ModelAndView mv, HttpServletRequest request, ProductDTO product, RedirectAttributes rttr, MultipartFile[] mutifile){
+    public ModelAndView insertProduct(ModelAndView mv, HttpServletRequest request, ProductDTO product, RedirectAttributes rttr, @RequestParam(name="file", required = false) MultipartFile[] file){
 
-//        System.out.println(product.getCityCode());
         /* T_PRODUCT 테이블 데이터 먼저 추가 */
         productService.insertProduct(product);
 
         /* T_PRODUCT 테이블 마지막 상품 번호 구하기 */
         String lastNum = productService.selectProductLastNum();
 
+        /* 이미지 저장될 패키지 경로 변수 */
+        String imgCategoryPath = null;
+
         /* 케이스에 따라 카테고리 테이블 데이터 추가 */
         HashMap<String, String> categoryMap = new HashMap<>();
-        String category = request.getParameter("categoryCode");
+
+        String category = request.getParameter("categoryCode"); //카테고리코드 추출하여 변수 저장
 
         if(Objects.equals(category, "RD")){
             String rodModel = request.getParameter("rodModel");
@@ -288,7 +292,8 @@ public class ProductController {
             categoryMap.put("lineMax", lineMax);
             categoryMap.put("rodPrice", rodPrice);
             categoryMap.put("lastNum", lastNum);
-            categoryMap.put("category", "T_ROD");
+            categoryMap.put("category", "T_ROD");   //동적쿼리에 사용될 테이블명 전달
+            imgCategoryPath = "rod";    //카테고리코드에 따라 동적으로 변결될 하위폴더명 설정
         } else if (Objects.equals(category, "RL")) {
             String reelModel = request.getParameter("reelModel");
             String reelType = request.getParameter("reelType");
@@ -298,6 +303,7 @@ public class ProductController {
             categoryMap.put("reelPrice", reelPrice);
             categoryMap.put("lastNum", lastNum);
             categoryMap.put("category", "T_REEL");
+            imgCategoryPath = "reel";
         } else if (Objects.equals(category, "LN")) {
             String lineSize = request.getParameter("lineSize");
             String linePrice = request.getParameter("linePrice");
@@ -305,63 +311,44 @@ public class ProductController {
             categoryMap.put("linePrice", linePrice);
             categoryMap.put("lastNum", lastNum);
             categoryMap.put("category", "T_LINE");
+            imgCategoryPath = "line";
         } else if (category == null){
-            System.out.println("값이 없음");
+            System.out.println("값 없음");
         }
-        // System.out.println(lastNum);
-        // System.out.println(category);
-        // System.out.println(categoryMap);
         productService.insertCategory(categoryMap);
 
-        List<ProductDTO> fileList = new ArrayList<>();
+        /* 전달받은 파일 배열을 반복문을 이용하여 이름변경처리 및 T_IMG_PATH 데이터 추가 */
+        for (int i = 0; i < file.length; i++) {
+            String projectPath = System.getProperty("user.dir")+"/src/main/resources/static/image/" + imgCategoryPath;
+            UUID uuid = UUID.randomUUID();
+            String changeName = uuid+"_"+file[i].getOriginalFilename();
+            File saveFile = new File(projectPath, changeName);
 
-        // for (int i = 0; i < mutifile.length; i++) {
-        //     String projectPath = System.getProperty("user.dir")+"/src/main/resources/static/uploadImgs";
-        //     UUID uuid = UUID.randomUUID();
-        //     String changeName = uuid+"_"+mutifile.getOriginalFilename();
-        //     File saveFile = new File(projectPath, changeName);
-        //
-        //     try {
-        //         mutifile.transferTo(saveFile);
-        //
-        //         FileDTO imgFile = new FileDTO();
-        //         imgFile.setFileSize(file.getSize());
-        //         imgFile.setOriginName(file.getOriginalFilename());
-        //         imgFile.setChangeName(changeName);
-        //         imgFile.setImgPath("/uploadImgs/" +changeName);
-        //
-        //         recordService.saveFile(imgFile);
-        //
-        //         System.out.println("에러 지점 확인용 출력");
-        //
-        //         return recordService.returnFileNo(changeName);
-        //
-        //     } catch (Exception e) {
-        //         System.out.println("Exception" + e);
-        //         throw new RuntimeException(e);
-        //     }
-        // }
+            /* 같은 input 의 name 속성 value 값 배열로 받기 */
+            String[] imgCategory = request.getParameterValues("imgCategory");
 
-        // 디티오에 리스트<제니릭DTO> 생성하고, 컨트롤러 안에서 리스트<디티오> = 어레이 리스트 생성,
-        // 메소드 파라미터에 멀티파일[] 배열로 받고, for문으로 배열.길이 만큼 돌림 그냥 상품 디티오 생성은 반복문안에서 하고 리스트에 에드도
+            try {
+                file[i].transferTo(saveFile);
 
+                imgPathDTO imgFile = new imgPathDTO();
 
-       // if ((!file.getOriginalFilename().equals(""))){
-       //     int fileNo = saveFile(file);
-       //
-       //     product.setImgFileNo(fileNo);
-       // }
+                imgFile.setProductNo(Integer.parseInt(lastNum));
+                imgFile.setImgCategory(imgCategory[i]);
+                imgFile.setOrgFileName(file[i].getOriginalFilename());
+                imgFile.setSysFileName(changeName);
+                imgFile.setSavePath("/image/" + imgCategoryPath + "/" + changeName);
 
-        mv.setViewName("redirect:/product/list2?categoryCode=" + request.getParameter("categoryCode"));
+                productService.saveFile(imgFile);
+            } catch (Exception e) {
+                System.out.println("Exception" + e);
+                throw new RuntimeException(e);
+            }
+        }
+
+        mv.setViewName("redirect:/product/list2?categoryCode=" + category);
         rttr.addFlashAttribute("successMessage", "상품 등록 완료!");
 
         return mv;
 
     }
-
-   // private int saveFile(MultipartFile file){
-   //
-   //
-   //
-   // }
 }

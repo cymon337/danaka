@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Date;
-import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -17,13 +16,10 @@ public class ProductDTO {
     private String brandNo;
     private String brandName;
     private String productName;
-    private RodDTO rod;
-    private ReelDTO reel;
-    private LineDTO line;
     private Date productRegDate;
+    private LineDTO line;
+    private ReelDTO reel;
+    private RodDTO rod;
     private int stock;
     private String savePath;
-
-    private List<ProductDTO> fileList;
-
 }

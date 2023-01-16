@@ -4,6 +4,7 @@ import com.osaz.danaka.common.SelectCriteria;
 import com.osaz.danaka.product.model.dao.ProductMapper;
 import com.osaz.danaka.product.model.dto.OrderDTO;
 import com.osaz.danaka.product.model.dto.ProductDTO;
+import com.osaz.danaka.product.model.dto.imgPathDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -96,5 +97,9 @@ public class ProductService {
 
     public String selectProductLastNum() {
         return productMapper.selectProductLastNum();
+    }
+
+    public void saveFile(imgPathDTO imgFile) {
+        productMapper.insertImgFile(imgFile);
     }
 }

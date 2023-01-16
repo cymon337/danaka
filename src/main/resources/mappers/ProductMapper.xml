@@ -271,4 +271,27 @@
         SELECT MAX(PRODUCT_NO)
           FROM T_PRODUCT
     </select>
+
+    <!--T_IMG_PATH 데이터 추가-->
+    <insert id="insertImgFile" parameterType="com.osaz.danaka.product.model.dto.imgPathDTO">
+        INSERT
+        INTO T_IMG_PATH A
+        (
+            A.IMG_NO
+        , A.PRODUCT_NO
+        , A.IMG_CATEGORY
+        , A.ORG_FILE_NAME
+        , A.SYS_FILE_NAME
+        , A.SAVE_PATH
+        )
+        VALUES
+            (
+                SEQ_IMG_NO.NEXTVAL
+            , #{ productNo }
+            , #{ imgCategory }
+            , #{ orgFileName }
+            , #{ sysFileName}
+            , #{ savePath }
+            )
+    </insert>
 </mapper>
