@@ -313,11 +313,15 @@ public class ProductController {
     // # author : 오승재
     // # description : 상품 리뷰 출력 ajax 메소드
     @GetMapping("/review")
-    public ModelAndView selectReview(@AuthenticationPrincipal MemberDTO member, @RequestParam(required = false)String currentPage, String productNo, ModelAndView mv) {
+    public ModelAndView selectReview(@AuthenticationPrincipal MemberDTO member, @RequestParam(required = false)String currentPage, String productNo, String productName,
+                                     ModelAndView mv) {
 
         HashMap<String, String> map = new HashMap<>();
-        map.put("productNo", productNo);
+        map.put("productName", productName);
         map.put("userNo", member.getUserNo());
+        map.put("productNo", productNo);
+
+        log.info("map값 체크 = {}", map);
         HashMap orderInfo = productService.selectOrder(map);
         log.info("마이바티스에서 받은 해시맵 체크 = {}", orderInfo);
 
@@ -339,8 +343,6 @@ public class ProductController {
         selectCriteria.setSearchValue(productNo);
         log.info("검색조건 = {}", selectCriteria);
         List<ReviewDTO> reviewList = productService.selectReviewList(selectCriteria);
-
-        log.info("검색조건 = {}", selectCriteria);
 
         mv.addObject("orderInfo", orderInfo);
         mv.addObject("reviewList", reviewList);

@@ -328,7 +328,10 @@
           FROM T_ORDER A
           LEFT JOIN VIEW_PRODUCT B
             ON A.PRODUCT_NO = B.PRODUCT_NO
-         WHERE A.PRODUCT_NO = #{ productNo }
+         WHERE A.PRODUCT_NO IN(SELECT
+                                   PRODUCT_NO
+                                 FROM T_PRODUCT
+                                WHERE PRODUCT_NAME = #{ productName })
            AND A.USER_NO = #{ userNo }
            AND ROWNUM = 1
          ORDER BY A.REG_DATE

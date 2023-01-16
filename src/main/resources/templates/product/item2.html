@@ -244,11 +244,12 @@
         // }
 
         /* 관련 상품 이미지 갖고오기 */
-        const param = { productNo : orgProductNo };
         $.ajax({
             type: "GET",
             url: "/product/refItems",
-            data: param,
+            data: {
+                productNo : orgProductNo
+            },
         }).done(function (data) {
             $("#refItems").replaceWith(data);
         });
@@ -257,7 +258,10 @@
         $.ajax({
             type: "GET",
             url: "/product/review",
-            data: param,
+            data: {
+                productNo : orgProductNo,
+                productName : productName
+            },
         }).done(function (data) {
             $("#productBoardContainer").replaceWith(data);
         });
@@ -302,14 +306,9 @@
 
     /* 후기, 문의 컨트롤 버튼 */
     let keyCheck = 1;
+    let productName = [[${ product.productName }]];
     function boardControl(key) {
-        /* 옵션 상품 번호들 추가해야되는데... */
-        // let productNos = [];
-        // let options =   [[${optionList}]];
-        // options.forEach(function(option){
-        //     productNos.push(option.productNo);
-        // });
-        // // console.log(productNos.push(orgProductNo));
+
         if (keyCheck == key) {
             return;
         }
@@ -319,7 +318,10 @@
             $.ajax({
                 type: "GET",
                 url: "/product/review",
-                data: {productNo : orgProductNo},
+                data: {
+                    productNo : orgProductNo,
+                    productName : productName
+                },
             }).done(function (data) {
                 $("#productBoardContainer").replaceWith(data);
                 $("#productReview").show();
@@ -543,6 +545,7 @@
                 url: "/product/review",
                 data: {
                     productNo : orgProductNo,
+                    productName : productName,
                     currentPage : value
                 },
             }).done(function (data) {
