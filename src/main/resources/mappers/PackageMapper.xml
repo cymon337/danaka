@@ -42,7 +42,7 @@
         SELECT
             DISTINCT *
         FROM (SELECT
-                  TO_CHAR(LINE_MIN, 'FM9990.09') LINE_MAX
+                  TO_CHAR(LINE_MIN, 'FM9990.09') LINE_MIN
               FROM VIEW_PRODUCT
               WHERE
                   NOT LINE_MIN IS NULL
@@ -52,12 +52,14 @@
 
     <select id="selectRodLineMaxOption" resultType="String">
         SELECT
-            DISTINCT LINE_MAX
-        FROM VIEW_PRODUCT
-        WHERE
-            NOT LINE_MAX IS NULL
-            AND CATEGORY_CODE = 'RD'
-        ORDER BY LINE_MAX ASC
+            DISTINCT *
+        FROM (SELECT
+                  TO_CHAR(LINE_MAX, 'FM9990.09') LINE_MIN
+              FROM VIEW_PRODUCT
+              WHERE
+                  NOT LINE_MAX IS NULL
+                AND CATEGORY_CODE = 'RD'
+              ORDER BY LINE_MIN ASC)
     </select>
 
     <!-- ========== reel option mapper ========== -->
@@ -117,25 +119,26 @@
                 ,A.BRAND_NAME
                 ,A.PRODUCT_NAME
                 ,CASE
-                WHEN A.CATEGORY_CODE = 'RD' THEN RD.ROD_MODEL
-                WHEN A.CATEGORY_CODE = 'RL' THEN RL.REEL_MODEL
-                WHEN A.CATEGORY_CODE = 'LN' THEN TO_CHAR(LN.LINE_SIZE, 'FM9990.09')
-                END OPTION1
+                     WHEN A.CATEGORY_CODE = 'RD' THEN A.BRAND_NAME
+                     WHEN A.CATEGORY_CODE = 'RL' THEN A.BRAND_NAME
+                     WHEN A.CATEGORY_CODE = 'LN' THEN A.BRAND_NAME
+                    END OPTION1
                 ,CASE
-                WHEN A.CATEGORY_CODE = 'RD' THEN RD.REEL_TYPE
-                WHEN A.CATEGORY_CODE = 'RL' THEN RL.REEL_TYPE
-                END OPTION2
+                     WHEN A.CATEGORY_CODE = 'RD' THEN RD.REEL_TYPE
+                     WHEN A.CATEGORY_CODE = 'RL' THEN RL.REEL_TYPE
+                     WHEN A.CATEGORY_CODE = 'LN' THEN TO_CHAR(LN.LINE_SIZE, 'FM9990.09')
+                    END OPTION2
                 ,CASE
-                WHEN A.CATEGORY_CODE = 'RD' THEN TO_CHAR(RD.LINE_MIN, 'FM9990.09')
-                END OPTION3
+                     WHEN A.CATEGORY_CODE = 'RD' THEN TO_CHAR(RD.LINE_MIN, 'FM9990.09')
+                    END OPTION3
                 ,CASE
-                WHEN A.CATEGORY_CODE = 'RD' THEN TO_CHAR(RD.LINE_MAX, 'FM9990.09')
-                END OPTION4
+                     WHEN A.CATEGORY_CODE = 'RD' THEN TO_CHAR(RD.LINE_MAX, 'FM9990.09')
+                    END OPTION4
                 ,CASE
-                WHEN A.CATEGORY_CODE = 'RD' THEN RD.ROD_PRICE
-                WHEN A.CATEGORY_CODE = 'RL' THEN RL.REEL_PRICE
-                WHEN A.CATEGORY_CODE = 'LN' THEN LN.LINE_PRICE
-                END PRICE
+                     WHEN A.CATEGORY_CODE = 'RD' THEN RD.ROD_PRICE
+                     WHEN A.CATEGORY_CODE = 'RL' THEN RL.REEL_PRICE
+                     WHEN A.CATEGORY_CODE = 'LN' THEN LN.LINE_PRICE
+                    END PRICE
             FROM
                 VIEW_PRODUCT A
                 LEFT JOIN  T_ROD RD ON A.PRODUCT_NO = RD.PRODUCT_NO
@@ -145,7 +148,7 @@
 
     </select>
 
-    <select id="selectProductConditional" resultMap="packageProductResultMap">
+    <select id="selectProductOption" resultMap="packageProductResultMap">
 
         SELECT
             *
@@ -155,13 +158,14 @@
                   ,A.BRAND_NAME
                   ,A.PRODUCT_NAME
                   ,CASE
-                       WHEN A.CATEGORY_CODE = 'RD' THEN RD.ROD_MODEL
-                       WHEN A.CATEGORY_CODE = 'RL' THEN RL.REEL_MODEL
-                       WHEN A.CATEGORY_CODE = 'LN' THEN TO_CHAR(LN.LINE_SIZE, 'FM9990.09')
+                       WHEN A.CATEGORY_CODE = 'RD' THEN A.BRAND_NAME
+                       WHEN A.CATEGORY_CODE = 'RL' THEN A.BRAND_NAME
+                       WHEN A.CATEGORY_CODE = 'LN' THEN A.BRAND_NAME
                     END OPTION1
                   ,CASE
                        WHEN A.CATEGORY_CODE = 'RD' THEN RD.REEL_TYPE
                        WHEN A.CATEGORY_CODE = 'RL' THEN RL.REEL_TYPE
+                       WHEN A.CATEGORY_CODE = 'LN' THEN TO_CHAR(LN.LINE_SIZE, 'FM9990.09')
                     END OPTION2
                   ,CASE
                        WHEN A.CATEGORY_CODE = 'RD' THEN TO_CHAR(RD.LINE_MIN, 'FM9990.09')
@@ -181,10 +185,10 @@
                      LEFT JOIN  T_LINE LN ON A.PRODUCT_NO = LN.PRODUCT_NO
              WHERE A.CATEGORY_CODE = #{categoryCode}) LIST
         WHERE
-            LIST.OPTION1 IN ( #{categoryOptionList} )
-           OR LIST.OPTION2 IN ( #{categoryOptionList} )
-           OR LIST.OPTION3 IN ( #{categoryOptionList} )
-           OR LIST.OPTION4 IN ( #{categoryOptionList} )
+            LIST.OPTION1 IN ( '${categoryOption}' )
+           OR LIST.OPTION2 IN ( '${categoryOption}' )
+           OR LIST.OPTION3 IN ( '${categoryOption}' )
+           OR LIST.OPTION4 IN ( '${categoryOption}' )
     </select>
 
 </mapper>

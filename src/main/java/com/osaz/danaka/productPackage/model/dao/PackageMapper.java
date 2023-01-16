@@ -29,7 +29,11 @@ public interface PackageMapper {
 
     String[] selectLineSizeOption();
 
+// search product mapper
     List<SearchProductDTO> selectProduct(String categoryCode);
+
+// search prouct option mapper
+    List<SearchProductDTO> selectProductOption(String categoryCode, String categoryOption);
 
 
 // search product mapper

@@ -71,11 +71,15 @@ public class PackageController {
         log.info("categoryOptionList={}", Arrays.toString(categoryOptionList));
 
         List<SearchProductDTO> productList;
-        productList = packageService.selectProduct(categoryCode);
-        for (SearchProductDTO item:productList) {
-            log.info("Result={}", item);
-        }
 
+        if (categoryOptionList == null) {
+            productList = packageService.selectProduct(categoryCode);
+        } else {
+            String categoryOption = String.join("','", categoryOptionList);
+
+            log.info(categoryOption);
+            productList = packageService.selectProductOption(categoryCode, categoryOption);
+        }
 
         return productList;
     }

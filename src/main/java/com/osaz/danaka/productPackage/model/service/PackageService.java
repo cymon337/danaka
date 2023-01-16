@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Slf4j
@@ -67,8 +66,14 @@ public class PackageService {
     public List<SearchProductDTO> selectProduct(String categoryCode) {
         log.info("selectProduct service init");
 
-        List<SearchProductDTO> productList;
-        productList = packageMapper.selectProduct(categoryCode);
+        List<SearchProductDTO> productList = packageMapper.selectProduct(categoryCode);
+
+        return productList;
+    }
+
+    public List<SearchProductDTO> selectProductOption(String categoryCode, String categoryOption) {
+
+        List<SearchProductDTO> productList = packageMapper.selectProductOption(categoryCode, categoryOption);
 
         return productList;
     }
