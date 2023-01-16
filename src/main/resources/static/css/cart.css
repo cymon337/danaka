@@ -120,11 +120,12 @@
     float: right;
 }
 
-#btn-order {
+.cart-order form {
+    width: auto;
     margin-top: auto;
     margin-bottom: auto;
     margin-left: 0;
-    margin-right: 5%;
+    margin-right: 2%;
     float: right;
 }
 

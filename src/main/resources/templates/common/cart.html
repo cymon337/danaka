@@ -75,13 +75,20 @@
 
             },
             // 구매매서드 수정중....... 밑에 버튼에 value cartNos=["1", "13"] 스트링배열넣어서 포스트로보내기
-            purchase: function(e) {
-                $("li").forEach( function (li) {
+            purchase: function() {
+                let purchaseList;
+                purchaseList = [];
 
-                    if ($(li.target).hasClass("active") === true) {
-                        // 리스트벨류 스트링배열 객체담기
-                    }
+                document.querySelectorAll("li.active").forEach( function (item) {
+                    // 리스트벨류 스트링배열 객체담기
+                    var cartNo = $(item).val();
+                    purchaseList.push(cartNo);
+                    console.log("foreach");
                 });
+                console.log(purchaseList.toString());
+                $("#cartNoList").attr("value", purchaseList.toString());
+
+                console.log($("#cartNoList").val());
             }
         }
 
@@ -97,7 +104,7 @@
 </head>
 
 
-<body onclick="javascript:cart.reCalc();">
+<body onclick="cart.reCalc();">
 
 
     <h3>1. selectAllCart 장바구니페이지에서 회원번호별 카트에 담긴 모든 상품 select method</h3>
@@ -126,7 +133,9 @@
                         } else {
                             $("#btn-select-all-cart").addClass("active");
                             $("li").addClass("active");
+
                         }
+                        cart.purchase();
                     });
                 </script>
 
@@ -163,6 +172,7 @@
                         document.querySelectorAll("li.active").forEach(function (e){
                             e.remove();
                         });
+                        cart.purchase();
                     });
                 </script>
 
@@ -182,7 +192,7 @@
                            th:text="|${cart.option1}, ${cart.option2}, ${cart.option3}, ${cart.option4}|">옵션1, 옵션2, 옵션3, 옵션4</p>
                     </span>
                     <span class="item-component item-amount">
-                        <input class="pNum" type="number" step="1" min="1" max="999" th:value="${cart.amount}" oninput="javascript:cart.changePNum(this);" style="width: 100%; font-size: x-large;"/>
+                        <input class="pNum" type="number" step="1" min="1" max="999" th:value="${cart.amount}" oninput="cart.changePNum(this);" style="width: 100%; font-size: x-large;"/>
                         <input class="pPrice" type="hidden" th:value="${cart.price}" />
                     </span>
                     <span class="item-component item-price">
@@ -202,7 +212,9 @@
                         $(e.target).removeClass("active")
                     } else {
                         $(e.target).addClass("active");
+
                     }
+                    cart.purchase();
                 });
             </script>
 
@@ -212,13 +224,16 @@
         <span id="placeholder-price"></span>
 <!--        // list에 active 클래스네임으로 필터링 해서 계산-->
         <span id="sum-order-price"> 0 원</span>
+
         <form action="/product/purchase" method="post">
-        <button id="btn-order" type="submit" class="btn btn-outline-primary btn-lg" onclick="cart.purchase(this)">
-            <span class="material-symbols-outlined">check_circle</span>
-            <span id="sum_p_num" class="btn-text-1">개</span>
-            <span class="btn-text-1">주문하기</span>
-        </button>
+            <button id="btn-order" type="submit" class="btn btn-outline-primary btn-lg">
+                    <span class="material-symbols-outlined">check_circle</span>
+                    <span id="sum_p_num" class="btn-text-1">개</span>
+                    <span class="btn-text-1">주문</span>
+            </button>
+            <input type="hidden" id="cartNoList" name="cartNoList" value="none"/>
         </form>
+
     </div>
 
 </div>
