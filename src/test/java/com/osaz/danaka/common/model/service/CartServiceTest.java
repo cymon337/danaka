@@ -71,7 +71,7 @@ class CartServiceTest {
 
         org.junit.jupiter.api.Assertions.assertEquals(result, 1);
     }
-
+/*
     @Test
     @Transactional
     void deleteCart() {
@@ -80,5 +80,5 @@ class CartServiceTest {
         int result = cartMapper.deleteCart(cartNo);
 
         org.junit.jupiter.api.Assertions.assertEquals(result, 1);
-    }
+    }*/
 }

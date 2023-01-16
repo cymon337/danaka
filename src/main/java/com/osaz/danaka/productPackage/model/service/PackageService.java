@@ -14,22 +14,48 @@ public class PackageService {
     // @RequiredArgsConstructor 사용하면 아래 생략
 //    @Autowired
 //    public PackageService(PackageMapper packageMapper) { this.packageMapper = packageMapper; }
-    public String[] selectBrandNameOption() {
-        String[] result = packageMapper.selectBrandNameOption();
+
+//    rod option service
+    public String[] selectRodBrandNameOption() {
+        String[] result = packageMapper.selectRodBrandNameOption();
         return result;
     }
 
+
+    public String[] selectRodReelTypeOption() {
+        String[] result = packageMapper.selectRodReelTypeOption();
+        return result;
+    }
+    public String[] selectRodLineMinOption() {
+        String[] result = packageMapper.selectRodLineMinOption();
+        return result;
+    }
+    public String[] selectRodLineMaxOption() {
+        String[] result = packageMapper.selectRodLineMaxOption();
+        return result;
+    }
+
+//    reel option service
+    public String[] selectReelBrandNameOption() {
+        String[] result = packageMapper.selectReelBrandNameOption();
+        return result;
+    }
 
     public String[] selectReelTypeOption() {
         String[] result = packageMapper.selectReelTypeOption();
         return result;
     }
-    public String[] selectLineMinOption() {
-        String[] result = packageMapper.selectLineMinOption();
+
+//    line option service
+    public String[] selectLineBrandNameOption() {
+        String[] result = packageMapper.selectLineBrandNameOption();
         return result;
     }
-    public String[] selectLineMaxOption() {
-        String[] result = packageMapper.selectLineMaxOption();
+
+    public String[] selectLineSizeOption() {
+        String[] result = packageMapper.selectLineSizeOption();
         return result;
     }
+
+
 }

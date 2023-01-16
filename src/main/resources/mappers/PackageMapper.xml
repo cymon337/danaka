@@ -5,39 +5,94 @@
 
 <mapper namespace="com.osaz.danaka.productPackage.model.dao.PackageMapper">
 
-    <select id="selectBrandNameOption" resultType="String">
+    <!-- ========== rod option mapper ========== -->
+
+    <select id="selectRodBrandNameOption" resultType="String">
         SELECT
             DISTINCT BRAND_NAME
         FROM VIEW_PRODUCT
         WHERE NOT BRAND_NAME IS NULL
+          AND CATEGORY_CODE = 'RD'
+        ORDER BY BRAND_NAME ASC
+    </select>
+
+    <select id="selectRodReelTypeOption" resultType="String">
+        SELECT
+            DISTINCT ROD_REEL_TYPE
+        FROM VIEW_PRODUCT
+        WHERE
+            NOT ROD_REEL_TYPE IS NULL
+            AND CATEGORY_CODE = 'RD'
+        ORDER BY ROD_REEL_TYPE ASC
+    </select>
+
+    <select id="selectRodLineMinOption" resultType="String">
+        SELECT
+            DISTINCT *
+        FROM (SELECT
+                  TO_CHAR(LINE_MIN, 'FM9990.09') LINE_MAX
+              FROM VIEW_PRODUCT
+              WHERE
+                  NOT LINE_MIN IS NULL
+                AND CATEGORY_CODE = 'RD'
+              ORDER BY LINE_MIN ASC)
+    </select>
+
+    <select id="selectRodLineMaxOption" resultType="String">
+        SELECT
+            DISTINCT LINE_MAX
+        FROM VIEW_PRODUCT
+        WHERE
+            NOT LINE_MAX IS NULL
+            AND CATEGORY_CODE = 'RD'
+        ORDER BY LINE_MAX ASC
+    </select>
+
+    <!-- ========== reel option mapper ========== -->
+
+    <select id="selectReelBrandNameOption" resultType="String">
+        SELECT
+            DISTINCT BRAND_NAME
+        FROM VIEW_PRODUCT
+        WHERE NOT BRAND_NAME IS NULL
+          AND CATEGORY_CODE = 'RL'
         ORDER BY BRAND_NAME ASC
     </select>
 
     <select id="selectReelTypeOption" resultType="String">
         SELECT
-            DISTINCT ROD_REEL_TYPE
+            DISTINCT REEL_TYPE
         FROM VIEW_PRODUCT
-        WHERE NOT ROD_REEL_TYPE IS NULL
-        ORDER BY ROD_REEL_TYPE ASC
+        WHERE NOT REEL_TYPE IS NULL
+          AND CATEGORY_CODE = 'RL'
+        ORDER BY REEL_TYPE ASC
     </select>
 
-    <select id="selectLineMinOption" resultType="String">
+
+
+    <!-- ========== line option mapper ========== -->
+
+    <select id="selectLineBrandNameOption" resultType="String">
+        SELECT
+            DISTINCT BRAND_NAME
+        FROM VIEW_PRODUCT
+        WHERE NOT BRAND_NAME IS NULL
+          AND CATEGORY_CODE = 'LN'
+        ORDER BY BRAND_NAME ASC
+    </select>
+
+    <select id="selectLineSizeOption" resultType="String">
         SELECT
             DISTINCT *
         FROM (SELECT
-                  TO_CHAR(LINE_MIN, 'FM9990.99') LINE_MAX
+                  TO_CHAR(LINE_SIZE, 'FM9990.09') LINE_MAX
               FROM VIEW_PRODUCT
-              WHERE NOT LINE_MIN IS NULL
-              ORDER BY LINE_MIN ASC)
+              WHERE
+                  NOT LINE_SIZE IS NULL
+                AND CATEGORY_CODE = 'LN'
+              ORDER BY LINE_SIZE ASC)
     </select>
 
-    <select id="selectLineMaxOption" resultType="String">
-        SELECT
-            DISTINCT LINE_MAX
-        FROM VIEW_PRODUCT
-        WHERE NOT LINE_MAX IS NULL
-        ORDER BY LINE_MAX ASC
-    </select>
 
 
 
