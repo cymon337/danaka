@@ -1,0 +1,141 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>wishList</title>
+    <link rel="stylesheet" href="/css/myPageStyle.css">
+    <link rel="stylesheet" href="/static/css/list.css">
+</head>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="row" style="margin: 0; padding: 0;">
+    <div class="header">
+        <th:block th:replace="~{common/header :: header}"/>
+    </div>
+
+    <div class="col-lg-1"></div>
+    <div class="col-lg-6" style="margin: 25px;">
+
+    </div>
+
+    <div class="col-lg-3">
+
+    </div>
+</div>
+
+<div id="viewport" >
+    <!-- Sidebar -->
+    <div id="sidebar">
+        <header style="height: 200px">
+
+            <a href="#" style="margin-outside: 10px"><img src="/image/image2.png"></a>
+            <div sec:authentication="principal.memberName" style="color: black">님</div>
+            <a style="color: black">환영합니다!</a>
+        </header>
+
+        <ul class="nav">
+            <li>
+                <a th:href="@{/member/modefication}">
+                    <i class="zmdi zmdi-view-dashboard"></i> 회원정보 수정
+                </a>
+            </li>
+            <hr>
+            <li>
+                <a th:href="@{/member/wishList}">
+                    <i class="zmdi zmdi-link"></i> 관심상품
+                </a>
+            </li>
+            <hr>
+            <li>
+                <a href="#">
+                    <i class="zmdi zmdi-widgets"></i> 장바구니
+                </a>
+                <hr>
+            </li>
+            <li class="form-group">
+                <br>
+                <br>
+
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <button type="button" th:href="@{/member/unregister}" class="btn btn-primary rounded submit " style="background: white; color: black; width:100px; height: 40px" >회원탈퇴</button>
+            </li>
+        </ul>
+    </div>
+
+
+    <div id="content" >
+
+        <div class="container-fluid">
+            <h1>찜한 목록</h1>
+            <div>
+
+                <div>
+
+                    <div class="outerProductsContainer">
+                        <div class="productContainer" th:each="order : ${ orderList }">
+                            <div class="thumnail">
+
+                                <img th:src="${ order.savePath }" alt="상품썸네일" th:onclick="|location.href='@{/product/item2(productNo=${ order.productNo })}'|">
+
+
+
+                            </div>
+                            <div class="detail1">
+                                <div class="productName">
+                                    <a th:href="@{/product/item2(productNo=${ order.productNo })}"><p th:text="${ order.productName }">
+                                        상품명</p></a>
+                                </div>
+                                <div class="productDetail">
+
+                                    <p th:text="${ order.orderId }">주문아이디</p>
+                                    <p th:text="${ order.amount }">주문수량</p>
+                                    <p th:text="${ order.orderRequest }">주문요청사항</p>
+
+
+
+                                </div>
+                            </div>
+                            <div class="detail2">
+                                <div class="price">
+
+                                    <p th:text="${ #numbers.formatCurrency(order.totPrice) }">상품가격</p>
+                                    <p th:text="${ order.regDate }">주문일자</p>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+
+
+
+                    <!--<code>#content</code>.-->
+            </p>
+        </div>
+    </div>
+</div>
+    </div>
+</div>
+</body>
+</html>

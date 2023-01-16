@@ -1,6 +1,7 @@
 package com.osaz.danaka.member.model.dto;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -70,7 +71,7 @@ public class MemberDTO implements UserDetails{
     // Security에서 인증처리를 하기 위해 userId를 지정해주는 것.
 
 
-    public String getUMemberName() {
+    public String getMemberName() {
         return this.memberName; //Id를  반환해야함 name아닌거 주의
     }
 

@@ -63,7 +63,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web
-                .ignoring().antMatchers("/css/**", "/img/**");
+                .ignoring().antMatchers("/css/**", "/image/**");
     }
     @Override
     protected void configure(HttpSecurity http) throws Exception{
@@ -74,7 +74,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(  "signUp_action" ,"/member/login", "/member/id","/member/password", "/member/signUp", "/resource/**").permitAll()
                   /* .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/order/**").hasAnyRole("ADMIN","MEMBER")*/
+                .antMatchers("/order/**").hasAnyRole("ADMIN","USER")*/
                 .anyRequest().permitAll() //모든요청에 접급을 허용하겠다
                 .and()
                 .formLogin() //폼을 이용해서 로그인을 하겠다
@@ -82,12 +82,13 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .loginProcessingUrl("/loginAction") // 로그인이 진행 될 url 설정 (loginpage.html의 th:action="@{/login_action}"를 말함
                 //.successForwardUrl("/") //로그인 성공시 이동할 경로 설정
                 .failureHandler(customFailureHandler) // 로그인 실패 핸들러
-                .defaultSuccessUrl("/member/modification")
+                .defaultSuccessUrl("/")
                 .and()
                 .logout()   //로그아웃 설정을 시작하겠다
                 .logoutRequestMatcher(new AntPathRequestMatcher("/member/logout")) //AntPathRequestMatcher
                 .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID");
+
 
     }
 }

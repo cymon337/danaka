@@ -2,29 +2,40 @@ package com.osaz.danaka.member.controller;
 
 import com.osaz.danaka.member.model.dao.MemberMapper;
 import com.osaz.danaka.member.model.dto.MemberDTO;
+import com.osaz.danaka.member.model.dto.OrderDTO;
+import com.osaz.danaka.member.model.dto.WishListDTO;
 import com.osaz.danaka.member.model.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpHeaders;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.mail.internet.MimeMessage;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+
 import java.io.IOException;
+import java.util.List;
 import java.util.Random;
 
 @Slf4j
@@ -36,6 +47,7 @@ public class MemberController {
     private final MemberService memberService;
     private MemberMapper memberMapper;
 
+    private final PasswordEncoder passwordEncoder;
 
 
     @Autowired
@@ -100,11 +112,11 @@ public class MemberController {
     @PostMapping("/findId")
     public String findId(HttpServletRequest request, Model model) {
 
-        String memberName = request.getParameter("memberName");
+        String memeberName = request.getParameter("memeberName");
         String phone = request.getParameter("phone");
 
         MemberDTO memberDTO = new MemberDTO();
-        memberDTO.setMemberName(memberName);
+        memberDTO.setMemberName(memeberName);
         memberDTO.setPhone(phone);
 
         MemberDTO user = memberService.findId(memberDTO);
@@ -158,38 +170,38 @@ public class MemberController {
         return "member/unregister";
     }
 
-//    @PostMapping("/deleteAction")
-//    public String memberDelete(@AuthenticationPrincipal MemberDTO memberDTO, @RequestParam(value = "password") String password, HttpSession session, RedirectAttributes rttr, Model model
-//    ) throws Exception {
-//
-//
-//
-//
-//        model.addAttribute("member", memberDTO);
-//        log.info( "딜리트액션 ={} ",(memberDTO));
-//        log.info( "딜리트액션 친비번 ={} ",password);
-//
-//        String sessionPassword = memberDTO.getPassword();
-//
-//
-//
-//        log.info( "딜리트액션 친비번 ={} ",password);
-//        String str;
-//
-//        if (!(passwordEncoder.matches(password, sessionPassword))) {
-//           rttr.addAttribute("msg", false);
-//            str = "redirect:member/unregister";
-//
-//        } else {
-//            memberService.deleteMember(memberDTO);
-//            session.invalidate();
-//            str = "redirect:member/login";
-//        }
-//
-//
-//        return str;
-//
-//    }
+    @PostMapping("/deleteAction")
+    public String memberDelete(@AuthenticationPrincipal MemberDTO memberDTO, @RequestParam(value = "password") String password, HttpSession session, RedirectAttributes rttr, Model model
+    ) throws Exception {
+
+
+
+
+        model.addAttribute("member", memberDTO);
+        log.info( "딜리트액션 ={} ",(memberDTO));
+        log.info( "딜리트액션 친비번 ={} ",password);
+
+        String sessionPassword = memberDTO.getPassword();
+
+
+
+        log.info( "딜리트액션 친비번 ={} ",password);
+        String str;
+
+        if (!(passwordEncoder.matches(password, sessionPassword))) {
+           rttr.addAttribute("msg", false);
+            str = "redirect:member/unregister";
+
+        } else {
+            memberService.deleteMember(memberDTO);
+            session.invalidate();
+            str = "redirect:member/login";
+        }
+
+
+        return str;
+
+    }
 
     @GetMapping("/member/passwordUpdate")
     public String passUpdateForm( Model model,String email) {
@@ -227,7 +239,7 @@ public class MemberController {
     @PostMapping("/pwAuth")
     public ModelAndView pwAuth(HttpSession session, HttpServletRequest request, HttpServletResponse response) throws IOException {
         String email = request.getParameter("email");
-        String name = request.getParameter("userName");
+        String name = request.getParameter("memeberName");
 
 
 
@@ -289,5 +301,23 @@ public class MemberController {
         }
     }
 
+    @GetMapping("member/mypage")
+    public String mypageView(@AuthenticationPrincipal MemberDTO memberDTO, Model model){
 
+
+        List<OrderDTO> orderList = memberService.selectOrder(memberDTO);
+        model.addAttribute("orderList", orderList);
+
+
+        return "member/mypage";
+    }
+
+    @GetMapping("member/wishList")
+    public String wishListView(@AuthenticationPrincipal MemberDTO memberDTO, Model model){
+
+        List<WishListDTO> wishList = memberService.selectWishList(memberDTO);
+        model.addAttribute("wishList" , wishList);
+
+        return "member/wishList";
+    }
 }
