@@ -1,10 +1,16 @@
 package com.osaz.danaka.productPackage.model.service;
 
 import com.osaz.danaka.productPackage.model.dao.PackageMapper;
+import com.osaz.danaka.productPackage.model.dto.SearchProductDTO;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
+import java.util.List;
+
+@Slf4j
 @Service
 @Transactional(rollbackFor = Exception.class)
 @RequiredArgsConstructor
@@ -58,4 +64,12 @@ public class PackageService {
     }
 
 
+    public List<SearchProductDTO> selectProduct(String categoryCode) {
+        log.info("selectProduct service init");
+
+        List<SearchProductDTO> productList;
+        productList = packageMapper.selectProduct(categoryCode);
+
+        return productList;
+    }
 }

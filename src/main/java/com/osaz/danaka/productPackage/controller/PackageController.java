@@ -1,14 +1,18 @@
 package com.osaz.danaka.productPackage.controller;
 
+import com.osaz.danaka.productPackage.model.dto.SearchProductDTO;
 import com.osaz.danaka.productPackage.model.service.PackageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Arrays;
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -58,7 +62,23 @@ public class PackageController {
         return mv;
     }
 
+//      상품검색 컨트롤러 메소드
+    @PostMapping(value = "selectProduct", produces="application/json; charset=UTF-8")
+    @ResponseBody
+    public List<SearchProductDTO> selectProduct(String categoryCode, String[] categoryOptionList) {
 
+        log.info("categoryCode={}", categoryCode);
+        log.info("categoryOptionList={}", Arrays.toString(categoryOptionList));
+
+        List<SearchProductDTO> productList;
+        productList = packageService.selectProduct(categoryCode);
+        for (SearchProductDTO item:productList) {
+            log.info("Result={}", item);
+        }
+
+
+        return productList;
+    }
 
 
 }

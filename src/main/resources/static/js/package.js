@@ -22,28 +22,42 @@ let showOption = function (e) {
     switch (cat) {
         case 'rod':
             $("#category-option-rod").show();
+            searchProductList.selectCategoryOption("RD");
             break;
 
         case 'reel':
             $("#category-option-reel").show();
+            searchProductList.selectCategoryOption("RL");
             break;
 
         case 'line':
             $("#category-option-line").show();
+            searchProductList.selectCategoryOption("LN");
             break;
         default : alert("카테고리를 선택하세요")
             break;
     }
+
+    searchProductList.search();
 }
 
 // 카테고리옵션 관련 메소드
-let selectedOption = new Array();
+let selectedOption = [];   // 선택옵션 list
 
 let categoryOption = {
 
-    add: function (e) {
+    addOption: function (e) {
         var text = $(e.target).text();
         selectedOption.push(text);
+
+        console.log(selectedOption.toString());
+        this.displayOption(selectedOption.toString());
+    },
+    removeOption: function (e) {
+        var text = $(e.target).text();
+        var filtered = selectedOption.filter((item) => item !== text);
+        selectedOption = filtered;
+
         console.log(selectedOption.toString());
         this.displayOption(selectedOption.toString());
     },
@@ -55,18 +69,62 @@ let categoryOption = {
         this.displayOption(selectedOption);
     }
 }
-
-
-
-
-
 // <!--   카테고리옵션 선택 활성/비활성    -->
 $(".btn-outline-secondary").on("click", function (e) {
 
     if ($(e.target).hasClass("active") === true) {
         $(e.target).removeClass("active")
+        categoryOption.removeOption(e);
     } else {
         $(e.target).addClass("active") ;
-        categoryOption.add(e);
+        categoryOption.addOption(e);
     }
+    searchProductList.search();
 });
+
+// <!--   상품목록 출력 searchList   -->
+
+let searchProductList = {
+
+    categoryCode: "default",
+
+    // select option 로드, 릴, 라인 스위치문에서 받아옴
+    selectCategoryOption: function (categoryCode) {
+        this.categoryCode = categoryCode;
+    },
+
+    // 상품검색 서버통신 post request
+    search: function () {
+        console.log("search product");
+        var categoryOptionList = selectedOption;
+        console.log(categoryOptionList);
+
+        $.ajax({
+            url: "package/selectProduct",
+            type: "POST",
+            traditional : true,
+            data: {
+                categoryCode: this.categoryCode,
+                categoryOptionList: categoryOptionList,
+            },
+            success : function(productList) {
+                console.log("searchProductList() = success");
+                console.log(productList);
+            },
+            error : function () {
+                alert("searchProductList() = error");
+            }
+        });
+    },
+
+    // 검색상품 리스트 출력
+    display: function () {
+
+    }
+
+
+
+
+
+
+}

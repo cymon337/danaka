@@ -74,7 +74,7 @@
 
 
             },
-            // 구매매서드 수정중....... 밑에 버튼에 value cartNos=["1", "13"] 스트링배열넣어서 포스트로보내기
+            // 주문하기
             purchase: function() {
                 let purchaseList;
                 purchaseList = [];
@@ -83,7 +83,6 @@
                     // 리스트벨류 스트링배열 객체담기
                     var cartNo = $(item).val();
                     purchaseList.push(cartNo);
-                    console.log("foreach");
                 });
                 console.log(purchaseList.toString());
                 $("#cartNoList").attr("value", purchaseList.toString());
@@ -139,14 +138,14 @@
                     });
                 </script>
 
-                <button id="btn-remove-cart" type="button" class="btn btn-outline-secondary btn-lg">
+                <button id="btn-remove-cart" type="button" class="btn btn-outline-secondary btn-lg" onclick="deleteCart();">
                     <span class="material-symbols-outlined">remove_shopping_cart</span>
                     <span class="btn-text-1">선택삭제</span>
                 </button>
 
                 <!--         선택삭제 메서드 스크립트     -->
                 <script type="text/javascript">
-                    $("#btn-remove-cart").on("click", function () {
+                    deleteCart = function () {
                         var cartNoList = [];
                         document.querySelectorAll("li.active").forEach(function (e){
                             cartNoList.push($(e).val());
@@ -167,13 +166,13 @@
                             }
 
                         });
-                        alert("선택한 상품을 장바구니에서 삭제합니다.")
+                        // alert("선택한 상품을 장바구니에서 삭제합니다.")
 
                         document.querySelectorAll("li.active").forEach(function (e){
                             e.remove();
                         });
                         cart.purchase();
-                    });
+                    }
                 </script>
 
 
@@ -226,7 +225,7 @@
         <span id="sum-order-price"> 0 원</span>
 
         <form action="/product/purchase" method="post">
-            <button id="btn-order" type="submit" class="btn btn-outline-primary btn-lg">
+            <button id="btn-order" type="submit" class="btn btn-outline-primary btn-lg" onclick="deleteCart()">
                     <span class="material-symbols-outlined">check_circle</span>
                     <span id="sum_p_num" class="btn-text-1">개</span>
                     <span class="btn-text-1">주문</span>
