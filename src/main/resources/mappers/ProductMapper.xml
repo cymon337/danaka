@@ -419,7 +419,13 @@
     <!-- 상품 문의 수정 -->
     <update id="updateQna" parameterType="hashmap">
         UPDATE T_QNA
+        <if test="qnaBody != null">
            SET QNA_BODY = #{ qnaBody }
+        </if>
+        <if test="qnaReply != null">
+           SET REPLY = #{ qnaReply },
+               REPLY_DATE = DEFAULT
+        </if>
          WHERE QNA_NO = #{ qnaNo }
     </update>
 </mapper>

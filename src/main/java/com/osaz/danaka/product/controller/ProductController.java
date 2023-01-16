@@ -516,24 +516,26 @@ public class ProductController {
     public String updateQna(String qnaNo, @RequestParam(required = false) String updateQnaBody, @RequestParam(required = false) String qnaReply) {
 
         String msg = " ";
+        HashMap<String, String> updateMap = new HashMap<>();
+        updateMap.put("qnaNo", qnaNo);
 
-        if(updateQnaBody == null || "".equals(updateQnaBody)) {
-            msg = "수정할 내용을 작성해주세요.";
+        if(updateQnaBody != null && !"".equals(updateQnaBody)) {
+            updateMap.put("qnaBody", updateQnaBody);
+        } else if(qnaReply != null && !"".equals(qnaReply)) {
+            updateMap.put("qnaReply", qnaReply);
+        } else {
+            msg = "내용을 작성해주세요.";
 
             return msg;
         }
 
-        HashMap<String, String> updateMap = new HashMap<>();
-        updateMap.put("qnaNo", qnaNo);
-        updateMap.put("qnaBody", updateQnaBody);
-
         try {
             boolean result = productService.updateQna(updateMap);
             if(result) {
-                msg = "문의 수정 성공!";
+                msg = "성공!";
             }
         } catch (Exception e) {
-            msg = "문의 수정 실패..";
+            msg = "실패..";
             e.printStackTrace();
             return msg;
         }
