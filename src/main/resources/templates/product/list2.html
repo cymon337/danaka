@@ -55,9 +55,9 @@
     <div class="productContainer" id="productContainer" th:each="product : ${ productList }">
         <div class="thumnail">
             <th:block th:switch="${ selectCriteria.categoryCode }">
-                <img th:case="RD" th:src="${ product.savePath }" alt="상품썸네일" th:onclick="|location.href='@{/product/item2(productNo=${ product.productNo })}'|">
-                <img th:case="RL" th:src="${ product.savePath }" alt="상품썸네일" th:onclick="|location.href='@{/product/item2(productNo=${ product.productNo })}'|">
-                <img th:case="LN" th:src="${ product.savePath }" alt="상품썸네일" th:onclick="|location.href='@{/product/item2(productNo=${ product.productNo })}'|">
+                <img th:case="RD" th:src="${ product.tSavePath }" alt="상품썸네일" th:onclick="|location.href='@{/product/item2(productNo=${ product.productNo })}'|">
+                <img th:case="RL" th:src="${ product.tSavePath }" alt="상품썸네일" th:onclick="|location.href='@{/product/item2(productNo=${ product.productNo })}'|">
+                <img th:case="LN" th:src="${ product.tSavePath }" alt="상품썸네일" th:onclick="|location.href='@{/product/item2(productNo=${ product.productNo })}'|">
             </th:block>
         </div>
         <div class="detail1">

@@ -29,11 +29,15 @@
         </div>
         <div class="boardContent">
             <div th:if="${ review.userNo } == ${ #authentication.principal.userNo }" align="end">
-                <buttont class="contentButtons" type="button">수정</buttont>
+                <buttont class="contentButtons" type="button" th:onclick="updateBoard([[${ reviewStat.count }]])">수정</buttont>
                 <buttont class="contentButtons" type="button" th:onclick="deleteBoard([[${ review.reviewNo }]])">삭제</buttont>
             </div>
-            <p class="boardBody" th:text="${ review.reviewBody }">상품 후기 본문</p>
+            <form th:id="updateReview + ${reviewStat.count}">
+                <input type="text" name=reviewNo th:value="${ review.reviewNo }" hidden="true">
+                <textarea class="updateArea" name="updateReviewBody" th:id="review + ${reviewStat.count}" maxlength="88" disabled>[[${ review.reviewBody }]]</textarea>
+            </form>
         </div>
+
         </th:block>
     </div>
     <div id="reviewInput" th:if="${ orderInfo != null }">
@@ -44,11 +48,11 @@
                 <input th:case="RL" type="text" name="reviewTitle" class="reviewTitle" th:value="${ orderInfo['PRODUCT_NAME'] } + ' - ' + ${ orderInfo['REEL_MODEL'] }">
                 <input th:case="LN" type="text" name="reviewTitle" class="reviewTitle" th:value="${ orderInfo['PRODUCT_NAME'] } + ' - ' + ${ orderInfo['LINE_SIZE'] }">
             </th:block>
-            <input type="text" hidden="true" name="userNo" th:value="${ #authentication.principal.userNo }" readonly>
-            <input type="text" hidden="true" name="productNo" th:value="${ orderInfo['PRODUCT_NO'] }" readonly>
+                <input type="text" hidden="true" name="userNo" th:value="${ #authentication.principal.userNo }" readonly>
+                <input type="text" hidden="true" name="productNo" th:value="${ orderInfo['PRODUCT_NO'] }" readonly>
             <div>
-            <div><span>닉네임 : </span><input type="text" id="userNickname" th:value="${ #authentication.principal.userNickname }" readonly></div>
-            <div><span>구매일 : </span><input type="text" name="buyDate" th:value="${#dates.format(orderInfo['REG_DATE'], 'yyyy-MM-dd')}" readonly></div>
+                <div><span>닉네임 : </span><input type="text" id="userNickname" th:value="${ #authentication.principal.userNickname }" readonly></div>
+                <div><span>구매일 : </span><input type="text" name="buyDate" th:value="${#dates.format(orderInfo['REG_DATE'], 'yyyy-MM-dd')}" readonly></div>
             </div>
             <textarea name="reviewBody" maxlength="88" placeholder="리뷰 내용을 작성하세요."></textarea>
         </form>
@@ -66,26 +70,50 @@
         <th:block th:each="qna : ${ qnaList }">
         <div class="boardTitle" onclick="showContent(this)">
             <span th:text="${ qna.qnaNo }">번호</span>
-            <th:block th:switch="${ qna.secretStatus }">
-                <th:block th:case="Y">
-                    <span th:if="${ #authentication.name == 'admin' } or ${ qna.userNo } == ${ #authentication.principal.userNo }" th:text="${ qna.qnaBody }"></span>
-                    <span th:unless="${ #authentication.name == 'admin' } or ${ qna.userNo } == ${ #authentication.principal.userNo }">비밀글입니다.</span>
-                </th:block>
-                <span th:case="N">[[${ qna.qnaBody }]]</span>
-            </th:block>
+                <form th:id="updateQna + ${ qnaStat.count }">
+                    <input type="text" name="qnaNo" th:value="${ qna.qnaNo }" hidden="true">
+                    <th:block th:switch="${ qna.secretStatus }">
+                        <th:block th:case="Y">
+                            <th:block th:if="${ #authentication.name == 'admin' } or ${ qna.userNo } == ${ #authentication.principal.userNo }">
+                                <input type="text" name="updateQnaBody" class="updateInput" th:id="qnaInput + ${ qnaStat.count }" th:value="${ qna.qnaBody }" maxlength="40" disabled>
+                            </th:block>
+                            <th:block th:unless="${ #authentication.name == 'admin' } or ${ qna.userNo } == ${ #authentication.principal.userNo }">
+                                <span class="updateInput">비밀글입니다.</span>
+                            </th:block>
+                        </th:block>
+                        <th:block th:case="N">
+                            <input type="text" name="updateQnaBody" class="updateInput" th:id="qnaInput + ${ qnaStat.count }" th:value="${ qna.qnaBody }" maxlength="40" disabled>
+                        </th:block>
+                    </th:block>
+                </form>
             <span th:text="${ qna.userNickname }">닉네임</span>
             <span th:text="${ qna.regDate }">등록일</span>
         </div>
         <div class="boardContent">
             <div th:if="${ #authentication.name == 'admin' }" align="end">
-                <buttont class="contentButtons" type="button">답변</buttont>
+                <buttont class="contentButtons" type="button" th:onclick="updateReply([[${ qnaStat.count }]])">답변</buttont>
             </div>
             <div th:if="${ qna.userNo } == ${ #authentication.principal.userNo }" align="end">
-                <buttont class="contentButtons" type="button">수정</buttont>
+                <buttont class="contentButtons" type="button" th:onclick="updateBoard([[${ qnaStat.count }]])">수정</buttont>
                 <buttont class="contentButtons" type="button" th:onclick="deleteBoard([[${ qna.qnaNo }]])">삭제</buttont>
             </div>
-            <span th:text="${ qna?.replyDate }">답변일</span>
-            <span th:text="${ qna?.reply }">문의 내용 답변</span>
+            <form th:id="updateReply + ${ qnaStat.count }">
+                <span th:text="${ qna?.replyDate }">답변일</span>
+                <input type="text" name="qnaNo" th:value="${ qna.qnaNo }" hidden="true">
+                <th:block th:switch="${ qna.secretStatus }">
+                    <th:block th:case="Y">
+                        <th:block th:if="${ #authentication.name == 'admin' } or ${ qna.userNo } == ${ #authentication.principal.userNo }">
+                            <textarea class="updateArea" name="qnaReply" th:id="qnaReply + ${ qnaStat.count }" maxlength="40" disabled>[[${ qna?.reply }]]</textarea>
+                        </th:block>
+                        <th:block th:unless="${ #authentication.name == 'admin' } or ${ qna.userNo } == ${ #authentication.principal.userNo }">
+                            <span class="updateInput">비밀글입니다.</span>
+                        </th:block>
+                    </th:block>
+                    <th:block th:case="N">
+                        <textarea class="updateArea" name="qnaReply" th:id="qnaReply + ${ qnaStat.count }" maxlength="40" disabled>[[${ qna?.reply }]]</textarea>
+                    </th:block>
+                </th:block>
+            </form>
         </div>
         </th:block>
     </div>

@@ -40,6 +40,14 @@ public class ProductService {
         return productMapper.selectOneProduct(productNo);
     }
 
+    // 상품 상세페이지 찜하기 체크용 조회
+    public boolean selectWishCheck(HashMap<String, String> wishCheckMap) {
+
+        int result = productMapper.selectWishCheck(wishCheckMap);
+
+        return (result > 0)? true:false;
+    }
+
     // 상품 상세페이지용 해당하는 상품의 옵션 상품들 조회
     public List<ProductDTO> selectOptionList(String productName) {
 
@@ -65,6 +73,17 @@ public class ProductService {
 
         if (result <= 0) {
             throw new Exception("위시리스트 등록 실패");
+        }
+        return (result > 0) ? true : false;
+    }
+
+    // 위시리스트 테이블에서 제거
+    public boolean deleteWish(Map<String, String> wishMap) throws Exception {
+
+        int result = productMapper.deleteWish(wishMap);
+
+        if (result <= 0) {
+            throw new Exception("위시리스트 삭제 실패");
         }
         return (result > 0) ? true : false;
     }
@@ -166,4 +185,28 @@ public class ProductService {
         }
         return (result > 0)? true : false;
     }
+
+    // 상품 리뷰 수정
+    public boolean updateReview(HashMap<String, String> updateMap) throws Exception {
+
+        int result = productMapper.updateReview(updateMap);
+
+        if(result <= 0) {
+            throw new Exception("리뷰 수정 실패");
+        }
+        return (result > 0)? true : false;
+    }
+
+    // 상품 문의 수정
+    public boolean updateQna(HashMap<String, String> updateMap) throws Exception {
+
+        int result = productMapper.updateQna(updateMap);
+
+        if(result <= 0) {
+            throw new Exception("문의 수정 실패");
+        }
+        return (result > 0)? true : false;
+    }
+
+
 }

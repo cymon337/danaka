@@ -99,7 +99,18 @@
 .boardContent>p {
     height: 60%;
 }
-.boardContent>span {
+.updateArea {
+    width: 100%;
+    height: 50px;
+    margin-top: 2px;
+    border: none;
+    border-radius: 5px;
+    resize: none;
+}
+.updateInput {
+    width: 100%;
+    border: none;
+    border-radius: 5px;
 }
 .contentButtons {
     width: 4em;

@@ -11,7 +11,8 @@
         <result property="productName" column="PRODUCT_NAME"/>
         <result property="productRegDate" column="PRODUCT_REG_DATE"/>
         <result property="stock" column="STOCK"/>
-        <result property="savePath" column="SAVE_PATH"/>
+        <result property="tSavePath" column="TSAVE_PATH"/>
+        <result property="dSavePath" column="DSAVE_PATH"/>
         <association property="rod" resultMap="rodResultMap"></association>
         <association property="reel" resultMap="reelResultMap"></association>
         <association property="line" resultMap="lineResultMap"></association>
@@ -40,7 +41,7 @@
         <result property="brandName" column="BRAND_NAME"/>
         <result property="amount" column="AMOUNT"/>
         <result property="packageId" column="PACKAGE_ID"/>
-        <result property="savePath" column="SAVE_PATH"/>
+        <result property="tSavePath" column="TSAVE_PATH"/>
         <association property="rod" resultMap="rodResultMap"></association>
         <association property="reel" resultMap="reelResultMap"></association>
         <association property="line" resultMap="lineResultMap"></association>
@@ -89,7 +90,7 @@
         SELECT
             A.*,
             A.RNUM,
-            A.SAVE_PATH
+            A.TSAVE_PATH
           FROM (SELECT
                     B.*,
                     ROWNUM "RNUM"
@@ -151,9 +152,24 @@
     <!-- 상품 상세 페이지를 위한 한개의 대상품 정보 조회 쿼리 -->
     <select id="selectOneProduct" parameterType="String" resultMap="productResultMap">
         SELECT
-            *
-          FROM VIEW_PRODUCT
+            A.*,
+            B.DSAVE_PATH
+          FROM VIEW_PRODUCT A
+          LEFT JOIN (SELECT
+                         PRODUCT_NO,
+                         SAVE_PATH "DSAVE_PATH"
+                       FROM T_IMG_PATH
+                      WHERE IMG_CATEGORY = 'D') B
+            ON A.PRODUCT_NO = B.PRODUCT_NO
+         WHERE A.PRODUCT_NO = #{ productNo }
+    </select>
+    <!-- 상품 상세 페이지 위시리스트 체크 조회 쿼리 -->
+    <select id="selectWishCheck" parameterType="hashmap" resultType="_int">
+        SELECT
+            COUNT(*)
+          FROM T_WISHLIST
          WHERE PRODUCT_NO = #{ productNo }
+           AND USER_NO = #{ userNo }
     </select>
     <!-- 상품 상세 페이지를 위한 같은 대상품 내에 속한 옵션 상품들 조회 쿼리 -->
     <select id="selectOptionList" parameterType="String" resultMap="productResultMap">
@@ -172,7 +188,7 @@
             A.REEL_PRICE,
             A.LINE_SIZE,
             A.LINE_PRICE,
-            B.SAVE_PATH
+            A.TSAVE_PATH
           FROM VIEW_PRODUCT A
           LEFT JOIN T_IMG_PATH B
             ON A.PRODUCT_NO = B.PRODUCT_NO
@@ -188,7 +204,7 @@
     <select id="selectRefProducts" parameterType="String" resultMap="productResultMap">
         SELECT
             A.PRODUCT_NO,
-            B.SAVE_PATH
+            B.SAVE_PATH AS "TSAVE_PATH"
           FROM (SELECT
                     PRODUCT_NO,
                     CATEGORY_CODE
@@ -203,6 +219,7 @@
                                     C.CATEGORY_CODE
                                   FROM T_PRODUCT C
                                  WHERE C.PRODUCT_NO = #{ productNo })
+           AND B.IMG_CATEGORY = 'T'
            AND ROWNUM BETWEEN 1 AND 20
            AND A.PRODUCT_NO != #{ productNo }
     </select>
@@ -216,6 +233,12 @@
              #{ productNo }
             )
     </insert>
+    <!-- 상품 상세페이지에서 해당 상품을 위시리스트에서 제거하는 쿼리 -->
+    <delete id="deleteWish" parameterType="Map">
+        DELETE FROM T_WISHLIST
+         WHERE PRODUCT_NO = #{ productNo }
+           AND USER_NO = #{ userNo }
+    </delete>
     <!-- 상품 상세페이지에서 해당 상품을 장바구니에 등록하는 쿼리 -->
     <insert id="insertCartProduct" parameterType="Map">
         INSERT INTO T_CART
@@ -248,7 +271,7 @@
             B.LINE_PRICE,
             A.AMOUNT,
             A.PACKAGE_ID,
-            B.SAVE_PATH
+            B.TSAVE_PATH
           FROM T_CART A
           LEFT JOIN VIEW_PRODUCT B
             ON A.PRODUCT_NO = B.PRODUCT_NO
@@ -307,6 +330,8 @@
             ON A.PRODUCT_NO = B.PRODUCT_NO
          WHERE A.PRODUCT_NO = #{ productNo }
            AND A.USER_NO = #{ userNo }
+           AND ROWNUM = 1
+         ORDER BY A.REG_DATE
     </select>
     <!-- 상품 리뷰 총 개수 조회 -->
     <select id="selectTotalReviewCount" parameterType="String" resultType="_int">
@@ -408,4 +433,22 @@
         DELETE FROM T_QNA
         WHERE QNA_NO = #{ qnaNo }
     </delete>
+    <!-- 상품 리뷰 수정 -->
+    <update id="updateReview" parameterType="hashmap">
+        UPDATE T_REVIEW
+           SET REVIEW_BODY = #{ reviewBody }
+         WHERE REVIEW_NO = #{ reviewNo }
+    </update>
+    <!-- 상품 문의 수정 -->
+    <update id="updateQna" parameterType="hashmap">
+        UPDATE T_QNA
+        <if test="qnaBody != null">
+           SET QNA_BODY = #{ qnaBody }
+        </if>
+        <if test="qnaReply != null">
+           SET REPLY = #{ qnaReply },
+               REPLY_DATE = DEFAULT
+        </if>
+         WHERE QNA_NO = #{ qnaNo }
+    </update>
 </mapper>
