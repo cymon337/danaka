@@ -96,8 +96,13 @@ public class ProductController {
     // # author : 오승재
     // # description : 상품 상세페이지용 상품 정보 가져오기
     @GetMapping("/item2")
-    public ModelAndView selectOneProduct(String productNo, ModelAndView mv) {
+    public ModelAndView selectOneProduct(@AuthenticationPrincipal MemberDTO member, String productNo, ModelAndView mv) {
 
+        HashMap<String, String> map = new HashMap<>();
+        map.put("userNo", member.getUserNo());
+        map.put("productNo", productNo);
+        // 위시리스트 체크 조회
+        boolean wished = productService.selectWishCheck(map);
         // 해당하는 상품 DTO 조회
         ProductDTO product = productService.selectOneProduct(productNo);
         // 해당하는 상품에 속한 옵션 조회
@@ -106,7 +111,7 @@ public class ProductController {
 
         mv.addObject("product", product);
         mv.addObject("optionList", optionList);
-//        mv.addObject("refProductList", refProductList);
+        mv.addObject("wishCheck", wished);
         mv.setViewName("product/item2");
 
         return mv;
@@ -133,7 +138,7 @@ public class ProductController {
     // # update : 2023-01-12(최종수정)
     // # title : 상품 상세페이지
     // # author : 오승재
-    // # description : 해당하는 상품 위시리스트에 넣기
+    // # description : 해당하는 상품 위시리스트에 넣기 / 지우기
     @GetMapping("/wish")
     public ModelAndView insertWishProduct(@AuthenticationPrincipal MemberDTO member, String productNo, String orgProductNo, ModelAndView mv, RedirectAttributes rttr) {
 
@@ -143,17 +148,33 @@ public class ProductController {
         wishMap.put("userNo", userNo);
         wishMap.put("productNo", productNo);
 
-        // 성공했을 시, 실패했을 시 각각 추가하기
+        boolean wishCheck = productService.selectWishCheck(wishMap);
         boolean result;
-        try {
-            result = productService.insertWishProduct(wishMap);
 
-            if (result) {
-                rttr.addFlashAttribute("successMessage", "찜하기 성공!");
+        if(wishCheck) {
+
+            try {
+                result = productService.deleteWish(wishMap);
+
+                if (result) {
+                    rttr.addFlashAttribute("successMessage", "찜 취소 성공!");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                rttr.addFlashAttribute("failMessage", "찜 취소 실패..");
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            rttr.addFlashAttribute("failMessage", "찜하기 실패..");
+        } else {
+
+            try {
+                result = productService.insertWishProduct(wishMap);
+
+                if (result) {
+                    rttr.addFlashAttribute("successMessage", "찜하기 성공!");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                rttr.addFlashAttribute("failMessage", "찜하기 실패..");
+            }
         }
 
         mv.addObject("productNo", orgProductNo);
@@ -178,7 +199,6 @@ public class ProductController {
         cartMap.put("userNo", userNo);
         cartMap.put("amount", amount);
 
-        // 성공했을 시, 실패했을 시 각각 추가하기
         boolean result;
 
         try {
@@ -291,13 +311,17 @@ public class ProductController {
     // # update : 2023-01-14
     // # title : 상품 상세페이지
     // # author : 오승재
-    // # description : 상품 리뷰 관리 ajax 메소드
+    // # description : 상품 리뷰 출력 ajax 메소드
     @GetMapping("/review")
-    public ModelAndView selectReview(@AuthenticationPrincipal MemberDTO member, @RequestParam(required = false)String currentPage, String productNo, ModelAndView mv) {
+    public ModelAndView selectReview(@AuthenticationPrincipal MemberDTO member, @RequestParam(required = false)String currentPage, String productNo, String productName,
+                                     ModelAndView mv) {
 
         HashMap<String, String> map = new HashMap<>();
-        map.put("productNo", productNo);
+        map.put("productName", productName);
         map.put("userNo", member.getUserNo());
+        map.put("productNo", productNo);
+
+        log.info("map값 체크 = {}", map);
         HashMap orderInfo = productService.selectOrder(map);
         log.info("마이바티스에서 받은 해시맵 체크 = {}", orderInfo);
 
@@ -320,19 +344,18 @@ public class ProductController {
         log.info("검색조건 = {}", selectCriteria);
         List<ReviewDTO> reviewList = productService.selectReviewList(selectCriteria);
 
-        log.info("검색조건 = {}", selectCriteria);
-
         mv.addObject("orderInfo", orderInfo);
         mv.addObject("reviewList", reviewList);
         mv.addObject("selectCriteria", selectCriteria);
         mv.setViewName("product/productBoard");
+
         return mv;
     }
 
     // # update : 2023-01-15
     // # title : 상품 상세페이지
     // # author : 오승재
-    // # description : 상품 문의 관리 ajax 메소드
+    // # description : 상품 문의 출력 ajax 메소드
     @GetMapping("/qna")
     public ModelAndView selectQna(@RequestParam(required = false) String currentPage, String productNo, ModelAndView mv) {
 
@@ -466,6 +489,76 @@ public class ProductController {
             }
         } catch (Exception e) {
             msg = "문의 삭제 실패..";
+            e.printStackTrace();
+            return msg;
+        }
+
+        return msg;
+    }
+
+    // # update : 2023-01-16
+    // # title : 상품 상세페이지
+    // # author : 오승재
+    // # description : 상품 리뷰 수정 ajax메소드
+    @PostMapping(value = "/updateReview", produces="application/json; charset=UTF-8")
+    @ResponseBody
+    public String updateReview(String reviewNo, String updateReviewBody) {
+
+        String msg = " ";
+
+        if(updateReviewBody == null || "".equals(updateReviewBody)) {
+            msg = "수정할 내용을 작성해주세요.";
+
+            return msg;
+        }
+
+        HashMap<String, String> updateMap = new HashMap<>();
+        updateMap.put("reviewNo", reviewNo);
+        updateMap.put("reviewBody", updateReviewBody);
+
+        try {
+            boolean result = productService.updateReview(updateMap);
+            if(result) {
+                msg = "리뷰 수정 성공!";
+            }
+        } catch (Exception e) {
+            msg = "리뷰 수정 실패..";
+            e.printStackTrace();
+            return msg;
+        }
+
+        return msg;
+    }
+
+    // # update : 2023-01-16
+    // # title : 상품 상세페이지
+    // # author : 오승재
+    // # description : 상품 문의 수정 ajax메소드
+    @PostMapping(value = "/updateQna", produces="application/json; charset=UTF-8")
+    @ResponseBody
+    public String updateQna(String qnaNo, @RequestParam(required = false) String updateQnaBody, @RequestParam(required = false) String qnaReply) {
+
+        String msg = " ";
+        HashMap<String, String> updateMap = new HashMap<>();
+        updateMap.put("qnaNo", qnaNo);
+
+        if(updateQnaBody != null && !"".equals(updateQnaBody)) {
+            updateMap.put("qnaBody", updateQnaBody);
+        } else if(qnaReply != null && !"".equals(qnaReply)) {
+            updateMap.put("qnaReply", qnaReply);
+        } else {
+            msg = "내용을 작성해주세요.";
+
+            return msg;
+        }
+
+        try {
+            boolean result = productService.updateQna(updateMap);
+            if(result) {
+                msg = "성공!";
+            }
+        } catch (Exception e) {
+            msg = "실패..";
             e.printStackTrace();
             return msg;
         }
