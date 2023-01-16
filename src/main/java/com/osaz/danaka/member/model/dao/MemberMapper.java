@@ -41,4 +41,8 @@ public interface MemberMapper  {
 
 
     void cancelWishList(WishListDTO wishListDTO);
+
+    int idCheck(String userId);
+
+    int emailCheck(String email);
 }

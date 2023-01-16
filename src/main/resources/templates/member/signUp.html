@@ -9,8 +9,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
   <link rel="stylesheet" th:href="@{/css/style.css}">
 
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
   <script nonce="88f298e2-7919-4c1e-85cc-a31b83f46cf6">(function(w,d){!function(eK,eL,eM,eN){eK.zarazData=eK.zarazData||{};eK.zarazData.executed=[];eK.zaraz={deferred:[],listeners:[]};eK.zaraz.q=[];eK.zaraz._f=function(eO){return function(){var eP=Array.prototype.slice.call(arguments);eK.zaraz.q.push({m:eO,a:eP})}};for(const eQ of["track","set","debug"])eK.zaraz[eQ]=eK.zaraz._f(eQ);eK.zaraz.init=()=>{var eR=eL.getElementsByTagName(eN)[0],eS=eL.createElement(eN),eT=eL.getElementsByTagName("title")[0];eT&&(eK.zarazData.t=eL.getElementsByTagName("title")[0].text);eK.zarazData.x=Math.random();eK.zarazData.w=eK.screen.width;eK.zarazData.h=eK.screen.height;eK.zarazData.j=eK.innerHeight;eK.zarazData.e=eK.innerWidth;eK.zarazData.l=eK.location.href;eK.zarazData.r=eL.referrer;eK.zarazData.k=eK.screen.colorDepth;eK.zarazData.n=eL.characterSet;eK.zarazData.o=(new Date).getTimezoneOffset();if(eK.dataLayer)for(const eX of Object.entries(Object.entries(dataLayer).reduce(((eY,eZ)=>({...eY[1],...eZ[1]})))))zaraz.set(eX[0],eX[1],{scope:"page"});eK.zarazData.q=[];for(;eK.zaraz.q.length;){const e_=eK.zaraz.q.shift();eK.zarazData.q.push(e_)}eS.defer=!0;for(const fa of[localStorage,sessionStorage])Object.keys(fa||{}).filter((fc=>fc.startsWith("_zaraz_"))).forEach((fb=>{try{eK.zarazData["z_"+fb.slice(7)]=JSON.parse(fa.getItem(fb))}catch{eK.zarazData["z_"+fb.slice(7)]=fa.getItem(fb)}}));eS.referrerPolicy="origin";eS.src="/cdn-cgi/zaraz/s.js?z="+btoa(encodeURIComponent(JSON.stringify(eK.zarazData)));eR.parentNode.insertBefore(eS,eR)};["complete","interactive"].includes(eL.readyState)?zaraz.init():eK.addEventListener("DOMContentLoaded",zaraz.init)}(w,d,0,"script");})(window,document);</script>
   <style>
     #gender {
@@ -24,6 +26,26 @@
       box-shadow: none;
       border: 1px solid rgba(0, 0, 0, 0.1);
     }
+    .id_ok{
+      color:#008000;
+      display: none;
+    }
+
+    .id_already{
+      color:#6A82FB;
+      display: none;
+    }
+
+    .email_ok{
+      color:#008000;
+      display: none;
+    }
+
+    .email_already{
+      color:#6A82FB;
+      display: none;
+    }
+
   </style>
 </head>
 <body>
@@ -48,8 +70,10 @@
 
             <div class="form-group">
 
-              <input type="text" id="input_id" name="userId" class="form-control rounded-left" placeholder="아이디" required >
+              <input type="text" id="userId" name="userId" oninput="checkId()" class="form-control rounded-left" placeholder="아이디" required >
 
+              <span class="id_ok">사용 가능한 아이디입니다.</span>
+              <span class="id_already">누군가 이 아이디를 사용하고 있어요.</span>
             </div>
             <div class="form-group">
               <input type="text" name="userNickname" class="form-control rounded-left" placeholder="닉네임" required>
@@ -80,9 +104,11 @@
             </div>
 
             <div class="form-group d-flex">
-              <input type="email" name="email" class="form-control rounded-left" id="email"
-                      size="30" placeholder="이메일" pattern="[a-zA-Z0-9]+[@][a-zA-Z0-9]+[.]+[a-zA-Z]+[.]*[a-zA-Z]*" required>
+              <input type="email" oninput="checkEmail()" name="email" class="form-control rounded-left" id="email"
+                      size="30" placeholder="이메일"  pattern="[a-zA-Z0-9]+[@][a-zA-Z0-9]+[.]+[a-zA-Z]+[.]*[a-zA-Z]*" required>
             </div>
+            <span class="email_ok">사용 가능한 이메일입니다.</span>
+            <span class="email_already">누군가 이 이메일을 사용하고 있어요.</span>
             <div class="form-group d-flex">
               <input type="tel"  id="phone" name="phone" class="form-control rounded-left" placeholder="휴대전화"  pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" required>
             </div>
@@ -97,7 +123,60 @@
               </optgroup>
             </select>
             </div>
+            <script th:inline="javascript">
 
+              function checkId(){
+                let userId = $('#userId').val();
+                $.ajax({
+                  url: '/idCheck',
+                  type: 'post',
+                  data: {userId:userId},
+                  success:function (cnt){
+                    if(cnt == 0 ){
+                      $('.id_ok').css("display","inline-block");
+                      $('.id_already').css("display", "none");
+                    }else {
+                      $('.id_already').css("display","inline-block" );
+                      $('.id_ok').css("display", "none");
+                      alert("아이디를 다시 입력해주세요");
+                      $('#userId').val('');
+                    }
+                  },
+                  error:function (){
+                    alert("에러입니다");
+                  }
+
+                });
+              };
+
+            </script>
+            <script th:inline="javascript">
+
+              function checkEmail(){
+                let email = $('#email').val();
+                $.ajax({
+                  url: '/emailCheck',
+                  type: 'post',
+                  data: {email:email},
+                  success:function (cnt){
+                    if(cnt == 0 ){
+                      $('.email_ok').css("display","inline-block");
+                      $('.email_already').css("display", "none");
+                    }else {
+                      $('.email_already').css("display","inline-block" );
+                      $('.email_ok').css("display", "none");
+                      alert("이메일을 다시 입력해주세요");
+                      $('#email').val('');
+                    }
+                  },
+                  error:function (){
+                    alert("에러입니다");
+                  }
+
+                });
+              };
+
+            </script>
 
 
 

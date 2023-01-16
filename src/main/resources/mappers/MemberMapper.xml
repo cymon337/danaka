@@ -169,6 +169,20 @@
 
     </delete>
 
+    <select id="idCheck" parameterType="com.osaz.danaka.member.model.dto.MemberDTO" resultType="_int">
+       SELECT COUNT(*)
+       FROM T_MEMBER
+       WHERE USER_ID = #{userId}
+    </select>
+
+    <select id="emailCheck" parameterType="com.osaz.danaka.member.model.dto.MemberDTO" resultType="_int">
+        SELECT COUNT(*)
+        FROM T_MEMBER
+        WHERE EMAIL = #{email}
+    </select>
+
+
+
 
 
 

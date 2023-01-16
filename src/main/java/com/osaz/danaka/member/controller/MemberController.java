@@ -376,7 +376,32 @@ public class MemberController {
         }
         return result;
 
-
-
     }
+    @ResponseBody
+    @PostMapping("/idCheck")
+    public int idCheck(@RequestParam(value = "userId") String userId){
+
+
+
+        int cnt = memberService.idCheck(userId);
+
+        log.info("cnt ={}", cnt);
+
+
+        return cnt;
+    }
+    @ResponseBody
+    @PostMapping("/emailCheck")
+    public int emailCheck(@RequestParam(value = "email") String email){
+
+
+
+        int cnt = memberService.emailCheck(email);
+
+        log.info("cnt ={}", cnt);
+
+
+        return cnt;
+    }
+
 }

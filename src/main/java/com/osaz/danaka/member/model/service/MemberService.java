@@ -6,6 +6,7 @@ import com.osaz.danaka.member.model.dto.MemberDTO;
 import com.osaz.danaka.member.model.dto.OrderDTO;
 import com.osaz.danaka.member.model.dto.WishListDTO;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -19,6 +20,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Objects;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class MemberService implements UserDetailsService {
@@ -117,4 +119,19 @@ public class MemberService implements UserDetailsService {
 
     }
 
+    public int idCheck(String userId) {
+        int cnt = memberMapper.idCheck(userId);
+        log.info("cnt = {}" ,(cnt));
+
+
+        return cnt;
+    }
+
+    public int emailCheck(String email) {
+        int cnt = memberMapper.emailCheck(email);
+        log.info("cnt = {}" ,(cnt));
+
+
+        return cnt;
+    }
 }
