@@ -63,4 +63,8 @@ public class NoticeService {
 	public void incrementNoticeCount(String noticeNo) {
 		noticeMapper.incrementNoticeCount(noticeNo);
 	}
+
+    public List<NoticeDTO> selectTop5Notice() {
+		return noticeMapper.selectTop5Notice();
+    }
 }

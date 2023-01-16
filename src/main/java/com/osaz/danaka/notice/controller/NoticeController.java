@@ -107,6 +107,21 @@ public class NoticeController {
 		return mv;
 	}
 
+	/* 공지사항 디테일뷰 (최근 5개) */
+	@GetMapping("/main/index")
+	public ModelAndView selectTop5Notice(ModelAndView mv){
+
+		List<NoticeDTO> noticeList = noticeService.selectTop5Notice();
+
+		if(noticeList != null){
+			mv.addObject("notices", noticeList);
+		}
+
+		mv.setViewName("/main/index");
+
+		return mv;
+	}
+
 	/* 공지사항 작성 페이지 연결 GET */
 	@GetMapping("noticeEnroll")
 	public void insertNotice() {}
