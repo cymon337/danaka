@@ -98,14 +98,22 @@
                 <buttont class="contentButtons" type="button" th:onclick="deleteBoard([[${ qna.qnaNo }]])">삭제</buttont>
             </div>
             <form th:id="updateReply + ${ qnaStat.count }">
-                <input type="text" name="qnaNo" th:value="${ qna.qnaNo }" hidden="true">
                 <span th:text="${ qna?.replyDate }">답변일</span>
-                <textarea class="updateArea" name="qnaReply" th:id="qnaReply + ${ qnaStat.count }" maxlength="40" disabled>[[${ qna?.reply }]]</textarea>
-<!--                <input type="text" th:id="qna + ${ qnaStat.count }" th:value="${ qna.qnaBody }" disabled>-->
+                <input type="text" name="qnaNo" th:value="${ qna.qnaNo }" hidden="true">
+                <th:block th:switch="${ qna.secretStatus }">
+                    <th:block th:case="Y">
+                        <th:block th:if="${ #authentication.name == 'admin' } or ${ qna.userNo } == ${ #authentication.principal.userNo }">
+                            <textarea class="updateArea" name="qnaReply" th:id="qnaReply + ${ qnaStat.count }" maxlength="40" disabled>[[${ qna?.reply }]]</textarea>
+                        </th:block>
+                        <th:block th:unless="${ #authentication.name == 'admin' } or ${ qna.userNo } == ${ #authentication.principal.userNo }">
+                            <span class="updateInput">비밀글입니다.</span>
+                        </th:block>
+                    </th:block>
+                    <th:block th:case="N">
+                        <textarea class="updateArea" name="qnaReply" th:id="qnaReply + ${ qnaStat.count }" maxlength="40" disabled>[[${ qna?.reply }]]</textarea>
+                    </th:block>
+                </th:block>
             </form>
-
-
-<!--            <span th:text="${ qna?.reply }">문의 내용 답변</span>-->
         </div>
         </th:block>
     </div>

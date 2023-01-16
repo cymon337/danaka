@@ -46,15 +46,15 @@
 <div class="productContainer">
     <div class="imgContainer">
         <div class="bigImg">
-            <img th:src="${ product.savePath }">
+            <img th:src="${ product.tSavePath }">
         </div>
         <div class="otherImges">
-            <div class="otherImg"><img th:src="${ product.savePath }"></div>
+            <div class="otherImg"><img th:src="${ product.tSavePath }"></div>
             <th:block th:each="option : ${ optionList }">
                 <th:block th:switch="${ option.categoryCode }">
-                    <div class="otherImg" th:case="RD"><img th:src="${ option?.savePath }?:'/image/rod/rodDefault.png'"></div>
-                    <div class="otherImg" th:case="RL"><img th:src="${ option?.savePath }?:'/image/reel/reelDefault.png'"></div>
-                    <div class="otherImg" th:case="LN"><img th:src="${ option?.savePath }?:'/image/line/lineDefault.png'"></div>
+                    <div class="otherImg" th:case="RD"><img th:src="${ option?.tSavePath }?:'/image/rod/rodDefault.png'"></div>
+                    <div class="otherImg" th:case="RL"><img th:src="${ option?.tSavePath }?:'/image/reel/reelDefault.png'"></div>
+                    <div class="otherImg" th:case="LN"><img th:src="${ option?.tSavePath }?:'/image/line/lineDefault.png'"></div>
                 </th:block>
             </th:block>
         </div>
@@ -125,7 +125,7 @@
                 </select>
             </div>
             <div class="buttons">
-                <button type="button" id="insertWish"><img th:src="@{ /image/heart.png }"></button>
+                <button type="button" id="insertWish"><img th:if="${ !wishCheck }" th:src="@{ /image/heart.png }"><img th:unless="${ !wishCheck }" th:src="@{ /image/redHeart.png }"></button>
                 <button type="button" onclick="modalSwitch(2)"><img th:src="@{ /image/share.png }"></button>
                 <button type="button" id="insertCart"><img th:src="@{ /image/cart.png }"></button>
                 <button type="submit" id="buy">구매하기</button>
@@ -147,7 +147,7 @@
 <hr>
 <div class="contentContainer">
     <div class="content">
-        <h2>본문 내용</h2>
+        <img id="dImg" th:src="${ product?.dSavePath }" alt="상품 본문">
     </div>
 </div>
 <div id="productBoardContainer">
@@ -237,6 +237,11 @@
         if ([[${ successMessage }]] != null || [[${ failMessage }]] != null) {
             modalSwitch(1);
         }
+
+        // /* 위시리스트 체크 */
+        // if([[${ wishCheck }]]) {
+        //     $("#insertWish").css("backgroundColor", "red");
+        // }
 
         /* 관련 상품 이미지 갖고오기 */
         const param = { productNo : orgProductNo };

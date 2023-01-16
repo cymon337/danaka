@@ -96,8 +96,13 @@ public class ProductController {
     // # author : 오승재
     // # description : 상품 상세페이지용 상품 정보 가져오기
     @GetMapping("/item2")
-    public ModelAndView selectOneProduct(String productNo, ModelAndView mv) {
+    public ModelAndView selectOneProduct(@AuthenticationPrincipal MemberDTO member, String productNo, ModelAndView mv) {
 
+        HashMap<String, String> map = new HashMap<>();
+        map.put("userNo", member.getUserNo());
+        map.put("productNo", productNo);
+        // 위시리스트 체크 조회
+        boolean wished = productService.selectWishCheck(map);
         // 해당하는 상품 DTO 조회
         ProductDTO product = productService.selectOneProduct(productNo);
         // 해당하는 상품에 속한 옵션 조회
@@ -106,7 +111,7 @@ public class ProductController {
 
         mv.addObject("product", product);
         mv.addObject("optionList", optionList);
-//        mv.addObject("refProductList", refProductList);
+        mv.addObject("wishCheck", wished);
         mv.setViewName("product/item2");
 
         return mv;
@@ -133,7 +138,7 @@ public class ProductController {
     // # update : 2023-01-12(최종수정)
     // # title : 상품 상세페이지
     // # author : 오승재
-    // # description : 해당하는 상품 위시리스트에 넣기
+    // # description : 해당하는 상품 위시리스트에 넣기 / 지우기
     @GetMapping("/wish")
     public ModelAndView insertWishProduct(@AuthenticationPrincipal MemberDTO member, String productNo, String orgProductNo, ModelAndView mv, RedirectAttributes rttr) {
 
@@ -143,17 +148,33 @@ public class ProductController {
         wishMap.put("userNo", userNo);
         wishMap.put("productNo", productNo);
 
-        // 성공했을 시, 실패했을 시 각각 추가하기
+        boolean wishCheck = productService.selectWishCheck(wishMap);
         boolean result;
-        try {
-            result = productService.insertWishProduct(wishMap);
 
-            if (result) {
-                rttr.addFlashAttribute("successMessage", "찜하기 성공!");
+        if(wishCheck) {
+
+            try {
+                result = productService.deleteWish(wishMap);
+
+                if (result) {
+                    rttr.addFlashAttribute("successMessage", "찜 취소 성공!");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                rttr.addFlashAttribute("failMessage", "찜 취소 실패..");
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            rttr.addFlashAttribute("failMessage", "찜하기 실패..");
+        } else {
+
+            try {
+                result = productService.insertWishProduct(wishMap);
+
+                if (result) {
+                    rttr.addFlashAttribute("successMessage", "찜하기 성공!");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                rttr.addFlashAttribute("failMessage", "찜하기 실패..");
+            }
         }
 
         mv.addObject("productNo", orgProductNo);
@@ -178,7 +199,6 @@ public class ProductController {
         cartMap.put("userNo", userNo);
         cartMap.put("amount", amount);
 
-        // 성공했을 시, 실패했을 시 각각 추가하기
         boolean result;
 
         try {
@@ -326,6 +346,7 @@ public class ProductController {
         mv.addObject("reviewList", reviewList);
         mv.addObject("selectCriteria", selectCriteria);
         mv.setViewName("product/productBoard");
+
         return mv;
     }
 
