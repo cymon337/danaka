@@ -448,9 +448,6 @@
         }
     }
 
-    // $(".contentButtons updateBoard").on("click", function () {
-    //     console.log($("#review1"));
-    // })
     /* 상품 후기, 문의 수정 버튼 */
     function updateBoard(that) {
         console.log(that);
@@ -484,6 +481,7 @@
             if($("#qnaInput" + that).attr("disabled") == "disabled") {
                 $("#qnaInput" + that).attr("disabled", false);
                 $("#qnaInput" + that).css("border", "1px #C4C2FF solid");
+                $("#qnaInput" + that).focus();
                 return;
             }
             boardNumber = $("#updateQna" + that).serialize();
