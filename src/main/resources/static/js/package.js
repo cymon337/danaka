@@ -113,8 +113,7 @@ let searchProductList = {
                 console.log("searchProductList() = success");
                 this.result = productList;
                 console.log(productList);
-
-                console.log("searchProductList() = break");
+                display(this.result);
 
             },
             error : function () {
@@ -123,12 +122,56 @@ let searchProductList = {
         });
     },
 
-    // 검색상품 리스트 출력
-    display: function () {
-        console.log("productList");
+}
+// 검색상품 리스트 출력
+let display = function (productList) {
+    console.log("*** function display product list running ***");
+    for (let i = 0; i < productList.length; i++) {
+        var productNo = productList[i].productNo;
+        var brandName = productList[i].brandName;
+        var productName = productList[i].productName;
+        var option1 = productList[i].option1;
+        var option2 = productList[i].option2;
+        var option3 = productList[i].option3;
+        var option4 = productList[i].option4;
+        var price = productList[i].price;
+
+
+        $("#item-list").append(
+            "<li class='list-group-item'>"+
+                "<input type='hidden' name='productNo' value='"+ productNo +"'/>"+
+                    "<span class='item-component item-thumnail'>"+
+                        "<img class='item-thumnail'>"+
+                    "</span>"+
+                    "<span class='item-component item-info'>"+
+                        "<p id='item-info-title'>"+ brandName +" "+ productName +"</p>"+
+                        "<input type='hidden' name='brandName' value='"+ brandName +"'/>"+
+                        "<input type='hidden' name='productName' value='"+ productName +"'/>"+
+                        "<p id='item-info-options'>"+option1+", "+option2+", "+option3+", "+option4+"</p>"+
+                        "<input type='hidden' name='option1' value='"+option1+"'/>"+
+                        "<input type='hidden' name='option2' value='"+option2+"'/>"+
+                        "<input type='hidden' name='option3' value='"+option3+"'/>"+
+                        "<input type='hidden' name='option4' value='"+option4+"'/>"+
+                    "</span>"+
+                    "<span class='item-component item-price'/>"+
+                        "<p class='item-info-price'>"+parseInt(price).formatNumber()+" 원 </p>"+
+                        "<input type='hidden' name='price' value='"+price+"'/>"+
+                    "</span>"+
+            "</li>"
+
+        )
+
+
 
     }
-
-
+    // $("#item-list").append()
 
 }
+
+Number.prototype.formatNumber = function(){
+    if(this==0) return 0;
+    let regex = /(^[+-]?\d+)(\d{3})/;
+    let nstr = (this + '');
+    while (regex.test(nstr)) nstr = nstr.replace(regex, '$1' + ',' + '$2');
+    return nstr;
+};
