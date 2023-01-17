@@ -33,7 +33,7 @@
         <result column="TOT_PRICE" property="totPrice"/>
         <result column="ORDER_REQUEST" property="orderRequest"/>
         <result column="REG_DATE" property="regDate"/>
-        <result column="SAVE_PATH" property="savePath"/>
+        <result column="SAVE_PATH" property="tSavePath"/>
         <result column="USER_NO" property="userNo"/>
     </resultMap>
 
@@ -41,7 +41,7 @@
         <id column="WISH_No" property="wishNo"/>
         <result column="PRODUCT_NO" property="productNo"/>
         <result column="PRODUCT_NAME" property="productName"/>
-        <result column="SAVE_PATH" property="savePath"/>
+        <result column="SAVE_PATH" property="tSavePath"/>
         <result column="USER_NO" property="userNo"/>
     </resultMap>
 
@@ -129,7 +129,11 @@
             A.REG_DATE,
             B.SAVE_PATH
         FROM T_ORDER A
-        LEFT JOIN T_IMG_PATH B ON A.PRODUCT_NO = B.PRODUCT_NO
+        LEFT JOIN (SELECT
+                       SAVE_PATH,
+                       PRODUCT_NO
+                     FROM T_IMG_PATH
+                    WHERE IMG_CATEGORY = 'T') B ON A.PRODUCT_NO = B.PRODUCT_NO
         LEFT JOIN T_PRODUCT C ON A.PRODUCT_NO = C.PRODUCT_NO
         WHERE A.USER_NO = #{userNo}
 
@@ -145,7 +149,11 @@
             C.PRODUCT_NAME,
             B.SAVE_PATH
         FROM T_WISHLIST A
-                 LEFT JOIN T_IMG_PATH B ON A.PRODUCT_NO = B.PRODUCT_NO
+                 LEFT JOIN (SELECT
+                                SAVE_PATH,
+                                PRODUCT_NO
+                            FROM T_IMG_PATH
+                            WHERE IMG_CATEGORY = 'T') B ON A.PRODUCT_NO = B.PRODUCT_NO
                  LEFT JOIN T_PRODUCT C ON A.PRODUCT_NO = C.PRODUCT_NO
 
         WHERE A.USER_NO = #{userNo}

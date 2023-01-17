@@ -17,6 +17,5 @@ public class OrderDTO {
     private String totPrice;
     private String orderRequest;
     private Date regDate;
-
-    private String savePath;
+    private String tSavePath;
 }

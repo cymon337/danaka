@@ -12,5 +12,5 @@ public class WishListDTO {
     private String productNo;
 
     private String productName;
-    private String savePath;
+    private String tSavePath;
 }

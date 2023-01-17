@@ -16,6 +16,6 @@ public class ProductCartDTO {
     private LineDTO line;
     private int amount;  //수량
     private String packageId;   //패키지ID
-    private String savePath;
+    private String tSavePath;
 
 }
