@@ -90,7 +90,7 @@
             <span th:text="${ qna.regDate }">등록일</span>
         </div>
         <div class="boardContent">
-            <div th:if="${ #authentication.name == 'admin' }" align="end">
+            <div sec:authorize="hasRole('ROLE_ADMIN')" align="end">
                 <buttont class="contentButtons" type="button" th:onclick="updateReply([[${ qnaStat.count }]])">답변</buttont>
             </div>
             <div th:if="${ qna.userNo } == ${ #authentication.principal.userNo }" align="end">

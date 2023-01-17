@@ -17,10 +17,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.util.*;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.io.File;
-import java.util.*;
 
 @Slf4j
 @Controller
@@ -267,8 +263,7 @@ public class ProductController {
     // # description : 상품 결제 일단은 db에 넣기만
     @PostMapping(value = "/pay")
     public ModelAndView insertOrder(@RequestParam(value = "productNo", required = false) String[] productNos, @RequestParam(value = "totPrice") String[] totPrices,
-                                    @RequestParam(value = "packageId", required = false, defaultValue = "0") String[] packageIds, String userNo, @RequestParam(value = "amount") String[] amounts, String address,
-                                    @RequestParam(required = false) String orderRequest, String payType, String orgProductNo, ModelAndView mv, RedirectAttributes rttr) {
+                                    @RequestParam(value = "packageId", required = false, defaultValue = "0") String[] packageIds, String userNo, @RequestParam(value = "amount") String[] amounts, String address, @RequestParam(required = false) String orderRequest, String payType, String orgProductNo, ModelAndView mv, RedirectAttributes rttr) {
 
         log.info("널체크 = {}", packageIds);
 

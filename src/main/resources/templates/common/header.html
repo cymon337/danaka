@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -16,27 +16,27 @@
 </head>
 
 <body>
-    <script>
-        /* 헤더 전체보기 드랍다운 효과 */
-        $(document).ready(function() {
-            $(window).resize(function(){
-                if ($(window).width() >= 980){
-    
-                    $(".navbar .dropdown-toggle").hover(function () {
-                        $(this).parent().toggleClass("show");
-                        $(this).parent().find(".dropdown-menu").toggleClass("show");
-                    });
-    
-                    $( ".navbar .dropdown-menu" ).mouseleave(function() {
-                        $(this).removeClass("show");
-                    });
-                }
-            });
-        });
-    </script>
+<script>
+    /* 헤더 전체보기 드랍다운 효과 */
+    $(document).ready(function() {
+        $(window).resize(function(){
+            if ($(window).width() >= 980){
 
-    <!-- 네비게이션바 전체-->
-    <div th:fragment="header"><!-- 타임리프 헤더영역 지정 -->
+                $(".navbar .dropdown-toggle").hover(function () {
+                    $(this).parent().toggleClass("show");
+                    $(this).parent().find(".dropdown-menu").toggleClass("show");
+                });
+
+                $( ".navbar .dropdown-menu" ).mouseleave(function() {
+                    $(this).removeClass("show");
+                });
+            }
+        });
+    });
+</script>
+
+<!-- 네비게이션바 전체-->
+<div th:fragment="header"><!-- 타임리프 헤더영역 지정 -->
     <nav class="navbar navbar-expand-md navbar-dark fixed-top" style="flex-wrap: wrap;">
         <!-- 상단바 (로고, 검색, 장바구니, 로그인) -->
         <div class="container-fluid" id="firstNav">
@@ -48,6 +48,13 @@
                 <div id="search">
                     <input class="form-control me-2" type="search" id="searchValue" name="searchValue" placeholder="검색어를 입력하세요." aria-label="Search">
                     <button class="btn btn-outline-success" type="submit"><i class="bi bi-search"></i></button>
+                </div>
+            </form>
+            <!-- 우측 기능 -->
+            <div id="topRight">
+                <div onclick="location.href='/cart'" id="cart">
+                    <i class="bi bi-cart"></i><br>
+                    <span>장바구니</span>
                 </div>
                 <div sec:authorize="isAnonymous()" onclick="location.href='/member/login'" id="loginMy">
                     <i class="bi bi-person"></i><br>
@@ -63,10 +70,10 @@
                 </div>
             </div>
         </div>
-    
+
         <!-- 카데고리(네비게이션)바 (전체 카테고리, 카테고리, 공지사항) -->
         <div class="container-fluid" id="secondNav">
-    
+
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item dropdown">
@@ -135,14 +142,14 @@
                         <li class="nav-item"><a href="/product/list2?categoryCode=RD" class="nav-link">로드</a></li>
                         <li class="nav-item"><a href="/product/list2?categoryCode=RL" class="nav-link">릴</a></li>
                         <li class="nav-item"><a href="/product/list2?categoryCode=LN" class="nav-link">라인</a></li>
-                        <li class="nav-item"><a href="#" class="nav-link">장비조합</a></li>
-                        <li class="nav-item"><a th:href="@{/admin/adminMemberListView}" class="nav-link">견적보기</a></li>
+                        <li class="nav-item"><a href="/package" class="nav-link">장비조합</a></li>
+                        <th:block sec:authorize="hasRole('ROLE_ADMIN')"><li class="nav-item"><a th:href="@{/admin/adminMemberListView}" class="nav-link">견적보기</a></li></th:block>
                     </ul>
                 </header>
             </div>
             <a class="navbar-brand" th:href="@{/notice/noticeListView}" id="notice">공지사항</a>
-        </nav>
-    </div>
-
+        </div>
+    </nav>
+</div>
 </body>
 </html>

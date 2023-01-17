@@ -80,8 +80,7 @@ public interface ProductMapper {
 
 
 
-
-
+    // 콩성식
     // 메인페이지 상품 검색 페이징
     int selectMainTotalCount(Map<String, String> searchMap);
 
@@ -91,4 +90,10 @@ public interface ProductMapper {
     List<ProductDTO> selectTop4Product();
 
     void insertProduct(ProductDTO product);
+
+    void insertCategory(HashMap<String, String> categoryMap);
+
+    String selectProductLastNum();
+
+    void insertImgFile(imgPathDTO imgFile);
 }
