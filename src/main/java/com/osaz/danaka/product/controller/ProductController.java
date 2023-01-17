@@ -540,6 +540,7 @@ public class ProductController {
         @PostMapping(value = "/updateQna", produces = "application/json; charset=UTF-8")
         @ResponseBody
         public String updateQna (String qnaNo, @RequestParam(required = false) String updateQnaBody, @RequestParam(required = false) String qnaReply){
+
             String msg = " ";
             HashMap<String, String> updateMap = new HashMap<>();
             updateMap.put("qnaNo", qnaNo);
