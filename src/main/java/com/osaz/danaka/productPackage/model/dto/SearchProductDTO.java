@@ -18,6 +18,7 @@ public class SearchProductDTO {
     public String option3;
     public String option4;
     public String price;
+    public String tSavePath;
 
 
 }

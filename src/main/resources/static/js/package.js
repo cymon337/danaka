@@ -138,12 +138,13 @@ let display = function (productList) {
         var option3 = productList[i].option3;
         var option4 = productList[i].option4;
         var price = productList[i].price;
+        var tSavePath = productList[i].tSavePath;
 
         $("#item-list").append(
             "<li class='list-group-item'>"+
                 "<input type='hidden' name='productNo' value='"+ productNo +"'/>"+
                     "<span class='item-component item-thumnail'>"+
-                        "<img class='item-thumnail'>"+
+                        "<img class='item-thumnail' src='"+ tSavePath +"'>"+
                     "</span>"+
                     "<span class='item-component item-info'>"+
                         "<p id='item-info-title'>"+ brandName +" "+ productName +"</p>"+
