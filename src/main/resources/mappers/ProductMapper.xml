@@ -318,23 +318,41 @@
     <!-- 구매했는지 여부 확인 -->
     <select id="selectOrder" parameterType="map" resultType="hashmap">
         SELECT
-            A.PRODUCT_NO,
-            B.PRODUCT_NAME,
-            B.CATEGORY_CODE,
-            B.ROD_MODEL,
-            B.REEL_MODEL,
-            B.LINE_SIZE,
-            A.REG_DATE
-          FROM T_ORDER A
-          LEFT JOIN VIEW_PRODUCT B
-            ON A.PRODUCT_NO = B.PRODUCT_NO
-         WHERE A.PRODUCT_NO IN(SELECT
-                                   PRODUCT_NO
-                                 FROM T_PRODUCT
-                                WHERE PRODUCT_NAME = #{ productName })
-           AND A.USER_NO = #{ userNo }
-           AND ROWNUM = 1
-         ORDER BY A.REG_DATE DESC
+            RNUM,
+            PRODUCT_NO,
+            PRODUCT_NAME,
+            CATEGORY_CODE,
+            ROD_MODEL,
+            REEL_MODEL,
+            LINE_SIZE,
+            REG_DATE
+          FROM (SELECT
+                    ROWNUM "RNUM",
+                    PRODUCT_NO,
+                    PRODUCT_NAME,
+                    CATEGORY_CODE,
+                    ROD_MODEL,
+                    REEL_MODEL,
+                    LINE_SIZE,
+                    REG_DATE
+                FROM (SELECT
+                           A.PRODUCT_NO,
+                           B.PRODUCT_NAME,
+                           B.CATEGORY_CODE,
+                           B.ROD_MODEL,
+                           B.REEL_MODEL,
+                           B.LINE_SIZE,
+                           A.REG_DATE
+                       FROM T_ORDER A
+                       LEFT JOIN VIEW_PRODUCT B
+                         ON A.PRODUCT_NO = B.PRODUCT_NO
+                      WHERE A.PRODUCT_NO IN(SELECT
+                                                 PRODUCT_NO
+                                              FROM T_PRODUCT
+                                             WHERE PRODUCT_NAME = #{ productName })
+                        AND A.USER_NO = #{ userNo }
+                      ORDER BY A.ORDER_NO DESC))
+         WHERE RNUM = 1
     </select>
     <!-- 상품 리뷰 총 개수 조회 -->
     <select id="selectTotalReviewCount" parameterType="map" resultType="_int">
