@@ -121,11 +121,11 @@ public class MemberController {
     @PostMapping("/findId")
     public String findId(HttpServletRequest request, Model model) {
 
-        String memeberName = request.getParameter("memeberName");
+        String memberName = request.getParameter("memberName");
         String phone = request.getParameter("phone");
 
         MemberDTO memberDTO = new MemberDTO();
-        memberDTO.setMemberName(memeberName);
+        memberDTO.setMemberName(memberName);
         memberDTO.setPhone(phone);
 
         MemberDTO user = memberService.findId(memberDTO);
@@ -273,7 +273,7 @@ public class MemberController {
                     mailSender.send(message);
 
                 } catch (Exception e) {
-                    throw new RuntimeException();
+
                 }
 
                 ModelAndView mv = new ModelAndView();
