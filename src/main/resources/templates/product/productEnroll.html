@@ -34,216 +34,161 @@
     <th:block th:replace="~{common/header :: header}" />
 </div>
 
-<div class="content">
-    <br><br>
-    <h2 align="center">상품등록</h2>
-    
-    <br>
-    
-    <form th:action="@{'productEnroll'}" method="post" enctype="multipart/form-data">
-        <table class="table" align="center" id="contentArea">
-            <tr>
-                <th>카테고리</th>
-                <td><label><input type="radio" name = "categoryCode" value="RD" required>로드</label></td>
-                <td><label><input type="radio" name = "categoryCode" value="RL" required>릴</label></td>
-                <td><label><input type="radio" name = "categoryCode" value="LN" required>라인</label></td>
-            </tr>
-            <!--카테고리 로드 선택 시 노출될 영역-->
-            <tbody id="rodProduct" class="categoryDiv">
-            <tr>
-                <th>로드 모델명</th>
-                <td><input type="text" name = "rodModel" required></td>
-            </tr>
-            <tr>
-                <th>릴 타입</th>
-                <td><label><input type="radio" name = "reelType" value="REEL01" required>릴01</label></td>
-                <td><label><input type="radio" name = "reelType" value="REEL02" required>릴02</label></td>
-                <td><label><input type="radio" name = "reelType" value="REEL03" required>릴03</label></td>
-            </tr>
-            <tr>
-                <th>최소 라인 호수</th>
-                <td><input type="range" name = "lineMin" min="0" max="100" step="50" oninput="document.getElementById('value1').innerHTML=this.value;" required><span id = "value1"></span></td>
-                <th>최대 라인 호수</th>
-                <td><input type="range" name = "lineMax" min="0" max="100" step="50" oninput="document.getElementById('value2').innerHTML=this.value;" required><span id = "value2"></span></td>
-            </tr>
-            <tr>
-                <th>로드 가격</th>
-                <td><input type="number" name = "rodPrice" required></td>
-            </tr>
-            </tbody>
-            <!--카테고리 릴 선택 시 노출될 영역-->
-            <tbody id="reelProduct" class="categoryDiv">
-            <tr>
-                <th>릴 모델명</th>
-                <td><input type="text" name = "reelModel" required></td>
-            </tr>
-            <tr>
-                <th>릴 타입</th>
-                <td><label><input type="radio" name = "reelType" value="REEL01" required>릴01</label></td>
-                <td><label><input type="radio" name = "reelType" value="REEL02" required>릴02</label></td>
-                <td><label><input type="radio" name = "reelType" value="REEL03" required>릴03</label></td>
-            </tr>
-            <tr>
-                <th>릴 가격</th>
-                <td><input type="number" name = "reelPrice" required></td>
-            </tr>
-            </tbody>
-            <!--카테고리 라인 선택 시 노출될 영역-->
-            <tbody id="lineProduct" class="categoryDiv">
-            <!--                <tr>-->
-            <!--                    <th>라인 모델명</th>-->
-            <!--                    <td><input type="text" name = "rodModel" required></td>-->
-            <!--                </tr>-->
-            <tr>
-                <th>라인 호수</th>
-                <td><input type="range" name = "lineSize" min="0" max="100" step="50" oninput="document.getElementById('value3').innerHTML=this.value;" required><span id = "value3"></span></td>
-            </tr>
-            <tr>
-                <th>릴 가격</th>
-                <td><input type="number" name = "linePrice" required></td>
-            </tr>
-            </tbody>
-            
-            <tr>
-                <th>브랜드</th>
-                <td><label><input type="radio" name = "brandNo" value="1" required>도요</label></td>
-                <td><label><input type="radio" name="brandNo" value="2" required>시마노</label></td>
-                <td><label><input type="radio" name="brandNo" value="3" required>NS</label></td>
-            </tr>
-            <tr>
-                <th>상품명</th>
-                <td><input type="text" name = "productName" required></td>
-            </tr>
-            <tr>
-                <th>재고</th>
-                <td><input type="number" name = "stock" required></td>
-            </tr>
-            <tr>
-                <th>썸네일</th>
-                <td><input type="hidden" id="thumb" name="imgCategory" value="T"><input type="file" name = "file" multiple required></td>
-            </tr>
-            <tr>
-                <th>상세페이지</th>
-                <td><input type="hidden" name="imgCategory" value="D"><input type="file" name = "file" required></td>
-            </tr>
-        </table>
+    <div class="content">
+        <br><br>
+        <h2 align="center">상품등록</h2>
+
         <br>
-        
-        <div class="preview">
-            <p></p>
-        </div>
-        
-        <div align="center">
-            <button type="submit" class="btn btn-primary">등록하기</button>
-            <button type="reset" class="btn btn-danger">초기화</button>
-            <button type="button" class="btn btn-secondary" onclick="history.go(-1);">이전으로</button>
-        </div>
-    </form>
-</div>
-<script>
-    const input = document.querySelector('#thumb');
-    const preview = document.querySelector('.preview');
 
-    input.addEventListener('change', showTextFile);
+        <form th:action="@{'productEnroll'}" method="post" enctype="multipart/form-data">
+            <table class="table" align="center" id="contentArea">
+                <tr>
+                    <th>카테고리</th>
+                    <td><label><input type="radio" name = "categoryCode" value="RD" required>로드</label></td>
+                    <td><label><input type="radio" name = "categoryCode" value="RL" required>릴</label></td>
+                    <td><label><input type="radio" name = "categoryCode" value="LN" required>라인</label></td>
+                </tr>
+                <!--카테고리 로드 선택 시 노출될 영역-->
+                <tbody id="rodProduct" class="categoryDiv">
+                    <tr>
+                        <th>로드 모델명</th>
+                        <td><input type="text" name = "rodModel" required></td>
+                    </tr>
+                    <tr>
+                        <th>릴 타입</th>
+                        <td><label><input type="radio" name = "reelType" value="REEL01" required>릴01</label></td>
+                        <td><label><input type="radio" name = "reelType" value="REEL02" required>릴02</label></td>
+                        <td><label><input type="radio" name = "reelType" value="REEL03" required>릴03</label></td>
+                    </tr>
+                    <tr>
+                        <th>최소 라인 호수</th>
+                        <td><input type="range" name = "lineMin" min="0" max="100" step="50" oninput="document.getElementById('value1').innerHTML=this.value;" required><span id = "value1"></span></td>
+                        <th>최대 라인 호수</th>
+                        <td><input type="range" name = "lineMax" min="0" max="100" step="50" oninput="document.getElementById('value2').innerHTML=this.value;" required><span id = "value2"></span></td>
+                    </tr>
+                    <tr>
+                        <th>로드 가격</th>
+                        <td><input type="number" name = "rodPrice" required></td>
+                    </tr>
+                </tbody>
+                <!--카테고리 릴 선택 시 노출될 영역-->
+                <tbody id="reelProduct" class="categoryDiv">
+                <tr>
+                    <th>릴 모델명</th>
+                    <td><input type="text" name = "reelModel" required></td>
+                </tr>
+                <tr>
+                    <th>릴 타입</th>
+                    <td><label><input type="radio" name = "reelType" value="REEL01" required>릴01</label></td>
+                    <td><label><input type="radio" name = "reelType" value="REEL02" required>릴02</label></td>
+                    <td><label><input type="radio" name = "reelType" value="REEL03" required>릴03</label></td>
+                </tr>
+                <tr>
+                    <th>릴 가격</th>
+                    <td><input type="number" name = "reelPrice" required></td>
+                </tr>
+                </tbody>
+                <!--카테고리 라인 선택 시 노출될 영역-->
+                <tbody id="lineProduct" class="categoryDiv">
+<!--                <tr>-->
+<!--                    <th>라인 모델명</th>-->
+<!--                    <td><input type="text" name = "rodModel" required></td>-->
+<!--                </tr>-->
+                <tr>
+                    <th>라인 호수</th>
+                    <td><input type="range" name = "lineSize" min="0" max="100" step="50" oninput="document.getElementById('value3').innerHTML=this.value;" required><span id = "value3"></span></td>
+                </tr>
+                <tr>
+                    <th>릴 가격</th>
+                    <td><input type="number" name = "linePrice" required></td>
+                </tr>
+                </tbody>
+                
+                <tr>
+                    <th>브랜드</th>
+                    <td><label><input type="radio" name = "brandNo" value="1" required>도요</label></td>
+                    <td><label><input type="radio" name="brandNo" value="2" required>시마노</label></td>
+                    <td><label><input type="radio" name="brandNo" value="3" required>NS</label></td>
+                </tr>
+                <tr>
+                    <th>상품명</th>
+                    <td><input type="text" name = "productName" required></td>
+                </tr>
+                <tr>
+                    <th>재고</th>
+                    <td><input type="number" name = "stock" required></td>
+                </tr>
+                <tr>
+                    <th>썸네일</th>
+                    <td><input type="hidden" id="thumb" name="imgCategory" value="T"><input type="file" name = "file" multiple required></td>
+                </tr>
+                <tr>
+                    <th>상세페이지</th>
+                    <td><input type="hidden" name="imgCategory" value="D"><input type="file" name = "file" required></td>
+                </tr>
+            </table>
+            <br>
+    
+            <div class="preview">
+                <p></p>
+            </div>
+            
+            <div align="center">
+                <button type="submit" class="btn btn-primary">등록하기</button>
+                <button type="reset" class="btn btn-danger">초기화</button>
+                <button type="button" class="btn btn-secondary" onclick="history.go(-1);">이전으로</button>
+            </div>
+        </form>
+    </div>
+    <script>
+        $(document).ready(function(){
 
-    function showTextFile() {
-        const selectedFiles = input.files;
-        const list = document.createElement('ul');
-        preview.appendChild(list);
+            // 초깃값 설정
+            $('#rodProduct').hide();
+            $('#reelProduct').hide();
+            $('#lineProduct').hide();
 
-        for(const file of selectedFiles) {
-            const listItem = document.createElement('li');
+            $("input[name='categoryCode']").change(function(){
+                // 로드 선택 시.
+                if($("input[name='categoryCode']:checked").val() == 'RD'){
+                    $('#lineProduct').hide();
+                    $('#reelProduct').hide();
+                    $('#rodProduct').show();
+                    $("input[name='reelModel']").attr("required", false);
+                    $("input[name='reelType']").attr("required", false);
+                    $("input[name='reelPrice']").attr("required", false);
+                    $("input[name='lineSize']").attr("required", false);
+                    $("input[name='linePrice']").attr("required", false);
+                }
+                // 릴 선택 시.
+                else if($("input[name='categoryCode']:checked").val() == 'RL'){
+                    $('#rodProduct').hide();
+                    $('#lineProduct').hide();
+                    $('#reelProduct').show();
+                    $("input[name='rodModel']").attr("required", false);
+                    $("input[name='reelType']").attr("required", false);
+                    $("input[name='lineMin']").attr("required", false);
+                    $("input[name='lineMax']").attr("required", false);
+                    $("input[name='rodPrice']").attr("required", false);
+                    $("input[name='lineSize']").attr("required", false);
+                    $("input[name='linePrice']").attr("required", false);
+                }
+                // 라인 선택 시.
+                else if($("input[name='categoryCode']:checked").val() == 'LN'){
+                    $('#rodProduct').hide();
+                    $('#reelProduct').hide();
+                    $('#lineProduct').show();
+                    $("input[name='rodModel']").attr("required", false);
+                    $("input[name='reelType']").attr("required", false);
+                    $("input[name='lineMin']").attr("required", false);
+                    $("input[name='lineMax']").attr("required", false);
+                    $("input[name='rodPrice']").attr("required", false);
+                    $("input[name='reelModel']").attr("required", false);
+                    $("input[name='reelPrice']").attr("required", false);
+                }
+            });
 
-            if(validFileType(file)) {
-                const summary = document.createElement('div');
-                summary.textContent = `파일명 : ${file.name}, 파일 크기 : ${returnFileSize(file.size)}.`;
-                const textContents = document.createElement('div');
-
-                let reader = new FileReader();
-                reader.onload = function () {
-                    textContents.innerText = reader.result;
-                };
-                reader.readAsText(file, "UTF-8");
-
-                listItem.appendChild(summary);
-                listItem.appendChild(textContents);
-            } else {
-                const message = document.createElement('div');
-                message.textContent = `파일명 ${file.name}: .txt 파일을 선택하세요`;
-                listItem.appendChild(message);
-            }
-
-            list.appendChild(listItem);
-        }
-    }
-
-    const fileTypes = [
-        'text/plain',
-    ];
-
-    function validFileType(file) {
-        return fileTypes.includes(file.type);
-    }
-
-    function returnFileSize(number) {
-        if(number < 1024) {
-            return number + 'bytes';
-        } else if(number > 1024 && number < 1048576) {
-            return (number/1024).toFixed(1) + 'KB';
-        } else if(number > 1048576) {
-            return (number/1048576).toFixed(1) + 'MB';
-        }
-    }
-</script>
-<script>
-    $(document).ready(function(){
-
-        // 초깃값 설정
-        $('#rodProduct').hide();
-        $('#reelProduct').hide();
-        $('#lineProduct').hide();
-
-        $("input[name='categoryCode']").change(function(){
-            // 로드 선택 시.
-            if($("input[name='categoryCode']:checked").val() == 'RD'){
-                $('#lineProduct').hide();
-                $('#reelProduct').hide();
-                $('#rodProduct').show();
-                $("input[name='reelModel']").attr("required", false);
-                $("input[name='reelType']").attr("required", false);
-                $("input[name='reelPrice']").attr("required", false);
-                $("input[name='lineSize']").attr("required", false);
-                $("input[name='linePrice']").attr("required", false);
-            }
-            // 릴 선택 시.
-            else if($("input[name='categoryCode']:checked").val() == 'RL'){
-                $('#rodProduct').hide();
-                $('#lineProduct').hide();
-                $('#reelProduct').show();
-                $("input[name='rodModel']").attr("required", false);
-                $("input[name='reelType']").attr("required", false);
-                $("input[name='lineMin']").attr("required", false);
-                $("input[name='lineMax']").attr("required", false);
-                $("input[name='rodPrice']").attr("required", false);
-                $("input[name='lineSize']").attr("required", false);
-                $("input[name='linePrice']").attr("required", false);
-            }
-            // 라인 선택 시.
-            else if($("input[name='categoryCode']:checked").val() == 'LN'){
-                $('#rodProduct').hide();
-                $('#reelProduct').hide();
-                $('#lineProduct').show();
-                $("input[name='rodModel']").attr("required", false);
-                $("input[name='reelType']").attr("required", false);
-                $("input[name='lineMin']").attr("required", false);
-                $("input[name='lineMax']").attr("required", false);
-                $("input[name='rodPrice']").attr("required", false);
-                $("input[name='reelModel']").attr("required", false);
-                $("input[name='reelPrice']").attr("required", false);
-            }
         });
-
-    });
-</script>
+    </script>
 </body>
 </html>

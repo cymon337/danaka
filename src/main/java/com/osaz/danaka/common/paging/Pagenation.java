@@ -8,15 +8,21 @@ public class Pagenation {
 		return getSelectCriteria(pageNo, totalCount, limit, buttonAmount, null, null, null);
 	}
 
+	/* 메인페이지 검색어만 */
+	public static SelectCriteria getSelectCriteria(int pageNo, int totalCount, int limit, int buttonAmount, String searchValue) {
+
+		return getSelectCriteria(pageNo, totalCount, limit, buttonAmount, null, null, null);
+	}
+
 	/* 검색어가 존재하는 경우 검색 조건으로 select 후 페이징 처리를 하기 위한 용도 */
 	public static SelectCriteria getSelectCriteria(int pageNo, int totalCount, int limit, int buttonAmount, String searchCondition, String searchValue, String memberCondition) {
 
 		/* pageNo와 totalCount가 넘어온 상태이기 때문에
 		 * 페이징처리에 필요한 나머지 변수만 선언을 한다.
 		 * */
-		int maxPage;            //전체 페이지에서 가장 마지막 페이지
-		int startPage;          //한번에 표시될 페이지 버튼의 시작할 페이지
-		int endPage;            //한번에 표시될 페이지 버튼의 끝나는 페이지
+		int maxPage;            // 전체 페이지에서 가장 마지막 페이지
+		int startPage;          // 한번에 표시될 페이지 버튼의 시작할 페이지
+		int endPage;            // 한번에 표시될 페이지 버튼의 끝나는 페이지
 		int startRow;
 		int endRow;
 
@@ -56,8 +62,13 @@ public class Pagenation {
 		System.out.println("startRow : " + startRow);
 		System.out.println("endRow : " + endRow);
 
-		SelectCriteria selectCriteria = new SelectCriteria(pageNo, totalCount, limit, buttonAmount, maxPage, startPage, endPage, startRow, endRow, searchCondition, searchValue, memberCondition);
+		SelectCriteria selectCriteria;
 
+		if (searchCondition == null && memberCondition == null) {
+			selectCriteria = new SelectCriteria(pageNo, totalCount, limit, buttonAmount, maxPage, startPage, endPage, startRow, endRow, searchValue);
+		} else {
+			selectCriteria = new SelectCriteria(pageNo, totalCount, limit, buttonAmount, maxPage, startPage, endPage, startRow, endRow, searchCondition, searchValue, memberCondition);
+		}
 		return selectCriteria;
 	}
 }

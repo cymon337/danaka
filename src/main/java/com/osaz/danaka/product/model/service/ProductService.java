@@ -209,4 +209,36 @@ public class ProductService {
     }
 
 
+    // 콩성식
+    // 메인페이지 상품 검색 페이징
+    public int selectMainTotalCount(Map<String, String> searchMap) {
+
+        return productMapper.selectMainTotalCount(searchMap);
+    }
+
+    // 메인페이지 상품 검색 조회
+    public List<ProductDTO> selectListByMainPage(com.osaz.danaka.common.paging.SelectCriteria selectCriteria) {
+
+        return productMapper.selectListByMainPage(selectCriteria);
+    }
+
+    public void insertProduct(ProductDTO product) {
+        productMapper.insertProduct(product);
+    }
+
+    public void insertCategory(HashMap<String, String> categoryMap) {
+        productMapper.insertCategory(categoryMap);
+    }
+
+    public String selectProductLastNum() {
+        return productMapper.selectProductLastNum();
+    }
+
+    public void saveFile(imgPathDTO imgFile) {
+        productMapper.insertImgFile(imgFile);
+    }
+
+    public List<ProductDTO> selectTop4Product() {
+        return productMapper.selectTop4Product();
+    }
 }

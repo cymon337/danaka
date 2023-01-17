@@ -149,6 +149,16 @@
 /*최소 영역 지정*/
 body {min-width: 1400px}
 
+/*컨텐츠 여백 지정*/
+.content {
+    margin-top: 200px;
+}
+
+/*슬라이더 여백 지정*/
+.slide {
+    margin-top: 160px;
+}
+
 /*컨텐츠 영역 지정    */
 #contentArea {
     width: 60%
@@ -247,6 +257,56 @@ body {min-width: 1400px}
     .navbar .dropdown-menu {
         border: 1px solid rgba(0,0,0,.15);
         background-color: #fff;
+    }
+
+    /*메인페이지 상품*/
+    #mainProduct {
+        border: 1px solid black;
+        width: 200px;
+    }
+
+    #mainProductThumb img {
+        width: 200px;
+    }
+
+    #mainProductName p {
+        font-weight: bold;
+        font-size: 16px;
+    }
+
+    #mainProductDetail p {
+        font-size: 13px;
+    }
+
+    #mainProductPrice p {
+        font-size: 18px;
+        font-weight: bold;
+        text-align: right;
+    }
+
+    /* footer 하단 고정 */
+    html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+    }
+
+    #body-wrapper {
+        min-height: 100%;
+        position: relative;
+    }
+
+    #body-content {
+        margin-top: 0px;
+        padding-bottom: 250px; /* footer의 높이 */
+    }
+
+    footer {
+        width: 100%;
+        height: 250px; /* footer의 높이 */
+        position: absolute;
+        bottom: 0;
+        left: 0;
     }
 
 }

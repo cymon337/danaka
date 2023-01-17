@@ -1,12 +1,11 @@
 package com.osaz.danaka.common.paging;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
+// @AllArgsConstructor
 public class SelectCriteria implements java.io.Serializable {
 
 	private int pageNo;					//요청한 페이지 번호
@@ -22,4 +21,31 @@ public class SelectCriteria implements java.io.Serializable {
 	private String searchValue;			//검색어
 	private String memberCondition;		//탈퇴 회원
 
+	public SelectCriteria(int pageNo, int totalCount, int limit, int buttonAmount, int maxPage, int startPage, int endPage, int startRow, int endRow, String searchValue) {
+		this.pageNo = pageNo;
+		this.totalCount = totalCount;
+		this.limit = limit;
+		this.buttonAmount = buttonAmount;
+		this.maxPage = maxPage;
+		this.startPage = startPage;
+		this.endPage = endPage;
+		this.startRow = startRow;
+		this.endRow = endRow;
+		this.searchValue = searchValue;
+	}
+
+	public SelectCriteria(int pageNo, int totalCount, int limit, int buttonAmount, int maxPage, int startPage, int endPage, int startRow, int endRow, String searchCondition, String searchValue, String memberCondition) {
+		this.pageNo = pageNo;
+		this.totalCount = totalCount;
+		this.limit = limit;
+		this.buttonAmount = buttonAmount;
+		this.maxPage = maxPage;
+		this.startPage = startPage;
+		this.endPage = endPage;
+		this.startRow = startRow;
+		this.endRow = endRow;
+		this.searchCondition = searchCondition;
+		this.searchValue = searchValue;
+		this.memberCondition = memberCondition;
+	}
 }

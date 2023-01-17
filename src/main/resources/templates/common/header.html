@@ -16,36 +16,37 @@
 </head>
 
 <body>
-    <script>
-        /* 헤더 전체보기 드랍다운 효과 */
-        $(document).ready(function() {
-            $(window).resize(function(){
-                if ($(window).width() >= 980){
-    
-                    $(".navbar .dropdown-toggle").hover(function () {
-                        $(this).parent().toggleClass("show");
-                        $(this).parent().find(".dropdown-menu").toggleClass("show");
-                    });
-    
-                    $( ".navbar .dropdown-menu" ).mouseleave(function() {
-                        $(this).removeClass("show");
-                    });
-                }
-            });
-        });
-    </script>
+<script>
+    /* 헤더 전체보기 드랍다운 효과 */
+    $(document).ready(function() {
+        $(window).resize(function(){
+            if ($(window).width() >= 980){
 
-    <!-- 네비게이션바 전체-->
-    <div th:fragment="header"><!-- 타임리프 헤더영역 지정 -->
+                $(".navbar .dropdown-toggle").hover(function () {
+                    $(this).parent().toggleClass("show");
+                    $(this).parent().find(".dropdown-menu").toggleClass("show");
+                });
+
+                $( ".navbar .dropdown-menu" ).mouseleave(function() {
+                    $(this).removeClass("show");
+                });
+            }
+        });
+    });
+</script>
+
+<!-- 네비게이션바 전체-->
+<div th:fragment="header"><!-- 타임리프 헤더영역 지정 -->
     <nav class="navbar navbar-expand-md navbar-dark fixed-top" style="flex-wrap: wrap;">
         <!-- 상단바 (로고, 검색, 장바구니, 로그인) -->
         <div class="container-fluid" id="firstNav">
             <!-- 좌측 로고 -->
             <a class="navbar-brand" href="/"><img alt="로고" id="logo" th:src="@{/image/logo.png}"></a>
             <!-- 중간 검색 -->
-            <form class="d-flex" role="search">
+            <form class="d-flex" role="search" th:action="@{/product/searchList}" method="get">
+                <input type="hidden" name="currentPage" value="1">
                 <div id="search">
-                    <input class="form-control me-2" type="search" placeholder="검색어를 입력하세요." aria-label="Search">
+                    <input class="form-control me-2" type="search" id="searchValue" name="searchValue" placeholder="검색어를 입력하세요." aria-label="Search">
                     <button class="btn btn-outline-success" type="submit"><i class="bi bi-search"></i></button>
                 </div>
             </form>
@@ -69,10 +70,10 @@
                 </div>
             </div>
         </div>
-    
+
         <!-- 카데고리(네비게이션)바 (전체 카테고리, 카테고리, 공지사항) -->
         <div class="container-fluid" id="secondNav">
-    
+
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item dropdown">
@@ -133,7 +134,7 @@
                     </li>
                 </ul>
             </div>
-    
+
             <!-- 중앙 메뉴 -->
             <div class="container">
                 <header class="d-flex justify-content-center py-2">
@@ -142,20 +143,13 @@
                         <li class="nav-item"><a href="/product/list2?categoryCode=RL" class="nav-link">릴</a></li>
                         <li class="nav-item"><a href="/product/list2?categoryCode=LN" class="nav-link">라인</a></li>
                         <li class="nav-item"><a href="/package" class="nav-link">장비조합</a></li>
-                        <li class="nav-item"><a th:href="@{/admin/adminMemberListView}" class="nav-link">견적보기</a></li>
+                        <th:block sec:authorize="hasRole('ROLE_ADMIN')"><li class="nav-item"><a th:href="@{/admin/adminMemberListView}" class="nav-link">견적보기</a></li></th:block>
                     </ul>
                 </header>
             </div>
             <a class="navbar-brand" th:href="@{/notice/noticeListView}" id="notice">공지사항</a>
         </div>
-        </nav>
-    </div>
-    
-    <!--TOP버튼-->
-    <div class="row align-items-end" id="goTop">
-        <button type="button" class="btn btn-info btn-lg" onclick="window.scrollTo(0,0);">
-            ▲TOP
-        </button>
-    </div>
+    </nav>
+</div>
 </body>
 </html>
