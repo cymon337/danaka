@@ -46,7 +46,7 @@
     </resultMap>
 
 
-
+    <!--이메일로 사용자 찾기-->
     <select id="selectUser" parameterType="String" resultMap="memberResultMap">
     SELECT
         *
@@ -89,6 +89,7 @@
 
     </insert>
 
+    <!--회원정보 수정  -->
     <update id ="userUpdate" parameterType="com.osaz.danaka.member.model.dto.MemberDTO" >
         UPDATE T_MEMBER
         SET USER_NICKNAME= #{userNickname} , EMAIL= #{email}, PHONE= #{phone}
@@ -104,6 +105,7 @@
 
 
     </update>
+
 
     <update id ="deleteMember" parameterType="com.osaz.danaka.member.model.dto.MemberDTO" >
         UPDATE T_MEMBER

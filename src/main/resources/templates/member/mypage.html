@@ -66,6 +66,12 @@
         </a>
         <hr>
       </li>
+      <li>
+        <a th:href="@{/}">
+          <i class="zmdi zmdi-widgets"></i> 홈으로가기
+        </a>
+        <hr>
+      </li>
       <li class="form-group">
         <br>
         <br>
@@ -152,7 +158,7 @@
 
 
               <div class="thumnail">
-                  <img th:src="${ order.savePath }?:'/image/line/lineDefault.png'" alt="상품썸네일" th:onclick="|location.href='@{/product/item2(productNo=${ order.productNo })}'|">
+                  <img th:src="${ order?.savePath }?:'/image/line/lineDefault.png'" alt="상품썸네일" th:onclick="|location.href='@{/product/item2(productNo=${ order.productNo })}'|">
 
 
 

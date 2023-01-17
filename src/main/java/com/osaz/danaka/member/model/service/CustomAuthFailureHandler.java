@@ -16,6 +16,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URLEncoder;
 
+
+
+// # title : 로그인 에러 처리
+// # author : 정근호
+// # description : 로그인 할때 발생할 에러를 처리
 @Component
 @Slf4j
 public class CustomAuthFailureHandler extends SimpleUrlAuthenticationFailureHandler {
