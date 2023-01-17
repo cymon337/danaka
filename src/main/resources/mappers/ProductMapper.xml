@@ -334,7 +334,7 @@
                                 WHERE PRODUCT_NAME = #{ productName })
            AND A.USER_NO = #{ userNo }
            AND ROWNUM = 1
-         ORDER BY A.REG_DATE DESC
+         ORDER BY A.ORDER_NO DESC
     </select>
     <!-- 상품 리뷰 총 개수 조회 -->
     <select id="selectTotalReviewCount" parameterType="map" resultType="_int">

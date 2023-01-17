@@ -1,12 +1,10 @@
 spring:
-<<<<<<<<< Temporary merge branch 1
   # DB 연결
-=========
   mail:
     host: smtp.gmail.com
     port: 587
-    username: jgh337337@gmail.com
-    password: xmfanazgcbxikykw
+    username:
+    password:
     properties:
       mail:
         smtp:
@@ -14,8 +12,6 @@ spring:
           starttls:
             enable: true
   # DB 연결
-#  mvc:
-#    static-path-pattern: /static/**
   datasource:
     # 설치된 DB와 연결 URL
     url: jdbc:log4jdbc:oracle:thin:@localhost:1521:xe
@@ -24,7 +20,6 @@ spring:
     #oracle.jdbc.driver.OracleDriver
     username: danaka
     password: danaka
-  # SecurityAutoConfiguration 제외 221230찬영
 #  autoconfigure:
 #    exclude: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
 

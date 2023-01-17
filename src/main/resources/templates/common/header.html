@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -51,13 +51,21 @@
             </form>
             <!-- 우측 기능 -->
             <div id="topRight">
-                <div onclick="location.href='#'" id="cart">
+                <div onclick="location.href='/cart'" id="cart">
                     <i class="bi bi-cart"></i><br>
                     <span>장바구니</span>
                 </div>
-                <div onclick="location.href='../member/login.html'" id="loginMy">
+                <div sec:authorize="isAnonymous()" onclick="location.href='/member/login'" id="loginMy">
                     <i class="bi bi-person"></i><br>
                     <span>로그인</span>
+                </div>
+                <div sec:authorize="isAuthenticated()" onclick="location.href='/member/mypage'" id="myPage">
+                    <i class="bi bi-person"></i><br>
+                    <span>마이페이지</span>
+                </div>
+                <div sec:authorize="isAuthenticated()" onclick="location.href='/member/logout'" id="logout">
+                    <i class="bi bi-person"></i><br>
+                    <span>로그아웃</span>
                 </div>
             </div>
         </div>
@@ -130,15 +138,16 @@
             <div class="container">
                 <header class="d-flex justify-content-center py-2">
                     <ul class="nav nav-pills" id="centerCategory" style="margin-left: -130px">
-                        <li class="nav-item"><a href="#" class="nav-link">로드</a></li>
-                        <li class="nav-item"><a href="#" class="nav-link">릴</a></li>
-                        <li class="nav-item"><a href="#" class="nav-link">라인</a></li>
+                        <li class="nav-item"><a href="/product/list2?categoryCode=RD" class="nav-link">로드</a></li>
+                        <li class="nav-item"><a href="/product/list2?categoryCode=RL" class="nav-link">릴</a></li>
+                        <li class="nav-item"><a href="/product/list2?categoryCode=LN" class="nav-link">라인</a></li>
                         <li class="nav-item"><a href="#" class="nav-link">장비조합</a></li>
                         <li class="nav-item"><a th:href="@{/admin/adminMemberListView}" class="nav-link">견적보기</a></li>
                     </ul>
                 </header>
             </div>
             <a class="navbar-brand" th:href="@{/notice/noticeListView}" id="notice">공지사항</a>
+        </div>
         </nav>
     </div>
     
