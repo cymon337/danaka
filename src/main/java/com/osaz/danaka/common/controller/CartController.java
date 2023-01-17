@@ -33,7 +33,7 @@ public class CartController {
 //    @GetMapping  // 장바구니 페이지
 //    public String cartMain (){ return "common/cart"; }
 
-// # update : 221229 작성중
+// # update : 230117
 // # title : 장바구니페이지 - userNo 조회해서 리스트 출력
 // # author : 김찬영
 // # description :  post method로 userNo 보내면 회원번호에 해당하는 장바구니목록 조회
@@ -56,6 +56,10 @@ public class CartController {
         return mv;
     }
 
+    // # update : 230117
+    // # title : 장바구니등록
+    // # author : 김찬영
+    // # description :  장바구니 목록 등록
     @ResponseBody
     @PostMapping("regist-cart")
     public ModelAndView registCart(ModelAndView mv, List<CartDTO> cartList) throws Exception{
@@ -67,7 +71,10 @@ public class CartController {
         return mv;
     }
 
-
+    // # update : 230117
+    // # title : 장바구니등록
+    // # author : 김찬영
+    // # description :  장바구니 수량 수정
     @ResponseBody
     @PostMapping("update-db")
     public ModelAndView updateCart(ModelAndView mv, String cartNo, String amount) throws Exception{
@@ -84,6 +91,10 @@ public class CartController {
 
     }
 
+    // # update : 230117
+    // # title : 장바구니등록
+    // # author : 김찬영
+    // # description :  장바구니 삭제
     @ResponseBody
     @PostMapping("delete-db")
     public ModelAndView deleteCart(ModelAndView mv, String[] cartNoList) throws Exception{
