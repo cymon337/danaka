@@ -1,6 +1,5 @@
 package com.osaz.danaka.member.controller;
 
-import com.osaz.danaka.member.model.dao.MemberMapper;
 import com.osaz.danaka.member.model.dto.MemberDTO;
 import com.osaz.danaka.member.model.dto.OrderDTO;
 import com.osaz.danaka.member.model.dto.WishListDTO;
@@ -8,32 +7,24 @@ import com.osaz.danaka.member.model.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.http.HttpHeaders;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCrypt;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.validation.Errors;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.mail.internet.MimeMessage;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
-
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 import java.util.Random;
@@ -273,7 +264,7 @@ public class MemberController {
                     mailSender.send(message);
 
                 } catch (Exception e) {
-                    throw new RuntimeException();
+                    e.printStackTrace();
                 }
 
                 ModelAndView mv = new ModelAndView();
