@@ -5,8 +5,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- 타임리프용 헤더 스타일 시트 적용-->
-    <link rel="stylesheet" th:href="@{/css/indexCss.css}"/>
+    <!-- 타임리프용 헤더, 메인, 푸터고정, goTop, 컨텐츠영역 스타일 시트 적용-->
+    <link rel="stylesheet" th:href="@{/css/index.css}" />
+    <!-- 타임리프용 푸터 스타일 시트 적용-->
+    <link rel="stylesheet" th:href="@{/css/footer.css}" />
     <!-- 부트스트랩 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
@@ -28,7 +30,7 @@
     <div class="content">
         <div class="innerOuter">
             <h2 align="center">회원정보 상세보기</h2>
-            <form th:action="@{'deleteMember'}" method="post">
+            <form th:action="@{'deleteMember'}" method="post" onsubmit="return confirm('정말 삭제하시겠습니까?')">
                 <input type="hidden" name="userNo" th:value="${member.userNo}"/>
                 <table id="contentArea" align="center" class="table">
                     <tr>
@@ -86,26 +88,25 @@
                 </table>
                 <div align="center">
                     <a th:href="@{/admin/adminMemberModify(userNo=${ member.userNo })}" class="btn btn-primary">수정하기</a>
-                    <button type="submit" class="btn btn-danger" onclick="deleteMember()">삭제하기</button>
+                    <button type="submit" class="btn btn-danger">삭제하기</button>
                     <button type="button" class="btn btn-outline-secondary" onclick="history.go(-1);">이전으로
                     </button>
                 </div>
             </form>
         </div>
     </div>
-    
-    <script th:inline="javascript">
-        /*<![CDATA[*/
-    
-        // 게시글 삭제
-        function deleteMember() {
-            const no = [[ ${member.userNo}]];
-    
-            if (!confirm(no + '번 회원정보를 삭제합니다.')) {
-                return false;
-            }
-        }
-        /*]]>*/
-    </script>
+
+    <div id="body-wrapper">
+        <div id="body-content">
+            <!--타임리프용 TOP버튼-->
+            <div class="goTop">
+                <th:block th:replace="~{common/goTop :: goTop}" />
+            </div>
+        </div>
+        <!--타임리프용 풋터-->
+        <div class="footer">
+            <th:block th:replace="~{common/footer :: footer}" />
+        </div>
+    </div>
 </body>
 </html>

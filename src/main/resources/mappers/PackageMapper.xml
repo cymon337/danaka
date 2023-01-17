@@ -15,6 +15,8 @@
         <result property="option3" column="OPTION3"/>
         <result property="option4" column="OPTION4"/>
         <result property="price" column="PRICE"/>
+        <result property="tSavePath" column="TSAVE_PATH"/>
+
     </resultMap>
 
     <!-- ========== rod option mapper ========== -->
@@ -139,11 +141,13 @@
                      WHEN A.CATEGORY_CODE = 'RL' THEN RL.REEL_PRICE
                      WHEN A.CATEGORY_CODE = 'LN' THEN LN.LINE_PRICE
                     END PRICE
+                ,VP.TSAVE_PATH
             FROM
                 VIEW_PRODUCT A
                 LEFT JOIN  T_ROD RD ON A.PRODUCT_NO = RD.PRODUCT_NO
                 LEFT JOIN  T_REEL RL ON A.PRODUCT_NO = RL.PRODUCT_NO
                 LEFT JOIN  T_LINE LN ON A.PRODUCT_NO = LN.PRODUCT_NO
+                LEFT JOIN  VIEW_PRODUCT VP ON A.PRODUCT_NO = VP.PRODUCT_NO
             WHERE A.CATEGORY_CODE = #{categoryCode}) LIST
 
     </select>
@@ -178,11 +182,13 @@
                        WHEN A.CATEGORY_CODE = 'RL' THEN RL.REEL_PRICE
                        WHEN A.CATEGORY_CODE = 'LN' THEN LN.LINE_PRICE
                     END PRICE
+                  ,VP.TSAVE_PATH
              FROM
                  VIEW_PRODUCT A
                      LEFT JOIN  T_ROD RD ON A.PRODUCT_NO = RD.PRODUCT_NO
                      LEFT JOIN  T_REEL RL ON A.PRODUCT_NO = RL.PRODUCT_NO
                      LEFT JOIN  T_LINE LN ON A.PRODUCT_NO = LN.PRODUCT_NO
+                     LEFT JOIN  VIEW_PRODUCT VP ON A.PRODUCT_NO = VP.PRODUCT_NO
              WHERE A.CATEGORY_CODE = #{categoryCode}) LIST
         WHERE
             LIST.OPTION1 IN ( '${categoryOption}' )

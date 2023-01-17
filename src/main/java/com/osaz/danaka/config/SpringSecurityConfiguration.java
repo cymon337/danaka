@@ -79,7 +79,8 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(  "signUpAction" ,"/member/login", "/member/id","/member/password", "/member/signUp", "/resource/**").permitAll()
                 .antMatchers("/product/**").hasAnyRole("ADMIN","USER")
-                .antMatchers( "/cart/**").hasAnyRole("ADMIN","USER")
+                .antMatchers( "/cart").hasAnyRole("ADMIN","USER")
+                .antMatchers( "/package").hasAnyRole("ADMIN","USER")
                 .antMatchers("/notice/**").hasAnyRole("ADMIN","USER")
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().permitAll() //모든요청에 접급을 허용하겠다

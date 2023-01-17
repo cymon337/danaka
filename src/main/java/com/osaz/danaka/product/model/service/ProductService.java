@@ -1,6 +1,6 @@
 package com.osaz.danaka.product.model.service;
 
-import com.osaz.danaka.common.SelectCriteria;
+import com.osaz.danaka.common.paging.SelectCriteria;
 import com.osaz.danaka.product.model.dao.ProductMapper;
 import com.osaz.danaka.product.model.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -208,5 +208,40 @@ public class ProductService {
         return (result > 0)? true : false;
     }
 
+    ///////////////성식 추가///////////////////
+    /* 상품 등록 */
+    public void insertProduct(ProductDTO product) {
+        productMapper.insertProduct(product);
+    }
+
+    /* 상품 카테고리 등록 */
+    public void insertCategory(HashMap<String, String> categoryMap) {
+        productMapper.insertCategory(categoryMap);
+    }
+
+    /* 상품 테이블 마지막 상품 번호 조회 */
+    public String selectProductLastNum() {
+        return productMapper.selectProductLastNum();
+    }
+
+    /* 첨부파일 이미지 테이블에 저장 */
+    public void saveFile(imgPathDTO imgFile) {
+        productMapper.insertImgFile(imgFile);
+    }
+
+    /* 메인페이지용 최근등록 상품 4개 조회 */
+    public List<ProductDTO> selectTop4Product() {
+        return productMapper.selectTop4Product();
+    }
+
+    // 메인페이지 상품 검색 페이징
+    public int selectMainTotalCount(Map<String, String> searchMap) {
+        return productMapper.selectMainTotalCount(searchMap);
+    }
+
+    // 메인페이지 상품 검색 조회
+    public List<ProductDTO> selectListByMainPage(SelectCriteria selectCriteria) {
+        return productMapper.selectListByMainPage(selectCriteria);
+    }
 
 }

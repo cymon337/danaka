@@ -1,4 +1,4 @@
-/*베이스*/
+/*아이콘*/
 .bi {
     vertical-align: -.125em;
     fill: currentColor;
@@ -149,6 +149,16 @@
 /*최소 영역 지정*/
 body {min-width: 1400px}
 
+/*컨텐츠 여백 지정*/
+/*.content {*/
+/*    margin-top: 200px;*/
+/*}*/
+
+/*슬라이더 여백 지정*/
+.slide {
+    margin-top: -40px;
+}
+
 /*컨텐츠 영역 지정    */
 #contentArea {
     width: 60%
@@ -207,8 +217,6 @@ body {min-width: 1400px}
 
 /* 미디어 스타일 지정 (조건) */
 @media screen and (min-width: 992px) {
-
-
     /* 드랍다운 내 호버 상태 유지 위해 패딩제거 */
     .navbar {
         padding-bottom:0px;
@@ -248,5 +256,55 @@ body {min-width: 1400px}
         border: 1px solid rgba(0,0,0,.15);
         background-color: #fff;
     }
+}
 
+/*메인페이지 상품*/
+#mainProduct {
+    border: 1px solid black;
+    width: 200px;
+}
+
+#mainProductThumb img {
+    width: 200px;
+}
+
+#mainProductName p {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+#mainProductDetail p {
+    font-size: 13px;
+}
+
+#mainProductPrice p {
+    font-size: 18px;
+    font-weight: bold;
+    text-align: right;
+}
+
+/* footer 하단 고정 / body 헤더 가린 공간 여백 지정*/
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    padding-top: 100px;
+}
+
+#body-wrapper {
+    min-height: 100%;
+    position: relative;
+}
+
+#body-content {
+    margin-top: 0px;
+    padding-bottom: 250px; /* footer의 높이 */
+}
+
+footer {
+    width: 100%;
+    height: 250px; /* footer의 높이 */
+    position: absolute;
+    bottom: 0;
+    left: 0;
 }

@@ -1,6 +1,6 @@
 package com.osaz.danaka.product.model.dao;
 
-import com.osaz.danaka.common.SelectCriteria;
+import com.osaz.danaka.common.paging.SelectCriteria;
 import com.osaz.danaka.product.model.dto.*;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -22,10 +22,10 @@ public interface ProductMapper {
 
     // 상품 상세페이지용 찜 체크 조회
     int selectWishCheck(HashMap<String, String> wishCheckMap);
-    
+
     // 상품 상세페이지용 해당하는 상품의 옵션 상품들 조회
     List<ProductDTO> selectOptionList(String productName);
-    
+
     // 상품 상세페이지용 관련상품들 조회
     List<ProductDTO> selectRefProducts(String productNo);
 
@@ -37,7 +37,7 @@ public interface ProductMapper {
 
     // 위시리스트 테이블에서 제거
     int deleteWish(Map<String, String> wishMap);
-    
+
     // 장바구니 테이블에 추가
     int insertCartProduct(Map<String, String> cartMap);
 
@@ -76,4 +76,26 @@ public interface ProductMapper {
 
     // 상품 문의 수정
     int updateQna(HashMap<String, String> updateMap);
+
+    ///////////////성식 추가///////////////////
+    /* 상품 등록 */
+    void insertProduct(ProductDTO product);
+
+    /* 상품 카테고리 등록 */
+    void insertCategory(HashMap<String, String> categoryMap);
+
+    /* 상품 테이블 마지막 상품 번호 조회 */
+    String selectProductLastNum();
+
+    /* 첨부파일 이미지 테이블에 저장 */
+    void insertImgFile(imgPathDTO imgFile);
+
+    /* 메인페이지용 최근등록 상품 4개 조회 */
+    List<ProductDTO> selectTop4Product();
+
+    // 메인페이지 상품 검색 페이징
+    int selectMainTotalCount(Map<String, String> searchMap);
+
+    // 메인페이지 상품 검색 조회
+    List<ProductDTO> selectListByMainPage(SelectCriteria selectCriteria);
 }

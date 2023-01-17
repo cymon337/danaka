@@ -5,6 +5,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
 
     <!-- 부트스트랩 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
@@ -17,20 +18,18 @@
 
     <!-- 자바스크립트 -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
-
-    <title>Paging</title>
 </head>
 <body>
 <div th:fragment="paging">
     <div class="pagingArea" align="center">
 
-        <th:block th:with="start = ${ selectCriteria.startPage }, last = ${ selectCriteria.endPage }, page = ${ selectCriteria.pageNo }, max = ${ selectCriteria.maxPage}, contition = ${ selectCriteria.searchCondition}, value = ${ selectCriteria.searchValue}">
+        <th:block th:with="start = ${ selectCriteria.startPage }, last = ${ selectCriteria.endPage }, page = ${ selectCriteria.pageNo }, max = ${ selectCriteria.maxPage}">
             <!-- 첫 페이지로 가기 버튼 -->
             <th:block th:if="${ page eq start}">
                 <button disabled><<</button>
             </th:block>
             <th:block th:if="${ page ne start}">
-                <button id="startPage" th:onclick="|location.href='@{/notice/noticeListView(currentPage=${ start }, searchCondition=${ contition }, searchValue=${ value })}'|"><<</button>
+                <button id="startPage" th:onclick="|location.href='@{/product/searchList(currentPage=${ start }, searchValue=${param.searchValue})}'|"><<</button>
             </th:block>
 
             <!-- 이전 페이지로 가기 버튼 -->
@@ -38,7 +37,7 @@
                 <button disabled><</button>
             </th:block>
             <th:block th:if="${ page > 1 }">
-                <button id="prevPage" th:onclick="|location.href='@{/notice/noticeListView(currentPage=${ page-1 }, searchCondition=${ contition }, searchValue=${ value })}'|"><</button>
+                <button id="prevPage" th:onclick="|location.href='@{/product/searchList(currentPage=${ page-1 }, searchValue=${param.searchValue})}'|"><</button>
             </th:block>
 
             <!-- 숫자 버튼 -->
@@ -47,7 +46,7 @@
                     <button th:text="${ p }" disabled></button>
                 </th:block>
                 <th:block th:if="${ page ne p }">
-                    <button th:text="${ p }" th:onclick="|location.href='@{/notice/noticeListView(currentPage=${ p }, searchCondition=${ contition }, searchValue=${ value })}'|"></button>
+                    <button th:text="${ p }" th:onclick="|location.href='@{/product/searchList(currentPage=${ p }, searchValue=${param.searchValue})}'|"></button>
                 </th:block>
             </th:block>
 
@@ -56,7 +55,7 @@
                 <button disabled>></button>
             </th:block>
             <th:block th:if="${ page < selectCriteria.maxPage }">
-                <button id="nextPage" th:onclick="|location.href='@{/notice/noticeListView(currentPage=${ page+1 }, searchCondition=${ contition }, searchValue=${ value })}'|">></button>
+                <button id="nextPage" th:onclick="|location.href='@{/product/searchList(currentPage=${ page+1 }, searchValue=${param.searchValue})}'|">></button>
             </th:block>
 
             <!-- 마지막 페이지로 이동 버튼 -->
@@ -64,7 +63,7 @@
                 <button disabled>>></button>
             </th:block>
             <th:block th:if="${ page ne selectCriteria.maxPage }">
-                <button id="maxPage" th:onclick="|location.href='@{/notice/noticeListView(currentPage=${ max }, searchCondition=${ contition }, searchValue=${ value })}'|">>></button>
+                <button id="maxPage" th:onclick="|location.href='@{/product/searchList(currentPage=${ max }, searchValue=${param.searchValue})}'|">>></button>
             </th:block>
         </th:block>
     </div>

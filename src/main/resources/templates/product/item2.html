@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>DANAKA - [[${ product.productName }]]</title>
     <!-- index.html css -->
-    <link rel="stylesheet" th:href="@{ /css/indexCss.css }"/>
+    <link rel="stylesheet" th:href="@{ /css/index.css }"/>
     <!-- 부트스트랩 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous"/>
@@ -46,10 +46,10 @@
 <div class="productContainer">
     <div class="imgContainer">
         <div class="bigImg">
-            <img th:src="${ product.tSavePath }">
+            <img th:src="${ product.tSavePath }?:'/image/line/lineDefault.png'">
         </div>
         <div class="otherImges">
-            <div class="otherImg"><img th:src="${ product.tSavePath }"></div>
+            <div class="otherImg"><img th:src="${ product.tSavePath }?:'/image/line/lineDefault.png'"></div>
             <th:block th:each="option : ${ optionList }">
                 <th:block th:switch="${ option.categoryCode }">
                     <div class="otherImg" th:case="RD"><img th:src="${ option?.tSavePath }?:'/image/rod/rodDefault.png'"></div>
