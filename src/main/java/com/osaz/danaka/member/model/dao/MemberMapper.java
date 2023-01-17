@@ -19,7 +19,6 @@ public interface MemberMapper  {
 
       MemberDTO findId(MemberDTO memberDTO);//아이디 찾기
 
-    MemberDTO findPassword(MemberDTO memberDTO);//비밀번호 찾기
 
       int userUpdate(MemberDTO memberDTO);
 

@@ -23,7 +23,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-@RequiredArgsConstructor //@Configuration 을쓰기전에 쓰면 에러남 찾아보기
+@RequiredArgsConstructor //@Configuration 쓰기전에 쓰면 에러남 찾아보기
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -38,6 +38,10 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
        - private 접근 제한자: 단어 뜻 그대로 개인적인 것이라 외부에서 사용될 수 없도록 합니다.*/
 
+
+    // # title : 인증의 대해서 설정
+    // # author : 정근호
+    // # description : 인증의 대해서 기본적인 설정을 넣어준다
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
@@ -52,6 +56,9 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 
 
+    // # title : AuthenticationManager 사용
+    // # author : 정근호
+    // # description : AuthenticationManager를 밖에서도 사용할수 있게 밖으로 꺼내서 빈으로 등록해줌
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception{
@@ -60,17 +67,23 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 
 
+    // # title : css 파일 이미지 파일 시큐리티 무시되도록 설정
+    // # author : 정근호
+    // # description :  css 파일 이미지 파일 시큐리티 무시되도록 설정
     @Override
     public void configure(WebSecurity web) throws Exception {
         web
                 .ignoring().antMatchers("/css/**", "/image/**");
     }
+
+    // # title : 시큐리티 규칙 설정
+    // # author : 정근호
+    // # description : AuthenticationManagerBuilder는 HttpSecurity에 포함된다 HttpSecurity http를 통해서 위에서 담은걸 쓰고 기본적인
+    //                 시큐리티 규칙을 설정해준다
     @Override
     protected void configure(HttpSecurity http) throws Exception{
         http
                 .csrf().disable()
-//                .csrf().ignoringAntMatchers("/api/**") /* REST API 사용 예외처리 */
-
                 .authorizeRequests()
                 .antMatchers(  "signUpAction" ,"/member/login", "/member/id","/member/password", "/member/signUp", "/resource/**").permitAll()
                 .antMatchers("/product/**").hasAnyRole("ADMIN","USER")
@@ -81,7 +94,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin() //폼을 이용해서 로그인을 하겠다
                 .loginPage("/member/login") //내가 사용할 로그인 페이지 기술 없으면 시큐리티 페이지가 나옴
-                .loginProcessingUrl("/loginAction") // 로그인이 진행 될 url 설정 (loginpage.html의 th:action="@{/login_action}"를 말함
+                .loginProcessingUrl("/loginAction") // 로그인이 진행 될 url 설정 (loginpage.html의 th:action="@{/loginAction}"를 말함
                 //.successForwardUrl("/") //로그인 성공시 이동할 경로 설정
                 .failureHandler(customFailureHandler) // 로그인 실패 핸들러
                 .defaultSuccessUrl("/")
