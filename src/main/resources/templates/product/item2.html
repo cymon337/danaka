@@ -46,10 +46,10 @@
 <div class="productContainer">
     <div class="imgContainer">
         <div class="bigImg">
-            <img th:src="${ product.tSavePath }">
+            <img th:src="${ product.tSavePath }?:'/image/line/lineDefault.png'">
         </div>
         <div class="otherImges">
-            <div class="otherImg"><img th:src="${ product.tSavePath }"></div>
+            <div class="otherImg"><img th:src="${ product.tSavePath }?:'/image/line/lineDefault.png'"></div>
             <th:block th:each="option : ${ optionList }">
                 <th:block th:switch="${ option.categoryCode }">
                     <div class="otherImg" th:case="RD"><img th:src="${ option?.tSavePath }?:'/image/rod/rodDefault.png'"></div>
