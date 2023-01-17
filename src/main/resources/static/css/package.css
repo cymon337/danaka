@@ -8,7 +8,7 @@
 /*==================== package search ====================*/
 
 .package-search-wrapper {
-    border: 1px solid black;
+    /*border: 1px solid black;*/
     height: 100%;
     width: 55%;
     margin-top: auto;
@@ -20,7 +20,7 @@
 }
 
 .package-search{
-    border: 1px solid black;
+    /*border: 1px solid black;*/
     background-color: yellow;
 }
 
@@ -45,7 +45,7 @@
 
 /*==================== package cart ====================*/
 .package-cart-wrapper {
-    border: 1px solid black;
+    /*border: 1px solid black;*/
     width: 20%;
     height: 100%;
 
