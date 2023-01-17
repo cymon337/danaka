@@ -189,7 +189,7 @@
                 <!--  class 에 선택되면 active 추가 선택취소 active 제거 -->
                 <li class="list-group-item" th:each="cart : ${cartList}" name="cartNo" th:value="${cart.cartNo}">
                     <span class="item-component item-thumnail">
-                        <img class="item-thumnail" th:src="@{ ${cart.tSavePath} }">
+                        <img class="item-thumnail" th:src="${cart.tSavePath}?:'/image/line/lineDefault.png'">
                     </span>
                     <span class="item-component item-info">
                         <p id="item-info-title"
