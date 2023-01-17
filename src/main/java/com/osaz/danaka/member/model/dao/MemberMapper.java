@@ -11,8 +11,6 @@ import java.util.List;
 public interface MemberMapper  {
 
 
-/*    MemberDTO findMemberById(String memberId);*/
-//    int insertMember(MemberDTO memberDTO); //회원가입 처리
         int insertMember(MemberDTO memberDTO); //회원가입 처리
 
       MemberDTO loginAction(String userId); //로그인
@@ -20,28 +18,24 @@ public interface MemberMapper  {
       MemberDTO findId(MemberDTO memberDTO);//아이디 찾기
 
 
-      int userUpdate(MemberDTO memberDTO);
+      int userUpdate(MemberDTO memberDTO); //회원정보 수정
 
-      int updatePassword(MemberDTO memberDTO);
+      int updatePassword(MemberDTO memberDTO);//비밀번호 변경
 
-    MemberDTO selectUser(String email);
+    MemberDTO selectUser(String email);//이메일로 사용자 찾기
 
-    //회원 삭제
-    int deleteMember(MemberDTO memberDTO);
-
-
-    //  쿼리 수정 후 받아올 결과 값이 따로 없기 때문에 interface의 리턴 값은 void로 설정
-
-    List<OrderDTO> selectOrder(MemberDTO memberDTO);
-
-    List<WishListDTO> selectWishList(MemberDTO memberDTO);
-
-    void cancelPurchase (OrderDTO orderNo);
+    int deleteMember(MemberDTO memberDTO); //회원 삭제
 
 
-    void cancelWishList(WishListDTO wishListDTO);
+    List<OrderDTO> selectOrder(MemberDTO memberDTO);//구매한 목록 가져오기
 
-    int idCheck(String userId);
+    List<WishListDTO> selectWishList(MemberDTO memberDTO);//찜한 목록 가져오기
 
-    int emailCheck(String email);
+    void cancelPurchase (OrderDTO orderNo); //구매 취소
+
+    void cancelWishList(WishListDTO wishListDTO);//찜 취소
+
+    int idCheck(String userId);// 회원가입 할때 아이디 중복 확인
+
+    int emailCheck(String email);// 회원가입 할때 이메일 중복 확인
 }
