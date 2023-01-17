@@ -149,10 +149,6 @@
                                  ON B.PRODUCT_NO = H.PRODUCT_NO) A
          WHERE A.RNUM BETWEEN #{ startRow } AND #{ endRow }
     </select>
-
-
-
-
     <!-- 상품 상세 페이지를 위한 한개의 대상품 정보 조회 쿼리 -->
     <select id="selectOneProduct" parameterType="String" resultMap="productResultMap">
         SELECT
@@ -444,14 +440,14 @@
         INSERT INTO T_QNA
         VALUES
             (
-                SEQ_QNA_NO.NEXTVAL,
-                #{ productNo },
-                #{ userNo },
-                #{ qnaBody },
-                #{ secretStatus },
-                DEFAULT,
-                '',
-                ''
+             SEQ_QNA_NO.NEXTVAL,
+             #{ productNo },
+             #{ userNo },
+             #{ qnaBody },
+             #{ secretStatus },
+             DEFAULT,
+             '',
+             ''
             )
     </insert>
     <!-- 상품 리뷰 삭제 -->
@@ -479,14 +475,14 @@
         <if test="qnaReply != null">
            SET REPLY = #{ qnaReply },
                REPLY_DATE = DEFAULT
-       </if>
+        </if>
          WHERE QNA_NO = #{ qnaNo }
     </update>
 
 
 
 
-
+    <!-- 콩성식 -->
     <!-- 메인페이지 상품 검색 -->
     <select id="selectMainTotalCount" resultType="_int" parameterType="hashmap">
         SELECT
