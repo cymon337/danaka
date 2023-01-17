@@ -1,7 +1,17 @@
 spring:
   # DB 연결
-  mvc:
-    static-path-pattern: /static/**
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username:
+    password:
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+  # DB 연결
   datasource:
     # 설치된 DB와 연결 URL
     url: jdbc:log4jdbc:oracle:thin:@localhost:1521:xe
@@ -10,9 +20,16 @@ spring:
     #oracle.jdbc.driver.OracleDriver
     username: danaka
     password: danaka
+#  autoconfigure:
+#    exclude: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
 
+# 포트설정
 server:
   port: 8090
 
+# 로그레벨설정 TRACE > DEBUG > INFO > WARN > ERROR  (개발서버는 debug  / 운영서버는 info)
+logging:
+  level:
+    com.osaz.danaka: debug
 
 

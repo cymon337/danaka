@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="refItems" id="refItems">
+    <th:block th:each="refProduct : ${ refProductList }">
+            <div class="refItem"><img th:src="${ refProduct.tSavePath }" alt="관련 상품" th:onclick="|location.href='@{/product/item2(productNo=${ refProduct.productNo })}'|"></div>
+    </th:block>
+</div>
+</body>
+</html>

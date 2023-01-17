@@ -1,0 +1,269 @@
+
+<!doctype html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+  <title>signup</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+  <script nonce="88f298e2-7919-4c1e-85cc-a31b83f46cf6">(function(w,d){!function(eK,eL,eM,eN){eK.zarazData=eK.zarazData||{};eK.zarazData.executed=[];eK.zaraz={deferred:[],listeners:[]};eK.zaraz.q=[];eK.zaraz._f=function(eO){return function(){var eP=Array.prototype.slice.call(arguments);eK.zaraz.q.push({m:eO,a:eP})}};for(const eQ of["track","set","debug"])eK.zaraz[eQ]=eK.zaraz._f(eQ);eK.zaraz.init=()=>{var eR=eL.getElementsByTagName(eN)[0],eS=eL.createElement(eN),eT=eL.getElementsByTagName("title")[0];eT&&(eK.zarazData.t=eL.getElementsByTagName("title")[0].text);eK.zarazData.x=Math.random();eK.zarazData.w=eK.screen.width;eK.zarazData.h=eK.screen.height;eK.zarazData.j=eK.innerHeight;eK.zarazData.e=eK.innerWidth;eK.zarazData.l=eK.location.href;eK.zarazData.r=eL.referrer;eK.zarazData.k=eK.screen.colorDepth;eK.zarazData.n=eL.characterSet;eK.zarazData.o=(new Date).getTimezoneOffset();if(eK.dataLayer)for(const eX of Object.entries(Object.entries(dataLayer).reduce(((eY,eZ)=>({...eY[1],...eZ[1]})))))zaraz.set(eX[0],eX[1],{scope:"page"});eK.zarazData.q=[];for(;eK.zaraz.q.length;){const e_=eK.zaraz.q.shift();eK.zarazData.q.push(e_)}eS.defer=!0;for(const fa of[localStorage,sessionStorage])Object.keys(fa||{}).filter((fc=>fc.startsWith("_zaraz_"))).forEach((fb=>{try{eK.zarazData["z_"+fb.slice(7)]=JSON.parse(fa.getItem(fb))}catch{eK.zarazData["z_"+fb.slice(7)]=fa.getItem(fb)}}));eS.referrerPolicy="origin";eS.src="/cdn-cgi/zaraz/s.js?z="+btoa(encodeURIComponent(JSON.stringify(eK.zarazData)));eR.parentNode.insertBefore(eS,eR)};["complete","interactive"].includes(eL.readyState)?zaraz.init():eK.addEventListener("DOMContentLoaded",zaraz.init)}(w,d,0,"script");})(window,document);</script>
+  <style>
+    #gender {
+      height: 40px;
+      width :270px;
+      background: #fff;
+      color: #000;
+      font-size: 16px;
+      border-radius: 5px;
+      -webkit-box-shadow: none;
+      box-shadow: none;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+    }
+    .id_ok{
+      color:#008000;
+      display: none;
+    }
+
+    .id_already{
+      color:#6A82FB;
+      display: none;
+    }
+
+    .email_ok{
+      color:#008000;
+      display: none;
+    }
+
+    .email_already{
+      color:#6A82FB;
+      display: none;
+    }
+
+  </style>
+</head>
+<body>
+<section class="ftco-section">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6 text-center mb-5">
+
+        <img th:src="@{/image/DANAKA.png}" onclick="location.href='/'">
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-md-6 col-lg-5">
+        <div class="login-wrap p-4 p-md-5">
+          <!--                    <div class="icon d-flex align-items-center justify-content-center">-->
+          <!--                        <span class="fa fa-user-o"></span>-->
+          <!--                    </div>-->
+          <h3 class="text-center mb-4">회원가입</h3>
+          <b><hr></b>
+          <form th:action="@{/signUpAction}" class="login-form" method="post">
+
+
+            <div class="form-group">
+
+              <input type="text" id="userId" name="userId" oninput="checkId()" class="form-control rounded-left" placeholder="아이디" required >
+
+              <span class="id_ok">사용 가능한 아이디입니다.</span>
+              <span class="id_already">누군가 이 아이디를 사용하고 있어요.</span>
+            </div>
+            <div class="form-group">
+              <input type="text" name="userNickname" class="form-control rounded-left" placeholder="닉네임" required>
+            </div>
+            <div class="form-group d-flex">
+              <input type="password" name="userPwd" class="form-control rounded-left" placeholder="비밀번호" required>
+            </div>
+           <!-- <div class="form-group d-flex">
+              <input type="password" class="form-control rounded-left" placeholder="비밀번호 확인" required>
+            </div>-->
+            <div class="form-group d-flex">
+              <input type="text" name="memberName"class="form-control rounded-left" placeholder="이름" required>
+            </div>
+            <a>생년월일</a>
+            <div class="form-group d-flex">
+              <input type="date"name="birthday" class="form-control rounded-left" placeholder="생년월일" required>
+            </div>
+            <a>주소</a>
+            <div class="form-group d-flex">
+            <input type="text" name="address" id="sample6_postcode" placeholder="우편번호">
+            <input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
+
+            </div>
+
+            <div class="form-group d-flex">
+            <input type="text" name="address" id="sample6_address" placeholder="주소" width="100px"><br>
+            <input type="text" name="address" id="sample6_detailAddress" placeholder="상세주소"><br>
+            </div>
+
+            <div class="form-group d-flex">
+              <input type="email" oninput="checkEmail()" name="email" class="form-control rounded-left" id="email"
+                      size="30" placeholder="이메일"  pattern="[a-zA-Z0-9]+[@][a-zA-Z0-9]+[.]+[a-zA-Z]+[.]*[a-zA-Z]*" required>
+            </div>
+            <span class="email_ok">사용 가능한 이메일입니다.</span>
+            <span class="email_already">누군가 이 이메일을 사용하고 있어요.</span>
+            <div class="form-group d-flex">
+              <input type="tel"  id="phone" name="phone" class="form-control rounded-left" placeholder="휴대전화"  pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" required>
+            </div>
+            <span>성별</span>
+            <div class="form-group d-flex">
+
+            <select name="gender" id="gender" >
+
+              <option value="gender" disabled>성별을 선택해주세요.</option>
+              <option value="남">남</option>
+              <option value="여">여</option>
+              </optgroup>
+            </select>
+            </div>
+            <script th:inline="javascript">
+
+              function checkId(){
+                let userId = $('#userId').val();
+                $.ajax({
+                  url: '/idCheck',
+                  type: 'post',
+                  data: {userId:userId},
+                  success:function (cnt){
+                    if(cnt == 0 ){
+                      $('.id_ok').css("display","inline-block");
+                      $('.id_already').css("display", "none");
+                    }else {
+                      $('.id_already').css("display","inline-block" );
+                      $('.id_ok').css("display", "none");
+                      alert("아이디를 다시 입력해주세요");
+                      $('#userId').val('');
+                    }
+                  },
+                  error:function (){
+                    alert("에러입니다");
+                  }
+
+                });
+              };
+
+            </script>
+            <script th:inline="javascript">
+
+              function checkEmail(){
+                let email = $('#email').val();
+                $.ajax({
+                  url: '/emailCheck',
+                  type: 'post',
+                  data: {email:email},
+                  success:function (cnt){
+                    if(cnt == 0 ){
+                      $('.email_ok').css("display","inline-block");
+                      $('.email_already').css("display", "none");
+                    }else {
+                      $('.email_already').css("display","inline-block" );
+                      $('.email_ok').css("display", "none");
+                      alert("이메일을 다시 입력해주세요");
+                      $('#email').val('');
+                    }
+                  },
+                  error:function (){
+                    alert("에러입니다");
+                  }
+
+                });
+              };
+
+            </script>
+
+
+
+
+
+            <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+            <script>
+              function sample6_execDaumPostcode() {
+                new daum.Postcode({
+                  oncomplete: function(data) {
+                    // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                    // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+                    // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                    var addr = ''; // 주소 변수
+                    var detailAddress = ''; // 참고항목 변수
+
+                    //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                    if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                      addr = data.roadAddress;
+                    } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                      addr = data.jibunAddress;
+                    }
+
+                    // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+                    if(data.userSelectedType === 'R'){
+                      // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                      // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                      if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                        detailAddress += data.bname;
+                      }
+                      // 건물명이 있고, 공동주택일 경우 추가한다.
+                      if(data.buildingName !== '' && data.apartment === 'Y'){
+                        detailAddress += (detailAddress !== '' ? ', ' + data.buildingName : data.buildingName);
+                      }
+                      // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                      if(detailAddress !== ''){
+                        detailAddress = ' (' + detailAddress + ')';
+                      }
+                      // 조합된 참고항목을 해당 필드에 넣는다.
+                      document.getElementById("sample6_detailAddress").value = detailAddress;
+
+                    } else {
+                      document.getElementById("sample6_detailAddress").value = '';
+                    }
+
+                    // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                    document.getElementById('sample6_postcode').value = data.zonecode;
+                    document.getElementById("sample6_address").value = addr;
+                    // 커서를 상세주소 필드로 이동한다.
+                    document.getElementById("sample6_detailAddress").focus();
+                  }
+                }).open();
+              }
+            </script>
+
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary rounded submit p-3 px-5">회원가입</button>
+            </div>
+
+            <div class="form-group d-md-flex">
+              <!--  <div class="w-50">
+                    <label class="checkbox-wrap checkbox-primary">Remember Me
+                        <input type="checkbox" checked>
+                        <span class="checkmark"></span>
+                    </label>
+                </div>-->
+
+
+
+
+
+              <div class="w-100 text-md-center">
+                <a href="/login">로그인</a>
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<script src="js/jquery.min.js"></script>
+<script src="js/popper.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/main.js"></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/vaafb692b2aea4879b33c060e79fe94621666317369993" integrity="sha512-0ahDYl866UMhKuYcW078ScMalXqtFJggm7TmlUtp0UlD4eQk0Ixfnm5ykXKvGJNFjLMoortdseTfsRT8oCfgGA==" data-cf-beacon='{"rayId":"77f014c9f8501a32","token":"cd0b4b3a733644fc843ef0b185f98241","version":"2022.11.3","si":100}' crossorigin="anonymous"></script>
+</body>
+</html>

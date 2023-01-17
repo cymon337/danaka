@@ -1,0 +1,252 @@
+/*베이스*/
+.bi {
+    vertical-align: -.125em;
+    fill: currentColor;
+}
+
+/*body {*/
+/*    min-height: 65rem;*/
+/*    min-width: 760px;*/
+/*    padding-top: 10rem;*/
+/*}*/
+
+/*상단바 기본*/
+#logo {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    -webkit-transition: .3s ease-in-out;
+    transition: .3s ease-in-out;
+}
+
+#logo:hover {
+    -webkit-transform: scale(1.3);
+    transform: scale(1.3);
+}
+
+#firstNav {
+    background-color: rgb(255, 255, 255);
+    height: 100px;
+    margin-top: -12px;
+}
+
+#secondNav {
+    background-color: rgb(0, 0, 202);
+    flex-wrap: nowrap;
+}
+
+#firstNav>a {
+    margin-left: 30px;
+    color: black;
+}
+
+/*최상단 검색창*/
+#search {
+    display: flex;
+    border: 2px solid rgb(0, 0, 202);
+    margin-top: 5px;
+    height: 50px;
+}
+
+#search>input {
+    width: 400px;
+    border-radius: 0;
+}
+
+#search>button {
+    background-color: rgb(0, 0, 202);
+    width: 3em;
+    margin-left: -10px;
+    border-radius: 0;
+    border: 0;
+}
+
+#search>button>i {
+    color: white;
+    font-size: 20px;
+}
+
+/*최상단 우측 기능*/
+#topRight {
+    display: flex;
+    margin: 15px 30px 0 0;
+}
+
+#cart {
+    cursor: pointer;
+    position: relative;
+}
+
+#cart>i {
+    position: absolute;
+    left: 18px;
+    bottom: 24px;
+    font-size: 28px;
+}
+
+#loginMy {
+    cursor: pointer;
+    position: relative;
+    margin-left: 30px;
+}
+
+#loginMy>i {
+    position: absolute;
+    left: 8px;
+    bottom: 20px;
+    font-size: 30px;
+}
+
+#topRight span {
+    font-size: 15px;
+}
+
+/*상단 전체 카테고리*/
+#totalCategory {
+    margin-left: 20px;
+    font-size: 20px;
+    color: white;
+    display: inline;
+    text-decoration: none;
+    min-width: 250px;
+    border: 1px solid rgb(0, 0, 202);
+}
+
+#totalCategory:hover {
+    color: black;
+    font-weight: bold;
+}
+
+#totalCategory>i {
+    font-size: 25px;
+    margin-right: 5px;
+}
+
+/*중앙 카테고리*/
+#centerCategory {
+    font-size: 1.3em;
+}
+
+#centerCategory>li>a {
+    color: white;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+#centerCategory>li>a:hover {
+    color: black;
+    font-weight: bold;
+}
+
+#notice {
+    margin-right: 30px;
+}
+
+#notice:hover {
+    color: black;
+    font-weight: bold;
+}
+
+/*최소 영역 지정*/
+body {min-width: 1400px}
+
+/*컨텐츠 영역 지정    */
+#contentArea {
+    width: 60%
+}
+
+#contentArea * {
+    margin: 5px
+}
+
+/*TOP 버튼*/
+#goTop{
+    margin-top: 120px;
+    margin-left: 90%;
+    position: fixed;
+    z-index: 100;
+}
+#goTop button{
+    background-color: rgb(0, 0, 202);
+    color: white;
+}
+
+/* 전체보기 드랍다운  */
+.navbar .dropdown-menu div[class*="col"] {
+    margin-bottom:1rem;
+}
+
+.navbar .dropdown-menu {
+    border:none;
+    background-color: rgb(137, 137, 238) !important;
+}
+
+.col-md-3 a {
+    color: white;
+}
+
+/*.active{*/
+/*    font-weight: bolder;*/
+/*    font-size: large;*/
+/*    margin: 10px;*/
+/*}*/
+
+#navbarDropdown{
+    margin-left: -10px;
+    font-size: larger;
+    font-weight: 400;
+    color: white;
+}
+
+#navbarDropdown:hover{
+    color: black;
+}
+
+#navbarDropdown i{
+    margin-bottom: 10px;
+}
+
+/* 미디어 스타일 지정 (조건) */
+@media screen and (min-width: 992px) {
+
+
+    /* 드랍다운 내 호버 상태 유지 위해 패딩제거 */
+    .navbar {
+        padding-bottom:0px;
+    }
+
+    /* 여백 */
+    .navbar .nav-item {
+        margin:0 2rem;
+    }
+
+    /* 드랍다운 전체 너비 지정  */
+    .navbar .dropdown {position:static;}
+
+    .navbar .dropdown-menu {
+        width:100%;
+        left:0;
+        right:0;
+        /* 드랍다운 영역 높이  */
+        top:157px;
+
+        display:block;
+        visibility: hidden;
+        opacity: 0;
+        transition: visibility 0s, opacity 0.3s linear;
+
+    }
+
+    /* 드랍다운 호버 */
+    .navbar .dropdown:hover .dropdown-menu, .navbar .dropdown .dropdown-menu:hover {
+        display:block;
+        visibility: visible;
+        opacity: 1;
+        transition: visibility 0s, opacity 0.3s linear;
+    }
+
+    .navbar .dropdown-menu {
+        border: 1px solid rgba(0,0,0,.15);
+        background-color: #fff;
+    }
+
+}

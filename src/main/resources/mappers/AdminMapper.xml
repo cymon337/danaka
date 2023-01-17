@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.osaz.danaka.admin.model.dao.AdminMapper">
+
+    <resultMap type="com.osaz.danaka.admin.model.dto.AdminDTO" id="memberResultMap">
+        <id property="userNo" column="USER_NO"/>
+        <result property="userId" column="USER_ID"/>
+        <result property="userNickname" column="USER_NICKNAME"/>
+        <result property="userPwd" column="USER_PWD"/>
+        <result property="userName" column="USER_NAME"/>
+        <result property="birthday" column="BIRTHDAY"/>
+        <result property="gender" column="GENDER"/>
+        <result property="address" column="ADDRESS"/>
+        <result property="email" column="EMAIL"/>
+        <result property="phone" column="PHONE"/>
+        <result property="regDate" column="REG_DATE"/>
+        <result property="status" column="STATUS"/>
+        <result property="userRole" column="USER_ROLE"/>
+    </resultMap>
+
+    <!-- 페이징 처리를 위한 총 개수 조회 (where에 따라 검색 조건 및 결과 변경)-->
+    <select id="selectTotalCount" resultType="_int" parameterType="hashmap">
+        SELECT
+               COUNT(*)
+          FROM T_MEMBER A
+          <where>
+              <if test="memberCondition != 'deleteMember'">
+                  A.STATUS = 'Y'
+              </if>
+              <if test="memberCondition == 'deleteMember'">
+                  A.STATUS = 'N'
+              </if>
+          </where>
+          <choose>
+              <when test="searchCondition == 'total'">
+                  AND (A.USER_ID LIKE '%' || #{ searchValue } || '%'
+                  OR A.USER_NICKNAME LIKE '%' || #{ searchValue } || '%'
+                  OR A.USER_NAME LIKE '%' || #{ searchValue } || '%'
+                  )
+              </when>
+              <when test="searchCondition == 'userId'">
+                  AND A.USER_ID LIKE '%' || #{ searchValue } || '%'
+              </when>
+              <when test="searchCondition == 'userNickName'">
+                  AND A.USER_NICKNAME LIKE '%' || #{ searchValue } || '%'
+              </when>
+              <when test="searchCondition == 'userName'">
+                  AND A.USER_NAME LIKE '%' || #{ searchValue } || '%'
+              </when>
+          </choose>
+
+    </select>
+
+    <!--공지사항 전체조회 / <where> 해당되지 않을 경우 무시 -->
+    <select id="selectAllList" resultMap="memberResultMap">
+        SELECT
+              A.RNUM
+            , A.USER_NO
+            , A.USER_ID
+            , A.USER_NICKNAME
+            , A.USER_NAME
+            , A.PHONE
+            , A.STATUS
+        FROM (
+                SELECT
+                      ROWNUM RNUM
+                    , B.USER_NO
+                    , B.USER_ID
+                    , B.USER_NICKNAME
+                    , B.USER_NAME
+                    , B.PHONE
+                    , B.STATUS
+                    FROM (
+                            SELECT
+                                  C.USER_NO
+                                , C.USER_ID
+                                , C.USER_NICKNAME
+                                , C.USER_NAME
+                                , C.PHONE
+                                , C.STATUS
+                                FROM T_MEMBER C
+                                <where>
+                                    <if test="memberCondition != 'deleteMember'">
+                                        C.STATUS = 'Y'
+                                    </if>
+                                    <if test="memberCondition == 'deleteMember'">
+                                        C.STATUS = 'N'
+                                    </if>
+                                </where>
+                                <choose>
+                                    <when test="searchCondition == 'total'">
+                                        AND (C.USER_ID LIKE '%' || #{ searchValue } || '%'
+                                        OR C.USER_NICKNAME LIKE '%' || #{ searchValue } || '%'
+                                        OR C.USER_NAME LIKE '%' || #{ searchValue } || '%'
+                                        )
+                                    </when>
+                                    <when test="searchCondition == 'userId'">
+                                        AND C.USER_ID LIKE '%' || #{ searchValue } || '%'
+                                    </when>
+                                    <when test="searchCondition == 'userNickName'">
+                                        AND C.USER_NICKNAME LIKE '%' || #{ searchValue } || '%'
+                                    </when>
+                                    <when test="searchCondition == 'userName'">
+                                        AND C.USER_NAME LIKE '%' || #{ searchValue } || '%'
+                                    </when>
+                                </choose>
+                                ORDER BY C.USER_NO DESC
+                    ) B
+                <![CDATA[
+                  WHERE ROWNUM <= #{ endRow }
+                  ]]>
+            ) A
+        WHERE A.RNUM >= #{ startRow }
+    </select>
+
+    <!-- 회원 단일 조회 -->
+    <select id="selectOneMember" resultMap="memberResultMap">
+        SELECT
+            *
+        FROM T_MEMBER A
+        WHERE A.USER_NO = #{ userNo }
+    </select>
+
+    <!--회원 삭제-->
+    <update id="deleteMember">
+        UPDATE T_MEMBER A
+        SET
+            A.STATUS = 'N'
+        WHERE
+            A.USER_NO = #{ userNo }
+    </update>
+
+    <!-- 회원정보 수정 -->
+    <update id="updateMember">
+        UPDATE T_MEMBER A
+        SET
+            A.USER_NICKNAME = #{ userNickname }
+          , A.USER_PWD = #{ userPwd }
+          , A.ADDRESS = #{ address }
+          , A.EMAIL = #{ email }
+          , A.PHONE = #{ phone }
+        WHERE
+            A.USER_NO = #{ userNo }
+    </update>
+
+</mapper>

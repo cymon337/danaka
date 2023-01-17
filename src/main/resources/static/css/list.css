@@ -1,4 +1,8 @@
+body {
+    background-color: #f0f2fe;
+}
 .categoryImg {
+    margin-top: 159px;
     height: 9em;
 }
 .categoryImg>img {
@@ -15,13 +19,22 @@
     margin: 0 -4px 0 -4px;
     padding: 0.5em;
     border: 1px #C4C2FF solid;
+    border-bottom: none;
     border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    background-color: white;
+    font-size: 13px;
+}
+.orderContainer>button:hover {
+    background-color: #0448AD;
+    color: white;
 }
 .outerProductsContainer {
     border: 1px #C4C2FF solid;
     border-radius: 1em;
     width: 60%;
-    margin: 0 auto;
+    margin: 0 auto 1em auto;
+    background-color: white;
 }
 .productContainer {
     display: flex;
@@ -31,6 +44,9 @@
     border-radius: 1em;
     align-items: center;
     justify-content: space-between;
+}
+.productContainer:hover {
+    background-color: #d9f6f6;
 }
 .productContainer>div {
     display: inline-block;
@@ -46,33 +62,34 @@
 .thumnail>img {
     width: 100%;
     border: 1px #e5e5ff solid;
-
-
 }
 .detail1 {
-    width: 83%;
+    width: 80%;
     align-self: flex-start;
+    margin-left: 1%;
 }
 .detail1 * {
     margin-top: 0;
     margin-bottom: 1px;
-    color: black;
     text-decoration: none;
+
 }
 .detail1>a {
 
 }
-.productName>p{
+.productName p{
+    font-size: 1.25rem;
+    font-weight: bolder;
     margin: 0;
+    color: black;
 }
 .productDetail {
-
     font-size: 10px;
     color: gray;
     margin-top: 1px;
 }
 .detail2 {
-    width: 6%;
+    width: 10%;
     min-width: 4em;
     padding: 0;
     align-self: flex-end;
@@ -84,11 +101,43 @@
     margin: 0;
 }
 .price {
-
+    font-size: 1rem;
+    font-weight: bold;
 }
 .regDate {
     font-size: 10px;
     color: gray;
+}
+.pagingArea {
+    margin-top: 1%;
+    margin-bottom: 1%;
+}
+.pagingArea>button {
+    width: 2em;
+    height: 2em;
+    border-radius: 5px;
+    color: black;
+    border: none;
+    font-size: 1rem;
+    color: white;
+    background-color: #0a53bd;
+    text-align: center;
+}
+.pagingArea>button:hover {
+    background-color: #45d1ea;
+}
+.pagingArea>button:disabled {
+    background-color: #b2c7e3;
+}
+
+#footer {
+    height: 246px;
+    width: 100%;
+    background-color: white;
+}
+#footer img {
+    width: 100%;
+    object-fit: fill;
 }
 
 @media screen and (max-width : 767px) {

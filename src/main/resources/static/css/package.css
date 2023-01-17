@@ -1,0 +1,71 @@
+/*==================== wrapper ====================*/
+.wrapper {
+    display: flex;
+    width: 100%;
+    margin-top: 200px;
+}
+
+/*==================== package search ====================*/
+
+.package-search-wrapper {
+    border: 1px solid black;
+    height: 100%;
+    width: 55%;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-right: 5%;
+    margin-left: 10%;
+
+
+}
+
+.package-search{
+    border: 1px solid black;
+    background-color: yellow;
+}
+
+#search-product {
+    width: 90%;
+}
+.category-select, select{
+    margin-left: 20px;
+    margin-top: 5px;
+}
+
+.category-option button {
+    margin-left: 20px;
+    margin-right: auto;
+}
+.category-option tr {
+    margin-left: 20px;
+    margin-right: auto;
+}
+
+
+
+/*==================== package cart ====================*/
+.package-cart-wrapper {
+    border: 1px solid black;
+    width: 20%;
+    height: 100%;
+
+    margin: auto 10% auto 0;
+    /*margin-top: auto;*/
+    /*margin-bottom: auto;*/
+    /*margin-right: 10%;*/
+    /*margin-left: 0%;*/
+
+    background-color: cyan;
+}
+
+#backtotop {
+    box-sizing: border-box;
+    position: fixed;
+    right: 0.7em;
+    bottom: 2em;
+}
+#toTopBtn {
+    background-color: #0a53be;
+    color: white;
+    border: none;
+}

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>error</title>
+    <link rel="stylesheet" th:href="@{ /css/productBoard.css }">
+</head>
+<body>
+
+<div id="errorLogo">
+  <img th:src="@{ /image/DANAKA.png }" onclick="location.href='/'">
+</div>
+<div>
+  <h3>페이지를 찾을 수 없습니다.</h3>
+</div>
+<div id="errorImg">
+  <img th:src="@{ /image/fishingFail.png }" onclick="location.href='/'">
+</div>
+<div id="errorButtons">
+  <button type="button" onclick="location.href='/'">메인 화면으로</button>
+</div>
+</body>
+</html>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title> NoticeListView </title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- 타임리프용 헤더 css -->
+    <link rel="stylesheet" th:href="@{/css/indexCss.css}"/>
+    <!-- 부트스트랩 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <!-- 아이콘 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <!-- 제이쿼리 -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- 자바스크립트 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+
+    <script>
+        /* 메세지 alert창 */
+        const successMessage = "[[${ successMessage }]]";
+        console.log(successMessage);
+        if (successMessage){
+            alert(successMessage);
+        }
+    </script>
+</head>
+<body>
+    <!--타임리프용 헤더-->
+    <div class="header">
+        <th:block th:replace="~{common/header :: header}" />
+    </div>
+    
+    <div class="content">
+        <h2 align="center">공지사항</h2>
+        <div th:if="${#lists.isEmpty(notices)}">
+            <h2 align="center">검색된 내용이 없습니다.</h2>
+        </div>
+        <div th:if="${not #lists.isEmpty(notices)}">
+            <table id="contentArea" class="table table-hover" align="center">
+                <thead>
+                <tr>
+                    <th>글번호</th>
+                    <th>제목</th>
+                    <th>작성자</th>
+                    <th>작성일</th>
+                    <th>조회수</th>
+                </tr>
+                </thead>
+                <tbody>
+                     <tr th:each="notice : ${notices}">
+                        <td th:text="${notice.noticeNo}"></td>
+                        <td><a th:href="@{/notice/noticeDetail(noticeNo=${ notice.noticeNo })}" th:text="${notice.noticeName}"></a></td>
+                        <td th:text="${notice.userName}"></td>
+                        <td th:text="${#dates.format(notice.noticeDate, 'yyyy-MM-dd HH:mm')}"></td>
+                        <td th:text="${notice.noticeCount}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!--게시글 추가-->
+        <div align="center">
+            <a th:href="@{'noticeEnroll'}" class="btn btn-primary">게시글추가</a>
+        </div>
+    </div>
+
+    <!-- 페이징 처리-->
+    <div class="paging">
+        <th:block th:include="~{common/noticePaging :: paging}" />
+    </div>
+    
+    <!-- 검색 폼 -->
+    <div class="search-area" align="center">
+        <form id="loginForm" th:action="@{/notice/noticeListView}" method="get" style="display:inline-block">
+            <input type="hidden" name="currentPage" value="1">
+            <select id="searchCondition" name="searchCondition"> <!-- 선택 유지? selected -->
+                <option value="total">전체</option>
+                <option value="title">제목</option>
+                <option value="content">내용</option>
+            </select>
+            <input type="search" id="searchValue" name="searchValue"/>
+            <button type="submit">검색하기</button>
+        </form>
+    </div>
+
+    <!--TOP버튼-->
+    <div class="row align-items-end" id="goTop">
+        <button type="button" class="btn btn-info btn-lg" onclick="window.scrollTo(0,0);">
+            ▲TOP
+        </button>
+    </div>
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        // 검색 기준 유지 : 쿼리스트링에 따라 빈 값(첫 화면)일 경우 전체로 설정, 수동 변경 시 화면 이동할때도 값 유지
+        window.onload=function() {
+            let search = document.getElementById('searchCondition');
+            let data = [[ ${param.searchCondition} ]]
+    
+            if(data == null){
+                search.value = "total";
+            }else{
+                search.value = data;
+            }
+        }
+        /*]]*/
+    </script>
+
+</body>
+</html>

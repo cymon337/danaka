@@ -1,0 +1,43 @@
+
+<script th:src="@{ /js/package.js }"></script>
+
+<body>
+
+
+    <table id="category-option" class="category-option fragment" th:if="category-select-box == 'rod'">
+
+        <tr>
+            <th>브랜드</th>
+            <td th:each="brand : ${brands}">
+                <button type="button" class="btn btn-outline-secondary" th:text="${brand}">브랜드</button>
+            </td>
+        </tr>
+        <tr>
+            <th>릴타입</th>
+            <td th:each="reelType : ${rodReelType}">
+                <button type="button" class="btn btn-outline-secondary" th:text="${reelType}">릴타입</button>
+            </td>
+        </tr>
+        <tr>
+            <th>라인MIN</th>
+            <td th:each="min : ${lineMin}">
+                <button type="button" class="btn btn-outline-secondary" th:text="${min}">라인MIN</button>
+            </td>
+        </tr>
+        <tr>
+            <th>라인MAX</th>
+            <td th:each="max : ${lineMax}">
+                <button type="button" class="btn btn-outline-secondary" th:text="${max}">라인MAX</button>
+            </td>
+        </tr>
+        <script>$(".btn-outline-secondary").on("click", function (e) {
+
+            if ($(e.target).hasClass("active") === true) {
+                $(e.target).removeClass("active")
+            } else {
+                $(e.target).addClass("active") ;
+            }
+        });</script>
+    </table>
+
+</body>

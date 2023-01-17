@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.osaz.danaka.notice.model.dao.NoticeMapper">
+
+    <resultMap type="com.osaz.danaka.notice.model.dto.NoticeDTO" id="noticeResultMap">
+        <id property="noticeNo" column="NOTICE_NO"/>
+        <result property="userName" column="USER_NAME"/>
+        <result property="noticeName" column="NOTICE_NAME"/>
+        <result property="noticeContent" column="NOTICE_CONTENT"/>
+        <result property="noticeDate" column="NOTICE_DATE"/>
+        <result property="noticeCount" column="NOTICE_COUNT"/>
+    </resultMap>
+
+    <!-- 페이징 처리를 위한 총 개수 조회 (where에 따라 검색 조건 및 결과 변경)-->
+    <select id="selectTotalCount" resultType="_int" parameterType="hashmap">
+        SELECT
+               COUNT(*)
+          FROM T_NOTICE A
+        <where>
+            <if test="searchCondition == 'title'">
+                A.NOTICE_NAME LIKE '%' || #{ searchValue } || '%'
+            </if>
+            <if test="searchCondition == 'content'">
+                A.NOTICE_CONTENT LIKE '%' || #{ searchValue } || '%'
+            </if>
+        </where>
+    </select>
+
+    <!-- 공지사항 전체조회 -->
+    <select id="selectAllList" resultMap="noticeResultMap">
+        SELECT
+              A.RNUM
+            , A.NOTICE_NO
+            , A.USER_NAME
+            , A.NOTICE_NAME
+            , A.NOTICE_DATE
+            , A.NOTICE_COUNT
+        FROM (
+                SELECT
+                      ROWNUM RNUM
+                    , B.NOTICE_NO
+                    , B.USER_NAME
+                    , B.NOTICE_NAME
+                    , B.NOTICE_DATE
+                    , B.NOTICE_COUNT
+                    FROM (
+                            SELECT
+                                  C.NOTICE_NO
+                                , D.USER_NAME
+                                , C.NOTICE_NAME
+                                , C.NOTICE_DATE
+                                , C.NOTICE_COUNT
+                                FROM T_NOTICE C, T_MEMBER D
+                                WHERE C.USER_NO = D.USER_NO
+                                <choose>
+                                    <when test="searchCondition == 'total'">
+                                        AND (C.NOTICE_NAME LIKE '%' || #{ searchValue } || '%'
+                                        OR C.NOTICE_CONTENT LIKE '%' || #{ searchValue } || '%'
+                                        )
+                                    </when>
+                                    <when test="searchCondition == 'title'">
+                                        AND C.NOTICE_NAME LIKE '%' || #{ searchValue } || '%'
+                                    </when>
+                                    <when test="searchCondition == 'content'">
+                                        AND C.NOTICE_CONTENT LIKE '%' || #{ searchValue } || '%'
+                                    </when>
+                                </choose>
+                                ORDER BY C.NOTICE_NO DESC
+                    ) B
+                <![CDATA[
+                  WHERE ROWNUM <= #{ endRow }
+                  ]]>
+            ) A
+        WHERE A.RNUM >= #{ startRow }
+    </select>
+
+    <!-- 공지사항 단일 조회 -->
+    <select id="selectOneNotice" resultMap="noticeResultMap">
+        SELECT
+            A.NOTICE_NO,
+            B.USER_NAME,
+            A.NOTICE_NAME,
+            A.NOTICE_CONTENT,
+            A.NOTICE_DATE,
+            A.NOTICE_COUNT
+        FROM T_NOTICE A, T_MEMBER B
+        WHERE A.USER_NO = B.USER_NO
+          AND A.NOTICE_NO = #{ noticeNo }
+    </select>
+
+    <!-- 공지사항 최근 5개 조회 -->
+    <select id="selectTop5Notice" resultMap="noticeResultMap">
+        SELECT
+                A.NOTICE_NO
+              , A.NOTICE_NAME
+              , A.NOTICE_DATE
+         FROM (SELECT
+                     *
+                FROM T_NOTICE
+                ORDER BY ROWNUM DESC) A
+        WHERE <![CDATA[ ROWNUM <= 5 ]]>
+    </select>
+
+    <!-- 공지사항 추가 -->
+    <insert id="insertNotice">
+        INSERT
+        INTO T_NOTICE A
+            (
+               A.NOTICE_NO
+             , A.USER_NO
+             , A.NOTICE_NAME
+             , A.NOTICE_CONTENT
+        )
+        VALUES
+            (
+            SEQ_NOTICE_NO.NEXTVAL
+                , 1
+                , #{ noticeName }
+                , #{ noticeContent }
+            )
+    </insert>
+
+    <!-- 공지사항 삭제 -->
+    <delete id="deleteNotice">
+        DELETE FROM T_NOTICE A
+        WHERE A.NOTICE_NO = #{ noticeNo }
+    </delete>
+
+    <!-- 공지사항 수정 -->
+    <update id="updateNotice">
+        UPDATE T_NOTICE A
+        SET
+            A.NOTICE_NAME = #{ noticeName }
+          , A.NOTICE_CONTENT = #{ noticeContent }
+          , A.NOTICE_DATE = SYSDATE
+        WHERE
+            A.NOTICE_NO = #{ noticeNo }
+    </update>
+
+    <!-- 공지사항 조회수 증가 -->
+    <update id="incrementNoticeCount">
+        UPDATE
+            T_NOTICE A
+        SET A.NOTICE_COUNT = A.NOTICE_COUNT + 1
+        WHERE A.NOTICE_NO = #{ noticeNo }
+    </update>
+
+</mapper>
