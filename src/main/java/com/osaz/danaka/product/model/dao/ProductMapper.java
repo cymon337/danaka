@@ -13,9 +13,10 @@ public interface ProductMapper {
 
     // 페이징 처리용 총 상품 개수 조회
     int selectTotalCount(Map<String, String> searchMap);
-    
+
     // 카테고리별 상품들 조회
     List<ProductDTO> selectListByCategory(SelectCriteria selectCriteria);
+
 
     // 상품 상세페이지용 상품 조회
     ProductDTO selectOneProduct(String productNo);
@@ -25,7 +26,7 @@ public interface ProductMapper {
     
     // 상품 상세페이지용 해당하는 상품의 옵션 상품들 조회
     List<ProductDTO> selectOptionList(String productName);
-    
+
     // 상품 상세페이지용 관련상품들 조회
     List<ProductDTO> selectRefProducts(String productNo);
 
@@ -76,4 +77,18 @@ public interface ProductMapper {
 
     // 상품 문의 수정
     int updateQna(HashMap<String, String> updateMap);
+
+
+
+
+
+    // 메인페이지 상품 검색 페이징
+    int selectMainTotalCount(Map<String, String> searchMap);
+
+    // 메인페이지 상품 검색 조회
+    List<ProductDTO> selectListByMainPage(com.osaz.danaka.common.paging.SelectCriteria selectCriteria);
+
+    List<ProductDTO> selectTop4Product();
+
+    void insertProduct(ProductDTO product);
 }
