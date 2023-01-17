@@ -126,6 +126,9 @@ let searchProductList = {
 // 검색상품 리스트 출력
 let display = function (productList) {
     console.log("*** function display product list running ***");
+
+    $("#item-list").empty();
+
     for (let i = 0; i < productList.length; i++) {
         var productNo = productList[i].productNo;
         var brandName = productList[i].brandName;
@@ -135,7 +138,6 @@ let display = function (productList) {
         var option3 = productList[i].option3;
         var option4 = productList[i].option4;
         var price = productList[i].price;
-
 
         $("#item-list").append(
             "<li class='list-group-item'>"+
@@ -158,14 +160,8 @@ let display = function (productList) {
                         "<input type='hidden' name='price' value='"+price+"'/>"+
                     "</span>"+
             "</li>"
-
         )
-
-
-
     }
-    // $("#item-list").append()
-
 }
 
 Number.prototype.formatNumber = function(){
