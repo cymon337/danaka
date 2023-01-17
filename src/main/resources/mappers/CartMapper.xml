@@ -27,6 +27,7 @@
         <result property="option3" column="OPTION3"/>
         <result property="option4" column="OPTION4"/>
         <result property="price" column="PRICE"/>
+        <result property="tSavePath" column="TSAVE_PATH"/>
     </resultMap>
 
 <!--  SEQ_PACKAGE_ID 조회  -->
@@ -70,6 +71,7 @@
                           WHEN B.CATEGORY_CODE = 'RL' THEN RL.REEL_PRICE
                           WHEN B.CATEGORY_CODE = 'LN' THEN LN.LINE_PRICE
             END PRICE
+            ,VP.TSAVE_PATH
 
         FROM T_CART A
             JOIN T_PRODUCT B ON A.PRODUCT_NO = B.PRODUCT_NO
@@ -78,51 +80,9 @@
             LEFT JOIN  T_ROD RD ON A.PRODUCT_NO = RD.PRODUCT_NO
             LEFT JOIN  T_REEL RL ON A.PRODUCT_NO = RL.PRODUCT_NO
             LEFT JOIN  T_LINE LN ON A.PRODUCT_NO = LN.PRODUCT_NO
+            LEFT JOIN VIEW_PRODUCT VP ON A.PRODUCT_NO = VP.PRODUCT_NO
         WHERE A.USER_NO = #{userNo}
     </select>
-
-<!--  회원별 장바구니 상품정보 조회
-    <select id="selectCartProduct" resultMap="cartProductResultMap">
-        SELECT
-            A.PRODUCT_NO
-             ,B.BRAND_NAME
-             ,A.PRODUCT_NAME
-             ,C.CATEGORY_NAME
-             ,CASE
-                  WHEN A.CATEGORY_CODE = 'RD' THEN RD.ROD_MODEL
-                  WHEN A.CATEGORY_CODE = 'RL' THEN RL.REEL_MODEL
-                  WHEN A.CATEGORY_CODE = 'LN' THEN TO_CHAR(LN.LINE_SIZE, 'FM9990.09')
-            END OPTION1
-             ,CASE
-                  WHEN A.CATEGORY_CODE = 'RD' THEN RD.REEL_TYPE
-                  WHEN A.CATEGORY_CODE = 'RL' THEN RL.REEL_TYPE
-            END OPTION2
-             ,CASE
-                  WHEN A.CATEGORY_CODE = 'RD' THEN RD.LINE_MIN
-            END OPTION3
-             ,CASE
-                  WHEN A.CATEGORY_CODE = 'RD' THEN RD.LINE_MAX
-            END OPTION4
-             ,CASE
-                  WHEN A.CATEGORY_CODE = 'RD' THEN RD.ROD_PRICE
-                  WHEN A.CATEGORY_CODE = 'RL' THEN RL.REEL_PRICE
-                  WHEN A.CATEGORY_CODE = 'LN' THEN LN.LINE_PRICE
-            END PRICE
-        FROM T_PRODUCT A
-                 JOIN T_BRAND B ON A.BRAND_NO = B.BRAND_NO
-                 JOIN T_CATEGORY C ON A.CATEGORY_CODE = C.CATEGORY_CODE
-                 LEFT JOIN  T_ROD RD ON A.PRODUCT_NO = RD.PRODUCT_NO
-                 LEFT JOIN  T_REEL RL ON A.PRODUCT_NO = RL.PRODUCT_NO
-                 LEFT JOIN  T_LINE LN ON A.PRODUCT_NO = LN.PRODUCT_NO
-        WHERE A.PRODUCT_NO IN (
-            <foreach collection="list" item="item" separator=",">
-                #{item.productNo}
-            </foreach>
-            )
-        ORDER BY A.PRODUCT_NO ASC
-
-    </select>
--->
 
 
 <!--  장바구니 등록  -->
