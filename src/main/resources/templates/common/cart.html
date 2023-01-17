@@ -49,6 +49,7 @@
                 document.querySelector('#sum-order-price').textContent = '합계금액: ' + this.totalPrice.formatNumber() + '원';
             },
             changePNum: function (e) {
+                console.log(e);
                 var cartNo = $(e).parent().parent().val().toString();
                 var pNum = $(e).val();
                 $(e).attr('value', pNum);
@@ -182,6 +183,9 @@
             </p>
 
             <ul id="cart-list" class="list-group">
+                <script>
+                    let cartListIndex = -1;
+                </script>
                 <!--  class 에 선택되면 active 추가 선택취소 active 제거 -->
                 <li class="list-group-item" th:each="cart : ${cartList}" name="cartNo" th:value="${cart.cartNo}">
                     <span class="item-component item-thumnail">
@@ -200,8 +204,25 @@
                     <span class="item-component item-price">
                         <p class="calc-price" th:text="${cart.price} * ${cart.amount}"></p>
                     </span>
+                    <script>
+                        cartListIndex += 1;
+                    </script>
                 </li>
             </ul>
+            // 상품리스트 프라이스 포메터로 수정
+            <script type="text/javascript">
+                for (let i = 0; i <= cartListIndex; i++) {
+                    var $element = $(".list-group li").eq(i)
+                    // console.log("i = "+i);
+                    var pNum = $element.find(".pNum").val();
+                    // console.log("pNum = "+pNum);
+                    var price = $element.find(".pPrice").val();
+                    // console.log("price = "+price);
+                    var calcPrice = pNum * price;
+                    $element.find('.calc-price').html(`${calcPrice.formatNumber()} 원`);
+                }
+            </script>
+
 
             <!--li 버튼 클릭 활성 비활성-->
             <script type="text/javascript">
@@ -237,6 +258,7 @@
         </form>
 
     </div>
+
 
 </div>
 
