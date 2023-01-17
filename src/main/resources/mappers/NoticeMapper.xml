@@ -101,7 +101,7 @@
                      *
                 FROM T_NOTICE
                 ORDER BY ROWNUM DESC) A
-        WHERE <![CDATA[ ROWNUM <= 5 ]]> ;
+        WHERE <![CDATA[ ROWNUM <= 5 ]]>
     </select>
 
     <!-- 공지사항 추가 -->
