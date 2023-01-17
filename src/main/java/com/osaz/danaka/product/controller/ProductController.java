@@ -334,13 +334,13 @@ public class ProductController {
             pageNo = 1;
         }
 
-        int totalCount = productService.selectTotalReviewCount(productNo);
+        int totalCount = productService.selectTotalReviewCount(map);
         int limit = 10;
         int buttonAmount = 5;
 
         /* 페이징 처리를 위한 로직 호출 후 페이징 처리에 관한 정보를 담고 있는 인스턴스를 반환받는다. */
         SelectCriteria selectCriteria = Pagenation.getSelectCriteria(pageNo, totalCount, limit, buttonAmount);
-        selectCriteria.setSearchValue(productNo);
+        selectCriteria.setSearchValue(productName);
         log.info("검색조건 = {}", selectCriteria);
         List<ReviewDTO> reviewList = productService.selectReviewList(selectCriteria);
 

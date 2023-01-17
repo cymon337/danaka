@@ -2,7 +2,7 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>DANAKA - [[${ product.productName }]]</title>
     <!-- index.html css -->
     <link rel="stylesheet" th:href="@{ /css/indexCss.css }"/>
     <!-- 부트스트랩 -->
@@ -458,6 +458,7 @@
             if($("#review" + that).attr("disabled") == "disabled") {
                 $("#review" + that).attr("disabled", false);
                 $("#review" + that).css("border", "1px #C4C2FF solid");
+                $("#review" + that).focus();
                 return;
             }
             boardNumber = $("#updateReview" + that).serialize();
@@ -510,6 +511,7 @@
         if($("#qnaReply" + that).attr("disabled") == "disabled") {
             $("#qnaReply" + that).attr("disabled", false);
             $("#qnaReply" + that).css("border", "1px #C4C2FF solid");
+            $("#qnaReply" + that).focus();
             return;
         }
 

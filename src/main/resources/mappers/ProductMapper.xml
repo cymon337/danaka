@@ -334,14 +334,17 @@
                                 WHERE PRODUCT_NAME = #{ productName })
            AND A.USER_NO = #{ userNo }
            AND ROWNUM = 1
-         ORDER BY A.REG_DATE
+         ORDER BY A.REG_DATE DESC
     </select>
     <!-- 상품 리뷰 총 개수 조회 -->
-    <select id="selectTotalReviewCount" parameterType="String" resultType="_int">
+    <select id="selectTotalReviewCount" parameterType="map" resultType="_int">
         SELECT
             COUNT(*)
           FROM T_REVIEW
-         WHERE PRODUCT_NO = #{ productNo }
+         WHERE PRODUCT_NO IN (SELECT
+                                  PRODUCT_NO
+                                FROM T_PRODUCT
+                               WHERE PRODUCT_NAME = #{ productName })
     </select>
     <!-- 상품 qna 총 개수 조회 -->
     <select id="selectTotalQnaCount" parameterType="String" resultType="_int">
@@ -369,7 +372,10 @@
                    ON A.USER_NO = B.USER_NO
                  LEFT JOIN T_PRODUCT C
                    ON A.PRODUCT_NO = C.PRODUCT_NO
-                WHERE A.PRODUCT_NO = #{ searchValue }
+                WHERE A.PRODUCT_NO IN (SELECT
+                                           PRODUCT_NO
+                                         FROM T_PRODUCT
+                                        WHERE PRODUCT_NAME = #{ searchValue })
                 ORDER BY A.REVIEW_NO DESC) D
          WHERE D.RNUM BETWEEN #{ startRow } AND #{ endRow }
     </select>
