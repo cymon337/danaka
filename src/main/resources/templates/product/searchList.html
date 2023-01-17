@@ -5,7 +5,7 @@
     <title>Title</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- index.html css -->
-    <link rel="stylesheet" th:href="@{ /css/indexCss.css }"/>
+    <link rel="stylesheet" th:href="@{ /css/index.css }"/>
     <!--    -->
     <!--    &lt;!&ndash; 부트스트랩 &ndash;&gt;-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -48,9 +48,9 @@
     <div class="productContainer" id="productContainer" th:each="product : ${ productList }">
         <div class="thumnail">
             <th:block th:switch="${ product.categoryCode }">
-                <img th:case="RD" th:src="${ product.savePath }" alt="상품썸네일" th:onclick="|location.href='@{/product/item2(productNo=${ product.productNo })}'|">
-                <img th:case="RL" th:src="${ product.savePath }" alt="상품썸네일" th:onclick="|location.href='@{/product/item2(productNo=${ product.productNo })}'|">
-                <img th:case="LN" th:src="${ product.savePath }" alt="상품썸네일" th:onclick="|location.href='@{/product/item2(productNo=${ product.productNo })}'|">
+                <img th:case="RD" th:src="${ product.tSavePath }" alt="상품썸네일" th:onclick="|location.href='@{/product/item2(productNo=${ product.productNo })}'|">
+                <img th:case="RL" th:src="${ product.tSavePath }" alt="상품썸네일" th:onclick="|location.href='@{/product/item2(productNo=${ product.productNo })}'|">
+                <img th:case="LN" th:src="${ product.tSavePath }" alt="상품썸네일" th:onclick="|location.href='@{/product/item2(productNo=${ product.productNo })}'|">
             </th:block>
         </div>
         <div class="detail1">
@@ -81,11 +81,9 @@
         </div>
     </div>
     
-    <!-- common파일 중복으로 잠깐 보류 -->
-    <!-- <div class="pagingButtons" align="center">
-        <th:block th:include="~{common/pagingProductSearch :: paging}"/>
-        <a th:href="@{'productEnroll'}" class="btn btn-primary">상품등록</a>
-    </div> -->
+    <div class="pagingButtons" align="center">
+        <th:block th:include="~{common/searchProductPaging :: paging}"/>
+    </div>
 </div>
 
 </div>

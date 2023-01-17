@@ -1,7 +1,7 @@
 package com.osaz.danaka.product.model.dao;
 
-import com.osaz.danaka.common.Pagenation;
-import com.osaz.danaka.common.SelectCriteria;
+import com.osaz.danaka.common.paging.Pagenation;
+import com.osaz.danaka.common.paging.SelectCriteria;
 import com.osaz.danaka.config.DanakaApplication;
 import com.osaz.danaka.config.MybatisConfig;
 import com.osaz.danaka.product.model.dto.ProductDTO;

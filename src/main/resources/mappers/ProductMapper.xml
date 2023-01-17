@@ -86,7 +86,7 @@
       </if>
     </select>
     <!-- 상품 카테고리에 따른 대상품 목록 조회 쿼리, 정렬을 위해 동적 쿼리 사용함 -->
-    <select id="selectListByCategory" parameterType="com.osaz.danaka.common.SelectCriteria" resultMap="productResultMap">
+    <select id="selectListByCategory" parameterType="com.osaz.danaka.common.paging.SelectCriteria" resultMap="productResultMap">
         SELECT
             A.*,
             A.RNUM,
@@ -149,6 +149,7 @@
                                  ON B.PRODUCT_NO = H.PRODUCT_NO) A
          WHERE A.RNUM BETWEEN #{ startRow } AND #{ endRow }
     </select>
+
     <!-- 상품 상세 페이지를 위한 한개의 대상품 정보 조회 쿼리 -->
     <select id="selectOneProduct" parameterType="String" resultMap="productResultMap">
         SELECT
@@ -372,7 +373,7 @@
          WHERE PRODUCT_NO = #{ productNo }
     </select>
     <!-- 상품 리뷰 조회 -->
-    <select id="selectReviewList" parameterType="com.osaz.danaka.common.SelectCriteria" resultMap="reviewResultMap">
+    <select id="selectReviewList" parameterType="com.osaz.danaka.common.paging.SelectCriteria" resultMap="reviewResultMap">
         SELECT
             D.*
           FROM (SELECT
@@ -398,7 +399,7 @@
          WHERE D.RNUM BETWEEN #{ startRow } AND #{ endRow }
     </select>
     <!-- 상품 qna 조회 -->
-    <select id="selectQnaList" parameterType="com.osaz.danaka.common.SelectCriteria" resultMap="qnaResultMap">
+    <select id="selectQnaList" parameterType="com.osaz.danaka.common.paging.SelectCriteria" resultMap="qnaResultMap">
         SELECT
             D.*
           FROM (SELECT
@@ -480,46 +481,12 @@
     </update>
 
 
-
-
-    <!-- 콩성식 -->
-    <!-- 메인페이지 상품 검색 -->
-    <select id="selectMainTotalCount" resultType="_int" parameterType="hashmap">
-        SELECT
-        COUNT(*)
-        FROM VIEW_PRODUCT
-        WHERE PRODUCT_NO IN (SELECT
-        MIN(PRODUCT_NO)
-        FROM VIEW_PRODUCT
-        GROUP BY PRODUCT_NAME)
-        <if test="searchValue != null">
-            AND (PRODUCT_NAME LIKE '%' || #{ searchValue } || '%'
-            OR BRAND_NAME LIKE '%' || #{ searchValue } || '%'
-            OR ROD_MODEL LIKE '%' || #{ searchValue } || '%'
-            OR REEL_MODEL LIKE '%' || #{ searchValue } || '%')
-        </if>
-    </select>
-    <!-- 메인페이지 상품 검색 -->
-    <select id="selectListByMainPage" parameterType="com.osaz.danaka.common.paging.SelectCriteria" resultMap="productResultMap">
-        SELECT
-        *
-        FROM VIEW_PRODUCT
-        WHERE PRODUCT_NO IN (SELECT
-        MIN(PRODUCT_NO)
-        FROM VIEW_PRODUCT
-        GROUP BY PRODUCT_NAME)
-        <if test="searchValue != null">
-            AND (PRODUCT_NAME LIKE '%' || #{ searchValue } || '%'
-            OR BRAND_NAME LIKE '%' || #{ searchValue } || '%'
-            OR ROD_MODEL LIKE '%' || #{ searchValue } || '%'
-            OR REEL_MODEL LIKE '%' || #{ searchValue } || '%')
-        </if>
-    </select>
+    <!--         성식 추가          -->
     <!--상품 테이블 데이터 삽입-->
     <insert id="insertProduct">
         INSERT
         INTO T_PRODUCT A
-            (
+        (
             A.PRODUCT_NO
         , A.CATEGORY_CODE
         , A.BRAND_NO
@@ -529,14 +496,15 @@
         )
         VALUES
             (
-            SEQ_PRODUCT_NO.NEXTVAL
-                , #{ categoryCode }
-                , #{ brandNo }
-                , DEFAULT
-                , #{ productName }
-                , #{ stock }
+                SEQ_PRODUCT_NO.NEXTVAL
+            , #{ categoryCode }
+            , #{ brandNo }
+            , DEFAULT
+            , #{ productName }
+            , #{ stock }
             )
     </insert>
+
     <!--기준에 따라 카테고리 테이블 데이터 삽입-->
     <insert id="insertCategory" parameterType="Map">
         INSERT INTO ${ category }
@@ -569,16 +537,18 @@
             )
         </if>
     </insert>
+
     <!--T_PRODUCT 테이블 마지막 번호 구하기-->
     <select id="selectProductLastNum" resultType="string">
         SELECT MAX(PRODUCT_NO)
         FROM T_PRODUCT
     </select>
+
     <!--T_IMG_PATH 데이터 추가-->
     <insert id="insertImgFile" parameterType="com.osaz.danaka.product.model.dto.imgPathDTO">
         INSERT
         INTO T_IMG_PATH A
-            (
+        (
             A.IMG_NO
         , A.PRODUCT_NO
         , A.IMG_CATEGORY
@@ -588,15 +558,16 @@
         )
         VALUES
             (
-            SEQ_IMG_NO.NEXTVAL
-                , #{ productNo }
-                , #{ imgCategory }
-                , #{ orgFileName }
-                , #{ sysFileName}
-                , #{ savePath }
+                SEQ_IMG_NO.NEXTVAL
+            , #{ productNo }
+            , #{ imgCategory }
+            , #{ orgFileName }
+            , #{ sysFileName}
+            , #{ savePath }
             )
     </insert>
-    <!-- 공지사항 최근 5개 조회 -->
+
+    <!-- 최근등록 상품 4개 조회 -->
     <select id="selectTop4Product" resultMap="productResultMap">
         SELECT
             *
@@ -606,5 +577,38 @@
               ORDER BY ROWNUM DESC) A
         WHERE <![CDATA[ ROWNUM <= 4 ]]>
           AND A.IMG_CATEGORY = 'T'
+    </select>
+
+    <!-- 메인페이지 상품 검색 -->
+    <select id="selectMainTotalCount" resultType="_int" parameterType="hashmap">
+        SELECT
+                COUNT(*)
+          FROM VIEW_PRODUCT
+        <if test="searchValue != null">
+            WHERE PRODUCT_NAME LIKE '%' || #{ searchValue } || '%'
+            OR ROD_MODEL LIKE '%' || #{ searchValue } || '%'
+            OR REEL_MODEL LIKE '%' || #{ searchValue } || '%'
+        </if>
+    </select>
+
+    <!-- 메인페이지 상품 검색 -->
+    <select id="selectListByMainPage" resultMap="productResultMap">
+        SELECT
+        A.*
+        FROM (SELECT
+                    B.*,
+                    ROWNUM "RNUM"
+                FROM (SELECT
+                            C.*
+                        FROM VIEW_PRODUCT C
+                        <where>
+                        <if test="searchValue != null">
+                            PRODUCT_NAME LIKE '%' || #{ searchValue } || '%'
+                            OR ROD_MODEL LIKE '%' || #{ searchValue } || '%'
+                            OR REEL_MODEL LIKE '%' || #{ searchValue } || '%'
+                        </if>
+                        </where>) B
+             ) A
+        WHERE A.RNUM BETWEEN #{ startRow } AND #{ endRow }
     </select>
 </mapper>

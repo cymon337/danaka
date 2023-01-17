@@ -1,7 +1,7 @@
 package com.osaz.danaka.product.controller;
 
-import com.osaz.danaka.common.Pagenation;
-import com.osaz.danaka.common.SelectCriteria;
+import com.osaz.danaka.common.paging.Pagenation;
+import com.osaz.danaka.common.paging.SelectCriteria;
 import com.osaz.danaka.member.model.dto.MemberDTO;
 import com.osaz.danaka.product.model.dto.*;
 import com.osaz.danaka.product.model.service.ProductService;
@@ -182,6 +182,7 @@ public class ProductController {
 
         mv.addObject("productNo", orgProductNo);
         mv.setViewName("redirect:/product/item2");
+        rttr.addFlashAttribute("successMessage", "찜하기 성공!");
 
         return mv;
     }
@@ -246,13 +247,13 @@ public class ProductController {
 
         String[] cartNumbers = cartNos.split(",");
 
-            HashMap<String, Object> map = new HashMap<>();
-            map.put("cartNos", cartNumbers);
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("cartNos", cartNumbers);
 
-            List<ProductCartDTO> cartList = productService.selectCartList(map);
+        List<ProductCartDTO> cartList = productService.selectCartList(map);
 
-            mv.addObject("cartList", cartList);
-            mv.setViewName("/product/purchase");
+        mv.addObject("cartList", cartList);
+        mv.setViewName("/product/purchase");
 
         return mv;
     }
@@ -263,7 +264,8 @@ public class ProductController {
     // # description : 상품 결제 일단은 db에 넣기만
     @PostMapping(value = "/pay")
     public ModelAndView insertOrder(@RequestParam(value = "productNo", required = false) String[] productNos, @RequestParam(value = "totPrice") String[] totPrices,
-                                    @RequestParam(value = "packageId", required = false, defaultValue = "0") String[] packageIds, String userNo, @RequestParam(value = "amount") String[] amounts, String address, @RequestParam(required = false) String orderRequest, String payType, String orgProductNo, ModelAndView mv, RedirectAttributes rttr) {
+                                    @RequestParam(value = "packageId", required = false, defaultValue = "0") String[] packageIds, String userNo, @RequestParam(value = "amount") String[] amounts, String address,
+                                    @RequestParam(required = false) String orderRequest, String payType, String orgProductNo, ModelAndView mv, RedirectAttributes rttr) {
 
         log.info("널체크 = {}", packageIds);
 
@@ -386,6 +388,8 @@ public class ProductController {
         return mv;
     }
 
+
+
     // # update : 2023-01-15
     // # title : 상품 상세페이지
     // # author : 오승재
@@ -396,183 +400,176 @@ public class ProductController {
 
         log.info("새 리뷰 = {}", review);
         String msg = "";
-
-        if(review.getReviewBody() == null || "".equals(review.getReviewBody())) {
+        if (review.getReviewBody() == null || "".equals(review.getReviewBody())) {
             msg = "리뷰 내용을 작성해주세요.";
             return msg;
         }
-
-        try {
-            boolean result = productService.insertReview(review);
-            if(result) {
-                msg = "리뷰 등록 성공!";
+            try {
+                boolean result = productService.insertReview(review);
+                if (result) {
+                    msg = "리뷰 등록 성공!";
+                }
+            } catch (Exception e) {
+                msg = "리뷰 등록 실패..";
+                e.printStackTrace();
+                return msg;
             }
-        } catch (Exception e) {
-            msg = "리뷰 등록 실패..";
-            e.printStackTrace();
-            return msg;
-        }
-
-        return msg;
-    }
-
-    // # update : 2023-01-15
-    // # title : 상품 상세페이지
-    // # author : 오승재
-    // # description : 상품 문의 insert ajax메소드
-    @PostMapping(value = "/insertQna", produces="application/json; charset=UTF-8")
-    @ResponseBody
-    public String insertQna(QnaDTO qna) {
-
-        String msg = "";
-        log.info("새 상품문의 = {}", qna);
-
-        if(qna.getSecretStatus() == null) {
-            qna.setSecretStatus("N");
-        }
-
-        if(qna.getQnaBody() == null || "".equals(qna.getQnaBody())) {
-            msg = "문의 내용을 작성해주세요.";
-            return msg;
-        }
-
-        try {
-            boolean result = productService.insertQna(qna);
-            if(result) {
-                msg = "문의 등록 성공!";
-            }
-        } catch (Exception e) {
-            msg = "문의 등록 실패..";
-            e.printStackTrace();
-            return msg;
-        }
-
-        return msg;
-    }
-
-    // # update : 2023-01-16
-    // # title : 상품 상세페이지
-    // # author : 오승재
-    // # description : 상품 리뷰 삭제 ajax메소드
-    @GetMapping(value = "/deleteReview", produces="application/json; charset=UTF-8")
-    @ResponseBody
-    public String deleteReview(String reviewNo) {
-
-        String msg = " ";
-
-        try {
-            boolean result = productService.deleteReview(reviewNo);
-            if(result) {
-                msg = "리뷰 삭제 성공!";
-            }
-        } catch (Exception e) {
-            msg = "리뷰 삭제 실패..";
-            e.printStackTrace();
-            return msg;
-        }
-
-        return msg;
-    }
-
-    // # update : 2023-01-16
-    // # title : 상품 상세페이지
-    // # author : 오승재
-    // # description : 상품 문의 삭제 ajax메소드
-    @GetMapping(value = "/deleteQna", produces="application/json; charset=UTF-8")
-    @ResponseBody
-    public String deleteQna(String qnaNo) {
-
-        String msg = " ";
-
-        try {
-            boolean result = productService.deleteQna(qnaNo);
-            if(result) {
-                msg = "문의 삭제 성공!";
-            }
-        } catch (Exception e) {
-            msg = "문의 삭제 실패..";
-            e.printStackTrace();
-            return msg;
-        }
-
-        return msg;
-    }
-
-    // # update : 2023-01-16
-    // # title : 상품 상세페이지
-    // # author : 오승재
-    // # description : 상품 리뷰 수정 ajax메소드
-    @PostMapping(value = "/updateReview", produces="application/json; charset=UTF-8")
-    @ResponseBody
-    public String updateReview(String reviewNo, String updateReviewBody) {
-
-        String msg = " ";
-
-        if(updateReviewBody == null || "".equals(updateReviewBody)) {
-            msg = "수정할 내용을 작성해주세요.";
-
-            return msg;
-        }
-
-        HashMap<String, String> updateMap = new HashMap<>();
-        updateMap.put("reviewNo", reviewNo);
-        updateMap.put("reviewBody", updateReviewBody);
-
-        try {
-            boolean result = productService.updateReview(updateMap);
-            if(result) {
-                msg = "리뷰 수정 성공!";
-            }
-        } catch (Exception e) {
-            msg = "리뷰 수정 실패..";
-
-            e.printStackTrace();
-            return msg;
-        }
-
-        return msg;
-    }
-
-    // # update : 2023-01-16
-    // # title : 상품 상세페이지
-    // # author : 오승재
-    // # description : 상품 문의 수정 ajax메소드
-    @PostMapping(value = "/updateQna", produces="application/json; charset=UTF-8")
-    @ResponseBody
-    public String updateQna(String qnaNo, @RequestParam(required = false) String updateQnaBody, @RequestParam(required = false) String qnaReply) {
-
-        String msg = " ";
-        HashMap<String, String> updateMap = new HashMap<>();
-        updateMap.put("qnaNo", qnaNo);
-
-        if(updateQnaBody != null && !"".equals(updateQnaBody)) {
-            updateMap.put("qnaBody", updateQnaBody);
-        } else if(qnaReply != null && !"".equals(qnaReply)) {
-            updateMap.put("qnaReply", qnaReply);
-        } else {
-            msg = "내용을 작성해주세요.";
-
-            return msg;
-        }
-
-        try {
-            boolean result = productService.updateQna(updateMap);
-            if(result) {
-                msg = "성공!";
-            }
-        } catch (Exception e) {
-            msg = "실패..";
-            e.printStackTrace();
-            return msg;
-        }
-
         return msg;
     }
 
 
+        // # update : 2023-01-15
+        // # title : 상품 상세페이지
+        // # author : 오승재
+        // # description : 상품 문의 insert ajax메소드
+        @PostMapping(value = "/insertQna", produces = "application/json; charset=UTF-8")
+        @ResponseBody
+        public String insertQna(QnaDTO qna){
+
+            String msg = "";
+            log.info("새 상품문의 = {}", qna);
+
+            if (qna.getSecretStatus() == null) {
+                qna.setSecretStatus("N");
+            }
+
+            if (qna.getQnaBody() == null || "".equals(qna.getQnaBody())) {
+                msg = "문의 내용을 작성해주세요.";
+                return msg;
+            }
+
+            try {
+                boolean result = productService.insertQna(qna);
+                if (result) {
+                    msg = "문의 등록 성공!";
+                }
+            } catch (Exception e) {
+                msg = "문의 등록 실패..";
+                e.printStackTrace();
+                return msg;
+            }
+
+            return msg;
+        }
+
+        // # update : 2023-01-16
+        // # title : 상품 상세페이지
+        // # author : 오승재
+        // # description : 상품 리뷰 삭제 ajax메소드
+        @GetMapping(value = "/deleteReview", produces = "application/json; charset=UTF-8")
+        @ResponseBody
+        public String deleteReview (String reviewNo){
+
+            String msg = " ";
+
+            try {
+                boolean result = productService.deleteReview(reviewNo);
+                if (result) {
+                    msg = "리뷰 삭제 성공!";
+                }
+            } catch (Exception e) {
+                msg = "리뷰 삭제 실패..";
+                e.printStackTrace();
+                return msg;
+            }
+
+            return msg;
+        }
+
+        // # update : 2023-01-16
+        // # title : 상품 상세페이지
+        // # author : 오승재
+        // # description : 상품 문의 삭제 ajax메소드
+        @GetMapping(value = "/deleteQna", produces = "application/json; charset=UTF-8")
+        @ResponseBody
+        public String deleteQna (String qnaNo) {
+
+            String msg = " ";
+
+            try {
+                boolean result = productService.deleteQna(qnaNo);
+                if (result) {
+                    msg = "문의 삭제 성공!";
+                }
+            } catch (Exception e) {
+                msg = "문의 삭제 실패..";
+                e.printStackTrace();
+                return msg;
+            }
+
+            return msg;
+        }
+
+        // # update : 2023-01-16
+        // # title : 상품 상세페이지
+        // # author : 오승재
+        // # description : 상품 리뷰 수정 ajax메소드
+        @PostMapping(value = "/updateReview", produces = "application/json; charset=UTF-8")
+        @ResponseBody
+        public String updateReview (String reviewNo, String updateReviewBody){
+
+            String msg = " ";
+
+            if (updateReviewBody == null || "".equals(updateReviewBody)) {
+                msg = "수정할 내용을 작성해주세요.";
+
+                return msg;
+            }
+
+            HashMap<String, String> updateMap = new HashMap<>();
+            updateMap.put("reviewNo", reviewNo);
+            updateMap.put("reviewBody", updateReviewBody);
+
+            try {
+                boolean result = productService.updateReview(updateMap);
+                if (result) {
+                    msg = "리뷰 수정 성공!";
+                }
+            } catch (Exception e) {
+                msg = "리뷰 수정 실패..";
+                e.printStackTrace();
+                return msg;
+            }
+
+            return msg;
+        }
+        // # update : 2023-01-16
+        // # title : 상품 상세페이지
+        // # author : 오승재
+        // # description : 상품 문의 수정 ajax메소드
+        @PostMapping(value = "/updateQna", produces = "application/json; charset=UTF-8")
+        @ResponseBody
+        public String updateQna (String qnaNo, @RequestParam(required = false) String updateQnaBody, @RequestParam(required = false) String qnaReply){
+            String msg = " ";
+            HashMap<String, String> updateMap = new HashMap<>();
+            updateMap.put("qnaNo", qnaNo);
+            if (updateQnaBody != null && !"".equals(updateQnaBody)) {
+                updateMap.put("qnaBody", updateQnaBody);
+            } else if (qnaReply != null && !"".equals(qnaReply)) {
+                updateMap.put("qnaReply", qnaReply);
+            } else {
+                msg = "내용을 작성해주세요.";
+
+                return msg;
+            }
+
+            try {
+                boolean result = productService.updateQna(updateMap);
+                if (result) {
+                    msg = "성공!";
+                }
+            } catch (Exception e) {
+                msg = "실패..";
+                e.printStackTrace();
+                return msg;
+            }
+
+            return msg;
+        }
 
 
-    // 콩성식
+
+    ///////////////성식 추가///////////////////
     /* 메인페이지 상품 검색 */
     @GetMapping("/searchList")
     public ModelAndView selectMainProduct(HttpServletRequest request, ModelAndView mv){
@@ -611,12 +608,12 @@ public class ProductController {
         int buttonAmount = 5;
 
         /* 페이징 처리를 위한 로직 호출 후 페이징 처리에 관한 정보를 담고 있는 인스턴스를 반환받는다. */
-        com.osaz.danaka.common.paging.SelectCriteria selectCriteria = null;
+        SelectCriteria selectCriteria = null;
 
-        if(searchValue == null && !"".equals(searchValue)) {
-            selectCriteria = com.osaz.danaka.common.paging.Pagenation.getSelectCriteria(pageNo, totalCount, limit, buttonAmount, searchValue);
+        if(searchValue != null && !"".equals(searchValue)) {
+            selectCriteria = Pagenation.getSelectCriteria(pageNo, totalCount, limit, buttonAmount, searchValue);
         } else {
-            selectCriteria = com.osaz.danaka.common.paging.Pagenation.getSelectCriteria(pageNo, totalCount, limit, buttonAmount);
+            selectCriteria = Pagenation.getSelectCriteria(pageNo, totalCount, limit, buttonAmount);
         }
 
         log.info("검색 조건 = {}", selectCriteria);
@@ -632,6 +629,11 @@ public class ProductController {
         return mv;
     }
 
+    /* 상품 등록페이지 연결 */
+    @GetMapping("productEnroll")
+    public void insertProduct() {}
+
+    /* 상품 등록 처리 */
     @PostMapping("productEnroll")
     public ModelAndView insertProduct(ModelAndView mv, HttpServletRequest request, ProductDTO product, RedirectAttributes rttr, @RequestParam(name="file", required = false) MultipartFile[] file){
 
@@ -720,5 +722,4 @@ public class ProductController {
         return mv;
 
     }
-
 }

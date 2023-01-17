@@ -34,7 +34,7 @@ public class MainController {
 
         if(noticeList != null && productList != null){
             mv.addObject("notices", noticeList);
-            mv.addObject("products", productList);
+            mv.addObject("productList", productList);
         }
 
         mv.setViewName("main/index");
