@@ -112,11 +112,11 @@ public class MemberController {
     @PostMapping("/findId")
     public String findId(HttpServletRequest request, Model model) {
 
-        String memeberName = request.getParameter("memeberName");
+        String memberName = request.getParameter("memberName");
         String phone = request.getParameter("phone");
 
         MemberDTO memberDTO = new MemberDTO();
-        memberDTO.setMemberName(memeberName);
+        memberDTO.setMemberName(memberName);
         memberDTO.setPhone(phone);
 
         MemberDTO user = memberService.findId(memberDTO);
@@ -146,7 +146,7 @@ public class MemberController {
     // # title : 회원정보 수정
     // # author : 정근호
     // # description : 사용자가 변경하고자 하는 입력값을 받아서 회원정보를 수정 한다
-    @PostMapping("/member/updateMembers")
+    @PostMapping("/updateMembers")
     public String userUpdate(@RequestParam(value = "nickname") String nickname,
                              @RequestParam(value = "email") String email, @RequestParam(value = "phone") String phone,
                              String userId) {
@@ -174,7 +174,7 @@ public class MemberController {
     @GetMapping("/member/unregister")
     public String deleteMember(@AuthenticationPrincipal MemberDTO memberDTO, Model model, RedirectAttributes rttr){
 
-        rttr.addAttribute("msg", false);
+        model.addAttribute("msg", false);
         model.addAttribute("member", memberDTO);
 
         return "member/unregister";
@@ -202,7 +202,7 @@ public class MemberController {
         String str;
 
         if (!(passwordEncoder.matches(password, sessionPassword))) {
-           rttr.addAttribute("msg", false);
+           model.addAttribute("msg", false);
             str = "redirect:member/unregister";
 
         } else {

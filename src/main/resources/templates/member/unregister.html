@@ -16,11 +16,6 @@
 
  $(document).ready(function () {
 
-   $(".cencle").on("click",function (){
-
-     location.herf = "/";
-   })
-
    $("#submit").on("click", function (){
      if($("#password").val()==""){
             alert("비밀번호를 입력해 주세요");
@@ -75,7 +70,7 @@
           </form>
 
             </span>
-                       <span th:if="${msg != null}">
+                       <span th:if="${ msg != null}">
                      <label>비밀번호를 다시 확인해 주세요</label>
                         </span>
 
