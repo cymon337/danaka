@@ -91,6 +91,19 @@
           AND A.NOTICE_NO = #{ noticeNo }
     </select>
 
+    <!-- 공지사항 최근 5개 조회 -->
+    <select id="selectTop5Notice" resultMap="noticeResultMap">
+        SELECT
+                A.NOTICE_NO
+              , A.NOTICE_NAME
+              , A.NOTICE_DATE
+         FROM (SELECT
+                     *
+                FROM T_NOTICE
+                ORDER BY ROWNUM DESC) A
+        WHERE <![CDATA[ ROWNUM <= 5 ]]>
+    </select>
+
     <!-- 공지사항 추가 -->
     <insert id="insertNotice">
         INSERT

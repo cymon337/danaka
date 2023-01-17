@@ -30,4 +30,6 @@ public interface NoticeMapper {
 
     /* 공지사항 조회수 증가 */
     void incrementNoticeCount(String noticeNo);
+
+    List<NoticeDTO> selectTop5Notice();
 }
