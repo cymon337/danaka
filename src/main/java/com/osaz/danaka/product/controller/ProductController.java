@@ -1,16 +1,15 @@
 package com.osaz.danaka.product.controller;
 
-import com.osaz.danaka.common.Pagenation;
-import com.osaz.danaka.common.SelectCriteria;
+import com.osaz.danaka.common.paging.Pagenation;
+import com.osaz.danaka.common.paging.SelectCriteria;
 import com.osaz.danaka.member.model.dto.MemberDTO;
 import com.osaz.danaka.product.model.dto.*;
-import com.osaz.danaka.product.model.dto.imgPathDTO;
 import com.osaz.danaka.product.model.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -91,65 +90,6 @@ public class ProductController {
         mv.addObject("productList", productList);
         mv.addObject("selectCriteria", selectCriteria);
         mv.setViewName("product/list2");
-
-        return mv;
-    }
-
-    /* 메인페이지 상품 검색 */
-    @GetMapping("/searchList")
-    public ModelAndView selectMainProduct(HttpServletRequest request, ModelAndView mv){
-
-        /* 목록보기를 눌렀을 시 가장 처음에 보여지는 페이지는 1페이지이다.
-         * 파라미터로 전달되는 페이지가 있는 경우 currentPage는 파라미터로 전달받은 페이지 수 이다.
-         * */
-        String currentPage = request.getParameter("currentPage");
-        int pageNo = 1;
-
-        if(currentPage != null && !"".equals(currentPage)) {
-            pageNo = Integer.parseInt(currentPage);
-        }
-
-        /* 0보다 작은 숫자값을 입력해도 1페이지를 보여준다 */
-        if(pageNo <= 0) {
-            pageNo = 1;
-        }
-
-        String searchValue = request.getParameter("searchValue");
-
-        Map<String, String> searchMap = new HashMap<>();
-        searchMap.put("searchValue", searchValue);
-
-        /* 전체 게시물 수가 필요하다.
-         * 데이터베이스에서 먼저 전체 게시물 수를 조회해올 것이다.
-         * 검색조건이 있는 경우 검색 조건에 맞는 전체 게시물 수를 조회한다.
-         * */
-        int totalCount = productService.selectMainTotalCount(searchMap);
-
-        log.info("총 상품 수 = {}", totalCount);
-
-        /* 한 페이지에 보여 줄 게시물 수 */
-        int limit = 10;		//얘도 파라미터로 전달받아도 된다.
-        /* 한 번에 보여질 페이징 버튼의 갯수 */
-        int buttonAmount = 5;
-
-        /* 페이징 처리를 위한 로직 호출 후 페이징 처리에 관한 정보를 담고 있는 인스턴스를 반환받는다. */
-        com.osaz.danaka.common.paging.SelectCriteria selectCriteria = null;
-
-        if(searchValue == null && !"".equals(searchValue)) {
-            selectCriteria = com.osaz.danaka.common.paging.Pagenation.getSelectCriteria(pageNo, totalCount, limit, buttonAmount, searchValue);
-        } else {
-            selectCriteria = com.osaz.danaka.common.paging.Pagenation.getSelectCriteria(pageNo, totalCount, limit, buttonAmount);
-        }
-
-        log.info("검색 조건 = {}", selectCriteria);
-
-        /* 조회해온다 */
-        List<ProductDTO> productList = productService.selectListByMainPage(selectCriteria);
-        log.info("상품 리스트 = {}" + productList);
-
-        mv.addObject("productList", productList);
-        mv.addObject("selectCriteria", selectCriteria);
-        mv.setViewName("product/searchList");
 
         return mv;
     }
@@ -307,13 +247,13 @@ public class ProductController {
 
         String[] cartNumbers = cartNos.split(",");
 
-            HashMap<String, Object> map = new HashMap<>();
-            map.put("cartNos", cartNumbers);
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("cartNos", cartNumbers);
 
-            List<ProductCartDTO> cartList = productService.selectCartList(map);
+        List<ProductCartDTO> cartList = productService.selectCartList(map);
 
-            mv.addObject("cartList", cartList);
-            mv.setViewName("/product/purchase");
+        mv.addObject("cartList", cartList);
+        mv.setViewName("/product/purchase");
 
         return mv;
     }
@@ -448,6 +388,8 @@ public class ProductController {
         return mv;
     }
 
+
+
     // # update : 2023-01-15
     // # title : 상품 상세페이지
     // # author : 오승재
@@ -461,6 +403,7 @@ public class ProductController {
         if (review.getReviewBody() == null || "".equals(review.getReviewBody())) {
             msg = "리뷰 내용을 작성해주세요.";
             return msg;
+        }
             try {
                 boolean result = productService.insertReview(review);
                 if (result) {
@@ -471,9 +414,9 @@ public class ProductController {
                 e.printStackTrace();
                 return msg;
             }
+        return msg;
+    }
 
-            return msg;
-        }
 
         // # update : 2023-01-15
         // # title : 상품 상세페이지
@@ -481,7 +424,7 @@ public class ProductController {
         // # description : 상품 문의 insert ajax메소드
         @PostMapping(value = "/insertQna", produces = "application/json; charset=UTF-8")
         @ResponseBody
-        public String insertQna (QnaDTO qna){
+        public String insertQna(QnaDTO qna){
 
             String msg = "";
             log.info("새 상품문의 = {}", qna);
@@ -539,7 +482,7 @@ public class ProductController {
         // # description : 상품 문의 삭제 ajax메소드
         @GetMapping(value = "/deleteQna", produces = "application/json; charset=UTF-8")
         @ResponseBody
-        public String deleteQna (String qnaNo){
+        public String deleteQna (String qnaNo) {
 
             String msg = " ";
 
@@ -596,8 +539,7 @@ public class ProductController {
         // # description : 상품 문의 수정 ajax메소드
         @PostMapping(value = "/updateQna", produces = "application/json; charset=UTF-8")
         @ResponseBody
-        public String updateQna (String qnaNo, @RequestParam(required = false) String
-        updateQnaBody, @RequestParam(required = false) String qnaReply){
+        public String updateQna (String qnaNo, @RequestParam(required = false) String updateQnaBody, @RequestParam(required = false) String qnaReply){
             String msg = " ";
             HashMap<String, String> updateMap = new HashMap<>();
             updateMap.put("qnaNo", qnaNo);
@@ -625,14 +567,73 @@ public class ProductController {
             return msg;
         }
 
+
+
+    ///////////////성식 추가///////////////////
+    /* 메인페이지 상품 검색 */
+    @GetMapping("/searchList")
+    public ModelAndView selectMainProduct(HttpServletRequest request, ModelAndView mv){
+
+        /* 목록보기를 눌렀을 시 가장 처음에 보여지는 페이지는 1페이지이다.
+         * 파라미터로 전달되는 페이지가 있는 경우 currentPage는 파라미터로 전달받은 페이지 수 이다.
+         * */
+        String currentPage = request.getParameter("currentPage");
+        int pageNo = 1;
+
+        if(currentPage != null && !"".equals(currentPage)) {
+            pageNo = Integer.parseInt(currentPage);
+        }
+
+        /* 0보다 작은 숫자값을 입력해도 1페이지를 보여준다 */
+        if(pageNo <= 0) {
+            pageNo = 1;
+        }
+
+        String searchValue = request.getParameter("searchValue");
+
+        Map<String, String> searchMap = new HashMap<>();
+        searchMap.put("searchValue", searchValue);
+
+        /* 전체 게시물 수가 필요하다.
+         * 데이터베이스에서 먼저 전체 게시물 수를 조회해올 것이다.
+         * 검색조건이 있는 경우 검색 조건에 맞는 전체 게시물 수를 조회한다.
+         * */
+        int totalCount = productService.selectMainTotalCount(searchMap);
+
+        log.info("총 상품 수 = {}", totalCount);
+
+        /* 한 페이지에 보여 줄 게시물 수 */
+        int limit = 10;		//얘도 파라미터로 전달받아도 된다.
+        /* 한 번에 보여질 페이징 버튼의 갯수 */
+        int buttonAmount = 5;
+
+        /* 페이징 처리를 위한 로직 호출 후 페이징 처리에 관한 정보를 담고 있는 인스턴스를 반환받는다. */
+        SelectCriteria selectCriteria = null;
+
+        if(searchValue != null && !"".equals(searchValue)) {
+            selectCriteria = Pagenation.getSelectCriteria(pageNo, totalCount, limit, buttonAmount, searchValue);
+        } else {
+            selectCriteria = Pagenation.getSelectCriteria(pageNo, totalCount, limit, buttonAmount);
+        }
+
+        log.info("검색 조건 = {}", selectCriteria);
+
+        /* 조회해온다 */
+        List<ProductDTO> productList = productService.selectListByMainPage(selectCriteria);
+        log.info("상품 리스트 = {}" + productList);
+
+        mv.addObject("productList", productList);
+        mv.addObject("selectCriteria", selectCriteria);
+        mv.setViewName("product/searchList");
+
+        return mv;
     }
 
-
-
-
+    /* 상품 등록페이지 연결 */
     @GetMapping("productEnroll")
     public void insertProduct() {}
 
+    /* 상품 등록 처리 */
     @PostMapping("productEnroll")
     public ModelAndView insertProduct(ModelAndView mv, HttpServletRequest request, ProductDTO product, RedirectAttributes rttr, @RequestParam(name="file", required = false) MultipartFile[] file){
 
