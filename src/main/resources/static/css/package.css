@@ -5,7 +5,7 @@ body {
 .wrapper {
     display: flex;
     width: 100%;
-    margin-top: 200px;
+    /*margin-top: 200px;*/
     background-color: #F2F4FF;
 }
 

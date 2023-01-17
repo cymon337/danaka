@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- index.html css -->
     <link rel="stylesheet" th:href="@{ /css/index.css }"/>
+    <!-- 타임리프용 푸터 스타일 시트 적용-->
+    <link rel="stylesheet" th:href="@{/css/footer.css}" />
     <!--    -->
     <!--    &lt;!&ndash; 부트스트랩 &ndash;&gt;-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -92,7 +94,19 @@
     </div>
 </div>
 
+<div id="body-wrapper">
+    <div id="body-content">
+        <!--타임리프용 TOP버튼-->
+        <div class="goTop">
+            <th:block th:replace="~{common/goTop :: goTop}" />
+        </div>
+    </div>
+    <!--타임리프용 풋터-->
+    <div class="footer">
+        <th:block th:replace="~{common/footer :: footer}" />
+    </div>
 </div>
+
 <script th:inline="javascript">
     /* 정렬 버튼 색 입히기 */
     if([[${ selectCriteria.orderCondition }]] != null) {

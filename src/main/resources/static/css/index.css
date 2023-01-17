@@ -71,6 +71,19 @@
     margin: 15px 30px 0 0;
 }
 
+.topRightIcon{
+    cursor: pointer;
+    position: relative;
+    margin-left: 15px;
+}
+
+.Icon {
+    position: absolute;
+    left: 8px;
+    bottom: 20px;
+    font-size: 30px;
+}
+
 #cart {
     cursor: pointer;
     position: relative;
@@ -81,6 +94,14 @@
     left: 18px;
     bottom: 24px;
     font-size: 28px;
+}
+
+#myPage i {
+    margin-left: 15px;
+}
+
+#logout i {
+    margin-left: 5px;
 }
 
 #loginMy {
@@ -124,6 +145,7 @@
 /*중앙 카테고리*/
 #centerCategory {
     font-size: 1.3em;
+    margin: -5px 0 -5px 0;
 }
 
 #centerCategory>li>a {
@@ -135,6 +157,19 @@
 #centerCategory>li>a:hover {
     color: black;
     font-weight: bold;
+}
+
+#adminMember {
+    margin-right: 40px;
+}
+
+#adminMember:hover {
+    color: black;
+    font-weight: bold;
+}
+
+#adminMemberDiv {
+    margin-right: 35px;
 }
 
 #notice {
@@ -187,11 +222,26 @@ body {min-width: 1400px}
 
 .navbar .dropdown-menu {
     border:none;
-    background-color: rgb(137, 137, 238) !important;
+    background-color: rgb(240, 240, 255) !important;
 }
 
-.col-md-3 a {
-    color: white;
+#dropDown a {
+    font-size: 20px;
+    color: rgb(0, 0, 202);
+}
+#dropDown a:hover {
+    font-weight: bold;
+    color: black;
+}
+
+#dropProduct img {
+    border: 1px solid rgb(0, 0, 202);
+}
+
+#dropProduct p {
+    color: rgb(0, 0, 202);
+    margin: 10px 0 0 10px;
+    font-weight: bold
 }
 
 /*.active{*/
@@ -235,7 +285,7 @@ body {min-width: 1400px}
         left:0;
         right:0;
         /* 드랍다운 영역 높이  */
-        top:157px;
+        top:145px;
 
         display:block;
         visibility: hidden;
@@ -258,23 +308,49 @@ body {min-width: 1400px}
     }
 }
 
+/*중간 영역*/
+#mid {
+}
+
+/*중간 영역 상품*/
+#mid h5 {
+    margin: 50px 0 0 200px;
+}
+
+#midContent {
+    display: flex;
+    justify-content: center;
+    padding-left: 20px;
+}
+
+#top4product {
+    display: flex;
+    margin-right: 100px;
+}
+
 /*메인페이지 상품*/
 #mainProduct {
-    border: 1px solid black;
+    /*border: 1px solid black;*/
     width: 200px;
+    margin: 20px 20px 0 20px;
 }
 
 #mainProductThumb img {
     width: 200px;
+    cursor: pointer;
 }
 
-#mainProductName p {
+#mainProductName a {
     font-weight: bold;
-    font-size: 16px;
+    font-size: 20px;
+    margin: 3px 0 0 10px;
+    text-decoration: none;
+    color: black;
 }
 
 #mainProductDetail p {
     font-size: 13px;
+    margin: -3px 0 0 10px;
 }
 
 #mainProductPrice p {
@@ -283,21 +359,51 @@ body {min-width: 1400px}
     text-align: right;
 }
 
+/*미드영역 테이블*/
+#noticeMain table {
+    width: 500px;
+    margin: 20px 20px 0 0;
+    border-top: 1px solid #444444;
+    border-collapse: collapse;
+}
+
+#noticeMain table th {
+    border-bottom: 1px solid #444444;
+    padding: 7px;
+}
+#noticeHead {
+    background-color: rgb(0, 0, 202);
+    color: white;
+    text-align: right;
+    border-top: 3px solid black;
+    border-bottom: 3px solid black;
+}
+#noticeMain a {
+    text-decoration: none;
+}
+#noticeMain table tr:nth-child(even) {
+    background-color: rgb(240, 240, 255);
+}
+#noticeMain table td {
+    border-bottom: 1px solid #444444;
+    padding: 6px;
+}
+
 /* footer 하단 고정 / body 헤더 가린 공간 여백 지정*/
 html, body {
     margin: 0;
     padding: 0;
     height: 100%;
-    padding-top: 100px;
+    padding-top: 90px;
 }
 
 #body-wrapper {
-    min-height: 100%;
+    /*min-height: 100%;*/
     position: relative;
 }
 
 #body-content {
-    margin-top: 0px;
+    margin-top: 100px;
     padding-bottom: 250px; /* footer의 높이 */
 }
 
