@@ -20,15 +20,42 @@
         <result column="STATUS" property="status"/>
         <result column="USER_ROLE" property="userRole"  jdbcType="VARCHAR" javaType="java.lang.String"/>
 
+
+
     </resultMap>
 
-<!--
-    <select id="findMemberByID" resultMap="memberResultMap">
+    <resultMap id="orderResultMap" type="com.osaz.danaka.member.model.dto.OrderDTO">
+        <id column="ORDER_NO" property="orderNo"/>
+        <result column="PRODUCT_NO" property="productNo"/>
+        <result column="PRODUCT_NAME" property="productName"/>
+        <result column="ORDER_ID" property="orderId"/>
+        <result column="AMOUNT" property="amount"/>
+        <result column="TOT_PRICE" property="totPrice"/>
+        <result column="ORDER_REQUEST" property="orderRequest"/>
+        <result column="REG_DATE" property="regDate"/>
+        <result column="SAVE_PATH" property="tSavePath"/>
+        <result column="USER_NO" property="userNo"/>
+    </resultMap>
+
+    <resultMap id="wishListResultMap" type="com.osaz.danaka.member.model.dto.WishListDTO">
+        <id column="WISH_No" property="wishNo"/>
+        <result column="PRODUCT_NO" property="productNo"/>
+        <result column="PRODUCT_NAME" property="productName"/>
+        <result column="SAVE_PATH" property="tSavePath"/>
+        <result column="USER_NO" property="userNo"/>
+    </resultMap>
+
+
+    <!--이메일로 사용자 찾기-->
+    <select id="selectUser" parameterType="String" resultMap="memberResultMap">
+    SELECT
+        *
+    FROM T_MEMBER
+    WHERE EMAIL = #{email}
 
 
 
     </select>
--->
     <!--로그인-->
     <select id="loginAction" resultType="com.osaz.danaka.member.model.dto.MemberDTO">
         SELECT
@@ -53,24 +80,116 @@
     <select id="findId" parameterType="com.osaz.danaka.member.model.dto.MemberDTO" resultMap="memberResultMap">
         SELECT * FROM T_MEMBER WHERE USER_NAME = #{memberName} and PHONE = #{phone}
     </select>
-    <!--비밀번호 찾기 -->
-    <select id="findPassword" parameterType="com.osaz.danaka.member.model.dto.MemberDTO" resultMap="memberResultMap">
-        SELECT * FROM T_MEMBER WHERE USER_ID = #{userId} and USER_NAME = #{memberName} and PHONE = #{phone}
-    </select>
+
     <!--회원가입-->
     <insert id="insertMember" parameterType="com.osaz.danaka.member.model.dto.MemberDTO" >
         INSERT INTO T_MEMBER
          (USER_NO, USER_ID, USER_NICKNAME, USER_PWD, USER_NAME, BIRTHDAY, GENDER, ADDRESS, EMAIL, PHONE, USER_ROLE)
-        values ( SEQ_USER_NO.NEXTVAL ,#{userId},#{userNickname},#{userPwd},#{memberName},#{birthday},#{gender},#{address},#{email},#{phone},'ROLE_MEMBER')
+        values ( SEQ_USER_NO.NEXTVAL ,#{userId},#{userNickname},#{userPwd},#{memberName},#{birthday},#{gender},#{address},#{email},#{phone},'ROLE_USER')
 
     </insert>
 
+    <!--회원정보 수정  -->
     <update id ="userUpdate" parameterType="com.osaz.danaka.member.model.dto.MemberDTO" >
         UPDATE T_MEMBER
         SET USER_NICKNAME= #{userNickname} , EMAIL= #{email}, PHONE= #{phone}
         WHERE USER_ID = #{userId}
 
     </update>
+
+<!--  비번 찾기 = 변경  -->
+    <update id ="updatePassword" parameterType="com.osaz.danaka.member.model.dto.MemberDTO" >
+        UPDATE T_MEMBER
+        SET USER_PWD= #{userPwd}
+        WHERE USER_ID = #{userId}
+
+
+    </update>
+
+
+    <update id ="deleteMember" parameterType="com.osaz.danaka.member.model.dto.MemberDTO" >
+        UPDATE T_MEMBER
+        SET STATUS = 'N'
+        WHERE USER_ID = #{userId}
+        AND USER_PWD = #{userPwd}
+
+
+    </update>
+
+    <select id="selectOrder" parameterType="com.osaz.danaka.member.model.dto.OrderDTO" resultMap="orderResultMap">
+        SELECT
+            A.USER_NO,
+            A.ORDER_NO,
+            A.PRODUCT_NO,
+            C.PRODUCT_NAME,
+            A.ORDER_ID,
+            A.AMOUNT,
+            A.TOT_PRICE,
+            A.ORDER_REQUEST,
+            A.REG_DATE,
+            B.SAVE_PATH
+        FROM T_ORDER A
+        LEFT JOIN (SELECT
+                       SAVE_PATH,
+                       PRODUCT_NO
+                     FROM T_IMG_PATH
+                    WHERE IMG_CATEGORY = 'T') B ON A.PRODUCT_NO = B.PRODUCT_NO
+        LEFT JOIN T_PRODUCT C ON A.PRODUCT_NO = C.PRODUCT_NO
+        WHERE A.USER_NO = #{userNo}
+
+
+
+    </select>
+
+    <select id="selectWishList" parameterType="com.osaz.danaka.member.model.dto.WishListDTO" resultMap="wishListResultMap">
+        SELECT
+            A.WISH_NO,
+            A.USER_NO,
+            A.PRODUCT_NO,
+            C.PRODUCT_NAME,
+            B.SAVE_PATH
+        FROM T_WISHLIST A
+                 LEFT JOIN (SELECT
+                                SAVE_PATH,
+                                PRODUCT_NO
+                            FROM T_IMG_PATH
+                            WHERE IMG_CATEGORY = 'T') B ON A.PRODUCT_NO = B.PRODUCT_NO
+                 LEFT JOIN T_PRODUCT C ON A.PRODUCT_NO = C.PRODUCT_NO
+
+        WHERE A.USER_NO = #{userNo}
+
+    </select>
+
+    <delete id="cancelPurchase" parameterType="com.osaz.danaka.member.model.dto.OrderDTO">
+
+        DELETE T_ORDER
+        WHERE ORDER_NO = #{orderNo}
+
+
+     </delete>
+
+    <delete id="cancelWishList" parameterType="com.osaz.danaka.member.model.dto.WishListDTO">
+
+        DELETE T_WISHLIST
+        WHERE WISH_NO = #{wishNo}
+
+
+    </delete>
+
+    <select id="idCheck" parameterType="com.osaz.danaka.member.model.dto.MemberDTO" resultType="_int">
+       SELECT COUNT(*)
+       FROM T_MEMBER
+       WHERE USER_ID = #{userId}
+    </select>
+
+    <select id="emailCheck" parameterType="com.osaz.danaka.member.model.dto.MemberDTO" resultType="_int">
+        SELECT COUNT(*)
+        FROM T_MEMBER
+        WHERE EMAIL = #{email}
+    </select>
+
+
+
 
 
 

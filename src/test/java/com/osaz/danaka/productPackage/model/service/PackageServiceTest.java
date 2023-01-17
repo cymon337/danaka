@@ -24,10 +24,10 @@ class PackageServiceTest {
     @Test
     @Transactional
     void 로드옵션조회() {
-        String[] result1 = packageMapper.selectBrandNameOption();
+        String[] result1 = packageMapper.selectRodBrandNameOption();
         String[] result2 = packageMapper.selectReelTypeOption();
-        String[] result3 = packageMapper.selectLineMinOption();
-        String[] result4 = packageMapper.selectLineMaxOption();
+        String[] result3 = packageMapper.selectRodLineMinOption();
+        String[] result4 = packageMapper.selectRodLineMaxOption();
         log.info("selectBrandNameOption={}" , Arrays.toString(result1));
         log.info("selectBrandNameOption={}" , Arrays.toString(result2));
         log.info("selectBrandNameOption={}" , Arrays.toString(result3));

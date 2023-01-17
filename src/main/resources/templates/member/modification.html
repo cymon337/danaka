@@ -18,7 +18,7 @@
     <div class="row justify-content-center">
       <div class="col-md-6 text-center mb-5">
 
-          <img th:src="@{/image/DANAKA.png}">
+        <img th:src="@{/image/DANAKA.png}" onclick="location.href='/'">
       </div>
     </div>
     <div class="row justify-content-center">
@@ -31,9 +31,10 @@
          <!-- <div th:if=${ signIn != null}" style="display:none;">  세션값이 있는 경우에만 회원정보 수정폼 보여주기 시간있으면 구현-->
        <!--   action="/updateMembers_action" class="login-form" method="post"-->
 
-          <form  class="login-form" th:action="@{/updateMembers}" method="post" >
+          <form  class="login-form" th:action="@{/member/updateMembers}" method="post" >
               <input type="hidden" id="id" th:value="${member.username}">
            <!-- <th:block sec:authorize="isAuthenticated()">-->
+
               <div class="form-group">
 
                   <input type="text" th:name="userId" class="form-control rounded-left" id="userId" placeholder="아이디" name="userId" th:value="${member.userId}"  required readonly>
@@ -60,6 +61,9 @@
             <div class="form-group">
               <button type="submit" id="btn-update" class="btn btn-primary rounded submit p-3 px-5">수정</button>
             </div>
+              <div class="w-100 text-md-center">
+                <a th:href="@{/member/unregister}">회원탈퇴</a>
+              </div>
 
   <!--          </th:block>
 -->

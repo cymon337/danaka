@@ -1,5 +1,7 @@
 package com.osaz.danaka.member.model.service;
 
+import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
@@ -14,13 +16,19 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URLEncoder;
 
-@Component
-public class CustomAuthFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 
+
+// # title : 로그인 에러 처리
+// # author : 정근호
+// # description : 로그인 할때 발생할 에러를 처리
+@Component
+@Slf4j
+public class CustomAuthFailureHandler extends SimpleUrlAuthenticationFailureHandler {
     //onAuthenticationFailure를 오버라이딩하여 예외처리를 해주고 에러 메시지를 띄워준다
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
                                         AuthenticationException exception) throws IOException, ServletException {
+
         String errorMessage = exception.getMessage();
         if (exception instanceof BadCredentialsException) {
             errorMessage = "아이디 또는 비밀번호가 맞지 않습니다. 다시 확인해 주세요.";
@@ -35,6 +43,8 @@ public class CustomAuthFailureHandler extends SimpleUrlAuthenticationFailureHand
         }
         errorMessage = URLEncoder.encode(errorMessage, "UTF-8");
         setDefaultFailureUrl("/member/login?error=true&exception=" + errorMessage);
+
+        log.error(exception.getMessage(), exception);
 
         super.onAuthenticationFailure(request, response, exception);
     }

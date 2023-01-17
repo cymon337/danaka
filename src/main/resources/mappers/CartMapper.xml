@@ -53,7 +53,7 @@
                      ,CASE
                           WHEN B.CATEGORY_CODE = 'RD' THEN RD.ROD_MODEL
                           WHEN B.CATEGORY_CODE = 'RL' THEN RL.REEL_MODEL
-                          WHEN B.CATEGORY_CODE = 'LN' THEN TO_CHAR(LN.LINE_SIZE, 'FM9990.0')
+                          WHEN B.CATEGORY_CODE = 'LN' THEN TO_CHAR(LN.LINE_SIZE, 'FM9990.09')
             END OPTION1
                      ,CASE
                           WHEN B.CATEGORY_CODE = 'RD' THEN RD.REEL_TYPE
@@ -91,7 +91,7 @@
              ,CASE
                   WHEN A.CATEGORY_CODE = 'RD' THEN RD.ROD_MODEL
                   WHEN A.CATEGORY_CODE = 'RL' THEN RL.REEL_MODEL
-                  WHEN A.CATEGORY_CODE = 'LN' THEN TO_CHAR(LN.LINE_SIZE, 'FM9990.0')
+                  WHEN A.CATEGORY_CODE = 'LN' THEN TO_CHAR(LN.LINE_SIZE, 'FM9990.09')
             END OPTION1
              ,CASE
                   WHEN A.CATEGORY_CODE = 'RD' THEN RD.REEL_TYPE
@@ -149,7 +149,11 @@
     <delete id="deleteCart">
         DELETE FROM T_CART
         WHERE
-            CART_NO = #{ cartNo }
+            CART_NO IN (
+        <foreach collection="cartNo" item="item" index="index" separator="," open="" close="">
+            #{item}
+        </foreach>
+        )
     </delete>
 
 </mapper>

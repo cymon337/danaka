@@ -1,14 +1,18 @@
 <!doctype html>
 <html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" href="/static/css/myPageStyle.css">
-  <link rel="stylesheet" href="/static/css/myPageStyle2.css">
-    <title>Document</title>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"><title>마이페이지</title>
+<!--  <link rel="stylesheet" th:href="@{/css/indexCss.css}">-->
+  <link rel="stylesheet" th:href="@{/css/myPageStyle.css}">
+  <link rel="stylesheet" th:href="@{/css/myPageStyle2.css}">
 
+<!--  <link rel="stylesheet" th:href="@{/css/style.css}">-->
+<!--  <link rel="stylesheet" th:href="@{/css/list.css}">-->
+ 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 
   <!-- jQuery library -->
@@ -19,67 +23,52 @@
 </head>
 <body>
 <div class="row" style="margin: 0; padding: 0;">
-  <div class="col-lg-2">
-    <img src="mainlogo.png" alt="메인로고.png" id="mainlogo" style="width: 100%; margin: 20px;">
-  </div>
+<!--  <div class="header">-->
+<!--    <th:block th:replace="~{common/rootheader :: header}"/>-->
+<!--  </div>-->
+
   <div class="col-lg-1"></div>
   <div class="col-lg-6" style="margin: 25px;">
-    <form>
-      <div class="input-group">
-        <input id="search" type="text" class="form-control" name="search" placeholder="검색어를 입력하세요.">
-        <span class="input-group-addon btn"><i class="glyphicon glyphicon-search"></i></span>
-      </div>
-    </form>
+
   </div>
 
   <div class="col-lg-3">
 
   </div>
 </div>
-<nav class="navbar navbar-inverse" style="background-color: #0448AD; margin-bottom: 0;">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="#" style="color: white;">DANAKA</a>
-    </div>
-    <ul class="nav navbar-nav">
-      <li><a href="#" style="color: white;">로드</a></li>
-      <li><a href="#" style="color: white;">릴</a></li>
-      <li><a href="#" style="color: white;">라인</a></li>
-      <li><a href="#" style="color: white;">장비 조합</a></li>
-      <li><a href="#" style="color: white;">공지사항</a></li>
-    </ul>
-    <ul class="nav navbar-nav navbar-right">
-      <li><a href="#" style="color: white;"><span class="glyphicon glyphicon-user"></span>회원 가입</a></li>
-      <li><a href="#" style="color: white;"><span class="glyphicon glyphicon-log-in"></span> 로그인</a></li>
-    </ul>
-  </div>
-</nav>
+
 <div id="viewport" >
   <!-- Sidebar -->
   <div id="sidebar">
     <header style="height: 200px">
 
       <a href="#" style="margin-outside: 10px"><img src="/image/image2.png"></a>
-      <div th:text="${userName}" style="color: black">님</div>
+      <div sec:authentication="principal.memberName" style="color: black">님</div>
       <a style="color: black">환영합니다!</a>
     </header>
 
     <ul class="nav">
       <li>
-        <a href="#">
+        <a th:href="@{/member/modification}">
           <i class="zmdi zmdi-view-dashboard"></i> 회원정보 수정
         </a>
       </li>
       <hr>
       <li>
-        <a href="#">
+        <a th:href="@{/member/wishList}">
           <i class="zmdi zmdi-link"></i> 관심상품
         </a>
       </li>
       <hr>
       <li>
-        <a href="#">
+        <a th:href="@{/package/package}">
           <i class="zmdi zmdi-widgets"></i> 장바구니
+        </a>
+        <hr>
+      </li>
+      <li>
+        <a th:href="@{/}">
+          <i class="zmdi zmdi-widgets"></i> 홈으로가기
         </a>
         <hr>
       </li>
@@ -88,7 +77,7 @@
         <br>
 
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <button type="submit" class="btn btn-primary rounded submit " style="background: white; color: black; width:100px; height: 40px" >회원탈퇴</button>
+        <button type="button"onclick="location.href='/member/unregister'" id="unregister" class="btn btn-primary rounded submit " style="background: white; color: black; width:100px; height: 40px" >회원탈퇴</button>
       </li>
     </ul>
   </div>
@@ -96,119 +85,147 @@
 
   <div id="content" >
 
+
     <div class="container-fluid">
       <h1>주문 내역</h1>
-      <div>
+      <div >
+
+
+          <div class="allCheck" style="display: flex; justify-content: flex-end; margin-right: 10% " >
+            <input type="checkbox" name="allCheck" id="allCheck" /><label for="allCheck">모두 선택</label>
+            <script th:inline="javascript">
+              $("#allCheck").click(function(){
+                let chk = $("#allCheck").prop("checked");
+                if(chk) {
+                  $(".chBox").prop("checked", true);
+                } else {
+                  $(".chBox").prop("checked", false);
+                }
+              });
+
+            </script>
+          </div>
+
+
+          <div class="delBtn" style="display: flex; justify-content: flex-end; margin-right: 10% ">
+            <button type="button" class="selectDelete_btn" >선택 취소</button>
+            <script th:inline="javascript">
+              $(".selectDelete_btn").click(function(){
+                let confirm_val = confirm("정말 취소하시겠습니까?");
+
+                if(confirm_val) {
+                  let checkArr = new Array();
+
+                  $("input[class='chBox']:checked").each(function(){
+                    checkArr.push($(this).attr("data-orderNum"));
+                  });
+
+                  $.ajax({
+                    url : "/member/cancelPurchase",
+                    type : "post",
+                    data : $.param({ chbox : checkArr }),
+                    success : function(result){
+
+                      if(result == 1){
+                        location.href = "/member/mypage";
+                        alert("취소 성공");
+                      }else {
+                        alert("취소 실패");
+                      }
+
+                    }
+                  });
+                }
+              });
+
+            </script>
+          </div>
+
 
         <div>
 
           <div class="outerProductsContainer">
-            <div class="productContainer">
+            <div class="productContainer" th:each="order : ${ orderList }">
+
+              <div class="checkBox">
+                <input type="checkbox" name="chBox" class="chBox" th:data-orderNum="${order.orderNo}"  />
+                <script th:inline="javascript">
+                $(".chBox").click(function(){
+                $("#allCheck").prop("checked", false);
+                });
+                </script>
+              </div>
+
+
               <div class="thumnail">
-                <img src="/image/rod/rod5.png" alt="상품썸네일">
+                  <img th:src="${ order?.tSavePath }?:'/image/line/lineDefault.png'" alt="상품썸네일" th:onclick="|location.href='@{/product/item2(productNo=${ order.productNo })}'|">
+
+
+
               </div>
               <div class="detail1">
                 <div class="productName">
-                   <p><h4><b>주문번호</b></h4></p>
+                  <a th:href="@{/product/item2(productNo=${ order.productNo })}"><p th:text="${ order.productName }">
+                    상품명</p></a>
                 </div>
                 <div class="productDetail">
-                  <ul style="padding-top: 6px; padding-left: 13px" >
-                    <li><h5>상품명 :</h5></li>
-                    <li><h5>주소 :</h5></li>
-                    <li><h5>주문요청 :</h5></li>
-                    <li><h5>주문일자 :</h5></li>
-                  </ul>
+
+                    <p th:text="${ order.orderId }">주문아이디</p>
+                  <p th:text="${ order.amount }">주문수량</p>
+                  <p th:text="${ order.orderRequest }">주문요청사항</p>
+
+
+
                 </div>
               </div>
               <div class="detail2">
-                <div class="form-group d-md-flex">
-                  <div class="form-group">
-                    <button type="submit" class="btn btn-primary rounded submit p-3 px- ml-1 my-4 ">주문취소</button>
+                <div class="price">
+
+                    <p th:text="${ #numbers.formatCurrency(order.totPrice) }">상품가격</p>
+                  <p th:text="${ order.regDate }">주문일자</p>
+                  <div class="delete">
+                    <button type="button" style="height: 30px" th:class="|delete${order.orderNo}btn|" th:data-orderNum="${order.orderNo}">주문 취소</button>
+
+                    <script th:inline="javascript">
+                      $('.delete'+[[${order.orderNo}]]+'btn').click(function(){
+                        let confirm_val = confirm("정말 삭제하시겠습니까?");
+
+                        if(confirm_val) {
+                          let checkArr = new Array();
+
+
+                            checkArr.push($(this).attr("data-orderNum"));
+
+
+                          $.ajax({
+                            url : "/member/cancelPurchase",
+                            type : "post",
+                            data : $.param({ chbox : checkArr }),
+                            success : function(result){
+
+                              if(result == 1){
+                                location.href = "/member/mypage";
+                                alert("삭제 성공");
+                              }else {
+                                alert("삭제 실패");
+                              }
+
+                            }
+                          });
+                        }
+                      });
+
+                    </script>
                   </div>
                 </div>
-              </div>
-            </div>
-            <div class="productContainer">
-              <div class="thumnail">
-                <img src="/image/rod/rod5.png" alt="상품썸네일">
-              </div>
-              <div class="detail1">
-                <div class="productName">
-                  <p><h4><b>주문번호</b></h4></p>
-                </div>
-                <div class="productDetail">
-                  <ul style="padding-top: 6px; padding-left: 13px" >
-                    <li><h5>상품명 :</h5></li>
-                    <li><h5>주소 :</h5></li>
-                    <li><h5>주문요청 :</h5></li>
-                    <li><h5>주문일자 :</h5></li>
-                  </ul>
-                </div>
-              </div>
-              <div class="detail2">
-                <div class="form-group d-md-flex">
-                  <div class="form-group">
-                    <button type="submit" class="btn btn-primary rounded submit p-3 px- ml-1 my-4 ">주문취소</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="productContainer">
-              <div class="thumnail">
-                <img src="" alt="상품썸네일">
-              </div>
-              <div class="detail1">
-                <div class="productName">
-                  <p><h4><b>주문번호</b></h4></p>
-                </div>
-                <div class="productDetail">
-                  <ul style="padding-top: 6px; padding-left: 13px" >
-                    <li><h5>상품명 :</h5></li>
-                    <li><h5>주소 :</h5></li>
-                    <li><h5>주문요청 :</h5></li>
-                    <li><h5>주문일자 :</h5></li>
-                  </ul>
-                </div>
-              </div>
-              <div class="detail2">
-                <div class="form-group d-md-flex">
-                  <div class="form-group">
-                    <button type="submit" class="btn btn-primary rounded submit p-3 px- ml-1 my-4 ">주문취소</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="productContainer">
-              <div class="thumnail">
-                <img src="" alt="상품썸네일">
-              </div>
-              <div class="detail1">
-                <div class="productName">
-                  <p><h4><b>주문번호</b></h4></p>
-                </div>
-                <div class="productDetail">
-                  <ul style="padding-top: 6px; padding-left: 13px" >
-                    <li><h5>상품명 :</h5></li>
-                    <li><h5>주소 :</h5></li>
-                    <li><h5>주문요청 :</h5></li>
-                    <li><h5>주문일자 :</h5></li>
-                  </ul>
-                </div>
-              </div>
-              <div class="detail2">
-                <div class="form-group d-md-flex">
-                  <div class="form-group">
-                    <button type="submit" class="btn btn-primary rounded submit p-3 px- ml-1 my-4 ">주문취소</button>
-                  </div>
-              </div>
-            </div>
+
 
               </div>
             </div>
 
           </div>
         </div>
-      </div>
+      </li>
 
     </div>
   </div>

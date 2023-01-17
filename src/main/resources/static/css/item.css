@@ -9,7 +9,7 @@ body>hr {
 }
 .productContainer {
     width: 60%;
-    margin: 0 auto;
+    margin: 168px auto 0 auto;
     padding: 0;
     display: flex;
     justify-content: space-around;
@@ -138,16 +138,13 @@ body>hr {
 }
 #option {
     width: 100%;
-    height: 3em;
+    height: 4em;
     text-align: center;
     margin: 0 auto;
-    font-size: 0.7rem;
+    font-size: 0.9rem;
     background-color: white;
     border: 1px #C4C2FF solid;
     border-radius: 6px;
-}
-option {
-    font-size: 1rem;
 }
 .buttons {
     display: flex;
@@ -157,8 +154,8 @@ option {
     box-sizing: border-box;
 }
 .buttons>button {
-    width: 2.2em;
-    height: 2.2em;
+    width: 2.7em;
+    height: 2.7em;
     align-items: flex-end;
     border-radius: 5px;
     color: white;
@@ -181,13 +178,13 @@ option {
     border: 1px #C4C2FF solid;
     border-radius: 1em;
     width: 60%;
-    height: 6em;
+    height: 96px;
     margin: 0 auto;
     display: flex;
     padding: 0.5em;
     background-color: white;
     box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.25);
-    position: marker;
+    position: relative;
 }
 .refMove {
     height: 5em;
@@ -195,7 +192,15 @@ option {
 .refMove>button {
     height: 100%;
     border: 1px #c3c1fe solid;
-    background-color: white;
+    background-color: transparent;
+}
+#refLeft {
+    position: absolute;
+    left: 5px;
+}
+#refRight {
+    position: absolute;
+    right: 5px;
 }
 #refLeft>button {
     border-top-left-radius: 5px;
@@ -205,27 +210,34 @@ option {
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
 }
-.refItems {
-    width: 95%;
-    display: flex;
-    justify-content: center;
+#slideShow {
+    position: absolute;
+    width: 97%;
+    height: 100px;
+    overflow: hidden;
 }
-.refItems>div {
-    width: 5em;
-    margin: 0 1% 0 1%;
-    padding: 0.5%;
+.refItems {/* slideshow*/
+    position: absolute;
+    left: 0;
+    width: 2100px;
+    height: 100px;
+    transition: left 0.5s ease-out;
+}
+.refItems>div:not(last-child) {
+    display: inline-block;
+    width: 75px;
+    margin-right: 27px;
 }
 .refItems>div>img {
     width: 100%;
     border: 1px #e5e5ff solid;
-    box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.25);
+    box-shadow: 2px 3px 3px rgba(0, 0, 0, 0.25);
 }
 .contentContainer {
     box-sizing: border-box;
     border: 1px #C4C2FF solid;
     border-radius: 1em;
     width: 60%;
-    height: 1000px;
     margin: 0 auto;
     padding: 1%;
     background-color: white;
@@ -234,12 +246,14 @@ option {
 .content {
     border: 1px #C4C2FF solid;
     width: 98%;
-    height: 100%;
     margin: 0 auto;
     border-radius: 1em;
     background-color: white;
 }
-
+#dImg {
+    width: 100%;
+    border-radius: 1em;
+}
 @media screen and (max-width : 767px) {
     .productContainer {
         width: 100%;
@@ -261,6 +275,7 @@ option {
     }
     .refItemsContainer {
         width: 100%;
+        height: 96px;
     }
     .contentContainer {
         width: 100%;
@@ -281,6 +296,7 @@ option {
     }
     .refItemsContainer {
         width: 80%;
+        height: 96px;
     }
     .contentContainer {
         width: 80%;

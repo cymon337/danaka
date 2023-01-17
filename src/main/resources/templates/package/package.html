@@ -1,5 +1,6 @@
 <!doctype html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+      lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -12,104 +13,132 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
             crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.6.3.slim.min.js"
-            integrity="sha256-ZwqZIVdD3iXNyGHbSYdsmWP//UBokj2FHAxKuSBKDSo="
-            crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="/static/css/package.css">
+    <!-- 제이쿼리 -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" th:href="@{ /css/package.css }">
+<!--        <link rel="stylesheet" href="/static/css/package.css">-->
+
     <title>DANAKA-조합견적</title>
+
 </head>
 <body>
-    <div class="wrapper">
-        <div class="package-search-wrapper">
+<div class="wrapper">
+    <div class="package-search-wrapper">
 
-            <div class="package-search input">
-                <input id="search-product" type="text" placeholder="상품명으로 검색하세요"/>
-            </div>
-
-            <div class="package-search category">
-                <table class="category-select">
-                    <tr>
-                        <th>카테고리</th>
-                        <td>
-                            <select id="category-select-box">
-                                <option value="rod">로드</option>
-                                <option value="reel">릴</option>
-                                <option value="line">라인</option>
-                            </select>
-
-                            // https://chobopark.tistory.com/226 참조해서 만들기
-                        </td>
-                    </tr>
-                </table>
-
-                <hr>
-                <table class="category-option">
-
-                    <tr>
-                        <th>브랜드</th>
-                        <td><button type="button" class="btn btn-outline-secondary">다이와</button></td>
-                        <td><button type="button" class="btn btn-outline-secondary">다이와</button></td>
-                        <td><button type="button" class="btn btn-outline-secondary">다이와</button></td>
-                        <td><button type="button" class="btn btn-outline-secondary">다이와</button></td>
-                        <td><button type="button" class="btn btn-outline-secondary">다이와</button></td>
-                        <td><button type="button" class="btn btn-outline-secondary">다이와</button></td>
-
-                    </tr>
-                    <tr>
-                        <th>브랜드</th>
-                        <td>다이와</td>
-                        <td>시마노</td>
-                        <td>js</td>
-                        <td>ns</td>
-                        <td>도요</td>
-                    </tr>
-                    <tr>
-                        <th>브랜드</th>
-                        <td>다이와</td>
-                        <td>시마노</td>
-                        <td>js</td>
-                        <td>ns</td>
-                        <td>도요</td>
-                    </tr>
-                </table>
-                <hr>
-                <span>선택옵션 :</span>
-            </div>
-<!--        카테고리옵션 선택 활성/비활성    -->
-            <script type="text/javascript">
-                $(".btn-outline-secondary").on("click", function (e) {
-                    // if ($("#btn-select-all-cart").hasClass("active") === true) {
-                    //     $("#btn-select-all-cart").removeClass("active");
-                    // }
-
-                    if ($(e.target).hasClass("active") === true) {
-                        $(e.target).removeClass("active")
-                    } else {
-                        $(e.target).addClass("active");
-                    }
-                });
-            </script>
-
-            <div class="package-search item-list">
-                <ul>
-                    <li>1111111111111</li>
-                    <li>1111111111111</li>
-                    <li>1111111111111</li>
-                    <li>1111111111111</li>
-                    <li>1111111111111</li>
-                    <li>1111111111111</li>
-                </ul>
-            </div>
+        <div class="package-search input">
+            <input id="search-product" type="text" placeholder="상품명으로 검색하세요"/>
         </div>
 
-        <div class="package-cart-wrapper">
-            <div class="package-cart item">
-                11
-            </div>
-            <div class="package-cart order">
-                11
-            </div>
+        <div class="package-search category">
+            <table class="category-select">
+                <tr>
+                    <th>카테고리</th>
+                    <td>
+                        <select id="category-select-box" onchange="showOption(this)">
+                            <option value="default">옵션선택</option>
+                            <option value="rod">로드</option>
+                            <option value="reel">릴</option>
+                            <option value="line">라인</option>
+                        </select>
+
+
+                    </td>
+                </tr>
+            </table>
+            <hr>
+<!-- ========== 로드옵션테이블 ========== -->
+
+
+            <table id="category-option-rod" class="category-option table-rod">
+
+                <tr>
+                    <th>브랜드</th>
+                    <td th:each="rodBrands : ${rodBrands}">
+                        <button type="button" class="btn btn-outline-secondary" th:text="${rodBrands}">브랜드</button>
+                    </td>
+                </tr>
+                <tr>
+                    <th>릴타입</th>
+                    <td th:each="rodReelType : ${rodReelType}">
+                        <button type="button" class="btn btn-outline-secondary" th:text="${rodReelType}">릴타입</button>
+                    </td>
+                </tr>
+                <tr>
+                    <th>라인MIN</th>
+                    <td th:each="rodLineMin : ${rodLineMin}">
+                        <button type="button" class="btn btn-outline-secondary" th:text="${rodLineMin}">라인MIN</button>
+                    </td>
+                </tr>
+                <tr>
+                    <th>라인MAX</th>
+                    <td th:each="rodLineMax : ${rodLineMax}">
+                        <button type="button" class="btn btn-outline-secondary" th:text="${rodLineMax}">라인MAX</button>
+                    </td>
+                </tr>
+            </table>
+
+
+<!-- ========== 릴옵션테이블 ========== -->
+
+            <table id="category-option-reel" class="category-option table-line">
+
+                <tr>
+                    <th>브랜드</th>
+                    <td th:each="reelBrands : ${reelBrands}">
+                        <button type="button" class="btn btn-outline-secondary" th:text="${reelBrands}">브랜드</button>
+                    </td>
+                </tr>
+                <tr>
+                    <th>릴타입</th>
+                    <td th:each="reelType : ${reelType}">
+                        <button type="button" class="btn btn-outline-secondary" th:text="${reelType}">릴타입</button>
+                    </td>
+                </tr>
+            </table>
+
+
+<!-- ========== 라인옵션테이블 ========== -->
+
+            <table id="category-option-line" class="category-option table-line">
+
+                <tr>
+                    <th>브랜드</th>
+                    <td th:each="lineBrands : ${lineBrands}">
+                        <button type="button" class="btn btn-outline-secondary" th:text="${lineBrands}">브랜드</button>
+                    </td>
+                </tr>
+                <tr>
+                    <th>라인사이즈</th>
+                    <td th:each="lineSize : ${lineSize}">
+                        <button type="button" class="btn btn-outline-secondary" th:text="${lineSize}">라인사이즈</button>
+                    </td>
+                </tr>
+            </table>
+
+            <hr>
+<!-- ========== 선택옵션 ========== -->
+            <span id="selected-option">선택옵션 :</span>
+        </div>
+
+<!-- ========== 필터검색상품리스트 ========== -->
+        <div class="package-search item-list">
+            <ul id="item-list">
+
+            </ul>
         </div>
     </div>
+
+    <div class="package-cart-wrapper">
+        <div class="package-cart item">
+            11
+        </div>
+        <div class="package-cart order">
+            11
+        </div>
+    </div>
+</div>
+
+
+<script th:src="@{ /js/package.js }"></script>
 </body>
 </html>

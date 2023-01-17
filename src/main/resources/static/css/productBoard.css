@@ -1,0 +1,201 @@
+#productBoardContainer {
+    z-index: 2;
+    position: relative;
+    width: 60%;
+    margin: 1% auto;
+    padding: 1%;
+    border: 1px #C4C2FF solid;
+    border-radius: 1em;
+    box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.25);
+    background-color: white;
+}
+#productReview, #productAsk {
+    margin: 0 auto;
+}
+.boardControlButtons {
+    box-sizing: border-box;
+    padding: 0;
+}
+#reviewBtn, #askBtn{
+    width: 49%;
+    box-sizing: border-box;
+    height: 3em;
+    border: 1px #C4C2FF solid;
+    background-color: white;
+}
+#reviewBtn {
+    border-top-left-radius: 5px;
+    margin-left: 1%;
+    margin-right: 0;
+    border-right: none;
+    border-bottom: none;
+    background-color: #0447ad;
+    color: white;
+}
+#askBtn {
+    border-top-right-radius: 5px;
+    margin-left: 0;
+    border-bottom: none;
+}
+#productReview, #productAsk {
+    width: 98%;
+    border: 1px #C4C2FF solid;
+    border-top: none;
+    border-bottom: none;
+    z-index: 2;
+    background-color: white;
+}
+#productAsk {
+    display: none;
+}
+.boardHead, .boardTitle {
+    display: grid;
+    grid-template-columns: 5% 65% 15% 15%;
+    padding: 1%;
+    text-align: center;
+    border-bottom: 1px #C4C2FF solid;
+    font-size: small;
+}
+.boardHead{
+    background-color: #0447ad;
+    color: white;
+    border-top: none;
+    border-bottom: none;
+}
+.boardHead>span {
+    height: 32px;
+    line-height: 32px;
+}
+.boardNull {
+    text-align: center;
+    font-size: small;
+    border-bottom: 1px #C4C2FF solid;
+}
+.boardTitle:hover{
+    background-color: #d3f8f5;
+}
+.boardTitle {
+    position: relative;
+    background-color: white;
+    z-index: 2;
+}
+.boardContent {
+    visibility: hidden;
+    border-bottom: 1px #C4C2FF solid;
+    font-size: small;
+    height: 0vh;
+    transition: all 0.3s;
+    color: white;
+    position: relative;
+    z-index: 1;
+}
+.visibilityToggle {
+    visibility: visible;
+    height: 100px;
+    color: black;
+    padding: 1%;
+    z-index: 0;
+}
+.boardContent>p {
+    height: 60%;
+}
+.updateArea {
+    width: 100%;
+    height: 50px;
+    margin-top: 2px;
+    border: none;
+    border-radius: 5px;
+    resize: none;
+}
+.updateInput {
+    width: 100%;
+    border: none;
+    border-radius: 5px;
+    background-color: white;
+}
+.contentButtons {
+    width: 4em;
+    border-radius: 5px;
+    border: none;
+    font-size: smaller;
+    color: white;
+    background-color: #0a53bd;
+    text-align: center;
+}
+.pagingArea {
+    position: relative;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    z-index: 2;
+    background-color: white;
+}
+.pagingArea>button {
+    width: 32px;
+    height: 32px;
+    border-radius: 5px;
+    border: none;
+    font-size: small;
+    color: white;
+    background-color: #0a53bd;
+    text-align: center;
+}
+.pagingArea>button:hover {
+    background-color: #45d1ea;
+}
+.pagingArea>button:disabled {
+    background-color: #b2c7e3;
+}
+#reviewInput, #qnaInput {
+    border: 1px #C4C2FF solid;
+    width: 98%;
+    padding: 1%;
+    margin: 0 auto;
+    display: none;
+    font-size: small;
+}
+#reviewInput input, #qnaInput input{
+    border: none;
+    background-color: white;
+}
+#reviewInput>input:nth-child(2) {
+    width: 400px;
+}
+#reviewInput>div {
+    display: flex;
+    justify-content: space-between;
+}
+#reviewInput textarea, #qnaInput textarea {
+    width: 100%;
+    height: 50%;
+    resize: none;
+    background-color: white;
+}
+#qnaInput>textarea {
+    height: 25px;
+    font-size: smaller;
+}
+#writeR, #writeQ, #insertR, #insertQ  {
+    width: 5em;
+    height: 32px;
+    border-radius: 5px;
+    border: none;
+    font-size: small;
+    color: white;
+    background-color: #0a53bd;
+    text-align: center;
+    position: absolute;
+    right: 1%;
+}
+#writeQ, #insertR, #insertQ {
+    display: none;
+}
+@media screen and (max-width : 767px) {
+    #productBoardContainer {
+        width: 100%;
+    }
+}
+@media screen and (min-width : 768px) and (max-width : 1024px) {
+    #productBoardContainer {
+        width: 80%;
+    }
+}

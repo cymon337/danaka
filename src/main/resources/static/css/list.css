@@ -2,6 +2,7 @@ body {
     background-color: #f0f2fe;
 }
 .categoryImg {
+    margin-top: 163px;
     height: 9em;
 }
 .categoryImg>img {
@@ -116,14 +117,29 @@ body {
     height: 2em;
     border-radius: 5px;
     color: black;
-    border: 1px #C4C2FF solid;
+    border: none;
     font-size: 1rem;
-    background-color: white;
+    color: white;
+    background-color: #0a53bd;
     text-align: center;
 }
-.pagingArea>button:disabled {
-    background-color: #dcdcdc;
+.pagingArea>button:hover {
+    background-color: #45d1ea;
 }
+.pagingArea>button:disabled {
+    background-color: #b2c7e3;
+}
+
+#footer {
+    height: 246px;
+    width: 100%;
+    background-color: white;
+}
+#footer img {
+    width: 100%;
+    object-fit: fill;
+}
+
 @media screen and (max-width : 767px) {
     .outerProductsContainer {
         width: 100%;

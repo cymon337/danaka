@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>DANAKA - [[${ selectCriteria?.categoryCode }]]</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- index.html css -->
     <link rel="stylesheet" th:href="@{ /css/indexCss.css }"/>
@@ -24,20 +24,27 @@
 
     <!-- 승재 css -->
     <link rel="stylesheet" type="text/css" th:href="@{ /css/list.css }">
+    <link rel="stylesheet" type="text/css" th:href="@{ /css/modal.css }">
 </head>
 <body>
 <div class="header">
-    <th:block th:replace="~{common/header2 :: header}"/>
+    <th:block th:replace="~{common/header :: header}"/>
+</div>
+<div>
+    <th:block th:replace="~{common/modal :: successM}"/>
+</div>
+<div>
+    <th:block th:replace="~{common/modal :: backtotop}"/>
 </div>
 <div class="categoryImg">
-    <th:block th:switch="${ selectCriteria.categoryCode }">
+    <th:block th:switch="${ productList[0].categoryCode }">
         <img th:case="RD" th:src="@{ /image/배너.png }" alt="카테고리별 대표사진">
         <img th:case="RL" th:src="@{ /image/배너1.png }" alt="카테고리별 대표사진">
         <img th:case="LN" th:src="@{ /image/배너2.png }" alt="카테고리별 대표사진">
     </th:block>
 </div>
 <div class="orderContainer">
-    <th:block th:with="category = ${ selectCriteria.categoryCode }">
+    <th:block th:with="category = ${ productList[0].categoryCode }">
 <!--        <button th:onclick="|location.href='@{/product/list2(categoryCode=${ selectCriteria.categoryCode })}'|">인기순</button>-->
         <button id="sale" th:onclick="|location.href='@{/product/list2(categoryCode=${ category }, orderCondition=sale)}'|">판매량순</button>
         <button id="lowPrice" th:onclick="|location.href='@{/product/list2(categoryCode=${ category }, orderCondition=lowPrice)}'|">낮은가격순</button>
@@ -47,10 +54,10 @@
 <div class="outerProductsContainer">
     <div class="productContainer" id="productContainer" th:each="product : ${ productList }">
         <div class="thumnail">
-            <th:block th:switch="${ selectCriteria.categoryCode }">
-                <img th:case="RD" th:src="${ product.savePath }" alt="상품썸네일" th:onclick="|location.href='@{/product/item2(productNo=${ product.productNo })}'|">
-                <img th:case="RL" th:src="${ product.savePath }" alt="상품썸네일" th:onclick="|location.href='@{/product/item2(productNo=${ product.productNo })}'|">
-                <img th:case="LN" th:src="${ product.savePath }" alt="상품썸네일" th:onclick="|location.href='@{/product/item2(productNo=${ product.productNo })}'|">
+            <th:block th:switch="${ product.categoryCode }">
+                <img th:case="RD" th:src="${ product.tSavePath }" alt="상품썸네일" th:onclick="|location.href='@{/product/item2(productNo=${ product.productNo })}'|">
+                <img th:case="RL" th:src="${ product.tSavePath }" alt="상품썸네일" th:onclick="|location.href='@{/product/item2(productNo=${ product.productNo })}'|">
+                <img th:case="LN" th:src="${ product.tSavePath }" alt="상품썸네일" th:onclick="|location.href='@{/product/item2(productNo=${ product.productNo })}'|">
             </th:block>
         </div>
         <div class="detail1">
@@ -69,10 +76,10 @@
         </div>
         <div class="detail2">
             <div class="price">
-                <th:block th:switch="${ selectCriteria.categoryCode }">
-                    <p th:case="RD" th:text="${ #numbers.formatCurrency(product.rod.price) }">상품가격</p>
-                    <p th:case="RL" th:text="${ #numbers.formatCurrency(product.reel.price) }">상품가격</p>
-                    <p th:case="LN" th:text="${ #numbers.formatCurrency(product.line.price) }">상품가격</p>
+                <th:block th:switch="${ product.categoryCode }">
+                    <p th:case="RD" th:text="${ #numbers.formatCurrency(product.rod?.price) }">상품가격</p>
+                    <p th:case="RL" th:text="${ #numbers.formatCurrency(product.reel?.price) }">상품가격</p>
+                    <p th:case="LN" th:text="${ #numbers.formatCurrency(product.line?.price) }">상품가격</p>
                 </th:block>
             </div>
             <div class="regDate">
@@ -81,13 +88,13 @@
         </div>
     </div>
     <div class="pagingButtons" align="center">
-        <th:block th:include="~{common/pagingP :: paging}"/>
-        <a th:href="@{'productEnroll'}" class="btn btn-primary">상품등록</a>
+        <th:block th:include="~{common/productPaging :: paging}"/>
     </div>
 </div>
 
 </div>
 <script th:inline="javascript">
+    /* 정렬 버튼 색 입히기 */
     if([[${ selectCriteria.orderCondition }]] != null) {
         switch ([[${ selectCriteria.orderCondition }]]) {
             case "sale":
@@ -99,6 +106,28 @@
             case "highPrice":
                 $("#highPrice").css("backgroundColor", "#0448AD");
                 $("#highPrice").css("color", "white"); break;
+        }
+    }
+
+    $(document).ready(function (){
+        /* 모달 창 띄우기 */
+        if ([[${ successMessage }]] != null || [[${ failMessage }]] != null) {
+            modalSwitch(1);
+        }
+    })
+
+    /* 모달 창 닫기 버튼 */
+    $(".modalCloseButton, .modalLayer").on("click", function() {
+
+        modalSwitch(3);
+    });
+
+    /* 모달창 스위치 함수 */
+    function modalSwitch(key) {
+
+        switch (key) {
+            case 1: $("#successM").show(); break;
+            case 3: $(".modal").hide(); break;
         }
     }
 </script>

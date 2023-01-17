@@ -21,5 +21,6 @@ public class ProductDTO {
     private ReelDTO reel;
     private RodDTO rod;
     private int stock;
-    private String savePath;
+    private String tSavePath;
+    private String dSavePath;
 }

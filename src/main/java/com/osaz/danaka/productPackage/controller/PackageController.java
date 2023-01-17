@@ -1,12 +1,20 @@
 package com.osaz.danaka.productPackage.controller;
 
+import com.osaz.danaka.productPackage.model.dto.SearchProductDTO;
 import com.osaz.danaka.productPackage.model.service.PackageService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Arrays;
+import java.util.List;
+
+@Slf4j
 @Controller
 @RequestMapping("/package")
 @RequiredArgsConstructor
@@ -15,36 +23,66 @@ public class PackageController {
     private final PackageService packageService;
 
     @GetMapping
-    public String packageMain(){ return "package/package"; }
+    public ModelAndView packageMain(ModelAndView mv) {
+        log.info("load category option={}","start");
 
-//    1 상품명 검색 (카테고리 조건에 따라 로드, 릴, 라인 으로 검색)
+//        rod option
+        String[] rodBrands = packageService.selectRodBrandNameOption();
+        String[] rodReelType = packageService.selectRodReelTypeOption();
+        String[] rodLineMin = packageService.selectRodLineMinOption();
+        String[] rodLineMax = packageService.selectRodLineMaxOption();
 
-//    2 옵션 필터 (카테고리 조건에 따라 로드, 릴, 라인 옵션 호출)
-    @GetMapping("?asd=asd")
-    public ModelAndView categoryOption(ModelAndView mv) {
-        String[] brandNameOption = packageService.selectBrandNameOption();
-        String[] reelTypeOption = packageService.selectReelTypeOption();
-        String[] lineMinOption = packageService.selectLineMinOption();
-        String[] lineMaxOption = packageService.selectLineMaxOption();
+        mv.addObject("rodBrands", rodBrands);
+        mv.addObject("rodReelType", rodReelType);
+        mv.addObject("rodLineMin", rodLineMin);
+        mv.addObject("rodLineMax", rodLineMax);
+        log.info("rodBrands={}", Arrays.toString(rodBrands));
+        log.info("rodReelType={}", Arrays.toString(rodReelType));
+        log.info("rodLineMin={}", Arrays.toString(rodLineMin));
+        log.info("rodLineMax={}", Arrays.toString(rodLineMax));
 
-        mv.addObject("brandNameOption", brandNameOption);
-        mv.addObject("reelTypeOption", reelTypeOption);
-        mv.addObject("lineMinOption", lineMinOption);
-        mv.addObject("lineMaxOption", lineMaxOption);
+//      reel option
+        String[] reelBrands = packageService.selectReelBrandNameOption();
+        String[] reelType = packageService.selectReelTypeOption();
+        mv.addObject("reelBrands", reelBrands);
+        mv.addObject("reelType", reelType);
+        log.info("reelBrands={}", Arrays.toString(reelBrands));
+        log.info("reelType={}", Arrays.toString(reelType));
 
+//      line option
+
+        String[] lineBrands = packageService.selectLineBrandNameOption();
+        String[] lineSize = packageService.selectLineSizeOption();
+        mv.addObject("lineBrands", lineBrands);
+        mv.addObject("lineSize", lineSize);
+        log.info("lineBrands={}", Arrays.toString(lineBrands));
+        log.info("lineSize={}", Arrays.toString(lineSize));
+
+        mv.setViewName("package/package");
         return mv;
     }
-//    3 상품 목록
 
-//    4 견적 카트
+//      상품검색 컨트롤러 메소드
+    @PostMapping(value = "selectProduct", produces="application/json; charset=UTF-8")
+    @ResponseBody
+    public List<SearchProductDTO> selectProduct(String categoryCode, String[] categoryOptionList) {
 
-//    5 선택상품삭제
+        log.info("categoryCode={}", categoryCode);
+        log.info("categoryOptionList={}", Arrays.toString(categoryOptionList));
 
-//    6 전체삭제
+        List<SearchProductDTO> productList;
 
-//    7 장바구니담기
+        if (categoryOptionList == null) {
+            productList = packageService.selectProduct(categoryCode);
+        } else {
+            String categoryOption = String.join("','", categoryOptionList);
 
-//    8 바로결제
+            log.info(categoryOption);
+            productList = packageService.selectProductOption(categoryCode, categoryOption);
+        }
+
+        return productList;
+    }
 
 
 }

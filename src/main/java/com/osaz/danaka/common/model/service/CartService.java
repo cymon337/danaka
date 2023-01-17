@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -51,8 +52,8 @@ public class CartService {
     }
 
 //4. deleteCart 장바구니페이지에서 선택된 장바구니 번호 별 삭제 delete method
-    public boolean deleteCart(String cartNo) throws Exception {
-        int result = cartMapper.deleteCart(cartNo);
+    public boolean deleteCart(HashMap<String, Object> paramMap) throws Exception {
+        int result = cartMapper.deleteCart(paramMap);
 
         if (result <= 0) {
             throw new Exception("장바구니 수량 변경 실패");
