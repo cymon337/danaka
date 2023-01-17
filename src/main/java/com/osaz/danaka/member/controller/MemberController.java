@@ -45,7 +45,6 @@ public class MemberController {
 
     @Autowired
     private final MemberService memberService;
-    private MemberMapper memberMapper;
 
     private final PasswordEncoder passwordEncoder;
 
@@ -59,12 +58,10 @@ public class MemberController {
         webDataBinder.addValidators(new PasswordFormValidator());
     }
 
-//    @GetMapping // 아무런 URL이 없는 (localhost:8080) 경우는 loginPAge로 Redirect.
-//    public  String loginRedirect(){
-//        return "redirect:/login";
 
-//    }
-
+    // # title : 로그인 구현
+    // # author : 정근호
+    // # description : 로그인 화면 보여주고 에러처리
     @GetMapping("/member/login")
     public String loginPage(@RequestParam(value = "error", required = false) String error,
                             @RequestParam(value = "exception", required = false) String exception,
@@ -77,6 +74,7 @@ public class MemberController {
         return "member/login";
     }
 
+
     @GetMapping("/username")
     @ResponseBody
     public String currentUserName(Authentication authentication) {
@@ -85,11 +83,18 @@ public class MemberController {
     }
 
 
+
+    // # title : 회원가입 페이지
+    // # author : 정근호
+    // # description : 회원가입 페이지 화면 출력
     @GetMapping("/member/signUp")
     public String signUpPage() {
         return "member/signUp";
     }
 
+    // # title : 회원가입 페이지
+    // # author : 정근호
+    // # description : 사용자가 입력한 정보로 회원가입
     @PostMapping("/signUpAction")
     public String insertMember(MemberDTO memberDTO) {
         memberService.saveUserData(memberDTO);
@@ -98,17 +103,21 @@ public class MemberController {
 
     }
 
-//    @GetMapping("/member/modification")
-//    public String userModification(){
-//        return "member/modification";
-//    }
 
+
+
+    // # title : 아이디 찾기 페이지
+    // # author : 정근호
+    // # description : 아이디 찾기 페이지 화면 출력
     @GetMapping("/member/id")
     public String findIdView() {
         return "member/id";
 
     }
 
+    // # title : 아이디 찾기 페이지
+    // # author : 정근호
+    // # description : 핸드폰 번호와 사용자 이름으로 아이디를 검색한 후 보여줌
     @PostMapping("/findId")
     public String findId(HttpServletRequest request, Model model) {
 
@@ -129,6 +138,9 @@ public class MemberController {
         return "member/id";
     }
 
+    // # title : 회원정보 수정 페이지
+    // # author : 정근호
+    // # description : 회원정보 수정 페이지 출력 이때 로그인한 사용자의 정보도 모델의 담아서 함께 보냄
     @GetMapping("/member/modification")
     public String userUpdateView(@AuthenticationPrincipal MemberDTO memberDTO, Model model) {
 
@@ -138,9 +150,12 @@ public class MemberController {
         return "member/modification";
 
     }
-//    , @RequestParam(value = "userId") String userId)
 
-    @PostMapping("/updateMembers")
+
+    // # title : 회원정보 수정
+    // # author : 정근호
+    // # description : 사용자가 변경하고자 하는 입력값을 받아서 회원정보를 수정 한다
+    @PostMapping("/member/updateMembers")
     public String userUpdate(@RequestParam(value = "nickname") String nickname,
                              @RequestParam(value = "email") String email, @RequestParam(value = "phone") String phone,
                              String userId) {
@@ -161,6 +176,10 @@ public class MemberController {
         return "redirect:member/login";
     }
 
+
+    // # title : 회원 탈퇴 페이지
+    // # author : 정근호
+    // # description : 회원 탈퇴 페이지 이때 로그인한 사용자의 정보도 함께 보낸다
     @GetMapping("/member/unregister")
     public String deleteMember(@AuthenticationPrincipal MemberDTO memberDTO, Model model, RedirectAttributes rttr){
 
@@ -170,6 +189,9 @@ public class MemberController {
         return "member/unregister";
     }
 
+    // # title : 회원 탈퇴
+    // # author : 정근호
+    // # description : 탈퇴를 하려면 사용자가 입력한 비밀번호와 DB의 암호화된 비밀번호를 비교해서 맞으면 탈퇴를 하고 세션을 만료한다
     @PostMapping("/deleteAction")
     public String memberDelete(@AuthenticationPrincipal MemberDTO memberDTO, @RequestParam(value = "password") String password, HttpSession session, RedirectAttributes rttr, Model model
     ) throws Exception {
@@ -203,43 +225,23 @@ public class MemberController {
 
     }
 
-    @GetMapping("/member/passwordUpdate")
-    public String passUpdateForm( Model model,String email) {
-
-        memberDTO = memberService.selectUser(email);
-
-//        model.addAttribute("email", email);
-        model.addAttribute("passwordForm", new PasswordForm());
-        log.info("비번변경찍먹 = {}", model);
-        return "member/passwordUpdate";
-    }
 
 
-    @PostMapping("/NewPassword")
-    public String updatePassword( @Valid PasswordForm passwordForm, HttpSession session,
-                                 Errors errors, Model model, RedirectAttributes attributes, String userId) {
-
-        MemberDTO memberDTO = new MemberDTO();
-        memberDTO.setUserId((String) session.getAttribute("userId"));
-
-        if (errors.hasErrors()) {
-            model.addAttribute(memberDTO);
-            return "member/passwordUpdate";
-        }
-        memberService.updatePassword(memberDTO, passwordForm.getNewPassword());
-        attributes.addFlashAttribute("message", "패스워드를 변경했습니다.");
-        /*패스워드 변경후 로그아웃 시키는거 추가할 수 있으면 하자*/
-        return "redirect:member/login";
-
-    }
+    // # title : 비밀번호 찾기 페이지
+    // # author : 정근호
+    // # description : 비밀번호 찾기 페이지를 보여줌
     @GetMapping("/member/password")
     public void pwdPage(ModelAndView mv) {
 
     }
+
+    // # title : 비밀번호 찾기
+    // # author : 정근호
+    // # description : 비밀번호 찾기 입력받은 이메일로 해당 유저를 찾고 입력한 아이디 까지 맞으면 인증 이메일로 보내고 이메일 인증번호 입력하는 페이지로 넘겨줌
     @PostMapping("/pwAuth")
-    public ModelAndView pwAuth(HttpSession session, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public ModelAndView pwAuth(HttpSession session, HttpServletRequest request) throws IOException {
         String email = request.getParameter("email");
-        String name = request.getParameter("memeberName");
+        String name = request.getParameter("memberName");
 
 
 
@@ -275,7 +277,7 @@ public class MemberController {
                 }
 
                 ModelAndView mv = new ModelAndView();
-                mv.setViewName("member/pwAuth");
+                mv.setViewName("member/pwAuth"); //이메일 인증번호 받는페이지
                 mv.addObject("num", num);
                 return mv;
             } else {
@@ -289,7 +291,7 @@ public class MemberController {
             return mv;
         }
     }
-    @PostMapping("/pwSet")
+    @PostMapping("/pwSet")// 이메일인증 번호
     public String pwSet(@RequestParam(value = "emailInjeung") String emailInjeung,
                         @RequestParam(value = "num") String num, Model model) {
 
@@ -300,7 +302,46 @@ public class MemberController {
             return "member/password";
         }
     }
+    // # title : 비밀번호 변경 페이지
+    // # author : 정근호
+    // # description : 비밀번호를 변경하기위해 사용자 맞는지 이메일을 통해서 확인하다, 동일한 이메일을 쓰는 사용자가 있으면 사용자의 정보를 가지고 온다
+    @GetMapping("/member/passwordUpdate")
+    public String passUpdateForm( Model model,String email) {
 
+        memberDTO = memberService.selectUser(email);
+
+//        model.addAttribute("email", email);
+        model.addAttribute("passwordForm", new PasswordForm());
+        log.info("비번변경찍먹 = {}", model);
+        return "member/passwordUpdate";
+    }
+
+
+
+    // # title : 새 비밀번호 변경
+    // # author : 정근호
+    // # description : 비밀번호를 변경하고 로그아웃을 시켜서 세션 만료 시킴
+    @PostMapping("/NewPassword")
+    public String updatePassword( @Valid PasswordForm passwordForm, HttpSession session,
+                                  Errors errors, Model model, RedirectAttributes attributes, String userId) {
+
+        MemberDTO memberDTO = new MemberDTO();
+        memberDTO.setUserId((String) session.getAttribute("userId"));
+
+        if (errors.hasErrors()) {
+            model.addAttribute(memberDTO);
+            return "member/passwordUpdate";
+        }
+        memberService.updatePassword(memberDTO, passwordForm.getNewPassword());
+        attributes.addFlashAttribute("message", "패스워드를 변경했습니다.");
+
+        return "redirect:member/logout";
+
+    }
+
+    // # title : 마이페이지 페이지
+    // # author : 정근호
+    // # description : 사용자가 구매한 목록을 보여주고 사이드바로 장바구니, 회원탈퇴, 회원수정 으로 갈 수 있음
     @GetMapping("member/mypage")
     public String mypageView(@AuthenticationPrincipal MemberDTO memberDTO, Model model){
 
@@ -312,6 +353,9 @@ public class MemberController {
         return "member/mypage";
     }
 
+    // # title : 위시리스트 페이지
+    // # author : 정근호
+    // # description : 사용자가 찜한 상품을 목록으로 보여줌
     @GetMapping("member/wishList")
     public String wishListView(@AuthenticationPrincipal MemberDTO memberDTO, Model model){
 
@@ -320,4 +364,100 @@ public class MemberController {
 
         return "member/wishList";
     }
+
+    // # title : 구매취소
+    // # author : 정근호
+    // # description : 구매한 상품을 체크박스를 이용 하거나 개별적으로 선택해서 취소 할 수 있음
+    @ResponseBody
+    @PostMapping("/member/cancelPurchase")
+    public int cancelPurchase(@AuthenticationPrincipal MemberDTO memberDTO,@RequestParam(value = "chbox[]") List<String> chArr ,OrderDTO orderDTO) throws Exception {
+
+
+
+
+        String userNo = memberDTO.getUserNo();
+
+        int result = 0;
+        int orderNum = 0;
+
+
+        if(memberDTO != null) {
+            orderDTO.setUserNo(userNo);
+
+            for(String i : chArr) {
+                orderNum = Integer.parseInt(i);
+                orderDTO.setOrderNo(String.valueOf(orderNum));
+                memberService.cancelPurchase(orderDTO);
+            }
+            result = 1;
+            }
+            return result;
+
+
+
+    }
+
+    // # title : 찜 취소
+    // # author : 정근호
+    // # description : 찜 한 상품을 체크박스를 이용 하거나 개별적으로 선택해서 취소 할 수 있음
+    @ResponseBody
+    @PostMapping("/member/cancelWishList")
+    public int cancelWishList(@AuthenticationPrincipal MemberDTO memberDTO,@RequestParam(value = "chbox[]") List<String> chArr ,WishListDTO wishListDTO) throws Exception {
+
+
+
+
+        String userNo = memberDTO.getUserNo();
+
+        int result = 0;
+        int whisNum = 0;
+
+
+        if(memberDTO != null) {
+            wishListDTO.setUserNo(userNo);
+
+            for(String i : chArr) {
+                whisNum = Integer.parseInt(i);
+                wishListDTO.setWishNo(String.valueOf(whisNum));
+                memberService.cancelWishList(wishListDTO);
+            }
+            result = 1;
+        }
+        return result;
+
+    }
+
+    // # title : 아이디 중복 확인
+    // # author : 정근호
+    // # description : 회원가입시 아이디의 중복을 체크함
+    @ResponseBody
+    @PostMapping("/idCheck")
+    public int idCheck(@RequestParam(value = "userId") String userId){
+
+
+
+        int cnt = memberService.idCheck(userId);
+
+        log.info("cnt ={}", cnt);
+
+
+        return cnt;
+    }
+    // # title : 이메일 중복 확인
+    // # author : 정근호
+    // # description : 회원가입시 이메일의 중복을 체크함
+    @ResponseBody
+    @PostMapping("/emailCheck")
+    public int emailCheck(@RequestParam(value = "email") String email){
+
+
+
+        int cnt = memberService.emailCheck(email);
+
+        log.info("cnt ={}", cnt);
+
+
+        return cnt;
+    }
+
 }

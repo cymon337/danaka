@@ -1,9 +1,12 @@
 spring:
+<<<<<<<<< Temporary merge branch 1
+  # DB 연결
+=========
   mail:
     host: smtp.gmail.com
     port: 587
-    username:
-    password:
+    username: jgh337337@gmail.com
+    password: xmfanazgcbxikykw
     properties:
       mail:
         smtp:

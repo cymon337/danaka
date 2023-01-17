@@ -4,7 +4,6 @@ import com.osaz.danaka.member.model.dto.MemberDTO;
 import com.osaz.danaka.member.model.dto.OrderDTO;
 import com.osaz.danaka.member.model.dto.WishListDTO;
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.data.domain.jaxb.SpringDataJaxb;
 
 import java.util.List;
 
@@ -20,7 +19,6 @@ public interface MemberMapper  {
 
       MemberDTO findId(MemberDTO memberDTO);//아이디 찾기
 
-    MemberDTO findPassword(MemberDTO memberDTO);//비밀번호 찾기
 
       int userUpdate(MemberDTO memberDTO);
 
@@ -38,4 +36,12 @@ public interface MemberMapper  {
 
     List<WishListDTO> selectWishList(MemberDTO memberDTO);
 
+    void cancelPurchase (OrderDTO orderNo);
+
+
+    void cancelWishList(WishListDTO wishListDTO);
+
+    int idCheck(String userId);
+
+    int emailCheck(String email);
 }

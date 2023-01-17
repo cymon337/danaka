@@ -34,7 +34,7 @@
         <result column="ORDER_REQUEST" property="orderRequest"/>
         <result column="REG_DATE" property="regDate"/>
         <result column="SAVE_PATH" property="savePath"/>
-
+        <result column="USER_NO" property="userNo"/>
     </resultMap>
 
     <resultMap id="wishListResultMap" type="com.osaz.danaka.member.model.dto.WishListDTO">
@@ -80,10 +80,7 @@
     <select id="findId" parameterType="com.osaz.danaka.member.model.dto.MemberDTO" resultMap="memberResultMap">
         SELECT * FROM T_MEMBER WHERE USER_NAME = #{memberName} and PHONE = #{phone}
     </select>
-    <!--비밀번호 찾기 -->
-    <select id="findPassword" parameterType="com.osaz.danaka.member.model.dto.MemberDTO" resultMap="memberResultMap">
-        SELECT * FROM T_MEMBER WHERE USER_ID = #{userId} and USER_NAME = #{memberName} and PHONE = #{phone}
-    </select>
+
     <!--회원가입-->
     <insert id="insertMember" parameterType="com.osaz.danaka.member.model.dto.MemberDTO" >
         INSERT INTO T_MEMBER
@@ -99,7 +96,7 @@
 
     </update>
 
-<!--  마이페이지 비번 변경  -->
+<!--  비번 찾기 = 변경  -->
     <update id ="updatePassword" parameterType="com.osaz.danaka.member.model.dto.MemberDTO" >
         UPDATE T_MEMBER
         SET USER_PWD= #{userPwd}
@@ -117,7 +114,7 @@
 
     </update>
 
-    <select id="selectOrder" parameterType="com.osaz.danaka.member.model.dto.MemberDTO" resultMap="orderResultMap">
+    <select id="selectOrder" parameterType="com.osaz.danaka.member.model.dto.OrderDTO" resultMap="orderResultMap">
         SELECT
             A.USER_NO,
             A.ORDER_NO,
@@ -138,7 +135,7 @@
 
     </select>
 
-    <select id="selectWishList" parameterType="com.osaz.danaka.member.model.dto.MemberDTO" resultMap="wishListResultMap">
+    <select id="selectWishList" parameterType="com.osaz.danaka.member.model.dto.WishListDTO" resultMap="wishListResultMap">
         SELECT
             A.WISH_NO,
             A.USER_NO,
@@ -151,9 +148,37 @@
 
         WHERE A.USER_NO = #{userNo}
 
-
-
     </select>
+
+    <delete id="cancelPurchase" parameterType="com.osaz.danaka.member.model.dto.OrderDTO">
+
+        DELETE T_ORDER
+        WHERE ORDER_NO = #{orderNo}
+
+
+     </delete>
+
+    <delete id="cancelWishList" parameterType="com.osaz.danaka.member.model.dto.WishListDTO">
+
+        DELETE T_WISHLIST
+        WHERE WISH_NO = #{wishNo}
+
+
+    </delete>
+
+    <select id="idCheck" parameterType="com.osaz.danaka.member.model.dto.MemberDTO" resultType="_int">
+       SELECT COUNT(*)
+       FROM T_MEMBER
+       WHERE USER_ID = #{userId}
+    </select>
+
+    <select id="emailCheck" parameterType="com.osaz.danaka.member.model.dto.MemberDTO" resultType="_int">
+        SELECT COUNT(*)
+        FROM T_MEMBER
+        WHERE EMAIL = #{email}
+    </select>
+
+
 
 
 

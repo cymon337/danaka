@@ -9,6 +9,7 @@ public class OrderDTO {
 
     private String orderNo;
 
+    private String userNo;
     private String productNo;
     private String productName;
     private String orderId;
