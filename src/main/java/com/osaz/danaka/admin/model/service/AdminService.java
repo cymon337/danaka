@@ -33,21 +33,22 @@ public class AdminService {
 		return adminMapper.selectTotalCount(searchMap);
 	}
 
-	/*공지사항 전체 조회*/
+	/* 회원 전체 조회 */
 	public List<AdminDTO> selectAllList(SelectCriteria selectCriteria) {
 		return adminMapper.selectAllList(selectCriteria);
 	}
 
-	/*공지사항 단일 조회*/
+	/* 회원 단일 조회 */
 	public AdminDTO selectOneMember(String userNo) {
 		return adminMapper.selectOneMember(userNo);
 	}
 
-	/*공지사항 삭제*/
+	/* 회원 삭제 */
 	public void deleteMember(String userNo) {
 		adminMapper.deleteMember(userNo);
 	}
 
+	/* 회원정보 수정 */
 	public void updateMember(AdminDTO modifyMember) {
 		adminMapper.updateMember(modifyMember);
 	}

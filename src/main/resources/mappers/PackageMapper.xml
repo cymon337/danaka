@@ -5,6 +5,18 @@
 
 <mapper namespace="com.osaz.danaka.productPackage.model.dao.PackageMapper">
 
+    <resultMap type="com.osaz.danaka.productPackage.model.dto.SearchProductDTO" id="packageProductResultMap">
+
+        <id property="productNo" column="PRODUCT_NO"/>
+        <result property="brandName" column="BRAND_NAME"/>
+        <result property="productName" column="PRODUCT_NAME"/>
+        <result property="option1" column="OPTION1"/>
+        <result property="option2" column="OPTION2"/>
+        <result property="option3" column="OPTION3"/>
+        <result property="option4" column="OPTION4"/>
+        <result property="price" column="PRICE"/>
+    </resultMap>
+
     <!-- ========== rod option mapper ========== -->
 
     <select id="selectRodBrandNameOption" resultType="String">
@@ -30,7 +42,7 @@
         SELECT
             DISTINCT *
         FROM (SELECT
-                  TO_CHAR(LINE_MIN, 'FM9990.09') LINE_MAX
+                  TO_CHAR(LINE_MIN, 'FM9990.09') LINE_MIN
               FROM VIEW_PRODUCT
               WHERE
                   NOT LINE_MIN IS NULL
@@ -40,12 +52,14 @@
 
     <select id="selectRodLineMaxOption" resultType="String">
         SELECT
-            DISTINCT LINE_MAX
-        FROM VIEW_PRODUCT
-        WHERE
-            NOT LINE_MAX IS NULL
-            AND CATEGORY_CODE = 'RD'
-        ORDER BY LINE_MAX ASC
+            DISTINCT *
+        FROM (SELECT
+                  TO_CHAR(LINE_MAX, 'FM9990.09') LINE_MIN
+              FROM VIEW_PRODUCT
+              WHERE
+                  NOT LINE_MAX IS NULL
+                AND CATEGORY_CODE = 'RD'
+              ORDER BY LINE_MIN ASC)
     </select>
 
     <!-- ========== reel option mapper ========== -->
@@ -93,11 +107,88 @@
               ORDER BY LINE_SIZE ASC)
     </select>
 
+    <!-- ========== product information mapper ========== -->
 
+    <select id="selectProduct" resultMap="packageProductResultMap">
 
+        SELECT
+         *
+        FROM
+            (SELECT
+                A.PRODUCT_NO
+                ,A.BRAND_NAME
+                ,A.PRODUCT_NAME
+                ,CASE
+                     WHEN A.CATEGORY_CODE = 'RD' THEN A.BRAND_NAME
+                     WHEN A.CATEGORY_CODE = 'RL' THEN A.BRAND_NAME
+                     WHEN A.CATEGORY_CODE = 'LN' THEN A.BRAND_NAME
+                    END OPTION1
+                ,CASE
+                     WHEN A.CATEGORY_CODE = 'RD' THEN RD.REEL_TYPE
+                     WHEN A.CATEGORY_CODE = 'RL' THEN RL.REEL_TYPE
+                     WHEN A.CATEGORY_CODE = 'LN' THEN TO_CHAR(LN.LINE_SIZE, 'FM9990.09')
+                    END OPTION2
+                ,CASE
+                     WHEN A.CATEGORY_CODE = 'RD' THEN TO_CHAR(RD.LINE_MIN, 'FM9990.09')
+                    END OPTION3
+                ,CASE
+                     WHEN A.CATEGORY_CODE = 'RD' THEN TO_CHAR(RD.LINE_MAX, 'FM9990.09')
+                    END OPTION4
+                ,CASE
+                     WHEN A.CATEGORY_CODE = 'RD' THEN RD.ROD_PRICE
+                     WHEN A.CATEGORY_CODE = 'RL' THEN RL.REEL_PRICE
+                     WHEN A.CATEGORY_CODE = 'LN' THEN LN.LINE_PRICE
+                    END PRICE
+            FROM
+                VIEW_PRODUCT A
+                LEFT JOIN  T_ROD RD ON A.PRODUCT_NO = RD.PRODUCT_NO
+                LEFT JOIN  T_REEL RL ON A.PRODUCT_NO = RL.PRODUCT_NO
+                LEFT JOIN  T_LINE LN ON A.PRODUCT_NO = LN.PRODUCT_NO
+            WHERE A.CATEGORY_CODE = #{categoryCode}) LIST
 
+    </select>
 
+    <select id="selectProductOption" resultMap="packageProductResultMap">
 
-
+        SELECT
+            *
+        FROM
+            (SELECT
+                 A.PRODUCT_NO
+                  ,A.BRAND_NAME
+                  ,A.PRODUCT_NAME
+                  ,CASE
+                       WHEN A.CATEGORY_CODE = 'RD' THEN A.BRAND_NAME
+                       WHEN A.CATEGORY_CODE = 'RL' THEN A.BRAND_NAME
+                       WHEN A.CATEGORY_CODE = 'LN' THEN A.BRAND_NAME
+                    END OPTION1
+                  ,CASE
+                       WHEN A.CATEGORY_CODE = 'RD' THEN RD.REEL_TYPE
+                       WHEN A.CATEGORY_CODE = 'RL' THEN RL.REEL_TYPE
+                       WHEN A.CATEGORY_CODE = 'LN' THEN TO_CHAR(LN.LINE_SIZE, 'FM9990.09')
+                    END OPTION2
+                  ,CASE
+                       WHEN A.CATEGORY_CODE = 'RD' THEN TO_CHAR(RD.LINE_MIN, 'FM9990.09')
+                    END OPTION3
+                  ,CASE
+                       WHEN A.CATEGORY_CODE = 'RD' THEN TO_CHAR(RD.LINE_MAX, 'FM9990.09')
+                    END OPTION4
+                  ,CASE
+                       WHEN A.CATEGORY_CODE = 'RD' THEN RD.ROD_PRICE
+                       WHEN A.CATEGORY_CODE = 'RL' THEN RL.REEL_PRICE
+                       WHEN A.CATEGORY_CODE = 'LN' THEN LN.LINE_PRICE
+                    END PRICE
+             FROM
+                 VIEW_PRODUCT A
+                     LEFT JOIN  T_ROD RD ON A.PRODUCT_NO = RD.PRODUCT_NO
+                     LEFT JOIN  T_REEL RL ON A.PRODUCT_NO = RL.PRODUCT_NO
+                     LEFT JOIN  T_LINE LN ON A.PRODUCT_NO = LN.PRODUCT_NO
+             WHERE A.CATEGORY_CODE = #{categoryCode}) LIST
+        WHERE
+            LIST.OPTION1 IN ( '${categoryOption}' )
+           OR LIST.OPTION2 IN ( '${categoryOption}' )
+           OR LIST.OPTION3 IN ( '${categoryOption}' )
+           OR LIST.OPTION4 IN ( '${categoryOption}' )
+    </select>
 
 </mapper>
