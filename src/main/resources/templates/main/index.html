@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Main</title>
-    <!-- 타임리프용 헤더 스타일 시트 적용-->
+    <!-- 타임리프용 헤더, 메인, 푸터고정, goTop, 컨텐츠영역 스타일 시트 적용-->
     <link rel="stylesheet" th:href="@{/css/indexCss.css}" />
     <!-- 타임리프용 푸터 스타일 시트 적용-->
     <link rel="stylesheet" th:href="@{/css/footerCss.css}" />
@@ -17,36 +17,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <!-- 자바스크립트 -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
-    
-    <!-- <link rel="stylesheet" th:href="@{/css/slideCss.css}" /> -->
-    <style>
-        /* footer 하단 고정 [S] */
-        html, body {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-        }
-
-        #body-wrapper {
-            min-height: 100%;
-            position: relative;
-        }
-
-        #body-content {
-            margin-top: 0px;
-            padding-bottom: 250px; /* footer의 높이 */
-        }
-
-        footer {
-            width: 100%;
-            height: 250px; /* footer의 높이 */
-            position: absolute;
-            bottom: 0;
-            left: 0;
-        }
-    </style>
 </head>
-
 <body>
 
 <!--타임리프용 헤더-->
@@ -57,6 +28,42 @@
 <!--타임리프용 슬라이더-->
 <div class="slider">
     <th:block th:replace="~{common/slider :: slider}" />
+</div>
+
+<div th:if="${#lists.isEmpty(products)}">
+    <h2 align="center">상품이 없습니다.</h2>
+</div>
+<div th:if="${!#lists.isEmpty(products)}">
+        <div th:each="product : ${products}" id="mainProduct">
+            <div id="mainProductThumb">
+                <th:block th:switch="${ product.categoryCode }">
+                    <img th:case="RD" th:src="${ product.savePath }" alt="상품썸네일" th:onclick="|location.href='@{/product/item2(productNo=${ product.productNo })}'|">
+                    <img th:case="RL" th:src="${ product.savePath }" alt="상품썸네일" th:onclick="|location.href='@{/product/item2(productNo=${ product.productNo })}'|">
+                    <img th:case="LN" th:src="${ product.savePath }" alt="상품썸네일" th:onclick="|location.href='@{/product/item2(productNo=${ product.productNo })}'|">
+                </th:block>
+            </div>
+            <div id="mainProductName">
+                <th:block th:switch="${ product.categoryCode }">
+                    <p th:case="RD" th:text="|상품명 : ${ product.productName }|">상품명</p>
+                    <p th:case="RL" th:text="${ product.productName }">상품명</p>
+                    <p th:case="LN" th:text="${ product.productName }">상품명</p>
+                </th:block>
+            </div>
+            <div id="mainProductDetail">
+                <th:block th:switch="${ product.categoryCode }">
+                    <p th:case="RD" th:text="|브랜드 :  ${ product.brandName }, ${ product.rod }|">상품정보</p>
+                    <p th:case="RL" th:text="|브랜드 :  ${ product.brandName }, ${ product.reel }|">상품정보</p>
+                    <p th:case="LN" th:text="|브랜드 :  ${ product.brandName }, ${ product.line }|">상품정보</p>
+                </th:block>
+            </div>
+            <div id="mainProductPrice">
+                <th:block th:switch="${ product.categoryCode }">
+                    <p th:case="RD" th:text="${ #numbers.formatCurrency(product.rod.price) }">상품가격</p>
+                    <p th:case="RL" th:text="${ #numbers.formatCurrency(product.reel.price) }">상품가격</p>
+                    <p th:case="LN" th:text="${ #numbers.formatCurrency(product.line.price) }">상품가격</p>
+                </th:block>
+            </div>
+        </div>
 </div>
 
 <div th:if="${#lists.isEmpty(notices)}">
@@ -88,7 +95,7 @@
             <th:block th:replace="~{common/goTop :: goTop}" />
         </div>
     </div>
-    <!--타임리프용 푸터-->
+    <!--타임리프용 풋터-->
     <div class="footer">
         <th:block th:replace="~{common/footer :: footer}" />
     </div>

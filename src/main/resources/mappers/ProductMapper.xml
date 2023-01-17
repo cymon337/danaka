@@ -109,6 +109,69 @@
           </if>
          WHERE A.RNUM BETWEEN #{ startRow } AND #{ endRow }
     </select>
+
+    <!-- 메인페이지 상품 검색 -->
+    <select id="selectMainTotalCount" resultType="_int" parameterType="hashmap">
+        SELECT
+             COUNT(*)
+        FROM VIEW_PRODUCT
+        WHERE PRODUCT_NO IN (SELECT
+                                MIN(PRODUCT_NO)
+                            FROM VIEW_PRODUCT
+                            GROUP BY PRODUCT_NAME)
+        <if test="searchValue != null">
+            AND (PRODUCT_NAME LIKE '%' || #{ searchValue } || '%'
+                OR BRAND_NAME LIKE '%' || #{ searchValue } || '%'
+                OR ROD_MODEL LIKE '%' || #{ searchValue } || '%'
+                OR REEL_MODEL LIKE '%' || #{ searchValue } || '%')
+        </if>
+    </select>
+    <!-- 메인페이지 상품 검색 -->
+    <select id="selectListByMainPage" parameterType="com.osaz.danaka.common.paging.SelectCriteria" resultMap="productResultMap">
+        SELECT
+        *
+        FROM VIEW_PRODUCT
+        WHERE PRODUCT_NO IN (SELECT
+        MIN(PRODUCT_NO)
+        FROM VIEW_PRODUCT
+        GROUP BY PRODUCT_NAME)
+        <if test="searchValue != null">
+            AND (PRODUCT_NAME LIKE '%' || #{ searchValue } || '%'
+            OR BRAND_NAME LIKE '%' || #{ searchValue } || '%'
+            OR ROD_MODEL LIKE '%' || #{ searchValue } || '%'
+            OR REEL_MODEL LIKE '%' || #{ searchValue } || '%')
+        </if>
+        <!-- SELECT -->
+        <!-- A.*, -->
+        <!-- A.RNUM, -->
+        <!-- H.SAVE_PATH -->
+        <!-- FROM (SELECT -->
+        <!--             B.*, -->
+        <!--             ROWNUM "RNUM" -->
+        <!--         FROM (SELECT -->
+        <!--                     C.* -->
+        <!--                 FROM VIEW_PRODUCT C -->
+        <!--                 WHERE C.PRODUCT_NO IN (SELECT -->
+        <!--                                             MIN(F.PRODUCT_NO) -->
+        <!--                                             FROM VIEW_PRODUCT F -->
+        <!--                                             GROUP BY F.PRODUCT_NAME) -->
+        <!--                 <if test="searchValue != null"> -->
+        <!--                     AND (PRODUCT_NAME LIKE '%' || #{ searchValue } || '%' -->
+        <!--                     OR BRAND_NAME LIKE '%' || #{ searchValue } || '%' -->
+        <!--                     OR ROD_MODEL LIKE '%' || #{ searchValue } || '%' -->
+        <!--                     OR REEL_MODEL LIKE '%' || #{ searchValue } || '%') -->
+        <!--                 </if>) B -->
+        <!--     ) A -->
+        <!-- LEFT JOIN (SELECT -->
+        <!--                 G.PRODUCT_NO, -->
+        <!--                 G.SAVE_PATH -->
+        <!--             FROM T_IMG_PATH G -->
+        <!--             WHERE IMG_CATEGORY = 'T') H -->
+        <!-- ON A.PRODUCT_NO = H.PRODUCT_NO -->
+        <!-- WHERE A.RNUM BETWEEN #{ startRow } AND #{ endRow } -->
+    </select>
+
+
     <!-- 상품 상세 페이지를 위한 한개의 대상품 정보 조회 쿼리 -->
     <select id="selectOneProduct" parameterType="String" resultMap="productResultMap">
         SELECT
@@ -295,89 +358,15 @@
             )
     </insert>
 
-
-    <!--상품 테이블 데이터 삽입-->
-    <insert id="insertProduct">
-        INSERT
-        INTO T_PRODUCT A
-        (
-            A.PRODUCT_NO
-        , A.CATEGORY_CODE
-        , A.BRAND_NO
-        , A.PRODUCT_REG_DATE
-        , A.PRODUCT_NAME
-        , A.STOCK
-        )
-        VALUES
-            (
-                SEQ_PRODUCT_NO.NEXTVAL
-            , #{ categoryCode }
-            , #{ brandNo }
-            , DEFAULT
-            , #{ productName }
-            , #{ stock }
-            )
-    </insert>
-
-    <!--기준에 따라 카테고리 테이블 데이터 삽입-->
-    <insert id="insertCategory" parameterType="Map">
-        INSERT INTO ${ category }
-        <if test="category == 'T_ROD'">
-            VALUES
-            (
-            #{ lastNum }
-            , #{ rodModel }
-            , #{ reelType }
-            , #{ lineMin }
-            , #{ lineMax }
-            , #{ rodPrice }
-            )
-        </if>
-        <if test="category == 'T_REEL'">
-            VALUES
-            (
-            #{ lastNum }
-            , #{ reelModel }
-            , #{ reelType }
-            , #{ reelPrice }
-            )
-        </if>
-        <if test="category == 'T_LINE'">
-            VALUES
-            (
-            #{ lastNum }
-            , #{ lineSize }
-            , #{ linePrice }
-            )
-        </if>
-    </insert>
-
-    <!--T_PRODUCT 테이블 마지막 번호 구하기-->
-    <select id="selectProductLastNum" resultType="string">
-        SELECT MAX(PRODUCT_NO)
-        FROM T_PRODUCT
+    <!-- 공지사항 최근 5개 조회 -->
+    <select id="selectTop4Product" resultMap="productResultMap">
+        SELECT
+                *
+        FROM (SELECT
+                  *
+              FROM VIEW_PRODUCT
+              ORDER BY ROWNUM DESC) A
+        WHERE <![CDATA[ ROWNUM <= 4 ]]>
+          AND A.IMG_CATEGORY = 'T'
     </select>
-
-    <!--T_IMG_PATH 데이터 추가-->
-    <insert id="insertImgFile" parameterType="com.osaz.danaka.product.model.dto.imgPathDTO">
-        INSERT
-        INTO T_IMG_PATH A
-        (
-            A.IMG_NO
-        , A.PRODUCT_NO
-        , A.IMG_CATEGORY
-        , A.ORG_FILE_NAME
-        , A.SYS_FILE_NAME
-        , A.SAVE_PATH
-        )
-        VALUES
-            (
-                SEQ_IMG_NO.NEXTVAL
-            , #{ productNo }
-            , #{ imgCategory }
-            , #{ orgFileName }
-            , #{ sysFileName}
-            , #{ savePath }
-            )
-    </insert>
 </mapper>

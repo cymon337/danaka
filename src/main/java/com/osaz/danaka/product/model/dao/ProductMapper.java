@@ -1,5 +1,7 @@
 package com.osaz.danaka.product.model.dao;
 
+import com.osaz.danaka.common.SelectCriteria;
+import com.osaz.danaka.product.model.dto.OrderDTO;
 import com.osaz.danaka.product.model.dto.ProductDTO;
 import com.osaz.danaka.product.model.dto.imgPathDTO;
 import org.apache.ibatis.annotations.Mapper;
@@ -16,6 +18,14 @@ public interface ProductMapper {
 
     // 카테고리별 상품들 조회
     List<ProductDTO> selectListByCategory(SelectCriteria selectCriteria);
+
+
+    // 메인페이지 상품 검색 페이징
+    int selectMainTotalCount(Map<String, String> searchMap);
+
+    // 메인페이지 상품 검색 조회
+    List<ProductDTO> selectListByMainPage(com.osaz.danaka.common.paging.SelectCriteria selectCriteria);
+
 
     // 상품 상세페이지용 상품 조회
     ProductDTO selectOneProduct(String productNo);
@@ -42,4 +52,6 @@ public interface ProductMapper {
     String selectProductLastNum();
 
     void insertImgFile(imgPathDTO imgFile);
+
+    List<ProductDTO> selectTop4Product();
 }

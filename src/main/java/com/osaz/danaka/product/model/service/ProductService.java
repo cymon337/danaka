@@ -24,7 +24,7 @@ public class ProductService {
         this.productMapper = productMapper;
     }
 
-    // 페이징 처리용 총 상품 개수 조회
+    // 페이징 처리용 총 상품 개수 조회selectMainTotalCount
     public int selectTotalCount(Map<String, String> searchMap) {
 
         return productMapper.selectTotalCount(searchMap);
@@ -35,6 +35,20 @@ public class ProductService {
 
         return productMapper.selectListByCategory(selectCriteria);
     }
+
+
+    // 메인페이지 상품 검색 페이징
+    public int selectMainTotalCount(Map<String, String> searchMap) {
+
+        return productMapper.selectMainTotalCount(searchMap);
+    }
+
+    // 메인페이지 상품 검색 조회
+    public List<ProductDTO> selectListByMainPage(com.osaz.danaka.common.paging.SelectCriteria selectCriteria) {
+
+        return productMapper.selectListByMainPage(selectCriteria);
+    }
+
 
     // 상품 상세페이지용 상품 조회
     public ProductDTO selectOneProduct(String productNo) {
@@ -103,21 +117,7 @@ public class ProductService {
         productMapper.insertImgFile(imgFile);
     }
 
-
-    public void insertProduct(ProductDTO product) {
-        productMapper.insertProduct(product);
+    public List<ProductDTO> selectTop4Product() {
+        return productMapper.selectTop4Product();
     }
-
-    public void insertCategory(HashMap<String, String> categoryMap) {
-        productMapper.insertCategory(categoryMap);
-    }
-
-    public String selectProductLastNum() {
-        return productMapper.selectProductLastNum();
-    }
-
-    public void saveFile(imgPathDTO imgFile) {
-        productMapper.insertImgFile(imgFile);
-    }
-
 }
