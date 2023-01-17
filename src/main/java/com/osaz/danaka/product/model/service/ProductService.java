@@ -119,9 +119,9 @@ public class ProductService {
     }
 
     // 상품 review 총 개수 조회
-    public int selectTotalReviewCount(String productNo) {
+    public int selectTotalReviewCount(Map<String, String> map) {
 
-        return productMapper.selectTotalReviewCount(productNo);
+        return productMapper.selectTotalReviewCount(map);
     }
 
     // 상품 qna 총 개수 조회

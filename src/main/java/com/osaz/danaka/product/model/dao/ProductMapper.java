@@ -48,7 +48,7 @@ public interface ProductMapper {
     HashMap<String, String> selectOrder(Map<String, String> orderMap);
 
     // 상품 리뷰 총 개수 조회
-    int selectTotalReviewCount(String productNo);
+    int selectTotalReviewCount(Map<String, String> map);
 
     // 상품 qna 총 개수 조회
     int selectTotalQnaCount(String productNo);

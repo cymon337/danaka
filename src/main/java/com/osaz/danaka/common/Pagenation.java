@@ -1,5 +1,8 @@
 package com.osaz.danaka.common;
 
+// # title : product 쪽 페이징 용 페이지네이션
+// # author : 오승재
+// # description : 페이징을 위한 클래쓰
 public class Pagenation {
 
     public static SelectCriteria getSelectCriteria(int pageNo, int totalCount, int limit, int buttonAmount) {
