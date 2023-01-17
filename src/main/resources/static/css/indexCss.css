@@ -4,11 +4,11 @@
     fill: currentColor;
 }
 
-body {
-    min-height: 65rem;
-    min-width: 760px;
-    padding-top: 10rem;
-}
+/*body {*/
+/*    min-height: 65rem;*/
+/*    min-width: 760px;*/
+/*    padding-top: 10rem;*/
+/*}*/
 
 /*상단바 기본*/
 #logo {
@@ -146,32 +146,6 @@ body {
     font-weight: bold;
 }
 
-/*전체 카테고리 드랍*/
-#dropTotalCategory {
-    width: 160px;
-    font-size: 20px;
-    background-color: rgba(0, 0, 196, 0.68);
-    margin-left: 45px;
-    color: white;
-}
-
-#dropTotalCategory>ul {
-    margin-left: 20px;
-}
-
-#dropTotalCategory>ul>li:hover {
-    color: black;
-    font-weight: bold;
-}
-
-#secondCategory1, #secondCategory2 {
-    border-bottom: 1px solid rgb(255, 255, 255);
-}
-
-.dropdown-menu>li>a:hover {
-    background-color: rgba(0, 0, 196, 0.26);
-}
-
 /*최소 영역 지정*/
 body {min-width: 1400px}
 
@@ -186,7 +160,7 @@ body {min-width: 1400px}
 
 /*TOP 버튼*/
 #goTop{
-    margin-top: -50px;
+    margin-top: 120px;
     margin-left: 90%;
     position: fixed;
     z-index: 100;
@@ -210,11 +184,11 @@ body {min-width: 1400px}
     color: white;
 }
 
-.active{
-    font-weight: bolder;
-    font-size: large;
-    margin: 10px;
-}
+/*.active{*/
+/*    font-weight: bolder;*/
+/*    font-size: large;*/
+/*    margin: 10px;*/
+/*}*/
 
 #navbarDropdown{
     margin-left: -10px;
@@ -231,7 +205,7 @@ body {min-width: 1400px}
     margin-bottom: 10px;
 }
 
-/* 스타일 지정 */
+/* 미디어 스타일 지정 (조건) */
 @media screen and (min-width: 992px) {
 
 

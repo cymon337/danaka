@@ -102,4 +102,22 @@ public class ProductService {
     public void saveFile(imgPathDTO imgFile) {
         productMapper.insertImgFile(imgFile);
     }
+
+
+    public void insertProduct(ProductDTO product) {
+        productMapper.insertProduct(product);
+    }
+
+    public void insertCategory(HashMap<String, String> categoryMap) {
+        productMapper.insertCategory(categoryMap);
+    }
+
+    public String selectProductLastNum() {
+        return productMapper.selectProductLastNum();
+    }
+
+    public void saveFile(imgPathDTO imgFile) {
+        productMapper.insertImgFile(imgFile);
+    }
+
 }

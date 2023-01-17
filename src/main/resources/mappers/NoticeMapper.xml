@@ -29,7 +29,7 @@
         </where>
     </select>
 
-    <!--공지사항 전체조회 / <where> 해당되지 않을 경우 무시되서 기본 리스트 출력(C, D), 출력될 내용들을 ROWNUM으로 카운팅 해주고(B) 번호를 이용하여 출력할 범위를 지정(A)-->
+    <!-- 공지사항 전체조회 -->
     <select id="selectAllList" resultMap="noticeResultMap">
         SELECT
               A.RNUM
@@ -75,19 +75,9 @@
                   ]]>
             ) A
         WHERE A.RNUM >= #{ startRow }
-        /*SELECT
-                A.NOTICE_NO,
-                B.USER_NAME,
-                A.NOTICE_NAME,
-                A.NOTICE_CONTENT,
-                A.NOTICE_DATE,
-                A.NOTICE_COUNT
-          FROM T_NOTICE A, T_MEMBER B
-         WHERE A.USER_NO = B.USER_NO
-        ORDER BY NOTICE_NO DESC*/
     </select>
 
-<!--    파라미터 타입 인트형이든 스트링이든 쿼리 값 나옴 / 없어도 나오는디 전달값 한개면 파라미터 이름, 타입을 자동으로 매핑했던거같음 -->
+    <!-- 공지사항 단일 조회 -->
     <select id="selectOneNotice" resultMap="noticeResultMap">
         SELECT
             A.NOTICE_NO,
@@ -101,7 +91,20 @@
           AND A.NOTICE_NO = #{ noticeNo }
     </select>
 
+    <!-- 공지사항 최근 5개 조회 -->
+    <select id="selectTop5Notice" resultMap="noticeResultMap">
+        SELECT
+                A.NOTICE_NO
+              , A.NOTICE_NAME
+              , A.NOTICE_DATE
+         FROM (SELECT
+                     *
+                FROM T_NOTICE
+                ORDER BY ROWNUM DESC) A
+        WHERE <![CDATA[ ROWNUM <= 5 ]]>
+    </select>
 
+    <!-- 공지사항 추가 -->
     <insert id="insertNotice">
         INSERT
         INTO T_NOTICE A
@@ -120,12 +123,13 @@
             )
     </insert>
 
+    <!-- 공지사항 삭제 -->
     <delete id="deleteNotice">
         DELETE FROM T_NOTICE A
         WHERE A.NOTICE_NO = #{ noticeNo }
     </delete>
 
-<!--    공지사항 번호 전달 할때 타입 parameterType="com.study.domain.post.PostRequest" / 반환 타입(map도)은 필요없음, 수정 처리만 하고 리다이렉트로 리스트로 이동-->
+    <!-- 공지사항 수정 -->
     <update id="updateNotice">
         UPDATE T_NOTICE A
         SET
@@ -136,8 +140,9 @@
             A.NOTICE_NO = #{ noticeNo }
     </update>
 
+    <!-- 공지사항 조회수 증가 -->
     <update id="incrementNoticeCount">
-        UPDATE /* com.greedy.jsp.board.model.dao.BoardDAO#incrementBoardCount() */
+        UPDATE
             T_NOTICE A
         SET A.NOTICE_COUNT = A.NOTICE_COUNT + 1
         WHERE A.NOTICE_NO = #{ noticeNo }
