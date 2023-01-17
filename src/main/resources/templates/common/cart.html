@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -14,6 +14,7 @@
             crossorigin="anonymous"></script>
     <!-- 제이쿼리 -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" th:href="@{ /css/indexCss.css }"/>
     <link rel="stylesheet" th:href="@{ /css/cart.css }">
     <title>DANAKA-장바구니</title>
 
@@ -104,13 +105,15 @@
 
 
 <body onclick="cart.reCalc();">
+<div class="header">
+    <th:block th:replace="~{common/header :: header}"/>
+</div>
 
-
-    <h3>1. selectAllCart 장바구니페이지에서 회원번호별 카트에 담긴 모든 상품 select method</h3>
-    <form action="/cart/selectAllCart" method="post">
-        <label>회원번호 : </label><input type="number" name="userNo" placeholder="회원번호를 입력하세요.">
-        <input type="submit" value="회원장바구니 조회">
-    </form>
+<!--    <h3>1. selectAllCart 장바구니페이지에서 회원번호별 카트에 담긴 모든 상품 select method</h3>-->
+<!--    <form action="/cart/selectAllCart" method="post">-->
+<!--        <label>회원번호 : </label><input type="number" name="userNo" placeholder="회원번호를 입력하세요.">-->
+<!--        <input type="submit" value="회원장바구니 조회">-->
+<!--    </form>-->
 
 <div class="wrapper">
 

@@ -2,6 +2,7 @@
 .wrapper {
     display: flex;
     width: 100%;
+    margin-top: 200px;
 }
 
 /*==================== package search ====================*/
@@ -48,10 +49,23 @@
     width: 20%;
     height: 100%;
 
-    margin-top: auto;
-    margin-bottom: auto;
-    margin-right: 10%;
-    margin-left: 0%;
+    margin: auto 10% auto 0;
+    /*margin-top: auto;*/
+    /*margin-bottom: auto;*/
+    /*margin-right: 10%;*/
+    /*margin-left: 0%;*/
 
     background-color: cyan;
+}
+
+#backtotop {
+    box-sizing: border-box;
+    position: fixed;
+    right: 0.7em;
+    bottom: 2em;
+}
+#toTopBtn {
+    background-color: #0a53be;
+    color: white;
+    border: none;
 }

@@ -15,7 +15,7 @@
             crossorigin="anonymous"></script>
     <!-- 제이쿼리 -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
+    <link rel="stylesheet" th:href="@{ /css/indexCss.css }"/>
     <link rel="stylesheet" th:href="@{ /css/package.css }">
 <!--        <link rel="stylesheet" href="/static/css/package.css">-->
 
@@ -23,6 +23,9 @@
 
 </head>
 <body>
+<div class="header">
+    <th:block th:replace="~{common/header :: header}"/>
+</div>
 <div class="wrapper">
     <div class="package-search-wrapper">
 
@@ -158,8 +161,10 @@
         </div>
     </div>
 </div>
-
-
+<div>
+    <th:block th:replace="~{common/modal :: backtotop}"/>
+</div>
 <script th:src="@{ /js/package.js }"></script>
+
 </body>
 </html>
