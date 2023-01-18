@@ -182,7 +182,6 @@ public class ProductController {
 
         mv.addObject("productNo", orgProductNo);
         mv.setViewName("redirect:/product/item2");
-        rttr.addFlashAttribute("successMessage", "찜하기 성공!");
 
         return mv;
     }
