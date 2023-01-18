@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -69,6 +69,7 @@
             </th:block>
         </th:block>
     </div>
+    <th:block sec:authorize="hasRole('ROLE_ADMIN')"><a id="productEnroll" th:href="@{'productEnroll'}" class="btn btn-primary">상품등록</a></th:block>
 </div>
 </body>
 </html>

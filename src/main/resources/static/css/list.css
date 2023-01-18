@@ -111,6 +111,7 @@ body {
     color: gray;
 }
 .pagingArea {
+    position: relative;
     margin-top: 1%;
     margin-bottom: 1%;
 }
