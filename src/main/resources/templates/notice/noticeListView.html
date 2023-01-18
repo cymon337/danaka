@@ -18,6 +18,21 @@
     <!-- 자바스크립트 -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 
+    <style>
+        .search-area {
+            margin: 20px 0 15px 800px;
+        }
+        h2 {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        #searchCondition, #searchValue2 {
+            height: 37px;
+        }
+        .btn-outline-primary {
+            margin-top: -5px;
+        }
+    </style>
     <script>
         /* 메세지 alert창 */
         const successMessage = "[[${ successMessage }]]";
@@ -35,13 +50,26 @@
     
     <div class="content">
         <h2 align="center">공지사항</h2>
+        <!-- 검색 폼 -->
+        <div class="search-area" align="center">
+            <form id="loginForm" th:action="@{/notice/noticeListView}" method="get" style="display:inline-block">
+                <input type="hidden" name="currentPage" value="1">
+                <select id="searchCondition" name="searchCondition"> <!-- 선택 유지? selected -->
+                    <option value="total">전체</option>
+                    <option value="title">제목</option>
+                    <option value="content">내용</option>
+                </select>
+                <input type="search" id="searchValue2" name="searchValue"/>
+                <button type="submit" class="btn btn-outline-primary">검색하기</button>
+            </form>
+        </div>
         <div th:if="${#lists.isEmpty(notices)}">
             <h2 align="center">검색된 내용이 없습니다.</h2>
         </div>
         <div th:if="${not #lists.isEmpty(notices)}">
             <table id="contentArea" class="table table-hover" align="center">
                 <thead>
-                <tr>
+                <tr align="center">
                     <th>글번호</th>
                     <th>제목</th>
                     <th>작성자</th>
@@ -50,7 +78,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                     <tr th:each="notice : ${notices}">
+                     <tr th:each="notice : ${notices}" align="center">
                         <td th:text="${notice.noticeNo}"></td>
                         <td><a th:href="@{/notice/noticeDetail(noticeNo=${ notice.noticeNo })}" th:text="${notice.noticeName}"></a></td>
                         <td th:text="${notice.userName}"></td>
@@ -60,29 +88,16 @@
                 </tbody>
             </table>
         </div>
-        <!--게시글 추가-->
-        <div align="center">
-            <a th:href="@{'noticeEnroll'}" class="btn btn-primary">게시글추가</a>
-        </div>
     </div>
 
     <!-- 페이징 처리-->
     <div class="paging">
         <th:block th:include="~{common/noticePaging :: paging}" />
     </div>
-    
-    <!-- 검색 폼 -->
-    <div class="search-area" align="center">
-        <form id="loginForm" th:action="@{/notice/noticeListView}" method="get" style="display:inline-block">
-            <input type="hidden" name="currentPage" value="1">
-            <select id="searchCondition" name="searchCondition"> <!-- 선택 유지? selected -->
-                <option value="total">전체</option>
-                <option value="title">제목</option>
-                <option value="content">내용</option>
-            </select>
-            <input type="search" id="searchValue2" name="searchValue"/>
-            <button type="submit">검색하기</button>
-        </form>
+
+    <!--게시글 추가-->
+    <div align="center" id="noticeBtn">
+        <a th:href="@{'noticeEnroll'}" class="btn btn-primary">게시글추가</a>
     </div>
 
     <div id="body-wrapper">

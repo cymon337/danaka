@@ -389,6 +389,29 @@ body {min-width: 1400px}
     padding: 6px;
 }
 
+/*페이징*/
+.pagingArea {
+    margin-top: 1%;
+    margin-bottom: 1%;
+}
+.pagingArea>button {
+    width: 2em;
+    height: 2em;
+    border-radius: 5px;
+    color: black;
+    border: none;
+    font-size: 1rem;
+    color: white;
+    background-color: #0a53bd;
+    text-align: center;
+}
+.pagingArea>button:hover {
+    background-color: #45d1ea;
+}
+.pagingArea>button:disabled {
+    background-color: #b2c7e3;
+}
+
 /* footer 하단 고정 / body 헤더 가린 공간 여백 지정*/
 html, body {
     margin: 0;

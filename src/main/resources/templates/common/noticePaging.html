@@ -29,7 +29,7 @@
             <th:block th:if="${ page eq start}">
                 <button disabled><<</button>
             </th:block>
-            <th:block th:if="${ page ne start}"
+            <th:block th:if="${ page ne start}">
                 <button id="startPage" th:onclick="|location.href='@{/notice/noticeListView(currentPage=${ start }, searchCondition=${ contition }, searchValue=${ value })}'|"><<</button>
             </th:block>
 
