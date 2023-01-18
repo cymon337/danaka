@@ -52,20 +52,20 @@
             </form>
             <!-- 우측 기능 -->
             <div id="topRight">
-                <div onclick="location.href='/cart'" id="cart">
-                    <i class="bi bi-cart"></i><br>
+                <div sec:authorize="isAuthenticated()" onclick="location.href='/cart'" class="topRightIcon" id="cart">
+                    <i class="bi bi-cart Icon"></i><br>
                     <span>장바구니</span>
                 </div>
-                <div sec:authorize="isAnonymous()" onclick="location.href='/member/login'" id="loginMy">
-                    <i class="bi bi-person"></i><br>
+                <div sec:authorize="isAnonymous()" onclick="location.href='/member/login'" class="topRightIcon" id="loginMy">
+                    <i class="bi bi-person Icon"></i><br>
                     <span>로그인</span>
                 </div>
-                <div sec:authorize="isAuthenticated()" onclick="location.href='/member/mypage'" id="myPage">
-                    <i class="bi bi-person"></i><br>
+                <div sec:authorize="isAuthenticated()" onclick="location.href='/member/mypage'" class="topRightIcon" id="myPage">
+                    <i class="bi bi-person-circle Icon"></i><br>
                     <span>마이페이지</span>
                 </div>
-                <div sec:authorize="isAuthenticated()" onclick="location.href='/member/logout'" id="logout">
-                    <i class="bi bi-person"></i><br>
+                <div sec:authorize="isAuthenticated()" onclick="location.href='/member/logout'"  class="topRightIcon"id="logout">
+                    <i class="bi bi-person Icon"></i><br>
                     <span>로그아웃</span>
                 </div>
             </div>
@@ -80,7 +80,7 @@
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="bi bi-list"></i>전체 카테고리
                         </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown" id="dropDown">
                             <div class="container">
                                 <div class="row">
                                     <div class="col-md-3">
@@ -122,11 +122,11 @@
                                             </li>
                                         </ul>
                                     </div>
-                                    <div class="col-md-3">
-                                        <a target="_blank" href="https://bootstrapcreative.com/shop/jake-portfolio-hubspot-theme/">
+                                    <div class="col-md-3" id="dropProduct">
+                                        <a target="_blank" href="/product/item2?productNo=37">
                                             <img src="/image/testImg.PNG" class="img-fluid" alt="인기상품" style="max-width: 150px; margin-top: 20px">
                                         </a>
-                                        <p class="text-white" style="margin: 10px 0 0 10px; font-weight: bold">이 달의 인기 상품</p>
+                                        <p>이 달의 인기 상품</p>
                                     </div>
                                 </div>
                             </div>
@@ -143,10 +143,11 @@
                         <li class="nav-item"><a href="/product/list2?categoryCode=RL" class="nav-link">릴</a></li>
                         <li class="nav-item"><a href="/product/list2?categoryCode=LN" class="nav-link">라인</a></li>
                         <li class="nav-item"><a href="/package" class="nav-link">장비조합</a></li>
-                        <th:block sec:authorize="hasRole('ROLE_ADMIN')"><li class="nav-item"><a th:href="@{/admin/adminMemberListView}" class="nav-link">견적보기</a></li></th:block>
                     </ul>
                 </header>
             </div>
+            <th:block sec:authorize="!hasRole('ROLE_ADMIN')"><div id="adminMemberDiv"></div></th:block>
+            <th:block sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/admin/adminMemberListView}" class="navbar-brand" id="adminMember">회원관리</a></th:block>
             <a class="navbar-brand" th:href="@{/notice/noticeListView}" id="notice">공지사항</a>
         </div>
         </nav>

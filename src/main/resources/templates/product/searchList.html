@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- index.html css -->
-    <link rel="stylesheet" th:href="@{ /css/index.css }"/>
+    <!-- 타임리프용 헤더, 메인, 푸터고정, goTop, 컨텐츠영역 스타일 시트 적용-->
+    <link rel="stylesheet" th:href="@{/css/index.css}" />
+    <!-- 타임리프용 푸터 스타일 시트 적용-->
+    <link rel="stylesheet" th:href="@{/css/footer.css}" />
     <!--    -->
     <!--    &lt;!&ndash; 부트스트랩 &ndash;&gt;-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -29,28 +31,13 @@
 <div class="header">
     <th:block th:replace="~{common/header :: header}"/>
 </div>
-<!-- <div class="categoryImg"> -->
-<!--     <th:block th:switch="${ selectCriteria.categoryCode }"> -->
-<!--         <img th:case="RD" th:src="@{ /image/배너.png }" alt="카테고리별 대표사진"> -->
-<!--         <img th:case="RL" th:src="@{ /image/배너1.png }" alt="카테고리별 대표사진"> -->
-<!--         <img th:case="LN" th:src="@{ /image/배너2.png }" alt="카테고리별 대표사진"> -->
-<!--     </th:block> -->
-<!-- </div> -->
-<!-- <div class="orderContainer"> -->
-<!--     <th:block th:with="category = ${ selectCriteria.categoryCode }"> -->
-<!-- &lt;!&ndash;        <button th:onclick="|location.href='@{/product/list2(categoryCode=${ selectCriteria.categoryCode })}'|">인기순</button>&ndash;&gt; -->
-<!--         <button id="sale" th:onclick="|location.href='@{/product/list2(categoryCode=${ category }, orderCondition=sale)}'|">판매량순</button> -->
-<!--         <button id="lowPrice" th:onclick="|location.href='@{/product/list2(categoryCode=${ category }, orderCondition=lowPrice)}'|">낮은가격순</button> -->
-<!--         <button id="highPrice" th:onclick="|location.href='@{/product/list2(categoryCode=${ category }, orderCondition=highPrice)}'|">높은가격순</button> -->
-<!--     </th:block> -->
-<!-- </div> -->
 <div class="outerProductsContainer">
     <div class="productContainer" id="productContainer" th:each="product : ${ productList }">
         <div class="thumnail">
             <th:block th:switch="${ product.categoryCode }">
-                <img th:case="RD" th:src="${ product.tSavePath }" alt="상품썸네일" th:onclick="|location.href='@{/product/item2(productNo=${ product.productNo })}'|">
-                <img th:case="RL" th:src="${ product.tSavePath }" alt="상품썸네일" th:onclick="|location.href='@{/product/item2(productNo=${ product.productNo })}'|">
-                <img th:case="LN" th:src="${ product.tSavePath }" alt="상품썸네일" th:onclick="|location.href='@{/product/item2(productNo=${ product.productNo })}'|">
+                <img th:case="RD" th:src="${ product.tSavePath }?:'/image/rod/rodDefault.png'" alt="상품썸네일" th:onclick="|location.href='@{/product/item2(productNo=${ product.productNo })}'|">
+                <img th:case="RL" th:src="${ product.tSavePath }?:'/image/reel/reelDefault.png'" alt="상품썸네일" th:onclick="|location.href='@{/product/item2(productNo=${ product.productNo })}'|">
+                <img th:case="LN" th:src="${ product.tSavePath }?:'/image/line/lineDefault.png'" alt="상품썸네일" th:onclick="|location.href='@{/product/item2(productNo=${ product.productNo })}'|">
             </th:block>
         </div>
         <div class="detail1">
@@ -86,6 +73,18 @@
     </div>
 </div>
 
+<div id="body-wrapper">
+    <div id="body-content">
+        <!--타임리프용 TOP버튼-->
+        <div class="goTop">
+            <th:block th:replace="~{common/goTop :: goTop}" />
+        </div>
+    </div>
+    <!--타임리프용 풋터-->
+    <div class="footer">
+        <th:block th:replace="~{common/footer :: footer}" />
+    </div>
 </div>
+
 </body>
 </html>

@@ -31,7 +31,7 @@
          <!-- <div th:if=${ signIn != null}" style="display:none;">  세션값이 있는 경우에만 회원정보 수정폼 보여주기 시간있으면 구현-->
        <!--   action="/updateMembers_action" class="login-form" method="post"-->
 
-          <form  class="login-form" th:action="@{/member/updateMembers}" method="post" >
+          <form  class="login-form" th:action="@{/updateMembers}" method="post" >
               <input type="hidden" id="id" th:value="${member.username}">
            <!-- <th:block sec:authorize="isAuthenticated()">-->
 
