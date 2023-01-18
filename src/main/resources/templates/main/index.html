@@ -30,62 +30,73 @@
     <th:block th:replace="~{common/slider :: slider}" />
 </div>
 
-<div th:if="${#lists.isEmpty(productList)}">
-    <h2 align="center">상품이 없습니다.</h2>
-</div>
-<div th:if="${!#lists.isEmpty(productList)}">
-        <div th:each="product : ${productList}" id="mainProduct">
-            <div id="mainProductThumb">
-                <th:block th:switch="${ product.categoryCode }">
-                    <img th:case="RD" th:src="${ product.tSavePath }" alt="상품썸네일" th:onclick="|location.href='@{/product/item2(productNo=${ product.productNo })}'|">
-                    <img th:case="RL" th:src="${ product.tSavePath }" alt="상품썸네일" th:onclick="|location.href='@{/product/item2(productNo=${ product.productNo })}'|">
-                    <img th:case="LN" th:src="${ product.tSavePath }" alt="상품썸네일" th:onclick="|location.href='@{/product/item2(productNo=${ product.productNo })}'|">
-                </th:block>
-            </div>
-            <div id="mainProductName">
-                <th:block th:switch="${ product.categoryCode }">
-                    <p th:case="RD" th:text="|상품명 : ${ product.productName }|">상품명</p>
-                    <p th:case="RL" th:text="${ product.productName }">상품명</p>
-                    <p th:case="LN" th:text="${ product.productName }">상품명</p>
-                </th:block>
-            </div>
-            <div id="mainProductDetail">
-                <th:block th:switch="${ product.categoryCode }">
-                    <p th:case="RD" th:text="|브랜드 :  ${ product.brandName }, ${ product.rod }|">상품정보</p>
-                    <p th:case="RL" th:text="|브랜드 :  ${ product.brandName }, ${ product.reel }|">상품정보</p>
-                    <p th:case="LN" th:text="|브랜드 :  ${ product.brandName }, ${ product.line }|">상품정보</p>
-                </th:block>
-            </div>
-            <div id="mainProductPrice">
-                <th:block th:switch="${ product.categoryCode }">
-                    <p th:case="RD" th:text="${ #numbers.formatCurrency(product.rod.price) }">상품가격</p>
-                    <p th:case="RL" th:text="${ #numbers.formatCurrency(product.reel.price) }">상품가격</p>
-                    <p th:case="LN" th:text="${ #numbers.formatCurrency(product.line.price) }">상품가격</p>
-                </th:block>
+<div id="mid">
+    <h5>● 신상품</h5>
+    <div id="midContent">
+        <div th:if="${#lists.isEmpty(productList)}">
+            <h2 align="center">상품이 없습니다.</h2>
+        </div>
+        <div th:if="${!#lists.isEmpty(productList)}" id="top4product">
+            <div th:each="product : ${productList}" id="mainProduct">
+                <div id="mainProductThumb">
+                    <th:block th:switch="${ product.categoryCode }">
+                        <img th:case="RD" th:src="${ product.tSavePath }" alt="상품썸네일" th:onclick="|location.href='@{/product/item2(productNo=${ product.productNo })}'|">
+                        <img th:case="RL" th:src="${ product.tSavePath }" alt="상품썸네일" th:onclick="|location.href='@{/product/item2(productNo=${ product.productNo })}'|">
+                        <img th:case="LN" th:src="${ product.tSavePath }" alt="상품썸네일" th:onclick="|location.href='@{/product/item2(productNo=${ product.productNo })}'|">
+                    </th:block>
+                </div>
+                <div id="mainProductName">
+                    <th:block th:switch="${ product.categoryCode }">
+                        <a th:case="RD" th:href="@{/product/item2(productNo=${ product.productNo })}" th:text="${ product.productName }">상품명</a>
+                        <a th:case="RL" th:href="@{/product/item2(productNo=${ product.productNo })}" th:text="${ product.productName }">상품명</a>
+                        <a th:case="LN" th:href="@{/product/item2(productNo=${ product.productNo })}" th:text="${ product.productName }">상품명</a>
+                    </th:block>
+                </div>
+                <div id="mainProductDetail">
+                    <th:block th:switch="${ product.categoryCode }">
+                        <p th:case="RD" th:text="|브랜드 :  ${ product.brandName }, ${ product.rod }|">상품정보</p>
+                        <p th:case="RL" th:text="|브랜드 :  ${ product.brandName }, ${ product.reel }|">상품정보</p>
+                        <p th:case="LN" th:text="|브랜드 :  ${ product.brandName }, ${ product.line }|">상품정보</p>
+                    </th:block>
+                </div>
+                <div id="mainProductPrice">
+                    <th:block th:switch="${ product.categoryCode }">
+                        <p th:case="RD" th:text="${ #numbers.formatCurrency(product.rod.price) }">상품가격</p>
+                        <p th:case="RL" th:text="${ #numbers.formatCurrency(product.reel.price) }">상품가격</p>
+                        <p th:case="LN" th:text="${ #numbers.formatCurrency(product.line.price) }">상품가격</p>
+                    </th:block>
+                </div>
             </div>
         </div>
-</div>
-
-<div th:if="${#lists.isEmpty(notices)}">
-    <h2 align="center">공지가 없습니다.</h2>
-</div>
-<div th:if="${!#lists.isEmpty(notices)}">
-    <table>
-        <thead>
-            <tr>
-                <th></th>
-                <th>최근 공지사항</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="notice : ${notices}">
-                <td th:text="${notice.noticeNo}"></td>
-                <td><a th:href="@{/notice/noticeDetail(noticeNo=${ notice.noticeNo })}" th:text="${notice.noticeName}"></a></td>
-                <td th:text="${#dates.format(notice.noticeDate, 'yyyy-MM-dd')}"></td>
-            </tr>
-        </tbody>
-    </table>
+        
+        <div th:if="${#lists.isEmpty(notices)}">
+            <h2 align="center">공지가 없습니다.</h2>
+        </div>
+        <div th:if="${!#lists.isEmpty(notices)}" id="noticeMain">
+            <table>
+                <thead>
+                <tr id="noticeHead">
+                    <th></th>
+                    <th>최근 공지사항</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th>No</th>
+                    <th>Title</th>
+                    <th>Date</th>
+                </tr>
+                
+                <tr th:each="notice : ${notices}">
+                    <td th:text="${notice.noticeNo}"></td>
+                    <td><a th:href="@{/notice/noticeDetail(noticeNo=${ notice.noticeNo })}" th:text="${notice.noticeName}"></a></td>
+                    <td th:text="${#dates.format(notice.noticeDate, 'yyyy-MM-dd')}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 
 <div id="body-wrapper">
