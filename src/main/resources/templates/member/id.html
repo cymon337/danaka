@@ -30,7 +30,7 @@
           <b><hr></b>
           <form th:action="@{/findId}" class="login-form" name="findform" method="post">
             <div class="form-group">
-              <input type="text" class="form-control rounded-left" placeholder="이름" name="userName" required>
+              <input type="text" class="form-control rounded-left" placeholder="이름" name="memberName" required>
             </div>
             <div class="form-group d-flex">
               <input type="tel" class="form-control rounded-left" placeholder="휴대전화" name="phone" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" required>
@@ -59,11 +59,11 @@
 
 
               <div class="w-50 text-md-center">
-                <a href="#">비밀번호찾기</a>
+                <a href="/member/password">비밀번호찾기</a>
               </div>
 
               <div class="w-50 text-md-center">
-                <a href="#">회원가입</a>
+                <a href="/member/signUp">&nbsp;회원가입</a>
               </div>
             </div>
             <span th:if="${check == 1}">
