@@ -24,7 +24,7 @@
 <div th:fragment="paging">
     <div class="pagingArea" align="center">
 
-        <th:block th:with="start = ${ selectCriteria.startPage }, last = ${ selectCriteria.endPage }, page = ${ selectCriteria.pageNo }, max = ${ selectCriteria.maxPage}, contition = ${ selectCriteria.searchCondition}, value = ${ selectCriteria.searchValue}">
+        <th:block th:with="start = ${ selectCriteria.startPage }, last = ${ selectCriteria.endPage }, page = ${ selectCriteria.pageNo }, max = ${ selectCriteria.maxPage}, contition = ${ param.searchCondition}, value = ${ param.searchValue}">
             <!-- 첫 페이지로 가기 버튼 -->
             <th:block th:if="${ page eq start}">
                 <button disabled><<</button>

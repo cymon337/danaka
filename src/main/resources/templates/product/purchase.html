@@ -339,7 +339,7 @@
     /* 결제 전 null 체크 */
     function submitPay() {
 
-        if($("#totalPlusFee").text() == 0) {
+        if($("#totalPlusFee").text() == 0 || $("#totalPlusFee").text() == "3,000") {
             alert("구매할 상품을 추가해주세요.");
         } else {
             $("#productPay").submit();

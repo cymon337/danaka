@@ -17,7 +17,22 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <!-- 자바스크립트 -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
-
+    <style>
+        h2 {
+            font-weight: bold;
+            margin : 20px 0 30px 0;
+        }
+        #searchCondition, #searchValue2 {
+            height: 37px;
+        }
+        .btn-primary, .btn-danger {
+            margin-top: -5px;
+        }
+        #cont {
+            text-align: center;
+            vertical-align: middle;
+        }
+    </style>
     <script>
         /* 메세지 alert창 */
         const successMessage = "[[${ successMessage }]]";
@@ -42,7 +57,7 @@
         <div th:if="${not #lists.isEmpty(members)}">
             <table id="contentArea" class="table table-hover" align="center">
                 <thead>
-                <tr>
+                <tr align="center">
                     <th>회원번호</th>
                     <th>회원아이디</th>
                     <th>닉네임</th>
@@ -53,14 +68,14 @@
                 </tr>
                 </thead>
                 <tbody>
-                     <tr th:each="member : ${members}">
+                     <tr th:each="member : ${members}" id="cont">
                         <td th:text="${member.userNo}"></td>
                         <td th:text="${member.userId}"></td>
                         <td th:text="${member.userNickname}"></td>
                         <td th:text="${member.userName}"></td>
                         <td th:text="${member.phone}"></td>
                         <td th:text="${member.status}"></td>
-                        <td><a th:href="@{/admin/adminMemberDetail(userNo=${ member.userNo })}" class="btn btn-primary">상세보기</a></td>
+                        <td><a th:href="@{/admin/adminMemberDetail(userNo=${ member.userNo })}" class="btn btn-info">상세보기</a></td>
                     </tr>
                 </tbody>
             </table>
@@ -84,7 +99,7 @@
                 <option value="userName">이름</option>
             </select>
     
-            <input type="search" id="searchValue" name="searchValue"/>
+            <input type="search" id="searchValue2" name="searchValue"/>
     
             <button th:if="${param.memberCondition == param.deleteMember}" type="submit" class="btn btn-primary">검색</button>
             <button th:if="${param.memberCondition != param.deleteMember}" type="submit" name="memberCondition" value="deleteMember" class="btn btn-primary">검색</button>
@@ -106,30 +121,33 @@
             <th:block th:replace="~{common/footer :: footer}" />
         </div>
     </div>
-    
+
     <script th:inline="javascript">
         /*<![CDATA[*/
-    
-        // searchCondition태그 값, 쿼리스트링 searchCondition값 전역변수 지정
+        
+        // 인풋, 쿼리스트링값 변수 저장
         let search = document.getElementById('searchCondition');
-        let data = [[ ${param.searchCondition} ]]
-    
+        let value = document.getElementById('searchValue2');
+        let searchData = [[ ${param.searchCondition} ]]
+        let valueData = [[ ${param.searchValue} ]]
+
         // 탈퇴회원 클릭 시 onclick이벤트로 searchCondition값 전체로 변경
         function searchFormDelete() {
             search.value = "total";
+            value.value = '';
         }
-    
-        // 쿼리스트링에 따라 빈 값(첫 화면)일 경우 전체로 설정, 수동 변경 시 화면 이동할때도 값 유지
+        
+        // 검색 기준 유지 : 쿼리스트링에 따라 빈 값(첫 화면)일 경우 전체로 설정, 수동 변경 시 화면 이동할때도 값 유지
         window.onload=function() {
-            // console.log(search.value);
-    
-            if(data == null){
+            if(searchData == null || searchData == ''){
                 search.value = "total";
             }else{
-                search.value = data;
+                search.value = searchData;
+                value.value = valueData;
             }
         }
         /*]]*/
     </script>
+
 </body>
 </html>

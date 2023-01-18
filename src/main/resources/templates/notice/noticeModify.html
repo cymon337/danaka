@@ -17,6 +17,12 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <!-- 자바스크립트 -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+    <style>
+        h2 {
+            font-weight: bold;
+            margin : 20px 0 30px 0;
+        }
+    </style>
 </head>
 <body>
     <!--타임리프용 헤더-->
@@ -34,10 +40,8 @@
                     <td><input type="text" id="title" class="form-control" name = "noticeName" th:field="${notice.noticeName}" required></td>
                 </tr>
                 <tr>
-                    <th colspan="2"><label for="content">내용</label></th>
-                </tr>
-                <tr>
-                    <th colspan="2"><textarea class="form-control" th:text="${notice.noticeContent}" name="noticeContent" id="content" rows="10" style="resize:none;" required></textarea></th>
+                    <th><label for="content">내용</label></th>
+                    <th><textarea class="form-control" th:text="${notice.noticeContent}" name="noticeContent" id="content" rows="10" style="resize:none;" required></textarea></th>
                 </tr>
             </table>
             <div align="center">
