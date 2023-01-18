@@ -17,6 +17,16 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <!-- 자바스크립트 -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+    
+    <style>
+        h2 {
+            font-weight: bold;
+            margin : 20px 0 30px 0;
+        }
+        #bottomBtn {
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
     <!--타임리프용 헤더-->
@@ -33,13 +43,11 @@
                     <td><input type="text" id="title" class="form-control" name = "noticeName"  required></td>
                 </tr>
                 <tr>
-                    <th colspan="2"><label for="content">내용</label></th>
-                </tr>
-                <tr>
-                    <th colspan="2"><textarea class="form-control" required name="noticeContent" id="content" rows="10" style="resize:none;"></textarea></th>
+                    <th><label for="content">내용</label></th>
+                    <th><textarea class="form-control" required name="noticeContent" id="content" rows="10" style="resize:none;"></textarea></th>
                 </tr>
             </table>
-            <div align="center">
+            <div align="center" id="bottomBtn">
                 <button type="submit" class="btn btn-primary">등록하기</button>
                 <button type="reset" class="btn btn-danger">초기화</button>
                 <button type="button" class="btn btn-secondary" onclick="history.go(-1);">이전으로</button>
