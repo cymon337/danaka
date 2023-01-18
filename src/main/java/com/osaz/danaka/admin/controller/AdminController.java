@@ -31,7 +31,10 @@ public class AdminController {
 		this.adminService = adminService;
 	}
 
-	/*회원 전체보기 / 페이징 처리를 위한 총 갯수 조회와 공지사항 리스트 조회, 출력*/
+	// # update : 2023-01-18(최종수정)
+	// # title : 회원 전체 조회
+	// # author : 공성식
+	// # description : 페이징 처리를 위한 총 갯수 조회와 공지사항 리스트 조회, 출력
 	@GetMapping("adminMemberListView")
 	public ModelAndView memberListView(HttpServletRequest request, ModelAndView mv){
 
@@ -91,22 +94,27 @@ public class AdminController {
 		return mv;
 	}
 
-//	회원 디테일뷰 (단일조회)
+	// # update : 2023-01-18(최종수정)
+	// # title : 회원 단일조회
+	// # author : 공성식
+	// # description : 회원 상세정보 출력
 	@GetMapping("adminMemberDetail")
 	public ModelAndView selectOneMember(@RequestParam(value = "userNo") String userNo, ModelAndView mv){
 
 		AdminDTO member = adminService.selectOneMember(userNo);
 
-		if(userNo != null){
-			mv.addObject("member", member);
-			log.info("회원정보 = {}", member);
-		}
+		mv.addObject("member", member);
+		log.info("회원정보 = {}", member);
+
 		mv.setViewName("admin/adminMemberDetail");
 
 		return mv;
 	}
 
-	/*회원 삭제*/
+	// # update : 2023-01-18(최종수정)
+	// # title : 회원 삭제
+	// # author : 공성식
+	// # description : 회원 번호를 기준으로 회원을 삭제(회원 상태변경)
 	@PostMapping("deleteMember")
 	public ModelAndView deleteNotice(@RequestParam(value = "userNo") String userNo, ModelAndView mv, RedirectAttributes rttr) {
 		adminService.deleteMember(userNo);
@@ -118,7 +126,10 @@ public class AdminController {
 		return mv;
 	}
 
-	/*회원정보 수정 페이지 연결 GET*/
+	// # update : 2023-01-18(최종수정)
+	// # title : 회원 정보 수정 연결
+	// # author : 공성식
+	// # description : 회원번호를 기준으로 상세정보를 조회하여 수정페이지에 연결하여 전달
 	@GetMapping("adminMemberModify")
 	public ModelAndView updateMember(@RequestParam(value = "userNo") String userNo, ModelAndView mv) {
 
@@ -131,7 +142,10 @@ public class AdminController {
 		return mv;
 	}
 
-	/*회원정보 수정 처리 POST*/
+	// # update : 2023-01-18(최종수정)
+	// # title : 회원 정보 수정 처리
+	// # author : 공성식
+	// # description : 입력된 값을 전달하여 정보 수정 처리
 	@PostMapping("adminMemberModify")
 	public ModelAndView updateNotice(AdminDTO modifyMember, ModelAndView mv, RedirectAttributes rttr) {
 		adminService.updateMember(modifyMember);

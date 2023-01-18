@@ -31,7 +31,10 @@ public class NoticeController {
 		this.noticeService = noticeService;
 	}
 
-	/*공지사항 전체보기 / 페이징 처리를 위한 총 갯수 조회와 공지사항 리스트 조회, 출력*/
+	// # update : 2023-01-18(최종수정)
+	// # title : 공지사항 전체보기
+	// # author : 공성식
+	// # description : 페이징 처리를 위한 총 갯수 조회와 공지사항 리스트 조회, 출력
 	@GetMapping("noticeListView")
 	public ModelAndView noticeListView(HttpServletRequest request, ModelAndView mv){
 
@@ -91,7 +94,10 @@ public class NoticeController {
 		return mv;
 	}
 
-	/* 공지사항 디테일뷰 (단일조회) */
+	// # update : 2023-01-18(최종수정)
+	// # title : 공지사항 단일조회
+	// # author : 공성식
+	// # description : 공지사항 상세정보 조회, 전달
 	@GetMapping("noticeDetail")
 	public ModelAndView selectOneNotice(@RequestParam(value = "noticeNo") String noticeNo, ModelAndView mv){
 
@@ -107,11 +113,17 @@ public class NoticeController {
 		return mv;
 	}
 
-	/* 공지사항 작성 페이지 연결 GET */
+	// # update : 2023-01-18(최종수정)
+	// # title : 공지사항 작성 페이지 연결
+	// # author : 공성식
+	// # description : 공지사항 작성 페이지 GET 매핑으로 연결
 	@GetMapping("noticeEnroll")
 	public void insertNotice() {}
 
-	/* 공지사항 작성 처리 POST */
+	// # update : 2023-01-18(최종수정)
+	// # title : 공지사항 작성 처리
+	// # author : 공성식
+	// # description : 입력받은 값으로 공지사항 데이터 추가
 	@PostMapping("noticeEnroll")
 	public ModelAndView insertNotice(ModelAndView mv, NoticeDTO newNotice, RedirectAttributes rttr) {
 
@@ -123,7 +135,10 @@ public class NoticeController {
 		return mv;
 	}
 
-	/* 공지사항 삭제 */
+	// # update : 2023-01-18(최종수정)
+	// # title : 공지사항 삭제
+	// # author : 공성식
+	// # description : 번호를 기준으로 공지사항 삭제 처리
 	@PostMapping("deleteNotice")
 	public ModelAndView deleteNotice(@RequestParam(value = "noticeNo") String noticeNo, ModelAndView mv, RedirectAttributes rttr) {
 		noticeService.deleteNotice(noticeNo);
@@ -134,7 +149,10 @@ public class NoticeController {
 		return mv;
 	}
 
-	/* 공지사항 수정 페이지 연결 GET */
+	// # update : 2023-01-18(최종수정)
+	// # title : 공지사항 수정 페이지 연결
+	// # author : 공성식
+	// # description : 공지사항 수정 페이지 GET 매핑으로 연결
 	@GetMapping("noticeModify")
 	public ModelAndView updateNotice(@RequestParam(value = "noticeNo") String noticeNo, ModelAndView mv) {
 
@@ -146,7 +164,10 @@ public class NoticeController {
 		return mv;
 	}
 
-	/* 공지사항 작성 처리 POST */
+	// # update : 2023-01-18(최종수정)
+	// # title : 공지사항 작성 처리
+	// # author : 공성식
+	// # description : 입력받은 값으 전달하여 데이터 추가
 	@PostMapping("noticeModify")
 	public ModelAndView updateNotice(NoticeDTO modifyNotice, ModelAndView mv, RedirectAttributes rttr) {
 		noticeService.updateNotice(modifyNotice);

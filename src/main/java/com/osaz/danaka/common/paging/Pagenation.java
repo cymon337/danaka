@@ -11,7 +11,10 @@ public class Pagenation {
         return getSelectCriteria(pageNo, totalCount, limit, buttonAmount, null, null, null, null);
     }
 
-    /* 성식 | 메인페이지 검색어로 상품 출력 후 페이징 처리를 하기 위한 용도 */
+    // # update : 2023-01-18(최종수정)
+    // # title : 메인페이지 검색 후 페이징
+    // # author : 공성식
+    // # description : 메인페이지 검색어로 상품 출력 후 페이징 처리를 하기 위한 용도
     public static SelectCriteria getSelectCriteria(int pageNo, int totalCount, int limit, int buttonAmount, String searchValue) {
 
         /* pageNo와 totalCount가 넘어온 상태이기 때문에
@@ -69,7 +72,10 @@ public class Pagenation {
         return selectCriteria;
     }
 
-    /* 성식 | 회원관리, 공지사항 검색어가 존재하는 경우 검색 조건으로 select 후 페이징 처리를 하기 위한 용도 */
+    // # update : 2023-01-18(최종수정)
+    // # title : 회원관리, 공지사항 검색 후 페이징
+    // # author : 공성식
+    // # description : 회원관리, 공지사항 검색어가 존재하는 경우 검색 조건으로 select 후 페이징 처리를 하기 위한 용도
     public static SelectCriteria getSelectCriteria(int pageNo, int totalCount, int limit, int buttonAmount, String searchCondition, String searchValue, String memberCondition) {
 
         /* pageNo와 totalCount가 넘어온 상태이기 때문에

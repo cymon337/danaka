@@ -10,6 +10,11 @@ import java.util.Map;
 @Mapper
 public interface NoticeMapper {
 
+    // # update : 2023-01-18(최종수정)
+    // # title : 공지사항 매퍼
+    // # author : 공성식
+    // # description : NoticeMapper.xml과 연결하여 정보 송,수신하는 인터페이스
+
     /* 페이징 처리용 총 상품 개수 조회 */
     int selectTotalCount(Map<String, String> searchMap);
 
@@ -31,5 +36,6 @@ public interface NoticeMapper {
     /* 공지사항 조회수 증가 */
     void incrementNoticeCount(String noticeNo);
 
+    /* 메인페이지 출력용 공지사항 5개 출력 */
     List<NoticeDTO> selectTop5Notice();
 }

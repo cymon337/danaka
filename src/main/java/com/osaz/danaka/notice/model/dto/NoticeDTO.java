@@ -10,10 +10,10 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class NoticeDTO {
-	public int noticeNo;
-	public String userName;
-	public String noticeName;
-	public String noticeContent;
-	public Date noticeDate;
-	public int noticeCount;
+	public int noticeNo;		// 공지번호
+	public String userName;		// 작성자
+	public String noticeName;	// 제목
+	public String noticeContent;	// 내용
+	public Date noticeDate;		// 작성일
+	public int noticeCount;		// 조회수
 }

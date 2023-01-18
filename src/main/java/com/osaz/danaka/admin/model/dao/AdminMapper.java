@@ -10,6 +10,11 @@ import java.util.Map;
 @Mapper
 public interface AdminMapper {
 
+    // # update : 2023-01-18(최종수정)
+    // # title : 관리자 매퍼
+    // # author : 공성식
+    // # description : AdminMapper.xml과 연결하여 정보 송,수신하는 인터페이스
+
     /* 페이징 처리용 총 상품 개수 조회 */
     int selectTotalCount(Map<String, String> searchMap);
 

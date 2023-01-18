@@ -182,7 +182,7 @@ public class ProductController {
 
         mv.addObject("productNo", orgProductNo);
         mv.setViewName("redirect:/product/item2");
-        rttr.addFlashAttribute("successMessage", "찜하기 성공!");
+
 
         return mv;
     }
@@ -571,7 +571,10 @@ public class ProductController {
 
 
     ///////////////성식 추가///////////////////
-    /* 메인페이지 상품 검색 */
+    // # update : 2023-01-18(최종수정)
+    // # title : 메인페이지 상품 검색
+    // # author : 공성식
+    // # description : 검색어를 기준으로 상품테이블에서 해당되는 값 조회
     @GetMapping("/searchList")
     public ModelAndView selectMainProduct(HttpServletRequest request, ModelAndView mv){
 
@@ -630,11 +633,17 @@ public class ProductController {
         return mv;
     }
 
-    /* 상품 등록페이지 연결 */
+    // # update : 2023-01-18(최종수정)
+    // # title : 상품 등록페이지 연결메소드
+    // # author : 공성식
+    // # description : 상품 등록페이지를 GET 매핑으로 연결
     @GetMapping("productEnroll")
     public void insertProduct() {}
 
-    /* 상품 등록 처리 */
+    // # update : 2023-01-18(최종수정)
+    // # title : 상품 등록
+    // # author : 공성식
+    // # description : 상품테이블 데이터 추가 -> 추가한 상품 번호 조회 -> 번호와 함께 카테고리, 이미지 테이블 데이터 추가
     @PostMapping("productEnroll")
     public ModelAndView insertProduct(ModelAndView mv, HttpServletRequest request, ProductDTO product, RedirectAttributes rttr, @RequestParam(name="file", required = false) MultipartFile[] file){
 

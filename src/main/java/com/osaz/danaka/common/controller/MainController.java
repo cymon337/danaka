@@ -25,7 +25,10 @@ public class MainController {
         this.productService = productService;
     }
 
-    /* 여러 경로들을 index페이지로 연결, 입력했을때 리턴값으로 이동 */
+    // # update : 2023-01-18(최종수정)
+    // # title : 메인페이지 연결, 상품 및 공지사항 조회
+    // # author : 공성식
+    // # description : 여러 URL 경로들을 index 메인페이지로 연결, 최근 상품 및 공지사항 조회하여 전달
     @GetMapping(value = {"/", "/main", "/main/index"})
     public ModelAndView main(ModelAndView mv) {
 
@@ -44,3 +47,7 @@ public class MainController {
 
 }
 
+// # update : 2023-01-18(최종수정)
+// # title :
+// # author : 공성식
+// # description :
