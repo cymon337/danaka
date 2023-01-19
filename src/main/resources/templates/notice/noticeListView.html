@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <title> NoticeListView </title>
     <meta charset="UTF-8">
@@ -96,9 +96,11 @@
     </div>
 
     <!--게시글 추가-->
+    <th:block sec:authorize="hasRole('ROLE_ADMIN')">
     <div align="center" id="noticeBtn">
         <a th:href="@{'noticeEnroll'}" class="btn btn-primary">게시글추가</a>
     </div>
+    </th:block>
 
     <div id="body-wrapper">
         <div id="body-content">
